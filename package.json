@@ -1,0 +1,28 @@
+{
+  "name": "InRadiusServer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "mysql": "~2.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdanilov/InRadiusServer"
+  },
+  "keywords": [
+    "heroku",
+    "server"
+  ],
+  "author": "Maxim Danilov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdanilov/InRadiusServer/issues"
+  },
+  "homepage": "https://github.com/mdanilov/InRadiusServer"
+}
