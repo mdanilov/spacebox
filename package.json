@@ -1,15 +1,24 @@
-﻿{
+{
   "name": "spacebox",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "",
   "main": "server.js",
-  "dependencies": {
-    "sqlite3": "~2.2.0"
-  },
   "scripts": {
+	"preinstall": "npm install sqlite3",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install:" "npm install sqlite3",
     "start": "node server.js"
   },
-  "author": "Maxim Danilov"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdanilov/spacebox.git"
+  },
+  "keywords": [
+    "spacebox"
+  ],
+  "author": "Maxim Danilov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdanilov/spacebox/issues"
+  },
+  "homepage": "https://github.com/mdanilov/spacebox"
 }
