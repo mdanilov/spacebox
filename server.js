@@ -3,7 +3,7 @@ var url = require('url');
 var sqlite = require('sqlite3');
 var os = require('os');
 
-var port = process.env.port || 8080;
+var port = process.env.PORT || 8080;
 
 var db = new sqlite.Database(":memory:", sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE, function(error) {
     if (error != null) {
