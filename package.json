@@ -1,6 +1,6 @@
 {
   "name": "spacebox",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -14,11 +14,9 @@
   },
   "keywords": [
     "spacebox"
+    "heroku",
+    "server"
   ],
   "author": "Maxim Danilov",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mdanilov/spacebox/issues"
-  },
-  "homepage": "https://github.com/mdanilov/spacebox"
+  "license": "ISC"
 }

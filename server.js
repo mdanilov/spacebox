@@ -80,6 +80,8 @@ var server = http.createServer(function(request, response) {
     }
 });
 
+server.listen(port);
+
 server.on('close', function() {
     console.log("Server is shutdown!");
     server.listen(port);
