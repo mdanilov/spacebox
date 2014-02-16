@@ -75,7 +75,8 @@ var server = http.createServer(function(request, response) {
             response.end();
         });
     }
-    else {        
+    else {      
+        response.writeHead(200);	
         response.end();
     }
 });
