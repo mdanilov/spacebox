@@ -1,0 +1,27 @@
+﻿html, body, #map-canvas {
+    height: 100%;
+    width: 90%;
+    margin: 0px;
+    padding: 0px;
+    float: left;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+}
+
+#right-panel {
+    height: 100%;
+    width: 10%;
+    float: right;
+}
+
+#login {
+    display: none;
+}
+
+#menu {
+    display: none;
+}
+

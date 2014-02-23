@@ -1,13 +1,19 @@
 {
   "name": "spacebox",
   "version": "0.0.2",
-  "description": "",
+  "private": true,
+  "description": "spacebox server",
   "main": "server.js",
   "dependencies": {
-	"sqlite3": "2.2.0"
+    "sqlite3": "~2.2.0",
+    "nconf": "~0.6.9",
+    "winston": "~0.7.2",
+    "express": "~3.4.8",
+    "ejs-locals": "~1.0.2",
+    "validator": "~3.3.0"
   },
   "scripts": {
-	"preinstall": "npm install sqlite3",
+    "preinstall": "npm install sqlite3",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },

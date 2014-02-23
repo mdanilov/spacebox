@@ -1,0 +1,6 @@
+﻿{
+    "port": 8080,
+	"database": ":memory:",
+	"interval": 60,
+	"vk_api_id": 4197270
+}
