@@ -4,18 +4,18 @@ var vk_members_data = {},
     baseURL = window.location.protocol + '//' + window.location.hostname + '/',
     isLogged = false;
 
-VK.Auth.getLoginStatus(function (response) {
-    if (response.session) {
-        initializeSession(response.session);
-        isLogged = true;
-    }
-    else {
-        closeSession();
-        isLogged = false;
-    }
-});
-
 $(document).ready(function() {
+    VK.Auth.getLoginStatus(function (response) {
+        if (response.session) {
+            initializeSession(response.session);
+            isLogged = true;
+        }
+        else {
+            closeSession();
+            isLogged = false;
+        }
+    });
+
     $('#vk-login').click(function(event) {
         event.preventDefault();
         VK.Auth.login(function(response) {
