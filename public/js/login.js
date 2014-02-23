@@ -31,22 +31,22 @@ $(document).ready(function() {
             closeSession();
         });
     });
-});
 
-VK.Observer.subscribe('auth.login', function () {
-    console.log('[VKAuth] login');
-});
+    VK.Observer.subscribe('auth.login', function () {
+        console.log('[VKAuth] login');
+    });
 
-VK.Observer.subscribe('auth.logout', function () {
-    console.log('[VKAuth] logout');
-});
+    VK.Observer.subscribe('auth.logout', function () {
+        console.log('[VKAuth] logout');
+    });
 
-VK.Observer.subscribe('auth.statusChange', function () {
-    console.log('[VKAuth] statusChange');
-});
+    VK.Observer.subscribe('auth.statusChange', function () {
+        console.log('[VKAuth] statusChange');
+    });
 
-VK.Observer.subscribe('auth.sessionChange', function () {
-    console.log('[VKAuth] sessionChange');
+    VK.Observer.subscribe('auth.sessionChange', function () {
+        console.log('[VKAuth] sessionChange');
+    });
 });
 
 function array_unique(ar) {
