@@ -4,9 +4,8 @@
     os = require('os'),
     validator = require('validator');
 
-var isCoordParamsValid = function (params) {
-    if (validator.isNumeric(params['user_id']) &&
-        validator.isFloat(params['latitude']) &&
+var isCoordinateValid = function (params) {
+    if (validator.isFloat(params['latitude']) &&
         validator.isFloat(params['longitude'])) {
         return true;
     }
@@ -19,7 +18,7 @@ var isCoordParamsValid = function (params) {
  * URI: /user
  * */
 exports.addUser = function(request, response) {
-    if (isCoordParamsValid(request.query)) {
+    if (isCoordinateValid(request.query)) {
         if (config.get('database') != ':memory:') {
             db = new sqlite.cached.Database(config.get('database'), sqlite.OPEN_READWRITE);
         }
@@ -29,7 +28,7 @@ exports.addUser = function(request, response) {
         db.serialize(function() {
             db.run("REPLACE INTO geo (user_id, latitude, longitude, timestamp) VALUES ($id, $lat, $long, $time);",
                 {
-                    $id: request.query['user_id'],
+                    $id: request.session.mid,
                     $lat: request.query['latitude'],
                     $long: request.query['longitude'],
                     $time: os.uptime()

@@ -2,7 +2,7 @@
 
 module.exports = makeLogger
 
-function makeLogger(module) {    
+function makeLogger(module) {
     var logger = new winston.Logger({transports : []});
     var path = module.filename.split('/').slice(-2).join('/');
 
@@ -13,21 +13,11 @@ function makeLogger(module) {
             label: path
         });
     }
-    
-    if (path.match(/server.js$/)) {
-        logger.add(winston.transports.File, {
-            filename: 'server.log',
-            json: false,
-            level: winston.levels.error
-        });
-    }
-    else if (path.match(/manage.js$/)) {
-        logger.add(winston.transports.File, {
-            filename: 'manage.log',
-            json: false,
-            level: winston.levels.error
-        });       
-    }
+
+    logger.add(winston.transports.File, {
+        filename: 'debug.log',
+        json: false
+    });
 
     return logger;
 }

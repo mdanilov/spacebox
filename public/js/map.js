@@ -1,74 +1,74 @@
-﻿var markersArray = [];
+﻿var Map = (function() {
 
-// Deletes all markers in the array by removing references to them
-function deleteOverlays() {
-    if (markersArray) {
-        for (i in markersArray) {
-            if (markersArray[i] !== null) {
-                google.maps.event.clearInstanceListeners(markersArray[i]);
-                markersArray[i].close();
-                markersArray[i] = null;
+    var _markersArray = [];
+    var _map;
+
+    function handleNoGeolocation(errorFlag) {
+        if (errorFlag) {
+            var content = 'Error: The Geolocation service failed.';
+        } else {
+            var content = 'Error: Your browser doesn\'t support geolocation.';
+        }
+
+        var options = {
+            map: _map,
+            position: new google.maps.LatLng(60, 105),
+            content: content
+        };
+
+        var infowindow = new google.maps.InfoWindow(options);
+        _map.setCenter(options.position);
+    }
+
+    return {
+        initialize: function () {
+            var mapOptions = {
+                zoom: 15
+            };
+
+            _map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            // Try HTML5 geolocation
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = new google.maps.LatLng(position.coords.latitude,
+                                                     position.coords.longitude);
+
+                    _map.setCenter(pos);
+                }, function () {
+                    handleNoGeolocation(true);
+                });
+            }
+            else {
+                // Browser doesn't support Geolocation
+                handleNoGeolocation(false);
+            }
+        },
+        addMarker: function (options) {
+            var pos = new google.maps.LatLng(options.latitude, options.longitude);
+
+            var infowindow = new google.maps.InfoWindow({
+                map: _map,
+                position: pos,
+                content: options.user_id.toString()
+            })
+
+            _markersArray.push(infowindow);
+        },
+        deleteAllMarkers: function () {
+            if (_markersArray) {
+                for (var i in _markersArray) {
+                    if (_markersArray[i] !== null) {
+                        google.maps.event.clearInstanceListeners(_markersArray[i]);
+                        _markersArray[i].close();
+                        _markersArray[i] = null;
+                    }
+                }
+                _markersArray.length = 0;
             }
         }
-        markersArray.length = 0;
-    }
-}
-
-function refreshMapMarkers(users) {
-    deleteOverlays();
-
-    for (var i in users) {
-        var pos = new google.maps.LatLng(users[i].latitude, users[i].longitude);
-
-        var infowindow = new google.maps.InfoWindow({
-            map: map,
-            position: pos,
-            content: users[i].user_id.toString()
-        })
-
-        markersArray.push(infowindow);
-    }
-}
-
-function initialize() {
-    var mapOptions = {
-        zoom: 15
-    };
-    
-    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-    // Try HTML5 geolocation
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = new google.maps.LatLng(position.coords.latitude,
-                                             position.coords.longitude);
-
-            map.setCenter(pos);
-        }, function() {
-            handleNoGeolocation(true);
-        });
-    }
-    else {
-        // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
-    }
-}
-
-function handleNoGeolocation(errorFlag) {
-    if (errorFlag) {
-        var content = 'Error: The Geolocation service failed.';
-    } else {
-        var content = 'Error: Your browser doesn\'t support geolocation.';
-    }
-
-    var options = {
-        map: map,
-        position: new google.maps.LatLng(60, 105),
-        content: content
     };
 
-    var infowindow = new google.maps.InfoWindow(options);
-    map.setCenter(options.position);
-}
+})();
 
-google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', Map.initialize);

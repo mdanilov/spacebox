@@ -1,27 +1,38 @@
-﻿html, body, #map-canvas {
+﻿html, body, #main {
     height: 100%;
-    width: 90%;
-    margin: 0px;
-    padding: 0px;
+    width: 100%;
+    margin: 0;
+}
+
+#map-canvas {
+    width: 70%;
+    height: 100%;
     float: left;
 }
 
-#main {
-    height: 100%;
-    width: 100%;
-}
-
 #right-panel {
+    width: 30%;
     height: 100%;
-    width: 10%;
     float: right;
 }
 
-#login {
-    display: none;
+#list-users {
+    position: absolute;
+    left: 70%;
+    top: 10%;
+    height: 90%;
+    width: 30%;
+    overflow-y: auto;
 }
 
-#menu {
-    display: none;
+ul.hr {
+    margin: 4px;
+    padding: 4px;
 }
 
+    ul.hr li {
+        display: inline;
+        margin-right: 5px;
+        border: 1px solid #000;
+        padding: 3px;
+    }
