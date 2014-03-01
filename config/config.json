@@ -1,6 +1,21 @@
 ﻿{
     "port": 8080,
-	"database": ":memory:",
-	"interval": 60,
-	"vk_api_id": 4197270
+    "database": ":memory:",
+    "interval": 600,
+    "vk":
+    {
+        "apiId": 4213835,
+        "privateKey": "KBwOMxld4zc5HbyV0ang"
+    },
+    "session":
+    {
+        "secret": "secret_key",
+        "key": "cid",
+        "cookie":
+        {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": null
+        }
+    }
 }
