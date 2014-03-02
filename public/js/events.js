@@ -1,8 +1,11 @@
 ﻿$(document).ready(function() {
 
+    var context = new Context();
+    var display = new Display(context);
+
     $('#search').click(function(event) {
         event.preventDefault();
-        context.update();
+        context.update(display.render);
     });
 
     $('#vk-logout').click(function(event) {

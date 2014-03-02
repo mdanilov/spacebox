@@ -1,11 +1,9 @@
-﻿var context = new Context();
-
-function Context() {
+﻿function Context() {
 
     var _session = VK.Auth.getSession();
-    var VK_FIELDS = 'first_name, photo_medium';
+    var _users = [];
 
-    function getUsers(data) {
+    function createUsers(data, callback) {
         var uids = [];
         for (var i = 0; i < data.length; i++) {
             uids.push(data[i].user_id);
@@ -13,15 +11,25 @@ function Context() {
 
         VK.Api.call('users.get', { uids: uids, fields: VK_FIELDS }, function (r) {
             if (r.response) {
-                $('#list-users').empty();
                 for (var i = 0; i < r.response.length; i++) {
-                    $('#list-users').append('<img src="' + r.response[i].photo_medium + '"> ' + r.response[i].first_name + '</br>');
+                    _users[i] = new User({
+                        info: r.response[i],
+                        location: {
+                            latitude: data[i].latitude,
+                            longitude: data[i].longitude
+                        }
+                    });
                 }
+                callback();
             }
         });
     }
 
-    this.update = function() {
+    this.getUsers = function() {
+        return _users;
+    }
+
+    this.update = function(callback) {
         navigator.geolocation.getCurrentPosition(function(position) {
             $.get("/user",
             {
@@ -29,11 +37,7 @@ function Context() {
                 longitude: position.coords.longitude
             },
             function(data) {
-                getUsers(data);
-                Map.deleteAllMarkers();
-                for (var i = 0; i < data.length; i++) {
-                    Map.addMarker(data[i])
-                }
+                createUsers(data, callback);
             }, "json");
         });
     }
