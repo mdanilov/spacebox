@@ -6,8 +6,10 @@
     function createUsers(data, callback) {
         var uids = [];
         for (var i = 0; i < data.length; i++) {
-            uids.push(data[i].user_id);
+            uids.push(data[i].mid);
         }
+
+        _users.length = 0;
 
         VK.Api.call('users.get', { uids: uids, fields: VK_FIELDS }, function (r) {
             if (r.response) {
@@ -34,7 +36,8 @@
             $.get("/user",
             {
                 latitude: position.coords.latitude,
-                longitude: position.coords.longitude
+                longitude: position.coords.longitude,
+                radius: 1000
             },
             function(data) {
                 createUsers(data, callback);

@@ -1,7 +1,9 @@
 ﻿{
     "port": 8080,
-    "database": ":memory:",
-    "interval": 600,
+    "request":
+    {
+        "maxRadius": 200000
+    },
     "vk":
     {
         "apiId": 4213835,
@@ -16,6 +18,15 @@
             "path": "/",
             "httpOnly": true,
             "maxAge": null
+        }
+    },
+    "database":
+    {
+        "connection": "postgres://eacfkpmstsyhqg:buhbBT72eEHhtaurHJeFbeUqqv@ec2-54-225-101-164.compute-1.amazonaws.com:5432/dfv3nl089vfbs6",
+        "options":
+        {
+            "clearInterval": 600,
+            "connectionLimit": 10
         }
     }
 }

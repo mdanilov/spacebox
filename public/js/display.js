@@ -15,7 +15,7 @@
     function renderMap(users) {
         Map.deleteAllMarkers();
         for (var i = 0; i < users.length; i++) {
-            Map.addMarker(users[i].getLocation())
+            Map.addMarker(users[i].getLocation(), users[i])
         }
     }
 

@@ -5,12 +5,13 @@
   "description": "spacebox server",
   "main": "server.js",
   "dependencies": {
-    "sqlite3": "~2.2.0",
     "nconf": "~0.6.9",
     "winston": "~0.7.2",
     "express": "~3.4.8",
     "ejs-locals": "~1.0.2",
-    "validator": "~3.3.0"
+    "validator": "~3.3.0",
+    "async": "~0.2.10",
+    "pg": "~2.11.1"
   },
   "scripts": {
     "preinstall": "npm install sqlite3",

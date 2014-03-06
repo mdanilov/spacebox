@@ -50,7 +50,7 @@
             var infowindow = new google.maps.InfoWindow({
                 map: _map,
                 position: pos,
-                content: options.user_id.toString()
+                content: 'infoWindow'
             })
 
             _markersArray.push(infowindow);
