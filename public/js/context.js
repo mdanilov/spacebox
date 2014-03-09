@@ -4,6 +4,13 @@
     var _users = [];
 
     function createUsers(data, callback) {
+
+        if (data.length == 0)
+        {
+            callback();
+            return;
+        }
+
         var uids = [];
         for (var i = 0; i < data.length; i++) {
             uids.push(data[i].mid);

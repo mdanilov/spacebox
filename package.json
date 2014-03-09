@@ -1,36 +1,42 @@
 {
-  "name": "spacebox",
-  "version": "0.1.0",
-  "private": true,
-  "description": "spacebox server",
-  "main": "server.js",
-  "dependencies": {
-    "nconf": "0.6.9",
-    "winston": "~0.7.2",
-    "express": "~3.4.8",
-    "ejs-locals": "~1.0.2",
-    "validator": "~3.3.0",
-    "async": "~0.2.10",
-    "pg": "~2.11.1",
-    "connect-pgsql": "0.0.4",
-    "winston-mail": "~0.2.7"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mdanilov/spacebox.git"
-  },
-  "keywords": [
-    "spacebox",
-    "server"
-  ],
-  "author": "Maxim Danilov",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mdanilov/spacebox/issues"
-  },
-  "homepage": "https://github.com/mdanilov/spacebox"
+    "name": "spacebox",
+    "version": "0.1.1",
+    "private": true,
+    "description": "spacebox server",
+    "keywords": [
+        "spacebox",
+        "server"
+    ],
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "homepage": "https://github.com/mdanilov/spacebox",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mdanilov/spacebox.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mdanilov/spacebox/issues"
+    },
+    "author": "Maxim Danilov <mdanilov@me.com>",
+    "contributors": [
+        "Artem Galin"
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "nconf": "~0.6.9",
+        "winston": "~0.7.2",
+        "express": "~3.4.8",
+        "ejs-locals": "~1.0.2",
+        "validator": "~3.3.0",
+        "async": "~0.2.10",
+        "pg": "~2.11.1",
+        "connect-pgsql": "0.0.4",
+        "winston-mail": "~0.2.7"
+    },
+    "engines": {
+        "node": ">= 0.8.0"
+    }
 }

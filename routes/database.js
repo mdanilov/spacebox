@@ -84,6 +84,7 @@ exports.addUser = function (request, response, next) {
                 "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
                 "FROM users " +
                 "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +
+                "AND mid != users.mid " +
                 "ORDER BY distance ASC;",
             values:
             [
