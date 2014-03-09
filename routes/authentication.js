@@ -17,13 +17,13 @@ exports.login = function(request, response) {
             response.render('login', { vk_api_id: config.get('vk:apiId'), check: false });
         }
     }
-}
+};
 
 exports.logout = function(request, response) {
     request.session.authorized = false;
     request.session.checked = true;
     response.render('login', { vk_api_id: config.get('vk:apiId'), check: true });
-}
+};
 
 checkSign = function(query) {
     if (query.sig)
@@ -43,4 +43,4 @@ checkSign = function(query) {
     }
 
     return false;
-}
+};

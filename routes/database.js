@@ -6,10 +6,10 @@
 
 var DB = (function() {
 
-    var connection = config.get('database:connection');
+    var options = config.get('database:connection');
 
     setInterval(function () {
-        pg.connect(connection, function(error, client, done) {
+        pg.connect(options, function(error, client, done) {
             if(error)
                 throw error;
             client.query("DELETE FROM users WHERE timestamp < $1",
@@ -37,7 +37,7 @@ var DB = (function() {
 
     return {
         series: function(sqls, next) {
-            pg.connect(connection, function(error, client, done) {
+            pg.connect(options, function(error, client, done) {
                 if (error)
                     throw error;
 
@@ -62,7 +62,7 @@ var DB = (function() {
  * Method: GET
  * URI: /user
  * */
-exports.addUser = function(request, response) {
+exports.addUser = function (request, response, next) {
     var sqls =
     [
         {
@@ -80,8 +80,11 @@ exports.addUser = function(request, response) {
             ]
         },
         {
-            text: "SELECT mid, latitude, longitude FROM users \
-                WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude);",
+            text: "SELECT mid, latitude, longitude, " +
+                "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
+                "FROM users " +
+                "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +
+                "ORDER BY distance ASC;",
             values:
             [
                 request.query['latitude'],
@@ -91,12 +94,18 @@ exports.addUser = function(request, response) {
         }
     ];
 
-    DB.series(sqls, function(error, results) {
-        if (results[2].rows) {
-            response.json(results[2].rows);
-        }
-        else {
-            response.end();
-        }
-    });
+    try
+    {
+        DB.series(sqls, function(error, results) {
+            if (results[2].rows) {
+                response.json(results[2].rows);
+            }
+            else {
+                response.end();
+            }
+        });
+    }
+    catch(error) {
+        next(error);
+    }
 };

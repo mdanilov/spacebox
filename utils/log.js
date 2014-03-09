@@ -1,12 +1,19 @@
-﻿var winston = require('winston');
+﻿var winston = require('winston'),
+    config = require('../config');
+
+require('winston-mail').Mail;
 
 module.exports = makeLogger
 
 function makeLogger(module) {
     var logger = new winston.Logger({transports : []});
-    var path = module.filename.split('/').slice(-2).join('/');
+    var path = module.filename.split(/[\\\/]/).slice(-1);
 
-    if (process.env.NODE_ENV == 'development') {
+    if (path == "main.js") {
+        logger.add(winston.transports.Mail, config.get('mail'));
+    }
+
+    if (config.get('NODE_ENV') === 'development') {
          logger.add(winston.transports.Console, {
             colorize: true,
             json: false,
@@ -15,9 +22,11 @@ function makeLogger(module) {
     }
 
     logger.add(winston.transports.File, {
-        filename: 'debug.log',
+        filename: 'error.log',
+        level: 'error',
+        label: path,
         json: false
     });
 
     return logger;
-}
+};

@@ -1,7 +1,8 @@
 ﻿var validator = require('validator'),
+    error = require('../routes/error'),
     config = require('../config');
 
-exports.request = function(request, response, next) {
+exports.request = function (request, response, next) {
     if (validator.isFloat(request.query['latitude']) &&
         validator.isFloat(request.query['longitude']) &&
         (request.query['radius'] > 0) &&
@@ -9,6 +10,6 @@ exports.request = function(request, response, next) {
         next();
     }
     else {
-        response.end();
+        next(error['400']);
     }
-}
+};
