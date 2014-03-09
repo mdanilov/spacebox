@@ -1,88 +1,111 @@
 ﻿var log = require('../utils/log')(module),
-    sqlite = require('sqlite3'),
+    pg = require('pg'),
     config = require('../config'),
     os = require('os'),
-    validator = require('validator');
+    async = require('async');
 
-var isCoordParamsValid = function (params) {
-    if (validator.isNumeric(params['user_id']) &&
-        validator.isFloat(params['latitude']) &&
-        validator.isFloat(params['longitude'])) {
-        return true;
+var DB = (function() {
+
+    var options = config.get('database:connection');
+
+    setInterval(function () {
+        pg.connect(options, function(error, client, done) {
+            if(error)
+                throw error;
+            client.query("DELETE FROM users WHERE timestamp < $1",
+                [
+                    os.uptime() - config.get('database:options:interval')
+                ],
+                function(error) {
+                    if (error)
+                        throw error;
+                    log.info('Database cleared');
+            });
+            done();
+        });
+    }, config.get('database:options:clearInterval') * 1000);
+
+    function createTask(sql, client) {
+        return function(cb) {
+            client.query(sql, function(error) {
+                if (error)
+                    throw error;
+                cb(null, arguments[1]);
+            });
+        }
     }
 
-    return false;
-};
+    return {
+        series: function(sqls, next) {
+            pg.connect(options, function(error, client, done) {
+                if (error)
+                    throw error;
+
+                var tasks = [];
+                for (var i = 0; i < sqls.length; i++) {
+                    tasks[i] = createTask(sqls[i], client);
+                }
+
+                async.series(tasks, function (error, results) {
+                    if (error)
+                        throw error;
+
+                    done();
+                    next(error, results);
+                });
+            });
+        }
+    }
+})();
 
 /**
  * Method: GET
  * URI: /user
  * */
-exports.addUser = function(request, response) {
-    if (isCoordParamsValid(request.query)) {
-        if (config.get('database') != ':memory:') {
-            db = new sqlite.cached.Database(config.get('database'), sqlite.OPEN_READWRITE);
+exports.addUser = function (request, response, next) {
+    var sqls =
+    [
+        {
+            text: "DELETE FROM users WHERE mid = $1;",
+            values: [request.session.mid]
+        },
+        {
+            text: "INSERT INTO users (mid, latitude, longitude, timestamp) VALUES ($1, $2, $3, $4);",
+            values:
+            [
+                request.session.mid,
+                request.query['latitude'],
+                request.query['longitude'],
+                os.uptime()
+            ]
+        },
+        {
+            text: "SELECT mid, latitude, longitude, " +
+                "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
+                "FROM users " +
+                "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +
+                "ORDER BY distance ASC;",
+            values:
+            [
+                request.query['latitude'],
+                request.query['longitude'],
+                request.query['radius']
+            ]
         }
+    ];
 
-        f = os.uptime();
-
-        db.serialize(function() {
-            db.run("REPLACE INTO geo (user_id, latitude, longitude, timestamp) VALUES ($id, $lat, $long, $time);",
-                {
-                    $id: request.query['user_id'],
-                    $lat: request.query['latitude'],
-                    $long: request.query['longitude'],
-                    $time: os.uptime()
-                },
-                function (error) {
-                    if (error != null) {
-                        log.error(error);
-                    }
-            });
-            
-            db.all("SELECT user_id, latitude, longitude FROM geo;", function (error, rows) {
-                if (error != null) {
-                    log.error(error);
-                }
-                else {
-                    if (rows) {
-                        response.json(rows);
-                        return;
-                    }
-                }
-
+    try
+    {
+        DB.series(sqls, function(error, results) {
+            if (results[2].rows) {
+                response.json(results[2].rows);
+            }
+            else {
                 response.end();
-            });
-
-            // Haversine formula
-            //db.all("\
-            //    SELECT @src := Point(latitude, longitude) FROM geo WHERE user_id = $id; \
-            //    CALL geobox_pt(@src, 1.0, @top_lft, @bot_rgt); \
-            //    SELECT g.user_id, geodist(X(@src), Y(@src), latitude, longitude) AS dist \
-            //    FROM geo g \
-            //    WHERE latitude BETWEEN X(@top_lft) AND X(@bot_rgt) \
-            //    AND longitude BETWEEN Y(@top_lft) AND Y(@bot_rgt) \
-            //    HAVING dist < 1.0 \
-            //    ORDER BY dist desc; \
-            //    ",
-            //    {
-            //        $id: request.body['user_id']
-            //    },
-            //    function (error, rows) {
-            //        if (rows) {
-            //            response.json(rows);
-            //        }
-            //        else {
-            //            response.end();
-            //        }
-            //});
-
-            if (config.get('database') != ':memory:') {
-                db.close();
             }
         });
     }
-    else {
-        response.end();
+    catch(error) {
+        next(error);
     }
 };

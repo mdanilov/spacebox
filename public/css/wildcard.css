@@ -1,0 +1,32 @@
+﻿.wildcard {
+    padding: 5px 10px 5px 7px;
+    border-bottom: 1px solid #e4e8ed;
+}
+
+.wildcard_table {
+    border-spacing: 0px;
+    width: 100%;
+}
+
+.wildcard_photo {
+    width: 50px;
+    padding: 5px 5px 2px;
+    vertical-align: top;
+}
+
+.wildcard_info {
+    padding: 5px;
+    vertical-align: middle;
+    width: 125px;
+}
+
+.wildcard_name {
+    color: #aaa;
+    padding: 3px 0 2px;
+}
+
+.wildcard_vk_link {
+    color: #2B587A;
+    text-decoration: none;
+    cursor: pointer;
+}
