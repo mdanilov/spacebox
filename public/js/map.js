@@ -1,4 +1,4 @@
-﻿var Map = (function() {
+﻿var Map = library(function() {
 
     var _markersArray = [];
     var _map;
@@ -21,7 +21,8 @@
     }
 
     return {
-        initialize: function () {
+        init: function () {
+
             var mapOptions = {
                 zoom: 15
             };
@@ -69,6 +70,4 @@
         }
     };
 
-})();
-
-google.maps.event.addDomListener(window, 'load', Map.initialize);
+}());

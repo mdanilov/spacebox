@@ -32,14 +32,11 @@
         secret: config.get('session:secret'),
         store: new PGStore({
             getClient: function(next) {
-                pg.connect(process.env.DATABASE_URL || config.get('database:connection'), next);
+                pg.connect(config.get('database:connection'), next);
             }
         }),
         cookie: config.get('session:cookie')
     }));
-
-    /* Authorization Access */
-    app.use(checkAuth);
 
     /* Public directory */
     app.use(express.static(path.join(__dirname, '../public')));

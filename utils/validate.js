@@ -12,4 +12,4 @@ exports.request = function (request, response, next) {
     else {
         next(error['400']);
     }
-};
+}

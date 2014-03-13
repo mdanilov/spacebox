@@ -6,7 +6,9 @@
  * URI: /
  * */
 exports.home = function(request, response) {
-    response.render('index', { vk_api_id: config.get('vk:apiId') });
+    response.render('index', {
+        vkApiID: config.get('vk:apiID')
+    });
 };
 
 /**

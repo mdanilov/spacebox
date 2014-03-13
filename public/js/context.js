@@ -1,6 +1,5 @@
 ﻿function Context() {
 
-    var _session = VK.Auth.getSession();
     var _users = [];
 
     function createUsers(data, callback) {
@@ -18,7 +17,7 @@
 
         _users.length = 0;
 
-        VK.Api.call('users.get', { uids: uids, fields: VK_FIELDS }, function (r) {
+        vk.call('users.get', { uids: uids, fields: VK_FIELDS }, function (r) {
             if (r.response) {
                 for (var i = 0; i < r.response.length; i++) {
                     _users[i] = new User({

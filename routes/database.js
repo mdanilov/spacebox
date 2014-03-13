@@ -7,23 +7,26 @@
 var DB = (function() {
 
     var options = config.get('database:connection');
+    var clearInterval = config.get('database:options:clearInterval');
 
-    setInterval(function () {
-        pg.connect(options, function(error, client, done) {
-            if(error)
-                throw error;
-            client.query("DELETE FROM users WHERE timestamp < $1",
-                [
-                    os.uptime() - config.get('database:options:interval')
-                ],
-                function(error) {
-                    if (error)
-                        throw error;
-                    log.info('Database cleared');
+    if (clearInterval) {
+        setInterval(function () {
+            pg.connect(options, function (error, client, done) {
+                if (error)
+                    throw error;
+                client.query("DELETE FROM users WHERE timestamp < $1",
+                    [
+                        os.uptime() - config.get('database:options:clearInterval')
+                    ],
+                    function (error) {
+                        if (error)
+                            throw error;
+                        log.info('Database cleared');
+                    });
+                done();
             });
-            done();
-        });
-    }, config.get('database:options:clearInterval') * 1000);
+        }, config.get('database:options:clearInterval') * 1000);
+    }
 
     function createTask(sql, client) {
         return function(cb) {
@@ -84,7 +87,7 @@ exports.addUser = function (request, response, next) {
                 "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
                 "FROM users " +
                 "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +
-                "AND mid != users.mid " +
+                //"AND mid != users.mid " +
                 "ORDER BY distance ASC;",
             values:
             [

@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Spacebox</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./public/css/styles.css">
+        <script src="./public/js/thirdparty/yepnope.1.5.4-min.js"></script>
+        <script>
+            var bootOptions = {
+                module: 'login',
+                vkApiID: <%= vkApiID %>
+            }
+        </script>
+        <script src="./public/js/boot.js"></script>
+    </head>
+    <body>
+        <div id="main">
+            <h1>Spacebox</h1>
+                <div>
+                    Для начала необходимо
+                        <button id="vk-login">авторизоваться</button>
+                </div>
+        </div>
+    </body>
+</html>

@@ -1,7 +1,18 @@
-﻿html, body, #main {
+﻿html, body {
+    font-family: Georgia;
+    font-size: 14px;
+    text-shadow: 0 1px 0 rgba(255,255,255,.50);
+    color: #262626;
     height: 100%;
     width: 100%;
     margin: 0;
+}
+
+#wrapper {
+    height: 100%;
+    width: 90%;
+    position: relative;
+    margin: 0 auto;
 }
 
 #map-canvas {
@@ -25,14 +36,13 @@
     overflow-y: auto;
 }
 
-ul.hr {
+menu {
     margin: 4px;
     padding: 4px;
 }
 
-    ul.hr li {
+    menu li {
         display: inline;
-        margin-right: 5px;
-        border: 1px solid #000;
+        margin-right: 15px;
         padding: 3px;
     }

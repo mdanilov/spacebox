@@ -2,8 +2,9 @@
     os = require('os');
 
 module.exports =  function(request, response, next) {
-    if (!request.session.authorized) {
-        auth.login(request, response);
+    if (!request.session.authorized ||
+        (request.session.expires < os.uptime())) {
+        response.redirect('/auth');
     }
     else {
         next();
