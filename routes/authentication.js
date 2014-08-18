@@ -5,40 +5,43 @@
     crypto = require('crypto');
 
 module.exports = function (request, response) {
-    if (request.query.login === "") {
-        loginVkOpenApi(request, response);
+    if (request.query.action === 'login') {
+        if (request.query.session) {
+            loginVkOpenApi(request, response);
+        }
+        else if (request.query.code) {
+            loginVkOAuth2(request, response);
+        }
     }
-    else if (request.query.logout === "") {
+    else if (request.query.action === 'logout') {
         request.session.destroy(function (error) {
-            response.json('/auth');
+            response.end();
         });
     }
     else {
-        response.render('auth', {
-            vkApiID: config.get('vk:apiID'),
-        });
+        response.send(400);
     }
-}
+};
 
 function loginVkOAuth2(request, response) {
     if (request.query.code) {
         var options = 'https://oauth.vk.com/access_token?' +
-        'client_id=' + config.get('vk:apiId') +
-        '&client_secret=' + config.get('vk:privateKey') + 
+        'client_id=' + config.get('vk:apiID') +
+        '&client_secret=' + config.get('vk:privateKey') +
         '&code=' + request.query.code +
         '&redirect_uri=' + config.get('vk:redirectUrl');
         https.get(options, function (res) {
             res.on("data", function (chunk) {
                 var body = JSON.parse(chunk);
                 if (body.error) {
-                    response.send(401);
+                    response.send(400);
                 }
                 else {
                     request.session.authorized = true;
                     request.session.mid = body.user_id;
                     request.session.expires = os.uptime() + body.expires_in;
                     request.session.access_token = body.access_token;
-                    response.redirect('/');
+                    response.json({access_token: body.access_token});
                 }
             });
         });
@@ -60,10 +63,10 @@ function loginVkOpenApi(request, response) {
             request.session.authorized = true;
             request.session.mid = session.mid;
             request.session.expires = session.expire + os.uptime();
-            response.json('/');
+            response.end();
         }
         else {
-            response.send(401);
+            response.send(400);
         }
     }
 }

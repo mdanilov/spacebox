@@ -48,4 +48,4 @@
 
     /* Error handling */
     app.use(errorHandler);
-}
+};

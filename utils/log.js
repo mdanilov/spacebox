@@ -3,7 +3,7 @@
 
 require('winston-mail').Mail;
 
-module.exports = makeLogger
+module.exports = makeLogger;
 
 function makeLogger(module) {
     var logger = new winston.Logger({transports : []});
@@ -29,4 +29,4 @@ function makeLogger(module) {
     });
 
     return logger;
-};
+}

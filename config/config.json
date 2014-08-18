@@ -1,7 +1,7 @@
 ﻿{
     "project": "Spacebox",
     "pageDir": "./views/pages/",
-    "port": 8080,
+    "port": 1337,
     "mail":
     {
         "to": "eternity@nextmail.ru",

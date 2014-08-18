@@ -30,7 +30,7 @@
         "winston": "~0.7.2",
         "express": "~3.4.8",
         "ejs-locals": "~1.0.2",
-        "validator": "~3.3.0",
+        "validator": "~3.17.0",
         "async": "~0.2.10",
         "pg": "~2.11.1",
         "connect-pgsql": "0.0.4",
