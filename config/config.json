@@ -1,0 +1,52 @@
+﻿{
+    "project": "Spacebox",
+    "pageDir": "./views/pages/",
+    "port": 8080,
+    "mail":
+    {
+        "to": "eternity@nextmail.ru",
+        "from": "eternity@nextmail.ru",
+        "host": "smtp.yandex.ru",
+        "port": 25,
+        "username": "eternity@nextmail.ru",
+        "password": "230470max",
+        "ssl": false
+    },
+    "request":
+    {
+        "maxRadius": 200000
+    },
+    "vk":
+    {
+        "apiID": 4213835,
+        "scope": "friends",
+        "redirectUrl": "https://oauth.vk.com/blank.html",
+        "privateKey": "KBwOMxld4zc5HbyV0ang"
+    },
+    "session":
+    {
+        "secret": "1234567890qwerty",
+        "cookie":
+        {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": 3600000
+        }
+    },
+    "database":
+    {
+        "connection":
+        {
+            "user": "eacfkpmstsyhqg",
+            "database": "dfv3nl089vfbs6",
+            "password": "buhbBT72eEHhtaurHJeFbeUqqv",
+            "port": 5432,
+            "host": "ec2-54-225-101-164.compute-1.amazonaws.com"
+        },
+        "options":
+        {
+            "clearInterval": 600,
+            "connectionLimit": 10
+        }
+    }
+}
