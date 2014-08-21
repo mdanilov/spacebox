@@ -1,6 +1,5 @@
 ﻿module.exports = function (app, express) {
     var path = require('path');
-    var ejs = require('ejs-locals');
     var bodyParser = require('body-parser');
     var cookieParser = require('cookie-parser');
     var session = require('express-session');
