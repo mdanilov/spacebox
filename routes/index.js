@@ -1,18 +1,14 @@
-﻿var main = require('./main'),
-    auth = require('./authentication'),
-    validate = require('../utils/validate.js'),
-    error = require('./error'),
-    checkAuth = require('../middleware/checkAuth'),
-    database = require('./database');
+var auth = require('./auth');
+var database = require('./database');
+var error = require('./error');
+var validate = require('../utils/validate');
+var checkAuth = require('../middleware/checkAuth');
 
-module.exports = function (app) {
-    app.post('/feedback', main.feedback);
-    app.get('/auth', auth);
+var router = require('express').Router();
 
-    app.all('*', checkAuth);
+router.get('/auth', auth);
+router.all('*', checkAuth);
+router.get('/user', validate.request, database.addUser);
+router.get('*', error['404']);
 
-    app.get('/', main.home);
-    app.get('/user', validate.request, database.addUser);
-
-    app.get('*', error['404']);
-};
+module.exports = router;

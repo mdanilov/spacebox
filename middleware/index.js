@@ -1,51 +1,47 @@
 ﻿module.exports = function (app, express) {
-    var ejs = require('ejs-locals'),
-        path = require('path'),
-        PGStore = require('connect-pgsql')(express),
-        pg = require('pg'),
-        log = require('../utils/log')(module),
-        router = require('../routes'),
-        checkAuth = require('./checkAuth'),
-        errorHandler = require('./errorHandler')(app, express),
-        config = require('../config');
+    var path = require('path');
+    var ejs = require('ejs-locals');
+    var bodyParser = require('body-parser');
+    var cookieParser = require('cookie-parser');
+    var session = require('express-session');
+    var PGStore = require('connect-pgsql')(session);
+    var pg = require('pg');
+    var log = require('../utils/log')(module);
+    var router = require('../routes');
+    var mobileRouter = require('../routes/mobile');
+    var checkAuth = require('./checkAuth');
+    var errorHandler = require('./errorHandler')(app);
+    var config = require('../config');
 
-    /* Page Rendering */
-    app.engine('html', ejs);
-    app.engine('ejs', ejs);
-    app.set('views', path.join(__dirname, '../views'));
-    app.set('view engine', 'ejs');
-
-    /* Favicon */
-    app.use(express.favicon());
-
-    /* Logger */
-    if (app.get('env') == 'development') {
-        app.use(express.logger('dev'));
-    }
-
-    /* Session */
-    app.use(express.json());
-    app.use(express.urlencoded());
-    app.use(express.bodyParser());
-    app.use(express.cookieParser());
-    app.use(express.session({
+    /* Bundled middleware */
+    app.use('/', bodyParser.json());
+    app.use('/', bodyParser.urlencoded({ extended: true }));
+    app.use('/', cookieParser());
+    app.use('/', session({
         secret: config.get('session:secret'),
         store: new PGStore({
             getClient: function(next) {
                 pg.connect(config.get('database:connection'), next);
             }
         }),
-        cookie: config.get('session:cookie')
+        cookie: config.get('session:cookie'),
+        resave: true,
+        saveUninitialized: true
     }));
 
     /* Public directory */
-    app.use(express.static(path.join(__dirname, '../public')));
-    app.use("/public", express.static(path.join(__dirname, '../public')));
+    app.use('/', express.static(path.join(__dirname, '../public')));
+
+    /* TODO: logger */
+    app.use('/', function (request, response, next) {
+        console.log('%s %s', request.method, response.url);
+        next();
+    });
 
     /* Routing */
-    app.use(app.router);
-    router(app);
+    app.use('/mobile', mobileRouter);
+    app.use('/', router);
 
     /* Error handling */
-    app.use(errorHandler);
+    app.use('/', errorHandler);
 };
