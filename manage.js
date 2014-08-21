@@ -1,8 +1,7 @@
-﻿var pg = require('pg'),
-    log = require('./utils/log')(module),
-    os = require('os'),
-    async = require('async'),
-    config = require('./config');
+﻿var pg = require('pg');
+var async = require('async');
+var log = require('./utils/log')(module);
+var config = require('./config');
 
 var client = new pg.Client(config.get('database:connection'));
 
@@ -48,12 +47,12 @@ function dropDatabase(cb) {
             log.info('Extension earthdistance is created');
         cb();
     });
-};
+}
 
 function closeConnection(error, results) {
     client.end();
     log.info('Database connection is closed');
-};
+}
 
 async.series(
     [

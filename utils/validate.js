@@ -1,6 +1,6 @@
-﻿var validator = require('validator'),
-    error = require('../routes/error'),
-    config = require('../config');
+﻿var validator = require('validator');
+var error = require('../routes/error');
+var config = require('../config');
 
 exports.request = function (request, response, next) {
     if (validator.isFloat(request.query['latitude']) &&

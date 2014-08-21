@@ -17,7 +17,7 @@ var sendHttpError = function (error, response) {
     }
 };
 
-module.exports = function (app, express) {
+module.exports = function (app) {
     var log = require('../utils/log')(module),
         HttpError = require('../routes/error').HttpError;
 
@@ -29,7 +29,7 @@ module.exports = function (app, express) {
             sendHttpError(error, response);
         } else {
             if (config.get('NODE_ENV') === 'development') {
-                express.errorHandler()(error, request, response, next);
+                //express.errorHandler()(error, request, response, next);
             } else {
                 log.error(error);
                 error = new HttpError(500);

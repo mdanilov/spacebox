@@ -1,6 +1,6 @@
 ﻿var log = require('../utils/log')(module),
     pg = require('pg'),
-    config = require('../config'),
+    config = require('../config/index'),
     os = require('os'),
     async = require('async');
 

@@ -1,11 +1,11 @@
-var manage = require('./manage'),
-    express = require('express'),
-    app = express(),
-    http = require('http'),
-    middleware = require('./middleware')(app, express),
-    log = require('./utils/log')(module),
-    config = require('./config');
+var http = require('http');
+var log = require('./utils/log')(module);
+var config = require('./config');
+var manage = require('./manage');
+var express = require('express');
+var app = express();
+var middleware = require('./middleware')(app, express);
 
-var server = http.createServer(app).listen(config.get('port'), function() {
+http.createServer(app).listen(config.get('port'), function() {
     log.info('Server listening on port ' + config.get('port'));
 });

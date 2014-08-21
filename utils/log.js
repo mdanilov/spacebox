@@ -1,5 +1,5 @@
-﻿var winston = require('winston'),
-    config = require('../config');
+﻿var winston = require('winston');
+var config = require('../config');
 
 require('winston-mail').Mail;
 

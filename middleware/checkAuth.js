@@ -1,10 +1,9 @@
-﻿var auth = require('../routes/authentication'),
-    os = require('os');
+﻿var os = require('os');
 
-module.exports =  function(request, response, next) {
+module.exports =  function (request, response, next) {
     if (!request.session.authorized ||
         (request.session.expires < os.uptime())) {
-        response.redirect('/auth');
+        response.send(400);
     }
     else {
         next();
