@@ -31,9 +31,9 @@
     /* Public directory */
     app.use('/', express.static(path.join(__dirname, '../public')));
 
-    /* TODO: logger */
+    /* Logger */
     app.use('/', function (request, response, next) {
-        console.log('%s %s', request.method, response.url);
+        log.info('%s %s', request.method, request.url);
         next();
     });
 

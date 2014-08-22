@@ -1,5 +1,4 @@
 ﻿var validator = require('validator');
-var error = require('../routes/error');
 var config = require('../config');
 
 exports.request = function (request, response, next) {
@@ -10,6 +9,6 @@ exports.request = function (request, response, next) {
         next();
     }
     else {
-        next(error['400']);
+        response.send('400');
     }
 };

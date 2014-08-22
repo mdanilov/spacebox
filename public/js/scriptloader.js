@@ -7,8 +7,7 @@
 
 yepnope({
     test: isMobile,
-    yep: './js/thirdparty/cordova-lib.js',
-    nope: './js/thirdparty/openapi.js'
+    yep: './js/thirdparty/cordova-lib.js'
 });
 
 function loadPageScripts (page) {
@@ -37,7 +36,7 @@ function loadLoginPage() {
     yepnope({
         test: isMobile,
         yep: './js/mobile/vk.js',
-        nope: './js/vk.js'
+        nope: ['./js/thirdparty/openapi.js', './js/vk.js']
     });
     yepnope([
         './js/pages/pglogin.js'

@@ -1,11 +1,10 @@
-﻿var log = require('../utils/log')(module),
-    pg = require('pg'),
-    config = require('../config/index'),
-    os = require('os'),
-    async = require('async');
+﻿var os = require('os');
+var async = require('async');
+var pg = require('pg');
+var log = require('../utils/log')(module);
+var config = require('../config/index');
 
 var DB = (function() {
-
     var options = config.get('database:connection');
     var clearInterval = config.get('database:options:clearInterval');
 

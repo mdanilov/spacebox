@@ -1,17 +1,20 @@
 ﻿var os = require('os');
 var crypto = require('crypto');
 var config = require('../config/index');
+var log = require('../utils/log')(module);
 
 module.exports = function (request, response) {
     if (request.query.action === 'login') {
         loginVk(request, response);
     }
     else if (request.query.action === 'logout') {
+        log.info('User %s deleted', request.session.mid);
         request.session.destroy(function (error) {
             response.end();
         });
     }
     else {
+        log.error('Wrong authorized request');
         response.send(400);
     }
 };
@@ -31,9 +34,11 @@ function loginVk (request, response) {
             request.session.authorized = true;
             request.session.mid = session.mid;
             request.session.expires = session.expire + os.uptime();
+            log.info('VK user %s is authorized', request.session.mid);
             response.end();
         }
         else {
+            log.error('OpenApiVK authorized error: wrong signature');
             response.send(400);
         }
     }
