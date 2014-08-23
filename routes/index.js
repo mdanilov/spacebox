@@ -6,9 +6,13 @@ var checkAuth = require('../middleware/checkAuth');
 
 var router = require('express').Router();
 
-router.get('/auth', auth);
+router.get('/login', auth.login);
+router.get('/logout', database.removeUser, auth.logout);
 router.all('*', checkAuth);
-router.get('/user', validate.request, database.addUser);
+router.get('/getUsers', validate.request, database.addUser);
+router.get('/getLikes', database.getLikes);
+router.get('/like', database.addLike);
+router.get('/dislike', database.removeLike);
 router.get('*', error['404']);
 
 module.exports = router;
