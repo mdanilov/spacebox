@@ -28,7 +28,7 @@ var Map = library(function () {
         var marker = L.marker([location.latitude, location.longitude], {icon: icon});
         marker.addTo(_map);
 
-        _markers[user.id] = marker;
+        _markers[user.info.id] = marker;
     }
 
     function invalidateUsers (users) {

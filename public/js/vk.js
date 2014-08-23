@@ -2,6 +2,8 @@ var vk = library(function() {
 
     var SCOPE = 'friends';
 
+    var _id;
+
     return {
         init: function () {
             VK.init({ apiId: config.vkApiId });
@@ -10,6 +12,7 @@ var vk = library(function() {
         login: function (callback) {
             VK.Auth.login(function (response) {
                 if (response.session) {
+                    _id = response.session.mid;
                     server.sendRequest({ type: 'login', data: response.session }, callback);
                 }
                 else {

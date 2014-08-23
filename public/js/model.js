@@ -22,7 +22,6 @@
             if (r.response) {
                 for (var i = 0; i < r.response.length; i++) {
                     _users[i] = {
-                        id: uids[i],
                         info: r.response[i],
                         location: {
                             latitude: data[i].latitude,

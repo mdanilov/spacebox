@@ -15,21 +15,29 @@ function openConnection (callback) {
     });
 }
 
-function dropDatabase(cb) {
+function dropDatabase (callback) {
     client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY," +
         "latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp DOUBLE PRECISION);",
         function(error) {
             if (error)
                 log.error(error);
             else
-                log.info('Table users is created');
+                log.info('Table USERS is created');
     });
+
+    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT UNIQUE, liked BIGINT UNIQUE);",
+        function(error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Table LIKES is created');
+        });
 
     client.query("CREATE EXTENSION IF NOT EXISTS cube;", function(error) {
         if (error)
             log.error(error);
         else
-            log.info('Extension cube is created');
+            log.info('Extension CUBE is created');
     });
 
     // TODO
@@ -44,8 +52,8 @@ function dropDatabase(cb) {
         if (error)
             log.error(error);
         else
-            log.info('Extension earthdistance is created');
-        cb();
+            log.info('Extension EARTHDISTANCE is created');
+        callback();
     });
 }
 

@@ -61,9 +61,9 @@ var DB = (function() {
         query: function (sql, callback) {
             pg.connect(options, function (error, client, done) {
                 if (error) throw error;
-                client.query(sql, function (error) {
+                client.query(sql, function (error, result) {
                     if (error) throw error;
-                    callback();
+                    callback(result);
                 });
                 done();
             });
@@ -79,6 +79,71 @@ exports.removeUser = function (request, response, next) {
             function () {
                 log.info('VK user %d is deleted from database', id);
                 next();
+            });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+exports.getLikes = function (request, response, next) {
+    try
+    {
+        var id = request.session.mid;
+        DB.query({ text: "SELECT * FROM likes WHERE mid = $1;",  values: [ id ]},
+            function (results) {
+                if (results.rows) {
+                    log.info('VK user %d have likes from users: %s', id, results.rows);
+                    response.json(results.rows);
+                }
+                else {
+                    log.info('VK user %d haven\'t likes', id);
+                    response.end();
+                }
+            });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+exports.addLike = function (request, response, next) {
+    try
+    {
+        var id = request.session.mid;
+        DB.query({
+            text: "INSERT INTO likes (mid, liked) VALUES ($1, $2);",
+            values: [ id, request.query.id ]},
+            function (results) {
+                if (results.rows) {
+                    log.info('User %d liked user %d', id, request.query.id);
+                }
+                else {
+                    log.info('User %d haven\'t like for user %d', id, request.query.id);
+                }
+                response.end();
+            });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+exports.removeLike = function (request, response, next) {
+    try
+    {
+        var id = request.session.mid;
+        DB.query({
+            text: "DELETE * FROM likes WHERE mid = $1 AND liked = $2;",
+            values: [ id, request.query.liked ]},
+            function (results) {
+                if (results.rows) {
+                    log.info('User %d disliked user %d', id, request.query.liked);
+                }
+                else {
+                    log.info('User %d haven\'t like for user %d', id, request.query.liked);
+                }
+                response.end();
             });
     }
     catch (error) {
