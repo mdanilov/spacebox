@@ -1,6 +1,6 @@
 var Map = library(function () {
 
-    var _markers = [];
+    var _markers = {};
     var _map;
 
     var MAPBOX = {
@@ -28,7 +28,7 @@ var Map = library(function () {
         var marker = L.marker([location.latitude, location.longitude], {icon: icon});
         marker.addTo(_map);
 
-        _markers.push(marker);
+        _markers[user.id] = marker;
     }
 
     function invalidateUsers (users) {
@@ -63,10 +63,11 @@ var Map = library(function () {
         },
 
         clear: function () {
-            for (var i in _markers) {
-                _map.removeLayer(_markers[i])
+            for (var key in _markers) {
+                if (!_markers.hasOwnProperty(key)) continue;
+                _map.removeLayer(_markers[key]);
+                delete _markers[key];
             }
-            _markers.length = 0;
         }
     };
 

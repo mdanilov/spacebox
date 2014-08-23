@@ -3,7 +3,7 @@ var routes = require('../../routes');
 
 var router = require('express').Router();
 
-router.get('/auth', auth);
+router.get('/login', auth.login);
 router.use(routes);
 
 module.exports = router;

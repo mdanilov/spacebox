@@ -10,7 +10,7 @@ var vk = library(function() {
         login: function (callback) {
             VK.Auth.login(function (response) {
                 if (response.session) {
-                    server.sendRequest({ type: 'login_vk', data: response.session }, callback);
+                    server.sendRequest({ type: 'login', data: response.session }, callback);
                 }
                 else {
                     mediator.publish('error', 'vk error');
@@ -18,9 +18,11 @@ var vk = library(function() {
             }, VK.access[SCOPE]);
         },
 
-        logout: function () {
-            VK.Auth.logout();
-            server.sendRequest({ type: 'logout_vk' }, callback);
+        logout: function (callback) {
+            server.sendRequest({ type: 'logout' }, function () {
+                VK.Auth.logout();
+                callback();
+            });
         },
 
         call: function (method, options, callback) {

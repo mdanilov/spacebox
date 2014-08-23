@@ -56,14 +56,36 @@ var DB = (function() {
                     next(error, results);
                 });
             });
+        },
+
+        query: function (sql, callback) {
+            pg.connect(options, function (error, client, done) {
+                if (error) throw error;
+                client.query(sql, function (error) {
+                    if (error) throw error;
+                    callback();
+                });
+                done();
+            });
         }
     }
 })();
 
-/**
- * Method: GET
- * URI: /user
- * */
+exports.removeUser = function (request, response, next) {
+    try
+    {
+        var id = request.session.mid;
+        DB.query({ text: "DELETE FROM users WHERE mid = $1;",  values: [ id ]},
+            function () {
+                log.info('VK user %d is deleted from database', id);
+                next();
+            });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
 exports.addUser = function (request, response, next) {
     var sqls =
     [
@@ -86,13 +108,14 @@ exports.addUser = function (request, response, next) {
                 "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
                 "FROM users " +
                 "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +
-                //"AND mid != users.mid " +
+                "AND mid != $4 " +
                 "ORDER BY distance ASC;",
             values:
             [
                 request.query['latitude'],
                 request.query['longitude'],
-                request.query['radius']
+                request.query['radius'],
+                request.session.mid
             ]
         }
     ];

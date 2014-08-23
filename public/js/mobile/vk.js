@@ -38,16 +38,16 @@ var vk = library(function() {
                 '&display=' + DISPLAY.POPUP + '&response_type=' + 'code';
 
 			initAuthWindow(authUrl, function (code) {
-				server.sendRequest({ type: 'login_vk', data: code },
+				server.sendRequest({ type: 'login', data: {code: code} },
 				function (response) {
-					_accessToken = response;
+					_accessToken = response.access_token;
 					callback();
 				});
 			});
         },
 
         logout: function (callback) {
-        	server.sendRequest({ type: 'logout_vk' }, callback);
+        	server.sendRequest({ type: 'logout' }, callback);
         },
 
         call: function (method, options, callback) {

@@ -21,7 +21,7 @@ module.exports = function (app) {
     var log = require('../utils/log')(module),
         HttpError = require('../routes/error').HttpError;
 
-    return function (error, request, response, next) {
+    return function (error, request, response) {
         if (typeof error === 'number') {
             error = new HttpError(error);
         }

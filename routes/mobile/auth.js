@@ -3,23 +3,16 @@ var https = require('https');
 var config = require('../../config/index');
 var log = require('../../utils/log')(module);
 
-module.exports = function (request, response) {
-    switch (request.query.action)
-    {
-        case 'login':
-            loginVk(request, response);
-            break;
-        case 'logout':
-            log.info('User %s deleted', request.session.mid);
-            request.session.destroy(function (error) {
-                response.end();
-            });
-            break;
-        default:
-            log.error('Wrong authorized request');
-            response.send(400);
-            break;
-    }
+exports.login = function (request, response, next) {
+    loginVk(request, response);
+};
+
+exports.logout = function (request, response, next) {
+    request.session.destroy(function (error) {
+        if (error) next(error);
+        log.info('User session %s is deleted', request.session.mid);
+        response.end();
+    });
 };
 
 function loginVk (request, response) {

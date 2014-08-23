@@ -3,24 +3,21 @@ var crypto = require('crypto');
 var config = require('../config/index');
 var log = require('../utils/log')(module);
 
-module.exports = function (request, response) {
-    if (request.query.action === 'login') {
-        loginVk(request, response);
-    }
-    else if (request.query.action === 'logout') {
-        log.info('User %s deleted', request.session.mid);
-        request.session.destroy(function (error) {
-            response.end();
-        });
-    }
-    else {
-        log.error('Wrong authorized request');
-        response.send(400);
-    }
+exports.login = function (request, response, next) {
+    loginVk(request, response);
+};
+
+exports.logout = function (request, response, next) {
+    var mid = request.session.mid;
+    request.session.destroy(function (error) {
+        if (error) next(error);
+        log.info('User session %s is deleted', mid);
+        response.end();
+    });
 };
 
 function loginVk (request, response) {
-    var session = request.query.code;
+    var session = request.query;
     if (session.sig) {
         var md5sum = crypto.createHash('md5');
 
