@@ -3,13 +3,13 @@
     border-bottom: 1px solid #e4e8ed;
 }
 
-    .wildcard:hover {
-        background: #edf1f5;
-        border-color: #DAE1E8;
-    }
+    /*.wildcard:hover {*/
+        /*background: #edf1f5;*/
+        /*border-color: #DAE1E8;*/
+    /*}*/
 
 .wildcard_table {
-    border-spacing: 0px;
+    border-spacing: 0;
     width: 100%;
 }
 

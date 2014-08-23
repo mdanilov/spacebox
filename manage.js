@@ -5,13 +5,13 @@ var config = require('./config');
 
 var client = new pg.Client(config.get('database:connection'));
 
-function openConnection(cb) {
-    client.connect(function(error) {
+function openConnection (callback) {
+    client.connect(function (error) {
         if (error)
             log.error(error);
         else
             log.info('Database connection is opened');
-        cb(error);
+        callback(error);
     });
 }
 
@@ -49,7 +49,7 @@ function dropDatabase(cb) {
     });
 }
 
-function closeConnection(error, results) {
+function closeConnection (error, results) {
     client.end();
     log.info('Database connection is closed');
 }

@@ -3,36 +3,46 @@ var Map = library(function () {
     var _markers = [];
     var _map;
 
+    var MAPBOX = {
+        ACCESS_TOKEN: 'pk.eyJ1IjoibWRhbmlsb3YiLCJhIjoiV29JVmpxdyJ9.sBimZ4oSZYSFTdcZIgnQfQ',
+        URL: 'mdanilov.j8f4ggll'
+    };
+
     function handleNoGeolocation (errorFlag) {
         if (errorFlag) {
-            var content = 'Error: The Geolocation service failed.';
+            mediator.publish('error', 'Мне кажется, ты забыл включить геолокацию :(');
         } else {
-            var content = 'Error: Your browser doesn\'t support geolocation.';
+            mediator.publish('error', 'Ваш браузер не поддерживает геолокацию');
         }
+    }
 
-        var options = {
-            map: _map,
-            position: L.latLng(60, 105),
-            content: content
-        };
+    function addMarker (user) {
+        var innerHtml = '<img src=' + user.info.photo_50 +  '>';
+        var icon = L.divIcon({
+            className: 'map-marker-icon',
+            html: innerHtml,
+            iconSize: [60, 60]
+        });
 
-        _map.setView(options.position);
+        var location = user.location;
+        var marker = L.marker([location.latitude, location.longitude], {icon: icon});
+        marker.addTo(_map);
+
+        _markers.push(marker);
     }
 
     function invalidateUsers (users) {
         Map.clear();
         for (var i = 0; i < users.length; i++) {
-            Map.addMarker(users[i].location, users[i])
+            addMarker(users[i])
         }
     }
 
     return {
         init: function () {
+            L.mapbox.accessToken = MAPBOX.ACCESS_TOKEN;
+            _map = L.mapbox.map('map-canvas', MAPBOX.URL).setView([60, 30], 10);
 
-            L.mapbox.accessToken = 'pk.eyJ1IjoibWRhbmlsb3YiLCJhIjoiV29JVmpxdyJ9.sBimZ4oSZYSFTdcZIgnQfQ';
-            _map = L.mapbox.map('map-canvas', 'mdanilov.j8f4ggll').setView([51.505, -0.09], 15);
-
-            // Try HTML5 geolocation
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var pos = L.latLng(position.coords.latitude, position.coords.longitude);
@@ -42,23 +52,10 @@ var Map = library(function () {
                 });
             }
             else {
-                // Browser doesn't support Geolocation
                 handleNoGeolocation(false);
             }
 
             mediator.subscribe('usersChange', invalidateUsers);
-        },
-
-        addMarker: function (options) {
-
-            var icon = L.icon({
-                iconUrl: './images/marker-icon.png'
-            });
-
-            var marker = L.marker([options.latitude, options.longitude], {icon: icon});
-
-            marker.addTo(_map);
-            _markers.push(marker);
         },
 
         invalidate: function () {
@@ -66,12 +63,10 @@ var Map = library(function () {
         },
 
         clear: function () {
-            if (_markers) {
-                for (var i in _markers) {
-                    _map.removeLayer(_markers[i])
-                }
-                _markers.length = 0;
+            for (var i in _markers) {
+                _map.removeLayer(_markers[i])
             }
+            _markers.length = 0;
         }
     };
 
