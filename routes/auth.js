@@ -11,7 +11,7 @@ exports.logout = function (request, response, next) {
     var mid = request.session.mid;
     request.session.destroy(function (error) {
         if (error) next(error);
-        log.info('User session %s is deleted', mid);
+        log.info('User session id%s is deleted', mid);
         response.end();
     });
 };
@@ -31,7 +31,7 @@ function loginVk (request, response) {
             request.session.authorized = true;
             request.session.mid = session.mid;
             request.session.expires = session.expire + os.uptime();
-            log.info('VK user %s is authorized', request.session.mid);
+            log.info('VK user id%s is authorized', request.session.mid);
             response.end();
         }
         else {

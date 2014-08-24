@@ -12,4 +12,8 @@ if (process.env.PORT) {
     nconf.set('port', process.env.PORT);
 }
 
+if (process.env.DATABASE_URL) {
+    nconf.set('database:connection', process.env.DATABASE_URL);
+}
+
 module.exports = nconf;

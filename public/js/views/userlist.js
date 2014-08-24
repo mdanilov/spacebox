@@ -2,13 +2,13 @@
 
     var ELEMENT = '#list-users';
 
-    function getHtmlElement (info, liked) {
+    function getHtmlElement (info, isLiked) {
         return new EJS({url: './templates/wildcard.ejs'}).render({
             photo_url: info.photo_50,
             first_name: info.first_name,
             screen_name: info.screen_name,
             uid: info.uid,
-            text: liked ? 'Dislike' : 'Like'
+            text: isLiked ? 'Dislike' : 'Like'
         });
     }
 
@@ -29,7 +29,7 @@
 
         if (users.length != 0) {
             for (var i = 0; i < users.length; i++) {
-                var innerHtml = getHtmlElement(users[i].info, users[i].liked);
+                var innerHtml = getHtmlElement(users[i].info, users[i].like);
                 $(ELEMENT).append(innerHtml);
             }
             // TODO: low performance of dynamic event handler

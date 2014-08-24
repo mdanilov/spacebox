@@ -86,24 +86,34 @@ exports.removeUser = function (request, response, next) {
     }
 };
 
-exports.getLikes = function (request, response, next) {
+exports.selectLikes = function (request, response, next) {
     try
     {
-        var id = request.session.mid;
-        DB.query({ text: "SELECT * FROM likes WHERE mid = $1;",  values: [ id ]},
-            function (results) {
-                response.likes = [];
-                if (results.rows.length != 0) {
-                    for (var i = 0; i < results.rows.length; i++) {
-                        response.likes.push(results.rows[i].liked);
+        var userId = request.session.mid;
+        // TODO: it can be done in two separate queries, may be it would be faster
+        DB.query({ text: "SELECT * FROM likes WHERE mid = $1 OR liked = $1;",  values: [ userId ]},
+        function (results) {
+            response.likesForUsers = [];
+            response.likesFromUsers = [];
+            if (results.rows.length != 0) {
+                for (var i = 0; i < results.rows.length; i++) {
+                    if (results.rows[i].mid == userId) {
+                        response.likesForUsers.push(results.rows[i].liked);
                     }
-                    log.info('VK user %d have likes for users: %s', id, response.likes.join(', '));
+                    else {
+                        response.likesFromUsers.push(results.rows[i].mid);
+                    }
                 }
-                else {
-                    log.info('VK user %d haven\'t likes', id);
-                }
-                next();
-            });
+                log.info('The user id%d has likes for users: %s',
+                    userId, response.likesForUsers.join(', '));
+                log.info('The user id%d has likes from users: %s',
+                    userId, response.likesFromUsers.join(', '));
+            }
+            else {
+                log.info('There are no likes for user id', userId);
+            }
+            next();
+        });
     }
     catch (error) {
         next(error);
@@ -144,7 +154,7 @@ exports.deleteLike = function (request, response, next) {
     }
 };
 
-exports.addUserAndGetNearUsers = function (request, response, next) {
+exports.insertUserAndSelectNearUsers = function (request, response, next) {
     var sqls =
     [
         {

@@ -12,7 +12,7 @@ router.get('/logout', database.removeUser, auth.logout);
 
 router.all('*', checkAuth);
 
-router.get('/getUsers', validate.request, database.addUserAndGetNearUsers, database.getLikes, main.getUsersWithLikes);
+router.get('/getUsers', validate.request, database.insertUserAndSelectNearUsers, database.selectLikes, main.getUsersWithLikes);
 router.get('/like', database.insertLike);
 router.get('/dislike', database.deleteLike);
 router.get('*', error['404']);

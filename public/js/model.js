@@ -22,7 +22,8 @@
                 for (var i = 0; i < r.response.length; i++) {
                     _users[i] = {
                         info: r.response[i],
-                        liked: data[i].liked,
+                        like: data[i].like,
+                        likeMe: data[i].likeMe,
                         location: {
                             latitude: data[i].latitude,
                             longitude: data[i].longitude
