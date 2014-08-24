@@ -5,8 +5,7 @@
     var VK_FIELDS = 'first_name, photo_50, screen_name';
 
     function createUsers (data) {
-        if (data.length == 0)
-        {
+        if (data.length == 0) {
             mediator.publish('usersChange', _users);
             return;
         }
@@ -23,6 +22,7 @@
                 for (var i = 0; i < r.response.length; i++) {
                     _users[i] = {
                         info: r.response[i],
+                        liked: data[i].liked,
                         location: {
                             latitude: data[i].latitude,
                             longitude: data[i].longitude

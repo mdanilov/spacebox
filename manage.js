@@ -16,8 +16,7 @@ function openConnection (callback) {
 }
 
 function dropDatabase (callback) {
-    client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY," +
-        "latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp DOUBLE PRECISION);",
+    client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp DOUBLE PRECISION);",
         function(error) {
             if (error)
                 log.error(error);
@@ -25,12 +24,20 @@ function dropDatabase (callback) {
                 log.info('Table USERS is created');
     });
 
-    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT UNIQUE, liked BIGINT UNIQUE);",
+    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT);",
         function(error) {
             if (error)
                 log.error(error);
             else
                 log.info('Table LIKES is created');
+        });
+
+    client.query("CREATE OR REPLACE RULE ignore_duplicate_inserts AS ON INSERT TO likes WHERE (EXISTS ( SELECT 1 FROM likes WHERE likes.mid = new.mid AND likes.liked = new.liked)) DO INSTEAD NOTHING;",
+        function(error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Rule ignore_duplicate_inserts for table LIKES is created');
         });
 
     client.query("CREATE EXTENSION IF NOT EXISTS cube;", function(error) {

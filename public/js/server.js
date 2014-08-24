@@ -13,7 +13,9 @@ var server = library(function () {
 				url: url,
 				data: request.data,
 				success: function (data) {
-					response(data);
+                    if (response) {
+                        response(data);
+                    }
 				},
 				error: function () {
 					mediator.publish('error', 'bad request');

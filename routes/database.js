@@ -92,14 +92,17 @@ exports.getLikes = function (request, response, next) {
         var id = request.session.mid;
         DB.query({ text: "SELECT * FROM likes WHERE mid = $1;",  values: [ id ]},
             function (results) {
-                if (results.rows) {
-                    log.info('VK user %d have likes from users: %s', id, results.rows);
-                    response.json(results.rows);
+                response.likes = [];
+                if (results.rows.length != 0) {
+                    for (var i = 0; i < results.rows.length; i++) {
+                        response.likes.push(results.rows[i].liked);
+                    }
+                    log.info('VK user %d have likes for users: %s', id, response.likes.join(', '));
                 }
                 else {
                     log.info('VK user %d haven\'t likes', id);
-                    response.end();
                 }
+                next();
             });
     }
     catch (error) {
@@ -107,7 +110,7 @@ exports.getLikes = function (request, response, next) {
     }
 };
 
-exports.addLike = function (request, response, next) {
+exports.insertLike = function (request, response, next) {
     try
     {
         var id = request.session.mid;
@@ -115,12 +118,7 @@ exports.addLike = function (request, response, next) {
             text: "INSERT INTO likes (mid, liked) VALUES ($1, $2);",
             values: [ id, request.query.id ]},
             function (results) {
-                if (results.rows) {
-                    log.info('User %d liked user %d', id, request.query.id);
-                }
-                else {
-                    log.info('User %d haven\'t like for user %d', id, request.query.id);
-                }
+                log.info('User %d liked user %d', id, request.query.id);
                 response.end();
             });
     }
@@ -129,20 +127,15 @@ exports.addLike = function (request, response, next) {
     }
 };
 
-exports.removeLike = function (request, response, next) {
+exports.deleteLike = function (request, response, next) {
     try
     {
         var id = request.session.mid;
         DB.query({
-            text: "DELETE * FROM likes WHERE mid = $1 AND liked = $2;",
-            values: [ id, request.query.liked ]},
+            text: "DELETE FROM likes WHERE mid = $1 AND liked = $2;",
+            values: [ id, request.query.id ]},
             function (results) {
-                if (results.rows) {
-                    log.info('User %d disliked user %d', id, request.query.liked);
-                }
-                else {
-                    log.info('User %d haven\'t like for user %d', id, request.query.liked);
-                }
+                log.info('User %d disliked user %d', id, request.query.id);
                 response.end();
             });
     }
@@ -151,7 +144,7 @@ exports.removeLike = function (request, response, next) {
     }
 };
 
-exports.addUser = function (request, response, next) {
+exports.addUserAndGetNearUsers = function (request, response, next) {
     var sqls =
     [
         {
@@ -189,7 +182,8 @@ exports.addUser = function (request, response, next) {
     {
         DB.series(sqls, function(error, results) {
             if (results[2].rows) {
-                response.json(results[2].rows);
+                response.users = results[2].rows;
+                next();
             }
             else {
                 response.end();
