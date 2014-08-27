@@ -1,14 +1,23 @@
-﻿var validator = require('validator');
+﻿var jjv = require('jjv');
 var config = require('../config');
+var log = require('./log')(module);
+var schema = require('../schema/request-schema.json');
 
-exports.request = function (request, response, next) {
-    if (validator.isFloat(request.query['latitude']) &&
-        validator.isFloat(request.query['longitude']) &&
-        (request.query['radius'] > 0) &&
-        (request.query['radius'] < config.get("request:maxRadius"))) {
-        next();
-    }
-    else {
-        response.send('400');
-    }
-};
+var JSV = (function() {
+    var _env = jjv();
+    _env.addSchema('request-schema', schema);
+
+    return {
+        validate: function (request, response, next) {
+            var errors = _env.validate('request-schema', { "request": request.query });
+            if (!errors) {
+                log.info('Request has been validated');
+                next();
+            } else {
+                next(errors);
+            }
+        }
+    };
+})();
+
+module.exports = JSV;

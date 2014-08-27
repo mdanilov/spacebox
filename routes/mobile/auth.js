@@ -25,7 +25,7 @@ function loginVk (request, response) {
         res.on("data", function (chunk) {
             var body = JSON.parse(chunk);
             if (body.error) {
-                log.error('OAuthVK authorized error: %s', body.error);
+                log.error('OAuth2 authorized error: %s', body.error);
                 response.send(400);
             }
             else {
@@ -33,7 +33,7 @@ function loginVk (request, response) {
                 request.session.mid = body.user_id;
                 request.session.expires = os.uptime() + body.expires_in;
                 request.session.access_token = body.access_token;
-                log.info('VK user %s is authorized', request.session.mid);
+                log.info('VK user %s has been authorized using OAuth2', request.session.mid);
                 response.json({access_token: body.access_token});
             }
         });

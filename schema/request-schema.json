@@ -1,0 +1,115 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Spacebox request API",
+    "description": "Schema for spacebox server request validation",
+    "type": "object",
+    "required": [ "request" ],
+    "properties": {
+        "request": {
+            "type": "object",
+            "oneOf": [
+                { "$ref": "#/definitions/mobile/login" },
+                { "$ref": "#/definitions/getUsers" },
+                { "$ref": "#/definitions/login" },
+                { "$ref": "#/definitions/logout" },
+                { "$ref": "#/definitions/like" },
+                { "$ref": "#/definitions/dislike" }
+            ]
+        }
+    },
+    "definitions": {
+        "mobile": {
+            "login": {
+                "description": "Mobile login request",
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "title": "VK API access code",
+                        "type": "string"
+                    }
+                },
+                "required": ["code"],
+                "additionalProperties": false
+            }
+        },
+        "getUsers": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "title": "Latitude",
+                    "type": "string"
+                },
+                "longitude": {
+                    "title": "Longitude",
+                    "type": "string"
+                },
+                "radius": {
+                    "title": "Search radius",
+                    "type": "string"
+                }
+            },
+            "required": ["latitude", "longitude", "radius"],
+            "additionalProperties": false
+        },
+        "login": {
+            "description": "Login request",
+            "type": "object",
+            "properties": {
+                "secret": {
+                    "title": "Secret",
+                    "type": "string"
+                },
+                "mid": {
+                    "title": "VK user id",
+                    "type": "string"
+                },
+                "sig": {
+                    "title": "Signature",
+                    "description": "md5 from the concatenation of the expire, mid, secret, sid",
+                    "type": "string"
+                },
+                "sid": {
+                    "title": "Sid",
+                    "type": "string"
+                },
+                "expire": {
+                    "title": "Expire session time",
+                    "type": "string"
+                }
+            },
+            "required": ["secret", "mid", "expire", "sid", "sig"],
+            "additionalProperties": false
+        },
+        "logout": {
+            "description": "Logout request",
+            "properties": {},
+            "additionalProperties": false
+        },
+        "like": {
+            "description": "Like request",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "VK user id",
+                    "description": "liked by user",
+                    "type": "string"
+                }
+            },
+            "required": ["id"],
+            "additionalProperties": false
+        },
+        "dislike": {
+            "description": "Dislike request",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "VK user id",
+                    "description": "disliked by user",
+                    "type": "string"
+                }
+            },
+            "required": ["id"],
+            "additionalProperties": false
+        }
+    }
+}
