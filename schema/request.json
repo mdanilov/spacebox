@@ -78,7 +78,7 @@
                 }
             },
             "required": ["secret", "mid", "expire", "sid", "sig"],
-            "additionalProperties": false
+            "additionalProperties": true
         },
         "logout": {
             "description": "Logout request",

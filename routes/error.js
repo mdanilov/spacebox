@@ -15,6 +15,10 @@
         next(new error.HttpError(400, 'Bad Request'));
     };
 
+    error['401'] = function (request, response, next) {
+        next(new error.HttpError(401, 'Unauthorized'));
+    };
+
     error['404'] = function (request, response, next) {
         next(new error.HttpError(404, 'Page Not Found'));
     };

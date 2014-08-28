@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Spacebox response API",
+    "description": "Schema for spacebox server response validation",
+    "type": "object",
+    "required": [ "response" ],
+    "properties": {
+        "response": {
+            "type": "object",
+            "oneOf": [
+                { "$ref": "#/definitions/mobile/login" },
+                { "$ref": "#/definitions/getUsers" },
+                { "$ref": "#/definitions/login" },
+                { "$ref": "#/definitions/logout" },
+                { "$ref": "#/definitions/like" },
+                { "$ref": "#/definitions/dislike" }
+            ]
+        }
+    },
+    "definitions": {
+        "mobile": {
+            "login": {
+                "description": "Mobile login response",
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "title": "VK API access code",
+                        "type": "string"
+                    }
+                },
+                "required": ["access_token"],
+                "additionalProperties": false
+            }
+        },
+        "getUsers": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "title": "User info",
+                "type": "object",
+                "properties": {
+                    "mid": {
+                        "title": "User id",
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "title": "Latitude",
+                        "type": "string"
+                    },
+                    "longitude": {
+                        "title": "Longitude",
+                        "type": "string"
+                    },
+                    "like": {
+                        "description": "Does current user like this user?",
+                        "type": "boolean"
+                    },
+                    "likeMe": {
+                        "description": "Does this user like current user?",
+                        "type": "boolean"
+                    }
+                },
+                "required": ["mid", "latitude", "longitude", "like", "likeMe"],
+                "additionalProperties": false
+            }
+        },
+        "login": {
+            "description": "Login response",
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        },
+        "logout": {
+            "description": "Logout response",
+            "properties": {},
+            "additionalProperties": false
+        },
+        "like": {
+            "description": "Like response",
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        },
+        "dislike": {
+            "description": "Dislike response",
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+        }
+    }
+}

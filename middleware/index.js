@@ -3,6 +3,7 @@
     var bodyParser = require('body-parser');
     var cookieParser = require('cookie-parser');
     var session = require('express-session');
+    var favicon = require('serve-favicon');
     var PGStore = require('connect-pgsql')(session);
     var pg = require('pg');
     var log = require('../utils/log')(module);
@@ -11,6 +12,9 @@
     var checkAuth = require('./checkAuth');
     var errorHandler = require('./errorHandler')(app);
     var config = require('../config');
+
+    /* Favicon */
+    app.use('/', favicon(path.join(__dirname, '../public/favicon.ico')));
 
     /* Bundled middleware */
     app.use('/', bodyParser.json());
