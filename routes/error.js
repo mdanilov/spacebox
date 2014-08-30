@@ -1,5 +1,6 @@
 ﻿(function () {
     var util = require('util');
+    var log = require('../utils/log')(module);
     var error = {};
 
     error.HttpError = function (error, opt_message) {
@@ -10,7 +11,8 @@
     error.HttpError.prototype.name = 'HttpError';
 
     error['404'] = function (request, response, next) {
-        next(new error.HttpError(404, 'Page Not Found'));
+        log.info('Page Not Found');
+        response.send(404);
     };
 
     module.exports = error;

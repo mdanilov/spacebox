@@ -8,6 +8,7 @@ module.exports =  function (request, response, next) {
         next(new HttpError(401, 'Permission denied: user is not authorized'));
     }
     else {
+        log.info('User mid = %d, expires = %d has access', request.session.mid, request.session.expires);
         next();
     }
 };

@@ -2,7 +2,7 @@ var os = require('os');
 var https = require('https');
 var config = require('../../config/index');
 var log = require('../../utils/log')(module);
-var HttpError = require('../routes/error').HttpError;
+var HttpError = require('../../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
     var options = 'https://oauth.vk.com/access_token?' +
