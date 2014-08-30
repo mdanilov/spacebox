@@ -23,18 +23,20 @@
                 "description": "Mobile login request",
                 "type": "object",
                 "properties": {
+                    "url": { "enum": [ "mobile/login" ] },
                     "code": {
                         "title": "VK API access code",
                         "type": "string"
                     }
                 },
-                "required": ["code"],
+                "required": ["url", "code"],
                 "additionalProperties": false
             }
         },
         "getUsers": {
             "type": "object",
             "properties": {
+                "url": { "enum": [ "/getUsers" ] },
                 "latitude": {
                     "title": "Latitude",
                     "type": "string"
@@ -48,13 +50,14 @@
                     "type": "string"
                 }
             },
-            "required": ["latitude", "longitude", "radius"],
+            "required": ["url", "latitude", "longitude", "radius"],
             "additionalProperties": false
         },
         "login": {
             "description": "Login request",
             "type": "object",
             "properties": {
+                "url": { "enum": [ "/login" ] },
                 "secret": {
                     "title": "Secret",
                     "type": "string"
@@ -77,38 +80,43 @@
                     "type": "string"
                 }
             },
-            "required": ["secret", "mid", "expire", "sid", "sig"],
+            "required": ["url", "secret", "mid", "expire", "sid", "sig"],
             "additionalProperties": true
         },
         "logout": {
             "description": "Logout request",
-            "properties": {},
+            "properties": {
+                "url": { "enum": [ "/logout" ] }
+            },
+            "required": ["url"],
             "additionalProperties": false
         },
         "like": {
             "description": "Like request",
             "type": "object",
             "properties": {
+                "url": { "enum": [ "/like" ] },
                 "id": {
                     "title": "VK user id",
                     "description": "liked by user",
                     "type": "string"
                 }
             },
-            "required": ["id"],
+            "required": ["url", "id"],
             "additionalProperties": false
         },
         "dislike": {
             "description": "Dislike request",
             "type": "object",
             "properties": {
+                "url": { "enum": [ "/dislike" ] },
                 "id": {
                     "title": "VK user id",
                     "description": "disliked by user",
                     "type": "string"
                 }
             },
-            "required": ["id"],
+            "required": ["url", "id"],
             "additionalProperties": false
         }
     }

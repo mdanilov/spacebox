@@ -2,21 +2,9 @@
 var crypto = require('crypto');
 var config = require('../config/index');
 var log = require('../utils/log')(module);
+var HttpError = require('../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
-    loginVk(request, response);
-};
-
-exports.logout = function (request, response, next) {
-    var mid = request.session.mid;
-    request.session.destroy(function (error) {
-        if (error) next(error);
-        log.info('User id%s session has been deleted', mid);
-        response.end();
-    });
-};
-
-function loginVk (request, response) {
     var session = request.query;
     var md5sum = crypto.createHash('md5');
 
@@ -34,7 +22,17 @@ function loginVk (request, response) {
         response.end();
     }
     else {
-        log.error('OpenAPI authorized error: wrong signature');
-        response.send(400);
+        next(new HttpError(400, 'OpenAPI authorized error: wrong signature'));
     }
-}
+};
+
+exports.logout = function (request, response, next) {
+    var mid = request.session.mid;
+    request.session.destroy(function (error) {
+        if (error) {
+            next(new HttpError(400, error));
+        }
+        log.info('User id%s session has been deleted', mid);
+        response.end();
+    });
+};

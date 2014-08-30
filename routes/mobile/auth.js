@@ -2,20 +2,9 @@ var os = require('os');
 var https = require('https');
 var config = require('../../config/index');
 var log = require('../../utils/log')(module);
+var HttpError = require('../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
-    loginVk(request, response);
-};
-
-exports.logout = function (request, response, next) {
-    request.session.destroy(function (error) {
-        if (error) next(error);
-        log.info('User session %s is deleted', request.session.mid);
-        response.end();
-    });
-};
-
-function loginVk (request, response) {
     var options = 'https://oauth.vk.com/access_token?' +
         'client_id=' + config.get('vk:apiID') +
         '&client_secret=' + config.get('vk:privateKey') +
@@ -25,8 +14,8 @@ function loginVk (request, response) {
         res.on("data", function (chunk) {
             var body = JSON.parse(chunk);
             if (body.error) {
-                log.error('OAuth2 authorized error: %s', body.error);
-                response.send(400);
+                var message = 'OAuth2 authorized error: ' + body.error;
+                next(new HttpError(400, message));
             }
             else {
                 request.session.authorized = true;
@@ -38,4 +27,14 @@ function loginVk (request, response) {
             }
         });
     });
-}
+};
+
+exports.logout = function (request, response, next) {
+    request.session.destroy(function (error) {
+        if (error) {
+            next(new HttpError(400, error));
+        }
+        log.info('User session %s is deleted', request.session.mid);
+        response.end();
+    });
+};

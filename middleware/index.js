@@ -5,6 +5,8 @@
     var session = require('express-session');
     var favicon = require('serve-favicon');
     var PGStore = require('connect-pgsql')(session);
+    var winston = require('winston');
+    var expressWinston = require('express-winston');
     var pg = require('pg');
     var log = require('../utils/log')(module);
     var router = require('../routes');
@@ -46,5 +48,14 @@
     app.use('/', router);
 
     /* Error handling */
+    app.use('/', expressWinston.errorLogger({
+        transports: [
+            new winston.transports.File({
+                filename: 'error',
+                json: true,
+                colorize: true
+            })
+        ]
+    }));
     app.use('/', errorHandler);
 };

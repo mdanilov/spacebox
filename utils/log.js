@@ -7,7 +7,7 @@ module.exports = makeLogger;
 function makeLogger (module) {
     var logger = new winston.Logger({transports : []});
     var path = module.filename.split(/[\\\/]/);
-    path = path.slice(-2).join('.');
+    path = path.slice(-2).join('][');
 
     if (path == "main.js") {
         logger.add(winston.transports.Mail, config.get('mail'));
@@ -20,13 +20,14 @@ function makeLogger (module) {
             label: path
         });
     }
-
-    logger.add(winston.transports.File, {
-        filename: 'error.log',
-        level: 'error',
-        label: path,
-        json: false
-    });
+    else {
+        logger.add(winston.transports.File, {
+            filename: 'log',
+            level: 'error',
+            label: path,
+            json: false
+        });
+    }
 
     return logger;
 }
