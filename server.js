@@ -1,3 +1,6 @@
+// Include New Relic analytics module
+require('newrelic');
+
 var http = require('http');
 var log = require('./utils/log')(module);
 var config = require('./config');

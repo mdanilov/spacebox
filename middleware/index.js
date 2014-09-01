@@ -38,6 +38,15 @@
     app.use('/', express.static(path.join(__dirname, '../public')));
 
     /* Logger */
+    app.use(expressWinston.logger({
+        transports: [
+            new winston.transports.File({
+                filename: 'access.log',
+                json: true,
+                colorize: true
+            })
+        ]
+    }));
     app.use('/', function (request, response, next) {
         log.info('%s %s', request.method, request.url);
         next();
@@ -51,7 +60,7 @@
     app.use('/', expressWinston.errorLogger({
         transports: [
             new winston.transports.File({
-                filename: 'error',
+                filename: 'error.log',
                 json: true,
                 colorize: true
             })
