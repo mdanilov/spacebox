@@ -1,6 +1,5 @@
 ﻿{
     "project": "Spacebox",
-    "pageDir": "./views/pages/",
     "port": 1337,
     "mail":
     {
@@ -12,16 +11,11 @@
         "password": "230470max",
         "ssl": false
     },
-    "request":
-    {
-        "maxRadius": 200000
-    },
     "vk":
     {
         "apiID": 4213835,
         "scope": "friends",
-        "redirectUrl": "https://oauth.vk.com/blank.html",
-        "privateKey": "KBwOMxld4zc5HbyV0ang"
+        "redirectUrl": "https://oauth.vk.com/blank.html"
     },
     "session":
     {
@@ -35,14 +29,7 @@
     },
     "database":
     {
-        "connection":
-        {
-            "user": "eacfkpmstsyhqg",
-            "database": "dfv3nl089vfbs6",
-            "password": "buhbBT72eEHhtaurHJeFbeUqqv",
-            "port": 5432,
-            "host": "ec2-54-225-101-164.compute-1.amazonaws.com"
-        },
+        "connection": {},
         "options":
         {
             "clearInterval": 600,

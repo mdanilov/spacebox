@@ -16,4 +16,8 @@ if (process.env.DATABASE_URL) {
     nconf.set('database:connection', process.env.DATABASE_URL);
 }
 
+if (process.env.VK_PRIVATE_KEY) {
+    nconf.set('vk:privateKey', process.env.VK_PRIVATE_KEY);
+}
+
 module.exports = nconf;
