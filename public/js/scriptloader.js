@@ -2,12 +2,12 @@
     './js/thirdparty/jquery-2.1.1.min.js',
     './js/utils.js',
     './js/server.js',
-	'./js/navigation.js'
+    './js/navigation.js'
 ]);
 
 yepnope({
     test: isMobile,
-    yep: './js/thirdparty/cordova-lib.js'
+    yep: './js/thirdparty/cordova.js'
 });
 
 function loadPageScripts (page) {
@@ -15,7 +15,6 @@ function loadPageScripts (page) {
 		case 'mainPage':
 			yepnope([
 				'./js/thirdparty/ejs_0.9_alpha_1_production.js',
-				'./js/thirdparty/bootstrap.min.js',
 				'./js/thirdparty/mapbox.js',
 				'./js/views/userlist.js',
 				'./js/views/navbar.js',
@@ -38,7 +37,4 @@ function loadLoginPage() {
         yep: './js/mobile/vk.js',
         nope: ['./js/thirdparty/openapi.js', './js/vk.js']
     });
-    yepnope([
-        './js/pages/pglogin.js'
-    ]);
 }

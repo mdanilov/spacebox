@@ -1,63 +1,60 @@
-﻿<!DOCTYPE html>
-<html lang="ru">
-    <head>
-        <title>Spacebox</title>
-        <meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="./css/thirdparty/bootstrap.min.css">
-		<link rel='stylesheet' href='./css/thirdparty/mapbox.css'>
-		<link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/wildcard.css">
-        <link rel="alternate" href="./templates/wildcard.ejs">
-        <script>
-            var isMobile = false;
-            var config =
-            {
-                vkApiId: 4213835,
-                vkRedirectUrl: 'https://oauth.vk.com/blank.html',
-                //serverUrl: 'http://localhost:1337'
-                //serverUrl: 'http://spacebox.herokuapp.com'
-                serverUrl: 'http://spacebox-test.herokuapp.com'
-            };
-        </script>
-        <script src="./js/thirdparty/yepnope.1.5.4-min.js"></script>
-        <script src="./js/scriptloader.js"></script>
-    </head>
-    <body>
-		<div class="container fluid show" id="loginPage">
-			<div class="text-center">
-				<h1>ВРадиусе</h1>
-				<p class="lead">Мы используем твою страницу ВКонтакте, чтобы найти людей рядом.</p>
-				<a class="btn btn-lg btn-primary" id="vk-login-button" href="#" role="button">Войти ВКонтакте</a>
-			</div>
-		</div>
-		<div class="container fluid hidden" id="mainPage">
-			<!-- Nav tabs -->
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav navbar-left" role="tablist" id="tabs">
-					<li class="active"><a href="#map" data-toggle="tab"><span class="glyphicon glyphicon-globe"></span></a></li>
-					<li><a href="#users" data-toggle="tab" id="userlist-nav"><span class="glyphicon glyphicon-align-justify"></span></a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li id="quit-button"><a href="#">Выход</a></li>
-				</ul>
-			</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
 
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div class="tab-pane active" id="map">
-					<div id="map-canvas"></div>
-				</div>
-				<div class="tab-pane" id="users">
-					<div id="list-users"></div>
-				</div>
-			</div>
-		</div>
-		<div class="container fluid hidden" id="errorPage">
-			<div class="text-center">
-				<h1>Упс, что-то пошло не так...</h1>
-			</div>
-		</div>
-    </body>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+
+    <!-- Our includes --> 
+    <link rel='stylesheet' href='./css/thirdparty/mapbox.css'>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/wildcard.css">
+    <link rel="alternate"  href="./templates/wildcard.ejs">
+    <script>
+        var isMobile = true;
+        var config =
+        {
+            vkApiId: 4213835,
+            vkRedirectUrl: 'https://oauth.vk.com/blank.html',
+            serverUrl: 'http://spacebox-test.herokuapp.com/mobile'
+        };
+    </script>
+    <script src="./js/thirdparty/yepnope.1.5.4-min.js"></script>
+    <script src="./js/scriptloader.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-app="starter" animation="slide-left-right-ios7">
+    <!-- 
+      The nav bar that will be updated as we navigate between views.
+    -->
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+      <ion-nav-back-button class="button-icon icon  ion-ios7-arrow-back">
+        Back
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <!-- 
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view></ion-nav-view>
+  </body>
 </html>
