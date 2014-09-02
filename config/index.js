@@ -4,7 +4,6 @@ var nconf = require('nconf');
 nconf.argv().env().file({file: path.join(__dirname, 'config.json')});
 
 if (process.env.NODE_ENV === 'development') {
-    nconf.set('database:connection:ssl', true);
     nconf.set('database:options:clearInterval', undefined);
 }
 
@@ -12,6 +11,7 @@ if (process.env.PORT) {
     nconf.set('port', process.env.PORT);
 }
 
+// Connecting to a Heroku Postgres database from outside of the Heroku network requires SSL.
 if (process.env.DATABASE_URL) {
     nconf.set('database:connection', process.env.DATABASE_URL);
 }
