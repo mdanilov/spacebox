@@ -8,21 +8,17 @@ var vk = library(function() {
 
     function initAuthWindow (url, callback) {
 		// this code create VK authentication window and try to close it after user login
-		var popupWindow = window.open(url);
-		$(popupWindow).bind('load', function () {
-			redirectHandler = function () {
-		    	if (arguments.callee.popup.location.href.split('#')[0] == arguments.callee.url) {
-		    		clearInterval(arguments.callee.interval);
-					var code = arguments.callee.popup.location.hash.split('=')[1];
-					arguments.callee.popup.close();
-					callback(code);
-				}
-		    };
-			redirectHandler.url = config.vkRedirectUrl;
-			redirectHandler.cb = callback;
-			redirectHandler.popup = popupWindow;
-			redirectHandler.interval = window.setInterval(redirectHandler, 1000);
-		});
+		var popupWindow = window.open(url, '_blank', 'location=no');
+
+		var eventHandler = function (event) {
+			if (event.url.split('#')[0] == config.vkRedirectUrl) {
+				var code = event.url.split('#')[1].split('=')[1];
+				popupWindow.close();
+				callback(code);
+			}
+  		};
+  		
+		popupWindow.addEventListener('loadstop', eventHandler); 
     }
 
     return {
