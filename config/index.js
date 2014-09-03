@@ -12,12 +12,8 @@ if (process.env.PORT) {
 }
 
 // Connecting to a Heroku Postgres database from outside of the Heroku network requires SSL.
-if (process.env.DATABASE_URL) {
-    nconf.set('database:connection', process.env.DATABASE_URL);
-}
-
-if (process.env.VK_PRIVATE_KEY) {
-    nconf.set('vk:privateKey', process.env.VK_PRIVATE_KEY);
-}
+// Example: $(DATABASE_URL)?ssl=true
+nconf.set('database:connection', process.env.DATABASE_URL);
+nconf.set('vk:privateKey', process.env.VK_PRIVATE_KEY);
 
 module.exports = nconf;

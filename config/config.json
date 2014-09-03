@@ -29,7 +29,6 @@
     },
     "database":
     {
-        "connection": {},
         "options":
         {
             "clearInterval": 600,

@@ -23,7 +23,7 @@
                 "description": "Mobile login request",
                 "type": "object",
                 "properties": {
-                    "url": { "enum": [ "mobile/login" ] },
+                    "url": { "enum": [ "/mobile/login" ] },
                     "code": {
                         "title": "VK API access code",
                         "type": "string"
