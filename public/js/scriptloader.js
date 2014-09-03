@@ -5,10 +5,10 @@
     './js/navigation.js'
 ]);
 
-yepnope({
-    test: isMobile,
-    yep: './js/thirdparty/cordova.js'
-});
+// yepnope({
+//     test: isMobile,
+//     yep: './js/thirdparty/cordova.js'
+// });
 
 function loadPageScripts (page) {
 	switch(page) {
@@ -19,8 +19,8 @@ function loadPageScripts (page) {
 				'./js/views/userlist.js',
 				'./js/views/navbar.js',
 				'./js/views/map.js',
-				'./js/model.js',
-				'./js/pages/pgmain.js'
+				'./js/model.js'
+				//'./js/pages/pgmain.js'
 			]);
 			break;
 		case 'loginPage':
