@@ -36,7 +36,7 @@
         "getUsers": {
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/getUsers" ] },
+                "url": { "enum": [ "/getUsers", "/mobile/getUsers" ] },
                 "latitude": {
                     "title": "Latitude",
                     "type": "string"
@@ -86,7 +86,7 @@
         "logout": {
             "description": "Logout request",
             "properties": {
-                "url": { "enum": [ "/logout" ] }
+                "url": { "enum": [ "/logout", "/mobile/logout" ] }
             },
             "required": ["url"],
             "additionalProperties": false
@@ -95,7 +95,7 @@
             "description": "Like request",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/like" ] },
+                "url": { "enum": [ "/like", "/mobile/like" ] },
                 "id": {
                     "title": "VK user id",
                     "description": "liked by user",
@@ -109,7 +109,7 @@
             "description": "Dislike request",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/dislike" ] },
+                "url": { "enum": [ "/dislike", "/mobile/dislike" ] },
                 "id": {
                     "title": "VK user id",
                     "description": "disliked by user",
