@@ -1,4 +1,4 @@
-﻿var Model = library(function () {
+﻿var Model = function () {
 
     var _users = [];
 
@@ -50,7 +50,11 @@
                 };
                 server.sendRequest({ type: 'getUsers', data: data }, createUsers);
             });
+        },
+
+        getUsers: function(users) {
+            return _users;
         }
     };
 
-}());
+}();

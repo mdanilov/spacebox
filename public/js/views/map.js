@@ -1,4 +1,4 @@
-var Map = library(function () {
+var Map = function () {
 
     var _markers = {};
     var _map;
@@ -40,8 +40,12 @@ var Map = library(function () {
 
     return {
         init: function () {
+            var mapContainer = document.getElementById('map-canvas');
+            mapContainer.style.width = '70%';
+            mapContainer.style.height = '500px';
+            
             L.mapbox.accessToken = MAPBOX.ACCESS_TOKEN;
-            _map = L.mapbox.map('map-canvas', MAPBOX.URL).setView([60, 30], 10);
+            _map = L.mapbox.map(mapContainer, MAPBOX.URL).setView([60, 30], 10);
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -71,4 +75,4 @@ var Map = library(function () {
         }
     };
 
-}());
+}();
