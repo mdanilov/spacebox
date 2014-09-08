@@ -1,6 +1,6 @@
 var vk = library(function() {
 
-    var SCOPE = 'friends';
+    var SCOPE = 'FRIENDS';
 
     var _id;
 

@@ -12,9 +12,10 @@ var vk = library(function() {
 
 		var eventHandler = function (event) {
 			if (event.url.split('#')[0] == config.vkRedirectUrl) {
+				//window.alert('in event handler');
 				var code = event.url.split('#')[1].split('=')[1];
-				popupWindow.close();
 				callback(code);
+				popupWindow.close();
 			}
   		};
   		

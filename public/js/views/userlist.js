@@ -28,12 +28,12 @@
         $(ELEMENT).empty();
 
         if (users.length != 0) {
-            for (var i = 0; i < users.length; i++) {
-                var innerHtml = getHtmlElement(users[i].info, users[i].like);
-                $(ELEMENT).append(innerHtml);
-            }
+            // for (var i = 0; i < users.length; i++) {
+            //     var innerHtml = getHtmlElement(users[i].info, users[i].like);
+            //     $(ELEMENT).append(innerHtml);
+            // }
             // TODO: low performance of dynamic event handler
-            $('.like-link').on("click", likeHandler);
+            //$('.like-link').on("click", likeHandler);
         }
         else {
             $(ELEMENT).append('<div> К сожалению никто не найден</div>');
