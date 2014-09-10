@@ -5,22 +5,15 @@
  * description of configuration variables and their potential values.
  */
 
-// TODO: add condition for production
+var level = (process.env.NODE_ENV === 'development') ? 'trace' : 'info';
+
 exports.config = {
-  /**
-   * Array of application names.
-   */
-  app_name : ['Spacebox-test'],
-  /**
-   * Your New Relic license key.
-   */
-  license_key : '5b27a48269fa1d8b6446557b550df099960d8400',
-  logging : {
+    logging : {
     /**
      * Level at which to log. 'trace' is most useful to New Relic when diagnosing
      * issues with the agent, 'info' and higher will impose the least overhead on
      * production applications.
      */
-    level : 'info'
-  }
+    level : level
+    }
 };

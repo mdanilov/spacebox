@@ -14,16 +14,16 @@
     "vk":
     {
         "apiID": 4213835,
-        "scope": "friends",
         "redirectUrl": "https://oauth.vk.com/blank.html"
     },
     "session":
     {
-        "secret": "1234567890qwerty",
+        "name": "connect.sid",
         "cookie":
         {
             "path": "/",
             "httpOnly": true,
+            "secure": false,
             "maxAge": 3600000
         }
     },

@@ -23,12 +23,13 @@
     app.use('/', bodyParser.urlencoded({ extended: true }));
     app.use('/', cookieParser());
     app.use('/', session({
-        secret: config.get('session:secret'),
+        name: config.get('session:name'),
         store: new PGStore({
             getClient: function(next) {
                 pg.connect(config.get('database:connection'), next);
             }
         }),
+        secret: config.get('session:secret'),
         cookie: config.get('session:cookie'),
         resave: true,
         saveUninitialized: true
