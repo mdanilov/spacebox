@@ -1,12 +1,33 @@
 Base features for version 0.10 
 
 1) Login page. It contains only one button('Login'). Brief description with slides. 
-2) Main page with one button(switch between 'Map' view and 'List' view). Map view contains marker with current position, users markers with photo. Marker 'On click' event leads to open overlay mode with slide of user images. List view constains user list with photo, name, like button. Item 'On click' event leads open default browser.   
+2) Main page with one button(switch between 'Map' view and 'List' view). Map view contains marker with current position, users markers with photo. Marker 'OnСlick' event leads to open overlay mode with slide of user images. List view constains user list with photo, name, like button. Item 'OnСlick' event leads open default browser.   
 
 Issies: 
-1) Design. 
+1) Pretty design. 
 2) Remove buttons from Login page.
 3) Double map loading
 4) List item without href, photo, like button.  
 5) Code refactoring
 
+For Maxim:
+Setup environment script(Andorid platform)
+Manual prerequisites:
+1) Setup Android environment. (Android google developers).
+2) Download Node.js
+
+Install initial development environment:
+1) Install cordova/phonegap (npm install cordova) 
+2) Install ionic (npm install -g ionic)
+
+Install project development environment:
+1) ionic start myApp tabs
+2) cd myApp 
+3) ionic platform add android/ios
+4) Copy files from github public directory to www directory (bower.json, add MapBox).
+5) Install cordova plugins (geolocation, inappbrowser).
+
+Build:
+1) ionic build android/ios
+2) ionic run/emulate android/ios
+ 
