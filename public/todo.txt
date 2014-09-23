@@ -1,0 +1,12 @@
+Base features for version 0.10 
+
+1) Login page. It contains only one button('Login'). Brief description with slides. 
+2) Main page with one button(switch between 'Map' view and 'List' view). Map view contains marker with current position, users markers with photo. Marker 'On click' event leads to open overlay mode with slide of user images. List view constains user list with photo, name, like button. Item 'On click' event leads open default browser.   
+
+Issies: 
+1) Design. 
+2) Remove buttons from Login page.
+3) Double map loading
+4) List item without href, photo, like button.  
+5) Code refactoring
+
