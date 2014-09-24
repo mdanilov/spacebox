@@ -10,15 +10,13 @@ function makeLogger (module) {
 
     var options = {
         label: path,
-        json: true,
-        level:'error',
-        colorize: false
+        json: config.get('logger:json'),
+        colorize: config.get('logger:colorize'),
+        level: 'error'
     };
 
     if (config.get('NODE_ENV') === 'development') {
         options.level = 'info';
-        options.colorize = true;
-        options.json = false;
     }
 
     logger.add(winston.transports.Console, options);

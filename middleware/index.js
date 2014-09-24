@@ -42,14 +42,11 @@
     app.use(expressWinston.logger({
         transports: [
             new winston.transports.Console({
-                json: true
+                json: config.get('logger:json'),
+                colorize: config.get('logger:colorize')
             })
         ]
     }));
-    app.use('/', function (request, response, next) {
-        log.info('%s %s', request.method, request.url);
-        next();
-    });
 
     /* Routing */
     app.use('/mobile', mobileRouter);
@@ -59,7 +56,8 @@
     app.use('/', expressWinston.errorLogger({
         transports: [
             new winston.transports.Console({
-                json: true
+                json: config.get('logger:json'),
+                colorize: config.get('logger:colorize')
             })
         ]
     }));

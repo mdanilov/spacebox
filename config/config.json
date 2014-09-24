@@ -27,6 +27,11 @@
             "maxAge": 3600000
         }
     },
+    "logger":
+    {
+        "colorize": false,
+        "json": true
+    },
     "database":
     {
         "options":
