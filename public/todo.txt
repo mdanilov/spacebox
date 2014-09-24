@@ -10,15 +10,16 @@ Issies:
 4) List item without href, photo, like button.  
 5) Code refactoring
 
-For Maxim:
-Setup environment script(Andorid platform)
+Setup environment for Andorid platform.
 Manual prerequisites:
 1) Setup Android environment. (Android google developers).
-	Java JDK, Android SDK Bundle.
+	Install Java JDK. Add Java to PATH. 
+	Install Android SDK Bundle and API 19 using Android package manager. Set ANDROID_HOME variable. 
+	Install Apache Ant. Set Ant to PATH.
 2) Download Node.js
 
 Install initial ionic environment:
-1) Install cordova/phonegap and ionic(npm install -g cordova ionic) 
+1) Install cordova/phonegap and ionic(npm install -g cordova ionic). Add Ionic to PATH variable. 
 
 Install project development environment:
 1) ionic start myApp tabs
