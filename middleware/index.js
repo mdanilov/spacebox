@@ -41,10 +41,8 @@
     /* Logger */
     app.use(expressWinston.logger({
         transports: [
-            new winston.transports.File({
-                filename: 'access.log',
-                json: true,
-                colorize: true
+            new winston.transports.Console({
+                json: true
             })
         ]
     }));
@@ -60,10 +58,8 @@
     /* Error handling */
     app.use('/', expressWinston.errorLogger({
         transports: [
-            new winston.transports.File({
-                filename: 'error.log',
-                json: true,
-                colorize: true
+            new winston.transports.Console({
+                json: true
             })
         ]
     }));
