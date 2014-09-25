@@ -5,11 +5,6 @@
 	'./js/navigation.js'
 ]);
 
-yepnope({
-    test: isMobile,
-    yep: './js/thirdparty/cordova-lib.js'
-});
-
 function loadPageScripts (page) {
 	switch(page) {
 		case 'mainPage':
@@ -33,12 +28,9 @@ function loadPageScripts (page) {
 }
 
 function loadLoginPage() {
-    yepnope({
-        test: isMobile,
-        yep: './js/mobile/vk.js',
-        nope: ['./js/thirdparty/openapi.js', './js/vk.js']
-    });
     yepnope([
+        './js/thirdparty/openapi.js',
+        './js/vk.js',
         './js/pages/pglogin.js'
     ]);
 }
