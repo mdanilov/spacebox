@@ -1,5 +1,5 @@
 ﻿yepnope([
-    './js/thirdparty/jquery-2.1.1.min.js',
+    './bower_components/jquery/dist/jquery.min.js',
     './js/utils.js',
     './js/server.js',
 	'./js/navigation.js'
@@ -10,8 +10,8 @@ function loadPageScripts (page) {
 		case 'mainPage':
 			yepnope([
 				'./js/thirdparty/ejs_0.9_alpha_1_production.js',
-				'./js/thirdparty/bootstrap.min.js',
-				'./js/thirdparty/mapbox.js',
+				'./bower_components/bootstrap/dist/js/bootstrap.min.js',
+				'./bower_components/mapbox.js/mapbox.js',
 				'./js/views/userlist.js',
 				'./js/views/navbar.js',
 				'./js/views/map.js',

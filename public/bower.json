@@ -1,0 +1,15 @@
+{
+    "name": "spacebox-client",
+    "version": "1.0.0",
+    "private": true,
+    "keywords": [
+        "spacebox",
+        "client"
+    ],
+    "dependencies": {
+        "yepnope": "1.5.0",
+        "jquery": "2.1.1",
+        "mapbox.js": "2.1.1",
+        "bootstrap": "3.2.0"
+    }
+}

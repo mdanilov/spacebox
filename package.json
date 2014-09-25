@@ -1,14 +1,15 @@
 {
     "name": "spacebox",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "private": true,
-    "description": "spacebox server",
+    "description": "Spacebox server",
     "keywords": [
         "spacebox",
         "server"
     ],
     "main": "server.js",
     "scripts": {
+        "prepublish": "cd ./public && bower install",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server.js"
     },
@@ -18,9 +19,10 @@
         "url": "https://github.com/mdanilov/spacebox.git"
     },
     "bugs": {
-        "url": "https://github.com/mdanilov/spacebox/issues"
+        "url": "https://github.com/mdanilov/spacebox/issues",
+        "email": "mdanilov@me.com"
     },
-    "author": "Maxim Danilov <mdanilov@me.com>",
+    "author": "Maxim Danilov <mdanilov@me.com> (https://www.linkedin.com/pub/maxim-danilov/68/894/566)",
     "contributors": [
         "Artem Galin <artem.galin@gmail.com>"
     ],
@@ -38,7 +40,8 @@
         "async": "0.9.0",
         "pg": "3.4.1",
         "winston-mail": "0.2.8",
-        "newrelic": "1.x.x"
+        "newrelic": "1.x.x",
+        "bower": "1.3.11"
     },
     "engines": {
         "node": "0.10.x"
