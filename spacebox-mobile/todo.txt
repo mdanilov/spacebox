@@ -22,13 +22,9 @@ Install initial ionic environment:
 1) Install cordova/phonegap and ionic(npm install -g cordova ionic). Add Ionic to PATH variable. 
 
 Install project development environment:
-1) ionic start myApp tabs
-2) cd myApp 
-3) ionic platform add android/ios
-4) Install cordova plugins (geolocation, inappbrowser). 
-   ionic plugin add org.apache.cordova.inappbrowser
-   ionic plugin add org.apache.cordova.geolocation
-5) Copy files from github public directory to www directory (bower.json, add MapBox).
+1) Run ionic-install.bat
+2) npm install
+3) node node_modules/gulp/bin/gulp.js install
 
 Build:
 1) ionic build android/ios
