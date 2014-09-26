@@ -5,23 +5,18 @@
         <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
-		<link rel='stylesheet' href='./bower_components/mapbox.js/mapbox.css'>
-		<link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/wildcard.css">
-        <link rel="alternate" href="./templates/wildcard.ejs">
+        <link rel="alternate" href="src/js/app/templates/wildcard.ejs">
         <script>
             var config =
             {
                 vkApiId: 4213835,
+                development: true,
                 vkRedirectUrl: 'https://oauth.vk.com/blank.html',
                 //serverUrl: 'http://localhost:1337'
                 //serverUrl: 'http://spacebox.herokuapp.com'
                 serverUrl: 'http://spacebox-test.herokuapp.com'
             };
         </script>
-        <script src="./bower_components/yepnope/yepnope.1.5.0-min.js"></script>
-        <script src="./js/scriptloader.js"></script>
     </head>
     <body>
 		<div class="container fluid show" id="loginPage">
@@ -58,5 +53,7 @@
 				<h1>Упс, что-то пошло не так...</h1>
 			</div>
 		</div>
+        <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
+        <script src="src/js/main.js"></script>
     </body>
 </html>

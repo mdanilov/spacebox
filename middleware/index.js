@@ -16,7 +16,7 @@
     var config = require('../config');
 
     /* Favicon */
-    app.use('/', favicon(path.join(__dirname, '../public/favicon.ico')));
+    app.use('/', favicon(path.join(__dirname, '../public/src/img/favicon.ico')));
 
     /* Bundled middleware */
     app.use('/', bodyParser.json());

@@ -3,7 +3,6 @@ var navigation = library(function () {
 	var _current = 'loginPage';
 	
 	function open (page) {
-		loadPageScripts(page);
 		$('#' + page).addClass('show').removeClass('hidden');
 	}
 	

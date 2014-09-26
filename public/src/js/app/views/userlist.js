@@ -3,7 +3,7 @@
     var ELEMENT = '#list-users';
 
     function getHtmlElement (info, isLiked) {
-        return new EJS({url: './templates/wildcard.ejs'}).render({
+        return new EJS({url: './src/js/app/templates/wildcard.ejs'}).render({
             photo_url: info.photo_50,
             first_name: info.first_name,
             screen_name: info.screen_name,

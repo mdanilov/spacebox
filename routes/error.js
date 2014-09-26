@@ -12,7 +12,7 @@
 
     error['404'] = function (request, response, next) {
         log.info('Page Not Found');
-        response.send(404);
+        response.status(404).end();
     };
 
     module.exports = error;

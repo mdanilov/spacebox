@@ -11,10 +11,10 @@ module.exports = function (app) {
 
         if (error instanceof HttpError) {
             log.error(error.message);
-            response.send(error.status);
+            response.status(error.status).end();
         } else {
             log.error('Internal server error');
-            response.send(500);
+            response.status(500).end();
         }
     };
 };

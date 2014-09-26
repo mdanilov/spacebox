@@ -9,6 +9,10 @@
         });
     });
     
-    $('a[href="#map"]').on('shown.bs.tab', Model.update);
+    $('a[href="#map"]').on('shown.bs.tab', function () {
+        Map.invalidate();
+        Model.update();
+    });
+
     $('a[href="#users"]').on('shown.bs.tab', Model.update);
 });
