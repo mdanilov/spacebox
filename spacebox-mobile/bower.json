@@ -1,7 +1,13 @@
 {
-  "name": "spacebox-mobile",
-  "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-beta.13"
-  }
+	"name": "spacebox-mobile",
+	"version": "0.0.1",
+	"private": "true",
+	"dependencies": {
+		"yepnope": "1.5.0",
+		"mapbox.js": "2.1.1",
+		"jquery": "2.1.1"
+	},
+	"devDependencies": {
+		"ionic": "driftyco/ionic-bower#1.0.0-beta.13"
+	}
 }

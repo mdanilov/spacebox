@@ -1,7 +1,6 @@
 angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $state, $window) {
-	loadPageScripts('loginPage');
 	angular.element(document).ready(function () {
         console.log('Document ready');
         $scope.clickLogin = function() {   
@@ -15,9 +14,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('FriendsCtrl', function($scope, Friends) {
-   	loadPageScripts('listPage', function() {
-   		Model.update();
-   	});
+   	Model.update();
+
 	$scope.friends = Model.getUsers();
     //$scope.friends = Friends.all();
 })
@@ -27,10 +25,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AccountCtrl', function($scope) {
-	loadPageScripts('mainPage', function() {
-		Map.init();
-		Map.invalidate();
-		Model.init();
-		Model.update();
-	});
+	Map.init();
+	Map.invalidate();
+	Model.init();
+	Model.update();
 });
