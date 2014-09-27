@@ -33,6 +33,7 @@ var Map = library(function () {
 
     function invalidateUsers (users) {
         Map.clear();
+        Map.invalidate();
         for (var i = 0; i < users.length; i++) {
             addMarker(users[i])
         }

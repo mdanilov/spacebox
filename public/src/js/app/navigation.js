@@ -1,6 +1,6 @@
 var navigation = library(function () {
 	
-	var _current = 'loginPage';
+	var _current = 'startPage';
 	
 	function open (page) {
 		$('#' + page).addClass('show').removeClass('hidden');

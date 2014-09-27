@@ -5,10 +5,7 @@
         './src/css/wildcard.css'
     ],
     nope: './dist/spacebox.min.css',
-    both: [
-        './lib/bootstrap/dist/css/bootstrap.min.css',
-        './lib/mapbox.js/mapbox.css'
-    ]
+    both: './lib/mapbox.js/mapbox.css'
 });
 
 yepnope([
@@ -33,5 +30,16 @@ yepnope({
         './src/js/app/model.js',
         './src/js/app/pages/pgmain.js'
     ],
-    nope: './dist/spacebox.min.js'
+    nope: './dist/spacebox.min.js',
+    complete: function () {
+        vk.getLoginStatus(function (status) {
+            if (status) {
+                navigation.go('mainPage');
+                Map.invalidate();
+            }
+            else {
+                navigation.go('loginPage');
+            }
+        });
+    }
 });

@@ -30,6 +30,19 @@ var vk = library(function() {
 
         call: function (method, options, callback) {
             VK.Api.call(method, options, callback);
+        },
+
+        getLoginStatus: function (callback) {
+            VK.Auth.getLoginStatus(function (response) {
+                if (response.session) {
+                    _id = response.session.mid;
+                    server.sendRequest({ type: 'login', data: response.session }, function () {
+                        callback(true);
+                    });
+                } else {
+                    callback(false);
+                }
+            });
         }
     };
 

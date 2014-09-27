@@ -9,6 +9,7 @@
             "type": "object",
             "oneOf": [
                 { "$ref": "#/definitions/mobile/login" },
+                { "$ref": "#/definitions/mobile/getLoginStatus" },
                 { "$ref": "#/definitions/getUsers" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
@@ -29,6 +30,22 @@
                     }
                 },
                 "required": ["access_token"],
+                "additionalProperties": false
+            },
+            "getLoginStatus": {
+                "description": "Mobile login status response",
+                "type": "object",
+                "properties": {
+                    "mid": {
+                        "title": "VK user id",
+                        "type": "string"
+                    },
+                    "access_token": {
+                        "title": "VK API access code",
+                        "type": "string"
+                    }
+                },
+                "required": ["mid", "access_token"],
                 "additionalProperties": false
             }
         },

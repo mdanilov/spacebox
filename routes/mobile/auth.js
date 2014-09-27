@@ -29,6 +29,13 @@ exports.login = function (request, response, next) {
     });
 };
 
+exports.getLoginStatus = function (request, response, next) {
+    response.json({
+        mid: request.session.mid,
+        access_token: request.session.access_token
+    });
+};
+
 exports.logout = function (request, response, next) {
     request.session.destroy(function (error) {
         if (error) {

@@ -9,6 +9,7 @@
             "type": "object",
             "oneOf": [
                 { "$ref": "#/definitions/mobile/login" },
+                { "$ref": "#/definitions/mobile/getLoginStatus" },
                 { "$ref": "#/definitions/getUsers" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
@@ -30,6 +31,15 @@
                     }
                 },
                 "required": ["url", "code"],
+                "additionalProperties": false
+            },
+            "getLoginStatus": {
+                "description": "Mobile login status request",
+                "type": "object",
+                "properties": {
+                    "url": { "enum": [ "/mobile/getLoginStatus" ] }
+                },
+                "required": ["url"],
                 "additionalProperties": false
             }
         },
@@ -85,6 +95,7 @@
         },
         "logout": {
             "description": "Logout request",
+            "type": "object",
             "properties": {
                 "url": { "enum": [ "/logout", "/mobile/logout" ] }
             },
