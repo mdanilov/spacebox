@@ -36,6 +36,7 @@ yepnope({
             if (status) {
                 navigation.go('mainPage');
                 Map.invalidate();
+                Model.update();
             }
             else {
                 navigation.go('loginPage');

@@ -4,6 +4,8 @@
    
         vk.login(function () {
         	navigation.go('mainPage');
+            Map.invalidate();
+            Model.update();
         });
     });
 });

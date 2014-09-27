@@ -29,8 +29,8 @@
     },
     "logger":
     {
-        "colorize": false,
-        "json": true
+        "colorize": true,
+        "json": false
     },
     "database":
     {
