@@ -12,7 +12,9 @@ yepnope([
     'https://vk.com/js/api/openapi.js',
     './lib/jquery/dist/jquery.min.js',
     './lib/bootstrap/dist/js/bootstrap.min.js',
-    './lib/mapbox.js/mapbox.js'
+    './lib/mapbox.js/mapbox.js',
+    './lib/angular/angular.min.js',
+    './lib/angular/angular-route.min.js'
 ]);
 
 yepnope({
@@ -30,17 +32,5 @@ yepnope({
         './src/js/app/model.js',
         './src/js/app/pages/pgmain.js'
     ],
-    nope: './dist/spacebox.min.js',
-    complete: function () {
-        vk.getLoginStatus(function (status) {
-            if (status) {
-                navigation.go('mainPage');
-                Map.invalidate();
-                Model.update();
-            }
-            else {
-                navigation.go('loginPage');
-            }
-        });
-    }
+    nope: './dist/spacebox.min.js'
 });
