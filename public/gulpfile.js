@@ -4,7 +4,6 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
-var gutil = require('gulp-util');
 
 gulp.task('clean', function () {
     gulp.src('dist', {read: false})
@@ -40,5 +39,4 @@ gulp.task('build', function () {
         .pipe(rename('spacebox.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'))
-        .on('error', gutil.log);
 });
