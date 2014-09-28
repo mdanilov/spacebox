@@ -28,7 +28,22 @@
             <div id="map-canvas"></div>
         </div>
         <div class="col-md-4">
-            <div id="list-users"></div>
+            <div class="wildcard" ng-repeat="user in users">
+                <table cellpadding="0" cellspacing="0" class="wildcard_table">
+                    <tbody>
+                    <tr>
+                        <td class="wildcard_photo"><img ng-src="{{user.photoUrl}}"></td>
+                        <td class="wildcard_info">
+                            <div class="wildcard_name">{{user.firstName}}</div>
+                            <div class="wildcard_vk_link">
+                                <a ng-href="http://vk.com/{{user.screenName}}" target="_blank">Открыть ВКонтакте</a>
+                                <a class="like-link" ng-href="#{{user.uid}}">{{user.likeStatus}}</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
