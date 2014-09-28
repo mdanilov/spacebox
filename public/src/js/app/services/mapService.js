@@ -52,5 +52,5 @@ function MapService ($scope, $log, GeolocationService) {
     return MapService;
 }
 
-angular.module('spacebox', [])
+angular.module('spacebox.mapService', [])
     .factory('MapService', ['$scope', '$log', GeolocationService, MapService]);

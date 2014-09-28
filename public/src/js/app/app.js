@@ -1,9 +1,9 @@
 var spacebox = angular.module('spacebox', [
     'ngRoute',
-    'pageControllers',
-    'vkService',
-    'geolocationService',
-    'mapService'
+    'spacebox.pageControllers',
+    'spacebox.vkService',
+    'spacebox.geolocationService',
+    'spacebox.mapService'
 ]);
 
 spacebox.config(['$routeProvider',

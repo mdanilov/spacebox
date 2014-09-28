@@ -64,7 +64,7 @@ function MainPageController ($scope, $location, $interval, VkService, Geolocatio
 function ErrorPageController ($scope) {
 }
 
-angular.module('spacebox', [])
+angular.module('spacebox.pageControllers', [])
     .controller('PageController', [$scope, $location, VkService, PageController])
     .controller('LoginPageController', [$scope, $location, VkService, LoginPageController])
     .controller('MainPageController', [$scope, $location, $interval, VkService, GeolocationService, MainPageController])
