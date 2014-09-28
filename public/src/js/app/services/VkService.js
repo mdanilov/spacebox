@@ -79,5 +79,5 @@ function VkService ($http, $log) {
     return VkService;
 }
 
-angular.module('spacebox', [])
+angular.module('spacebox.vkService', [])
     .factory('VkService', ['$http', '$log', VkService]);

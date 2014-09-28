@@ -20,6 +20,7 @@ yepnope([
 yepnope({
     test: config.development,
     yep: [
+        './src/js/app/app.js',
         './src/js/app/services/geolocationService.js',
         './src/js/app/services/vkService.js',
         './src/js/app/services/mapService.js',
