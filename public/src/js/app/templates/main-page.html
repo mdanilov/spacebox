@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation" ng-controller="NavBarController">
+<nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -14,10 +14,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#" badge ng-click="Search">Поиск</a></li>
+                <li><a ng-click="Search($event)" ng-href="#">Поиск</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" ng-click="Logout">Выход</a></li>
+                <li><a ng-click="Logout($event)" ng-href="#">Выход</a></li>
             </ul>
         </div>
     </div>

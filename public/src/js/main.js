@@ -13,7 +13,7 @@ yepnope([
     './lib/jquery/dist/jquery.min.js',
     './lib/bootstrap/dist/js/bootstrap.min.js',
     './lib/mapbox.js/mapbox.js',
-    './lib/angular/angular.min.js',
+    './lib/angular/angular.js',
     './lib/angular-route/angular-route.min.js'
 ]);
 
@@ -26,5 +26,14 @@ yepnope({
         './src/js/app/services/mapService.js',
         './src/js/app/controllers/pageControllers.js'
     ],
-    nope: './dist/spacebox.min.js'
+    nope: './dist/spacebox.min.js',
+    complete: function () {
+        angular.bootstrap(document, [
+            'spacebox',
+            'spacebox.vk',
+            'spacebox.map',
+            'spacebox.geolocation',
+            'spacebox.pages'
+        ]);
+    }
 });

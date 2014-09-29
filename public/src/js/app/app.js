@@ -1,24 +1,24 @@
 var spacebox = angular.module('spacebox', [
     'ngRoute',
-    'spacebox.pageControllers',
-    'spacebox.vkService',
-    'spacebox.geolocationService',
-    'spacebox.mapService'
+    'spacebox.vk',
+    'spacebox.map',
+    'spacebox.geolocation',
+    'spacebox.pages'
 ]);
 
 spacebox.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
             when('/login', {
-                templateUrl: 'templates/login-page.html',
+                templateUrl: 'src/js/app/templates/login-page.html',
                 controller: 'LoginPageController'
             }).
             when('/main', {
-                templateUrl: 'templates/main-page.html',
+                templateUrl: 'src/js/app/templates/main-page.html',
                 controller: 'MainPageController'
             }).
             when('/error', {
-                templateUrl: 'templates/error-page.html',
+                templateUrl: 'src/js/app/templates/error-page.html',
                 controller: 'ErrorPageController'
             }).
             otherwise({

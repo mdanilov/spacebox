@@ -60,13 +60,17 @@
                         "title": "User id",
                         "type": "string"
                     },
+                    "distance": {
+                        "title": "Distance",
+                        "type": "number"
+                    },
                     "latitude": {
                         "title": "Latitude",
-                        "type": "string"
+                        "type": "number"
                     },
                     "longitude": {
                         "title": "Longitude",
-                        "type": "string"
+                        "type": "number"
                     },
                     "like": {
                         "description": "Does current user like this user?",

@@ -2,8 +2,8 @@ function PageController ($scope, $location, VkService) {
 
     $scope.users = [];
 
-    VkService.getLoginStatus(function (status) {
-        if (status) {
+    VkService.getLoginStatus(function (error) {
+        if (!error) {
             $location.path('/main');
         }
         else {
@@ -27,7 +27,11 @@ function MainPageController ($scope, $location, $interval, VkService, Geolocatio
     function processUsers (error, data) {
         var uids = [];
         for (var i = 0; i < data.length; i++) {
-            $scope.users[i].location = data[i].location;
+            $scope.users[i] = {};
+            $scope.users[i].location = {
+                latitude: data[i].latitude,
+                longitude: data[i].longitude
+            };
             $scope.users[i].likeStatus = data[i].like ? 'Dislike' : 'Like';
             uids.push(data[i].mid);
         }
@@ -35,13 +39,14 @@ function MainPageController ($scope, $location, $interval, VkService, Geolocatio
         VkService.getUsersInfo(uids, function (error, info) {
             if (!error) {
                 for (var i = 0; i < info.length; i++) {
-                    $scope.users[i].photoUrl = info.photo_50;
-                    $scope.users[i].firstName = info.first_name;
-                    $scope.users[i].screenName = info.screen_name;
-                    $scope.users[i].uid = info.uid;
+                    $scope.users[i].photoUrl = info[i].photo_50;
+                    $scope.users[i].firstName = info[i].first_name;
+                    $scope.users[i].screenName = info[i].screen_name;
+                    $scope.users[i].uid = info[i].uid;
                 }
 
-                MapService.invalidateUsers();
+                MapService.invalidateSize();
+                MapService.invalidateUsers($scope.users);
             }
         })
     }
@@ -50,11 +55,13 @@ function MainPageController ($scope, $location, $interval, VkService, Geolocatio
         GeolocationService.getNearUsers(5000, processUsers);
     }
 
-    $interval(SearchUsers, 30000);
+    $scope.Search = function (e) {
+        e.preventDefault();
+        SearchUsers();
+    };
 
-    $scope.Search = SearchUsers;
-
-    $scope.Logout = function () {
+    $scope.Logout = function (e) {
+        e.preventDefault();
         VkService.logout(function () {
             $location.path('/login');
         });
@@ -64,8 +71,12 @@ function MainPageController ($scope, $location, $interval, VkService, Geolocatio
 function ErrorPageController ($scope) {
 }
 
-angular.module('spacebox.pageControllers', [])
-    .controller('PageController', [$scope, $location, VkService, PageController])
-    .controller('LoginPageController', [$scope, $location, VkService, LoginPageController])
-    .controller('MainPageController', [$scope, $location, $interval, VkService, GeolocationService, MainPageController])
-    .controller('ErrorPageController', [$scope, $location, $interval, ErrorPageController]);
+angular.module('spacebox.pages', [])
+    .controller('PageController',
+        ['$scope', '$location', 'VkService', PageController])
+    .controller('LoginPageController',
+        ['$scope', '$location', 'VkService', LoginPageController])
+    .controller('MainPageController',
+        ['$scope', '$location', '$interval', 'VkService', 'GeolocationService', 'MapService', MainPageController])
+    .controller('ErrorPageController',
+        ['$scope', '$location', '$interval', ErrorPageController]);

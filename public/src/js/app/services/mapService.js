@@ -1,4 +1,4 @@
-function MapService ($scope, $log, GeolocationService) {
+function MapService ($log, GeolocationService) {
 
     var MapService = {};
 
@@ -23,8 +23,8 @@ function MapService ($scope, $log, GeolocationService) {
         MapService._markers[user.uid] = marker;
     }
 
-    L.mapbox.accessToken = MAPBOX.ACCESS_TOKEN;
-    MapService._map = L.mapbox.map('map-canvas', MAPBOX.URL).setView([60, 30], 10);
+    L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
+    MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], 10);
     GeolocationService.getCurrentPosition(function (position) {
         var pos = L.latLng(position.coords.latitude, position.coords.longitude);
         MapService._map.setView(pos, 15);
@@ -34,10 +34,10 @@ function MapService ($scope, $log, GeolocationService) {
         MapService._map.invalidateSize();
     };
 
-    MapService.invalidateUsers = function () {
+    MapService.invalidateUsers = function (users) {
         MapService.clear();
-        for (var i = 0; i < $scope.users.length; i++) {
-            addMarker($scope.users[i]);
+        for (var i = 0; i < users.length; i++) {
+            addMarker(users[i]);
         }
     };
 
@@ -52,5 +52,5 @@ function MapService ($scope, $log, GeolocationService) {
     return MapService;
 }
 
-angular.module('spacebox.mapService', [])
-    .factory('MapService', ['$scope', '$log', GeolocationService, MapService]);
+angular.module('spacebox.map', [])
+    .factory('MapService', ['$log', 'GeolocationService', MapService]);

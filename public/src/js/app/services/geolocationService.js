@@ -12,9 +12,7 @@
 
     GeolocationService.getCurrentPosition = function (callback) {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                callback(position);
-            }, function () {
+            navigator.geolocation.getCurrentPosition(callback, function () {
                 handleNoGeolocation(true);
             });
         }
@@ -30,7 +28,7 @@
                 longitude: position.coords.longitude,
                 radius: radius
             };
-            $http.get(config.serverUrl + '/getUsers', {data: data}).
+            $http.get(config.serverUrl + '/getUsers', {params: data}).
                 success(function (data, status, headers, config) {
                     callback(null, data);
                 }).
@@ -43,5 +41,5 @@
     return GeolocationService;
 }
 
-angular.module('spacebox.geolocationService', [])
+angular.module('spacebox.geolocation', [])
     .factory('GeolocationService', ['$http', '$log', GeolocationService]);
