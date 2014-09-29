@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('spacebox.controllers', [])
 
-.controller('DashCtrl', function($scope, $state, $window) {
+.controller('LoginCtrl', function($scope, $state, $window) {
 	angular.element(document).ready(function () {
         console.log('Document ready');
         $scope.clickLogin = function() {   
@@ -24,7 +24,7 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('MapCtrl', function($scope) {
 	Map.init();
 	Map.invalidate();
 	Model.init();
