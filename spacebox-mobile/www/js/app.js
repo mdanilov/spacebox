@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'spacebox-mobile.services' is found in services.js
 // 'spacebox-mobile.controllers' is found in controllers.js
-angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers', 'spacebox-mobile.services'])
+angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

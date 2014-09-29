@@ -35,8 +35,7 @@ yepnope({
         ionic.Platform.ready(function() {
             angular.bootstrap(document, [
             'spacebox-mobile',
-            'spacebox-mobile.controllers',
-            'spacebox-mobile.services'
+            'spacebox-mobile.controllers'
             ]);
         });    
         // angular.bootstrap(document, [
