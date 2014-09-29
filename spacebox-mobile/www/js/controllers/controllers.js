@@ -17,7 +17,7 @@ angular.module('spacebox-mobile.controllers', [])
 	Map.invalidate();
 	Model.init();
 	Model.update();
-});
+})
 
 .controller('FriendsCtrl', function($scope, Friends) {
    	Model.update();
@@ -28,5 +28,5 @@ angular.module('spacebox-mobile.controllers', [])
 
 .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
   $scope.friend = Friends.get($stateParams.friendId);
-})
+});
 

@@ -1,8 +1,8 @@
 ﻿yepnope({
     test: config.development,
     yep: [
-        './src/css/style.css',
-        './src/css/wildcard.css'
+        './css/style.css',
+        './css/wildcard.css'
     ],
     nope: './dist/spacebox.min.css',
     both: [
@@ -12,7 +12,6 @@
 });
 
 yepnope([
-    './lib/jquery/dist/jquery.min.js',
     './lib/mapbox.js/mapbox.js',
     './lib/ionic/js/ionic.bundle.js'
 ]);
@@ -31,5 +30,19 @@ yepnope({
         './js/services/userlist.js',
         './js/controllers/controllers.js'
     ],
-    nope: './dist/spacebox.min.js'
+    nope: './dist/spacebox.min.js',
+    complete: function () {
+        ionic.Platform.ready(function() {
+            angular.bootstrap(document, [
+            'spacebox-mobile',
+            'spacebox-mobile.controllers',
+            'spacebox-mobile.services'
+            ]);
+        });    
+        // angular.bootstrap(document, [
+        //     'spacebox-mobile',
+        //     'spacebox-mobile.controllers',
+        //     'spacebox-mobile.services'
+        //]);
+    }
 });
