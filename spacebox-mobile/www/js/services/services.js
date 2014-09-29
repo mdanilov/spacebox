@@ -1,4 +1,4 @@
-angular.module('spacebox.services', [])
+angular.module('spacebox-mobile.services', [])
 
 /**
  * A simple example service that returns some data.

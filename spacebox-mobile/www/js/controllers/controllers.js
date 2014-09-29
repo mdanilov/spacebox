@@ -1,4 +1,4 @@
-angular.module('spacebox.controllers', [])
+angular.module('spacebox-mobile.controllers', [])
 
 .controller('LoginCtrl', function($scope, $state, $window) {
 	angular.element(document).ready(function () {
@@ -13,6 +13,13 @@ angular.module('spacebox.controllers', [])
     });
 })
 
+.controller('MapCtrl', function($scope) {
+	Map.init();
+	Map.invalidate();
+	Model.init();
+	Model.update();
+});
+
 .controller('FriendsCtrl', function($scope, Friends) {
    	Model.update();
 
@@ -24,9 +31,3 @@ angular.module('spacebox.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('MapCtrl', function($scope) {
-	Map.init();
-	Map.invalidate();
-	Model.init();
-	Model.update();
-});

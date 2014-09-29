@@ -1,11 +1,11 @@
 // Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// 'spacebox-mobile' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('spacebox', ['ionic', 'spacebox.controllers', 'spacebox.services'])
+// 'spacebox-mobile.services' is found in services.js
+// 'spacebox-mobile.controllers' is found in controllers.js
+angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers', 'spacebox-mobile.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
