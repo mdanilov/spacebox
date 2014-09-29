@@ -4,9 +4,8 @@ angular.module('spacebox-mobile.controllers', [])
 	angular.element(document).ready(function () {
         console.log('Document ready');
         $scope.clickLogin = function() {   
-	        vk.login(function () {
-	    		//$window.alert('in callback');    	
-				$state.go('tab.account'); //navigation.go('mainPage');
+	        vk.login(function () {  	
+				$state.go('tab.map'); 
 	        });
 		};
 		$window.alert('Document ready');
