@@ -1,29 +1,128 @@
-angular.module('spacebox-mobile.controllers', [])
+function PageController ($scope, $log, $state, VkMobileService) {
 
-.controller('LoginCtrl', function($scope, $state, $window) {
-	angular.element(document).ready(function () {
-        console.log('Document ready');
-        $scope.clickLogin = function() {   
-	        vk.login(function () {  	
-				$state.go('tab.map'); 
-	        });
-		};
-		$window.alert('Document ready');
+    $log.debug('Initialize page controller...');
+
+    $scope.users = [];
+
+    VkMobileService.getLoginStatus(function (error, status) {
+        if (error) {
+            $log.error('Force to login page due to login status error: ', error);
+            return;
+        }
+
+        if (status) {
+            $log.debug('Force to main page, user already authorized');
+            $state.go('tab.map');
+        }
+        else {
+            $log.debug('Load login page, user is not authorized');
+            $state.go('tab.login');
+        }
     });
-})
+}
 
-.controller('MapCtrl', function($scope) {
-	Map.init();
-	Map.invalidate();
-	Model.init();
-	Model.update();
-})
+function LoginPageController ($scope, $state, $log, $window, VkMobileService) {
+    $window.alert('Login');
+    $log.debug('Initialize login page controller...');
+    
+    $scope.Login = function (e) {
+    	e.preventDefault();
+    	$log.debug('Login to VK...');
+        VkMobileService.login(function () {
+            $state.go('tab.map');
+        });
+    }
+}
 
-.controller('FriendsCtrl', function($scope, Friends) {
-   	Model.update();
+function MapPageController ($scope, $state, $log, VkMobileService, GeolocationService, MapService) {
 
-	$scope.friends = Model.getUsers();
-    //$scope.friends = Friends.all();
+    $log.debug('Initialize map page controller...');
+
+    SearchUsers();
+    MapService.init();
+    MapService.invalidateUsers($scope.users);
+
+    function CreateUserList (data, info) {
+
+        var users = [];
+        for (var i = 0; i < info.length; i++) {
+            users[i] = {};
+            users[i].location = {
+                latitude: data[i].latitude,
+                longitude: data[i].longitude
+            };
+            users[i].distance = data[i].distance;
+            users[i].likeStatus = data[i].like ? 'Dislike' : 'Like';
+            users[i].photoUrl = info[i].photo_50;
+            users[i].firstName = info[i].first_name;
+            users[i].screenName = info[i].screen_name;
+            users[i].uid = info[i].uid;
+        }
+
+        $scope.users = users;
+        $scope.$apply();
+    }
+
+    function processNearUsers (error, data) {
+        if (error) {
+            $log.error('Can\'t get near users due to error: ', error);
+            return;
+        }
+
+        $log.debug('Founded near users locations: ', data);
+        var uids = [];
+        for (var i = 0; i < data.length; i++) {
+            uids.push(data[i].mid);
+        }
+
+        VkMobileService.getUsersInfo(uids, function (error, info) {
+            if (error) {
+                $log.error('Can\'t get VK users info due to error: ', error);
+                return;
+            }
+
+            $log.debug('VK users info collected: ', info);
+            CreateUserList(data, info);
+            MapService.invalidateSize();
+            MapService.invalidateUsers($scope.users);
+        })
+    }
+
+    function SearchUsers () {
+        $log.debug('Try to search near users...');
+        GeolocationService.getNearUsers(15000, processNearUsers);
+    }
+
+    // $scope.Search = function (e) {
+    //     e.preventDefault();
+    //     SearchUsers();
+    // };
+
+    // $scope.Logout = function (e) {
+    //     e.preventDefault();
+    //     $log.debug('Logout from VK...');
+    //     VkService.logout(function () {
+    //         $location.path('/login');
+    //     });
+    // };
+}
+
+angular.module('spacebox-mobile')
+.controller('PageController',
+    ['$scope', '$log', '$state', 'VkMobileService', PageController])    
+.controller('LoginPageController', 
+	['$scope', '$state', '$log', '$window', 'VkMobileService', LoginPageController])
+.controller('MapPageController',
+    ['$scope', '$state', '$log', 'VkMobileService', 'GeolocationService', 'MapService', MapPageController])
+
+// .controller('MapCtrl', function($scope) {
+// 	Map.init();
+// 	Map.invalidate();
+// 	Model.init();
+// 	Model.update();
+// })
+
+.controller('FriendsCtrl', function($scope) {
 })
 
 .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {

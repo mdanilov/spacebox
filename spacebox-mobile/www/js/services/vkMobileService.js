@@ -31,7 +31,7 @@ function VkMobileService ($http, $log) {
             '&display=' + VkMobileService.DISPLAY.POPUP + '&response_type=' + 'code';
 
 		initAuthWindow(authUrl, function (code) {	
-        	$http.get(config.serverUrl + '/login', {params: code}).
+        	$http.get(config.serverUrl + '/login', {params: {code: code}}).
 	            success(function (data, status, headers, config) {
 	            	$log.debug('VK user with access_token%s has been authorized', data.access_token);
 	            	VkMobileService._accessToken = data.access_token;    
@@ -91,5 +91,5 @@ function VkMobileService ($http, $log) {
     return VkMobileService;
 }
 
-angular.module('spacebox-mobile.vkMobileService', [])
+angular.module('spacebox-mobile')
     .factory('VkMobileService', ['$http', '$log', VkMobileService]);

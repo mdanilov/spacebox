@@ -20,28 +20,17 @@ yepnope({
     test: config.development,
     yep: [
 		'./js/app.js',
-		'./js/services/services.js',
-        './js/services/utils.js',
-        './js/services/server.js',
-        './js/services/navigation.js',
-        './js/services/vk.js',
-        './js/services/map.js',
-        './js/services/model.js',
-        './js/services/userlist.js',
+        './js/services/geolocationService.js',
+        './js/services/vkMobileService.js',
+        './js/services/mapService.js',
         './js/controllers/controllers.js'
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {
         ionic.Platform.ready(function() {
             angular.bootstrap(document, [
-            'spacebox-mobile',
-            'spacebox-mobile.controllers'
+            'spacebox-mobile'
             ]);
         });    
-        // angular.bootstrap(document, [
-        //     'spacebox-mobile',
-        //     'spacebox-mobile.controllers',
-        //     'spacebox-mobile.services'
-        //]);
     }
 });

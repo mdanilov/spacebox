@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'spacebox-mobile.services' is found in services.js
 // 'spacebox-mobile.controllers' is found in controllers.js
-angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers'])
+angular.module('spacebox-mobile', ['ionic'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -43,7 +43,7 @@ angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers'])
       views: {
         'tab-login': {
           templateUrl: 'templates/tab-login.html',
-          controller: 'LoginCtrl'
+          controller: 'LoginPageController'
         }
       }
     })
@@ -57,6 +57,7 @@ angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers'])
         }
       }
     })
+    
     .state('tab.friend-detail', {
       url: '/friend/:friendId',
       views: {
@@ -72,7 +73,7 @@ angular.module('spacebox-mobile', ['ionic', 'spacebox-mobile.controllers'])
       views: {
         'tab-map': {
           templateUrl: 'templates/tab-map.html',
-          controller: 'MapCtrl'
+          controller: 'MapPageController'
         }
       }
     });
