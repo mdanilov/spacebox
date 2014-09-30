@@ -1,0 +1,24 @@
+<div class="list-group">
+    <a href="#" class="list-group-item"
+       ng-repeat="user in users"
+       ng-init="activeIndex = -1"
+       ng-class="{'list-group-item-info': activeIndex == $index}"
+       ng-controller="UserListItemController"
+       ng-click="toggleSelection($event)">
+
+        <table cellpadding="0" cellspacing="0" class="wildcard_table">
+            <tbody>
+            <tr>
+                <td class="wildcard_photo"><img ng-src="{{user.photoUrl}}"></td>
+                <td class="wildcard_info">
+                    <div class="list-group-item-heading">{{user.firstName}}</div>
+                    <p class="list-group-item-text">{{user.distance | distance}}</p>
+                    <div class="wildcard_vk_link">
+                        <a class="like-link" ng-href="#{{user.uid}}">{{user.likeStatus}}</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </a>
+</div>

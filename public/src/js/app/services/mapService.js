@@ -23,12 +23,15 @@ function MapService ($log, GeolocationService) {
         MapService._markers[user.uid] = marker;
     }
 
-    L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
-    MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], 10);
-    GeolocationService.getCurrentPosition(function (position) {
-        var pos = L.latLng(position.coords.latitude, position.coords.longitude);
-        MapService._map.setView(pos, 15);
-    });
+    MapService.init = function () {
+        L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
+        MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], 10);
+        GeolocationService.getCurrentPosition(function (position) {
+            var pos = L.latLng(position.coords.latitude, position.coords.longitude);
+            MapService._map.setView(pos, 15);
+        });
+        MapService._map.invalidateSize();
+    };
 
     MapService.invalidateSize = function () {
         MapService._map.invalidateSize();
@@ -52,5 +55,5 @@ function MapService ($log, GeolocationService) {
     return MapService;
 }
 
-angular.module('spacebox.map', [])
+angular.module('spacebox')
     .factory('MapService', ['$log', 'GeolocationService', MapService]);

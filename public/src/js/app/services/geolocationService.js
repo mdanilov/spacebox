@@ -41,5 +41,5 @@
     return GeolocationService;
 }
 
-angular.module('spacebox.geolocation', [])
+angular.module('spacebox')
     .factory('GeolocationService', ['$http', '$log', GeolocationService]);

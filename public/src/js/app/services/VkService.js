@@ -9,9 +9,9 @@ function VkService ($http, $log) {
     VK.init({ apiId: config.vkApiId });
 
     function LoginToServer (data, callback) {
-        $http.get(config.serverUrl + '/login', {data: data}).
+        $http.get(config.serverUrl + '/login', {params: data}).
             success(function (data, status, headers, config) {
-                callback(null);
+                callback(null, true);
             }).
             error(function (data, status, headers, config) {
                 callback(status);
@@ -29,7 +29,7 @@ function VkService ($http, $log) {
                 $log.error('Can\'t authorized VK user');
                 callback(401);
             }
-        }, VK.access[SCOPE]);
+        }, VK.access[VkService.SCOPE]);
     };
 
     VkService.logout =  function (callback) {
@@ -48,7 +48,7 @@ function VkService ($http, $log) {
             return;
         }
 
-        VK.Api.call('users.get', { user_ids: uids, fields: FIELDS }, function (r) {
+        VK.Api.call('users.get', { user_ids: ids, fields: VkService.FIELDS }, function (r) {
             if (r.response) {
                 callback(null, r.response);
             }
@@ -70,8 +70,8 @@ function VkService ($http, $log) {
                 _id = response.session.mid;
                 LoginToServer(response.session, callback);
             } else {
-                $log.error('Can\'t get current VK login status');
-                callback(401);
+                $log.debug('VK user is not authorized using OpenAPI');
+                callback(null, false);
             }
         });
     };
@@ -79,5 +79,5 @@ function VkService ($http, $log) {
     return VkService;
 }
 
-angular.module('spacebox.vkService', [])
+angular.module('spacebox')
     .factory('VkService', ['$http', '$log', VkService]);

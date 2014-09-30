@@ -1,10 +1,4 @@
-var spacebox = angular.module('spacebox', [
-    'ngRoute',
-    'spacebox.vk',
-    'spacebox.map',
-    'spacebox.geolocation',
-    'spacebox.pages'
-]);
+var spacebox = angular.module('spacebox', ['ngRoute']);
 
 spacebox.config(['$routeProvider',
     function($routeProvider) {

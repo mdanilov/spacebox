@@ -24,16 +24,12 @@ yepnope({
         './src/js/app/services/geolocationService.js',
         './src/js/app/services/vkService.js',
         './src/js/app/services/mapService.js',
-        './src/js/app/controllers/pageControllers.js'
+        './src/js/app/controllers/pageControllers.js',
+        './src/js/app/controllers/userListItemController.js',
+        './src/js/app/filters/distanceFilter.js'
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {
-        angular.bootstrap(document, [
-            'spacebox',
-            'spacebox.vk',
-            'spacebox.map',
-            'spacebox.geolocation',
-            'spacebox.pages'
-        ]);
+        angular.bootstrap(document, ['spacebox']);
     }
 });
