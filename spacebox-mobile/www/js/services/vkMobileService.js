@@ -8,6 +8,7 @@ function VkMobileService ($http, $log) {
 
     VkMobileService.SCOPE = 'friends';
     VkMobileService.DISPLAY = { PAGE: 'page', POPUP: 'popup', MOBILE: 'mobile' };
+    VkMobileService.FIELDS = 'first_name, photo_50, screen_name';
 
     function initAuthWindow (url, callback) {
 		// this code create VK authentication window and try to close it after user login
@@ -56,7 +57,20 @@ function VkMobileService ($http, $log) {
     };
 
     VkMobileService.getUsersInfo = function (ids, callback) {
-    	//TODO
+        if (ids.length == 0) {
+            return;
+        }
+
+        VkMobileService.call('users.get', { user_ids: ids, fields: VkMobileService.FIELDS }, function (error, data) {
+            if (error) {
+                callback(error);
+            }
+            if (data.response == null) {
+            	$log.error('Can\'t get VK users information');
+            	callback(data.error);	
+            }
+            callback(null, data.response);
+        });
     };
 
     VkMobileService.call = function (method, options, callback) {
@@ -67,10 +81,10 @@ function VkMobileService ($http, $log) {
 
 		$http.get(url, {params: data, responseType: "json"}).
             success(function (data, status, headers, config) {
-                callback(null);
+                callback(null, data);
             }).
             error(function (data, status, headers, config) {
-            	$log.error('Can\'t get VK users information');
+            	$log.error('VK server error');
                 callback(status);
             });
     };

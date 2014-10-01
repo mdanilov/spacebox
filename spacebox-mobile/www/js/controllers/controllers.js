@@ -38,9 +38,8 @@ function MapPageController ($scope, $state, $log, VkMobileService, GeolocationSe
 
     $log.debug('Initialize map page controller...');
 
-    SearchUsers();
     MapService.init();
-    MapService.invalidateUsers($scope.users);
+    SearchUsers();
 
     function CreateUserList (data, info) {
 
@@ -60,7 +59,7 @@ function MapPageController ($scope, $state, $log, VkMobileService, GeolocationSe
         }
 
         $scope.users = users;
-        $scope.$apply();
+        //$scope.$apply();
     }
 
     function processNearUsers (error, data) {
@@ -93,18 +92,18 @@ function MapPageController ($scope, $state, $log, VkMobileService, GeolocationSe
         GeolocationService.getNearUsers(15000, processNearUsers);
     }
 
-    // $scope.Search = function (e) {
-    //     e.preventDefault();
-    //     SearchUsers();
-    // };
+    $scope.Search = function (e) {
+        e.preventDefault();
+        SearchUsers();
+    };
 
-    // $scope.Logout = function (e) {
-    //     e.preventDefault();
-    //     $log.debug('Logout from VK...');
-    //     VkService.logout(function () {
-    //         $location.path('/login');
-    //     });
-    // };
+    $scope.Logout = function (e) {
+        e.preventDefault();
+        $log.debug('Logout from VK...');
+        VkMobileService.logout(function () {
+            $location.path('/login');
+        });
+    };
 }
 
 angular.module('spacebox-mobile')
@@ -122,8 +121,11 @@ angular.module('spacebox-mobile')
 // 	Model.update();
 // })
 
-.controller('FriendsCtrl', function($scope) {
-})
+.controller('FriendsCtrl', ['$scope', '$log', function($scope, $log) {
+	$log.debug('FriendsCtrl...');
+	$log.debug('$scope.users = ', $scope.users);
+	$log.debug('$scope.$parent.users = ', $scope.$parent.users);
+}])
 
 .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
   $scope.friend = Friends.get($stateParams.friendId);
