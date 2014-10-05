@@ -1,0 +1,9 @@
+<div class="modal-header">
+    <button class="btn btn-danger" ng-click="cancel()">Закрыть</button>
+</div>
+<div class="modal-body">
+    <img ng-click="onClick()" ng-src="{{selected.item}}">
+</div>
+<div class="modal-footer">
+    <b>{{ selected.index }} / {{items.length}}</b>
+</div>

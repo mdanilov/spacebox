@@ -1,0 +1,25 @@
+#login-page .btn {
+    margin-top: 10px;
+}
+
+#login-page .carousel {
+    height: 500px;
+    margin-bottom: 60px;
+}
+
+#login-page .carousel .item {
+    height: 500px;
+    background-color: #777;
+}
+
+#login-page .carousel-inner > .item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 500px;
+}
+
+#login-page {
+    margin-top: -50px;
+}

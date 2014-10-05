@@ -1,4 +1,5 @@
-var spacebox = angular.module('spacebox', ['ngRoute']);
+var spacebox = angular.module('spacebox',
+    [ 'ngAnimate', 'ngRoute', 'ui.bootstrap.modal', 'ui.bootstrap.buttons', 'ui.bootstrap.tpls']);
 
 spacebox.config(['$routeProvider',
     function($routeProvider) {

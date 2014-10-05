@@ -1,7 +1,39 @@
-<div class="container fluid">
+<div id="login-page">
     <div class="text-center">
         <h1>ВРадиусе</h1>
-        <p class="lead">Мы используем твою страницу ВКонтакте, чтобы найти людей рядом.</p>
+        <div id="login-carousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#login-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#login-carousel" data-slide-to="1"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img src="src/img/3fAAdPQ_sqc.jpg" alt="">
+                    <div class="carousel-caption">
+                        <h3>Hello world</h3>
+                        <p>hello</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="src/img/3fAAdPQ_sqc.jpg" alt="">
+                    <div class="carousel-caption">
+                        <h3>Hwlesda</h3>
+                        <p>asdfas<p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a ng-href="#login-carousel" class="left carousel-control" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a ng-href="#login-carousel" class="right carousel-control" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
         <a class="btn btn-lg btn-primary" ng-click="Login($event)" ng-href="#" role="button">Войти ВКонтакте</a>
     </div>
 </div>

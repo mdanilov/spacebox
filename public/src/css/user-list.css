@@ -1,0 +1,67 @@
+#user-list .list-group-item {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    border-right: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+}
+
+#user-list .user-list-distance {
+    float: right;
+    margin-top: 65px;
+    padding-right: 10px;
+}
+
+#user-list a {
+    display: block;
+    cursor: pointer;
+}
+
+#user-list .user-list-info {
+    float: left;
+    padding-left: 10px;
+    width: auto;
+}
+
+#user-list .user-list-item-img {
+    float: left;
+}
+
+#user-list .user-list-item-img .glyphicon {
+    display: block;
+    position: absolute;
+    top: 75px;
+    left: 10px;
+    color: white;
+    opacity: 0.6;
+}
+
+#user-list .user-list-item-img img {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    margin: -1px;
+}
+
+#user-list .list-group-item .btn-group {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#user-list .btn-group .glyphicon {
+    position: static;
+    color: white;
+}
+
+.animate-hide.ng-hide {
+    opacity: 0;
+}
+
+.animate-hide {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+    opacity: 1;
+}

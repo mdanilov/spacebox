@@ -27,9 +27,11 @@ function LoginPageController ($scope, $log, $location, VkService) {
 
     $scope.Login = function (e) {
         e.preventDefault();
-        $log.debug('Login to VK...');
-        VkService.login(function () {
-            $location.path('/main');
+        $log.debug('Try login to VK...');
+        VkService.login(function (error) {
+            if (!error) {
+                $location.path('/main');
+            }
         });
     }
 }
@@ -38,9 +40,8 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
 
     $log.debug('Initialize main page controller...');
 
-    SearchUsers();
     MapService.init();
-    MapService.invalidateUsers($scope.users);
+    SearchUsers();
 
     function CreateUserList (data, info) {
 
@@ -52,8 +53,11 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
                 longitude: data[i].longitude
             };
             users[i].distance = data[i].distance;
-            users[i].likeStatus = data[i].like ? 'Dislike' : 'Like';
+            users[i].like = data[i].like;
+            users[i].liked = data[i].likeMe;
+            users[i].bdate = info[i].bdate;
             users[i].photoUrl = info[i].photo_50;
+            users[i].largePhotoUrl = info[i].photo_100;
             users[i].firstName = info[i].first_name;
             users[i].screenName = info[i].screen_name;
             users[i].uid = info[i].uid;
@@ -90,7 +94,7 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
 
     function SearchUsers () {
         $log.debug('Try to search near users...');
-        GeolocationService.getNearUsers(5000, processNearUsers);
+        GeolocationService.getNearUsers(15000, processNearUsers);
     }
 
     $scope.Search = function (e) {

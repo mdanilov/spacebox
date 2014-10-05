@@ -33,6 +33,11 @@ function MapService ($log, GeolocationService) {
         MapService._map.invalidateSize();
     };
 
+    MapService.setCenter = function (location) {
+        var pos = L.latLng(location.latitude, location.longitude);
+        MapService._map.setView(pos, 15);
+    };
+
     MapService.invalidateSize = function () {
         MapService._map.invalidateSize();
     };

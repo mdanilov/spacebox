@@ -2,8 +2,9 @@ function VkService ($http, $log) {
 
     var VkService = {};
 
-    VkService.SCOPE = 'FRIENDS';
-    VkService.FIELDS = 'first_name, photo_50, screen_name';
+    VkService.VERSION = 5.25;
+    VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
+    VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
     VkService._id = 0;
 
     VK.init({ apiId: config.vkApiId });
@@ -27,9 +28,9 @@ function VkService ($http, $log) {
             }
             else {
                 $log.error('Can\'t authorized VK user');
-                callback(401);
+                callback(response.status);
             }
-        }, VK.access[VkService.SCOPE]);
+        }, VkService.SCOPE);
     };
 
     VkService.logout =  function (callback) {
@@ -54,7 +55,28 @@ function VkService ($http, $log) {
             }
             else {
                 $log.error('Can\'t get VK users information');
-                callback(401);
+                callback(r.error);
+            }
+        });
+    };
+
+    VkService.getPhotos = function (id, callback) {
+        VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
+            if (r.response) {
+                var photos = [];
+                for (var i = 0; i < r.response.count; i++) {
+                    if (r.response.items[i].photo_2560) {
+                        photos.push(r.response.items[i].photo_2560);
+                    }
+                    else if (r.response.items[i].photo_1280){
+                        photos.push(r.response.items[i].photo_1280);
+                    }
+                }
+                callback(null, photos);
+            }
+            else {
+                $log.error('Can\'t get VK photos');
+                callback(r.error);
             }
         });
     };
