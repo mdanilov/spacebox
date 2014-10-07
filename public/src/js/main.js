@@ -8,7 +8,12 @@
         './src/css/user-list.css'
     ],
     nope: './dist/spacebox.min.css',
-    both: './lib/mapbox.js/mapbox.css'
+    both: [
+        './lib/mapbox.js/mapbox.css',
+        './lib/bootstrap-material-design/dist/css/material.min.css',
+        './lib/bootstrap-material-design/dist/css/material-wfont.min.css',
+        './lib/bootstrap-material-design/dist/css/ripples.min.css'
+    ]
 });
 
 yepnope([
@@ -19,7 +24,10 @@ yepnope([
     './lib/angular/angular.js',
     './lib/angular-route/angular-route.min.js',
     './lib/angular-animate/angular-animate.js',
-    './lib/angular-bootstrap/ui-bootstrap-tpls.js'
+    './lib/angular-bootstrap/ui-bootstrap-tpls.js',
+    './lib/bootstrap-material-design/dist/js/material.min.js',
+    './lib/bootstrap-material-design/dist/js/ripples.min.js',
+    './lib/jcarousel/dist/jquery.jcarousel.min.js'
 ]);
 
 yepnope({
