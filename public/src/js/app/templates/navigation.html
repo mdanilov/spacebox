@@ -1,24 +1,18 @@
-<nav id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid bg-primary">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/main">finder</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a ng-click="Search($event)" ng-href="#"><span class="glyphicon glyphicon-search"></span> Поиск</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a ng-click="Logout($event)" ng-href="#">Выход</a></li>
-            </ul>
-        </div>
+<div id="navbar" class="navbar navbar-inverse">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <img class="navbar-brand" ng-src="src/img/logo.png">
     </div>
-</nav>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a ng-click="Search($event)" ng-href="javascript:void(0)"><span class="icon-material-search"></span> Поиск</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a ng-click="Logout($event)" ng-href="javascript:void(0)">Выход</a></li>
+        </ul>
+    </div>
+</div>

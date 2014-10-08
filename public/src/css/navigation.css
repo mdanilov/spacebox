@@ -1,0 +1,15 @@
+#navbar {
+    border-width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+#navbar .icon-material-search {
+    margin-right: 5px;
+}
+
+#navbar {
+    font-size: 16px;
+}
