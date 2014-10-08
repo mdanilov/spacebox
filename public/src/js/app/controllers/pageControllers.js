@@ -97,13 +97,11 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
         GeolocationService.getNearUsers(15000, processNearUsers);
     }
 
-    $scope.Search = function (e) {
-        e.preventDefault();
+    $scope.Search = function () {
         SearchUsers();
     };
 
-    $scope.Logout = function (e) {
-        e.preventDefault();
+    $scope.Logout = function () {
         $log.debug('Logout from VK...');
         VkService.logout(function () {
             $location.path('/login');
