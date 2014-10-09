@@ -1,27 +1,45 @@
 ﻿yepnope({
     test: config.development,
     yep: [
+        './lib/mapbox.js/mapbox.uncompressed.css'
+    ],
+    nope: [
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.css'
+    ]
+});
+
+yepnope({
+    test: config.development,
+    yep: [
+        './lib/mapbox.js/mapbox.uncompressed.js',
+        './lib/leaflet.locatecontrol/src/L.Control.Locate.js'
+    ],
+    nope: [
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
+        'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.30.0/L.Control.Locate.js'
+    ],
+    both: [
+        'https://vk.com/js/api/openapi.js',
+        './lib/angular/angular.js',
+        './lib/angular-route/angular-route.min.js',
+        './lib/angular-animate/angular-animate.js',
+        './lib/angular-bootstrap/ui-bootstrap-tpls.js',
+        './lib/jcarousel/dist/jquery.jcarousel.min.js'
+    ]
+});
+
+yepnope({
+    test: config.development,
+    yep: [
         './src/css/main.css',
+        './src/css/map.css',
         './src/css/navigation.css',
         './src/css/login.css',
         './src/css/modal.css',
         './src/css/user-list.css'
     ],
-    nope: './dist/spacebox.min.css',
-    both: [
-        './lib/mapbox.js/mapbox.css'
-    ]
+    nope: './dist/spacebox.min.css'
 });
-
-yepnope([
-    'https://vk.com/js/api/openapi.js',
-    './lib/mapbox.js/mapbox.js',
-    './lib/angular/angular.js',
-    './lib/angular-route/angular-route.min.js',
-    './lib/angular-animate/angular-animate.js',
-    './lib/angular-bootstrap/ui-bootstrap-tpls.js',
-    './lib/jcarousel/dist/jquery.jcarousel.min.js'
-]);
 
 yepnope({
     test: config.development,

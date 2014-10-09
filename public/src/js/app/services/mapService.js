@@ -4,6 +4,7 @@ function MapService ($log, GeolocationService) {
 
     MapService._markers = {};
     MapService._map = {};
+    MapService._locator = {};
     MapService.MAPBOX = {
         ACCESS_TOKEN: 'pk.eyJ1IjoibWRhbmlsb3YiLCJhIjoiV29JVmpxdyJ9.sBimZ4oSZYSFTdcZIgnQfQ',
         URL: 'mdanilov.j8f4ggll'
@@ -31,6 +32,23 @@ function MapService ($log, GeolocationService) {
             MapService._map.setView(pos, 15);
         });
         MapService._map.invalidateSize();
+
+        MapService._locator = L.control.locate({
+            drawCircle: false,
+            follow: false,
+            setView: true,
+            markerClass: L.marker,
+            keepCurrentZoomLevel: true,
+            icon: 'icon-material-location map-icon-location',
+            showPopup: false,
+            strings: {
+                title: "Мое текущее местоположение",
+                popup: "",
+                outsideMapBoundsMsg: ""
+            }
+        }).addTo(MapService._map);
+
+        MapService._locator.locate();
     };
 
     MapService.setCenter = function (location) {
@@ -43,6 +61,7 @@ function MapService ($log, GeolocationService) {
     };
 
     MapService.invalidateUsers = function (users) {
+        MapService._locator.locate();
         MapService.clear();
         for (var i = 0; i < users.length; i++) {
             addMarker(users[i]);

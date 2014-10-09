@@ -1,0 +1,31 @@
+#map-canvas {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+}
+
+.map-icon-location {
+    padding: 6px;
+}
+
+#map-canvas a:hover {
+    text-decoration: none;
+}
+
+.map-marker-icon {
+    background: #b0dcff;
+    border: 5px solid rgba(255,255,255,0.5);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.map-marker-icon img {
+    border-radius: 50%;
+    transform: rotate(360deg);
+}
