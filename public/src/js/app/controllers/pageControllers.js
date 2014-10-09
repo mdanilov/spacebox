@@ -1,27 +1,4 @@
-function PageController ($scope, $log, $location, VkService) {
-
-    $log.debug('Initialize page controller...');
-
-    $scope.users = [];
-
-    VkService.getLoginStatus(function (error, status) {
-        if (error) {
-            $log.error('Force to login page due to login status error: ', error);
-            return;
-        }
-
-        if (status) {
-            $log.debug('Force to main page, user already authorized');
-            $location.path('/main');
-        }
-        else {
-            $log.debug('Load login page, user is not authorized');
-            $location.path('/login');
-        }
-    });
-}
-
-function LoginPageController ($scope, $log, $location, VkService) {
+function LoginPageController ($scope, $log, $location, VkService, ConfigService) {
 
     $log.debug('Initialize login page controller...');
 
@@ -30,7 +7,8 @@ function LoginPageController ($scope, $log, $location, VkService) {
         $log.debug('Try login to VK...');
         VkService.login(function (error) {
             if (!error) {
-                $location.path('/main');
+                ConfigService.isAuthorized = true;
+                $location.path('/');
             }
         });
     }
@@ -113,10 +91,8 @@ function ErrorPageController ($scope) {
 }
 
 angular.module('spacebox')
-    .controller('PageController',
-        ['$scope', '$log', '$location', 'VkService', PageController])
     .controller('LoginPageController',
-        ['$scope', '$log', '$location', 'VkService', LoginPageController])
+        ['$scope', '$log', '$location', 'VkService', 'ConfigService', LoginPageController])
     .controller('MainPageController',
         ['$scope', '$location', '$log', 'VkService', 'GeolocationService', 'MapService', MainPageController])
     .controller('ErrorPageController',
