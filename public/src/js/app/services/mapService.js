@@ -38,6 +38,7 @@ function MapService ($log, GeolocationService) {
             follow: false,
             setView: true,
             markerClass: L.marker,
+            remainActive: true,
             keepCurrentZoomLevel: true,
             icon: 'icon-material-location map-icon-location',
             showPopup: false,
