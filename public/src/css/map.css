@@ -42,6 +42,10 @@
     transform: rotate(360deg);
 }
 
+.leaflet-container {
+    font-family: Roboto, "Helvetica Neue", Helvetica,Arial, sans-serif;
+}
+
 /* popup */
 .leaflet-popup {
     position: absolute;

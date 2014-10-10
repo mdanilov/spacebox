@@ -5,38 +5,39 @@ function MapService ($log, $filter, GeolocationService) {
     MapService._markers = {};
     MapService._map = {};
     MapService._locator = {};
+    MapService._popupFixed = false;
     MapService.MAPBOX = {
         ACCESS_TOKEN: 'pk.eyJ1IjoibWRhbmlsb3YiLCJhIjoiV29JVmpxdyJ9.sBimZ4oSZYSFTdcZIgnQfQ',
         URL: 'mdanilov.j8f4ggll'
     };
 
     function bindPopupWindow (marker, user) {
-        marker.bindPopup([
-            '<div style="overflow:hidden;width:200px;">',
-                '<div style="float:left;">',
-                    '<img src="' + user.largePhotoUrl + '" alt="icon">',
-                '</div>',
-                '<div style="float:left;padding:5px;">',
-                    '<h4>' + user.firstName + '</h4>',
-                    '<p>' + $filter('age')(user.bdate) + '</p>',
-                    '<p>' + $filter('distance')(user.distance) + '</p>',
-                '</div>',
-            '</div>'
-        ].join(''));
+        var popup = L.popup({
+                closeButton: false
+            }).setContent([
+                '<div class="thumbnail" style="width:100px">',
+                    '<img src="' + user.largePhotoUrl + '">',
+                    '<div class="caption">',
+                        '<h4>' + user.firstName + '</h4>',
+                        '<p>' + $filter('age')(user.bdate) + '</p>',
+                        '<p>' + $filter('distance')(user.distance) + '</p>',
+                    '</div>',
+                '</div>'
+            ].join('')
+        );
+
+        marker.bindPopup(popup);
 
         marker.on('mouseover', marker.openPopup);
-        marker.on('mouseout', marker.closePopup);
+        marker.on('mouseout', function () {
+            if (!MapService._popupFixed) {
+                marker.closePopup();
+            }
+        });
 
         marker.on('click', function () {
             marker.openPopup();
-            marker.off('mouseout');
-            marker.isClicked = true;
-        });
-        marker.on('popupclose', function () {
-            if (marker.isClicked) {
-                marker.on('mouseout', marker.closePopup);
-                marker.isClicked = false;
-            }
+            MapService._popupFixed = true;
         });
     }
 
@@ -89,6 +90,10 @@ function MapService ($log, $filter, GeolocationService) {
             MapService._map.setView(pos, 15);
         });
         MapService._map.invalidateSize();
+
+        MapService._map.on('popupclose', function () {
+            MapService._popupFixed = false;
+        });
 
         initializeLocator();
     };
