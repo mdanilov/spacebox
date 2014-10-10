@@ -1,4 +1,4 @@
-function MapService ($log, GeolocationService) {
+function MapService ($log, $filter, GeolocationService) {
 
     var MapService = {};
 
@@ -10,18 +10,75 @@ function MapService ($log, GeolocationService) {
         URL: 'mdanilov.j8f4ggll'
     };
 
+    function bindPopupWindow (marker, user) {
+        marker.bindPopup([
+            '<div style="overflow:hidden;width:200px;">',
+                '<div style="float:left;">',
+                    '<img src="' + user.largePhotoUrl + '" alt="icon">',
+                '</div>',
+                '<div style="float:left;padding:5px;">',
+                    '<h4>' + user.firstName + '</h4>',
+                    '<p>' + $filter('age')(user.bdate) + '</p>',
+                    '<p>' + $filter('distance')(user.distance) + '</p>',
+                '</div>',
+            '</div>'
+        ].join(''));
+
+        marker.on('mouseover', marker.openPopup);
+        marker.on('mouseout', marker.closePopup);
+
+        marker.on('click', function () {
+            marker.openPopup();
+            marker.off('mouseout');
+            marker.isClicked = true;
+        });
+        marker.on('popupclose', function () {
+            if (marker.isClicked) {
+                marker.on('mouseout', marker.closePopup);
+                marker.isClicked = false;
+            }
+        });
+    }
+
     function addMarker (user) {
-        var innerHtml = '<img src=' + user.photoUrl +  '>';
         var icon = L.divIcon({
-            className: 'map-marker-icon',
-            html: innerHtml,
-            iconSize: [60, 60]
+            className: 'info',
+            html: '<span class="icon icon-material-accessibility icon-material-indigo user-marker"></span>',
+            iconSize: [30, 30]
         });
 
         var marker = L.marker([user.location.latitude, user.location.longitude], {icon: icon});
         marker.addTo(MapService._map);
 
         MapService._markers[user.uid] = marker;
+
+        return marker;
+    }
+
+    function initializeLocator () {
+        var icon = L.divIcon({
+            className: 'info',
+            html: '<span class="icon icon-material-place icon-material-red locator-marker"></span>',
+            iconSize: [40, 40]
+        });
+
+        MapService._locator = L.control.locate({
+            drawCircle: false,
+            follow: false,
+            setView: true,
+            markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {icon: icon}),
+            remainActive: true,
+            keepCurrentZoomLevel: true,
+            icon: 'icon icon-material-location map-icon-location',
+            showPopup: false,
+            strings: {
+                title: "Мое текущее местоположение",
+                popup: "",
+                outsideMapBoundsMsg: ""
+            }
+        }).addTo(MapService._map);
+
+        MapService._locator.locate();
     }
 
     MapService.init = function () {
@@ -33,23 +90,7 @@ function MapService ($log, GeolocationService) {
         });
         MapService._map.invalidateSize();
 
-        MapService._locator = L.control.locate({
-            drawCircle: false,
-            follow: false,
-            setView: true,
-            markerClass: L.marker,
-            remainActive: true,
-            keepCurrentZoomLevel: true,
-            icon: 'icon-material-location map-icon-location',
-            showPopup: false,
-            strings: {
-                title: "Мое текущее местоположение",
-                popup: "",
-                outsideMapBoundsMsg: ""
-            }
-        }).addTo(MapService._map);
-
-        MapService._locator.locate();
+        initializeLocator();
     };
 
     MapService.setCenter = function (location) {
@@ -65,7 +106,8 @@ function MapService ($log, GeolocationService) {
         MapService._locator.locate();
         MapService.clear();
         for (var i = 0; i < users.length; i++) {
-            addMarker(users[i]);
+            var marker = addMarker(users[i]);
+            bindPopupWindow(marker, users[i]);
         }
     };
 
@@ -81,4 +123,4 @@ function MapService ($log, GeolocationService) {
 }
 
 angular.module('spacebox')
-    .factory('MapService', ['$log', 'GeolocationService', MapService]);
+    .factory('MapService', ['$log', '$filter', 'GeolocationService', MapService]);
