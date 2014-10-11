@@ -59,7 +59,8 @@ yepnope({
         './src/js/app/filters/distanceFilter.js',
         './src/js/app/filters/meetFilter.js',
         './src/js/app/filters/ageFilter.js',
-        './src/js/app/directives/navigationDirective.js'
+        './src/js/app/directives/navigationDirective.js',
+        './src/js/app/directives/userListDirective.js'   
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {
