@@ -13,8 +13,8 @@ router.get('/logout', validate, database.removeUser, auth.logout);
 router.all('*', checkAuth);
 
 router.get('/getUsers', validate, database.insertUserAndSelectNearUsers, database.selectLikes, main.getUsersWithLikes);
-router.get('/like', validate, database.insertLike);
-router.get('/dislike', validate, database.deleteLike);
+router.get('/changeLikeStatus', validate, database.changeLikeStatus);
+router.get('/getFriends', validate, database.getFriends);
 router.get('*', error['404']);
 
 module.exports = router;

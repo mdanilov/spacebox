@@ -24,12 +24,20 @@ function dropDatabase (callback) {
                 log.info('Table USERS is created');
         });
 
-    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT);",
+    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT, status INT, timestamp DOUBLE PRECISION);",
         function (error) {
             if (error)
                 log.error(error);
             else
                 log.info('Table LIKES is created');
+        });
+
+    client.query("CREATE TABLE IF NOT EXISTS friends (mid1 BIGINT, mid2 BIGINT);",
+        function (error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Table FRIENDS is created');
         });
 
     client.query("CREATE TABLE IF NOT EXISTS connect_session (sid VARCHAR NOT NULL, expires TIMESTAMP WITHOUT TIME ZONE NOT NULL, session JSON NOT NULL, CONSTRAINT sid_pk PRIMARY KEY (sid));",

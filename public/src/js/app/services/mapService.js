@@ -35,12 +35,12 @@ function MapService ($log, $filter, GeolocationService) {
             }).setContent([
                 '<div class="sp-map-tooltip">',
                     '<span class="sp-map-tooltip-carat"></span>',
-                    '<div style="width:250px">',
-                        '<img class="circle" src="' + user.largePhotoUrl + '">',
-                        '<div>',
+                    '<div class="sp-map-tooltip-content">',
+                        '<img class="sp-map-tooltip-img" src="' + user.largePhotoUrl + '">',
+                        '<div class="sp-map-tooltip-info">',
                             '<h4>' + user.firstName + '</h4>',
                             '<p>' + $filter('age')(user.bdate) + '</p>',
-                            '<p>' + $filter('distance')(user.distance) + '</p>',
+                            '<p><em>' + $filter('distance')(user.distance) + '</em></p>',
                         '</div>',
                     '</div>',
                 '</div>'

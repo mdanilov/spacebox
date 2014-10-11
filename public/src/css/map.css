@@ -17,8 +17,22 @@
     text-shadow: 1px 1px 2px black;
 }
 
+.sp-map-tooltip-img {
+    float: left;
+}
+
 .sp-user-marker-selected {
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
+.sp-map-tooltip-content {
+    width: 250px;
+    height: 100px;
+}
+
+.sp-map-tooltip-info {
+    float: left;
+    padding-left: 5px;
 }
 
 .sp-locator-marker {
@@ -76,7 +90,7 @@
 }
 
 .sp-map-tooltip .sp-map-tooltip-carat {
-    background: url('../img/tooltip-carat-57723e55d4ef98bc83501cf5e5fa1079.png') 0 -7px no-repeat;
+    background: url('../img/tooltip-carat.png') 0 -7px no-repeat;
     display: block;
     height: 7px;
     left: 50%;

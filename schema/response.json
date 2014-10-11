@@ -85,6 +85,27 @@
                 "additionalProperties": false
             }
         },
+        "getFriends": {
+            "description": "friends for current user",
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "title": "friend",
+                "type": "object",
+                "properties": {
+                    "mid": {
+                        "title": "user id",
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "title": "dating date",
+                        "type": "number"
+                    }
+                },
+                "required": ["mid", "timestamp"],
+                "additionalProperties": false
+            }
+        },
         "login": {
             "description": "Login response",
             "type": "object",

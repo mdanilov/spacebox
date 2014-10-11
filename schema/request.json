@@ -13,7 +13,8 @@
                 { "$ref": "#/definitions/getUsers" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
-                { "$ref": "#/definitions/like" },
+                { "$ref": "#/definitions/changeLikeStatus" },
+                { "$ref": "#/definitions/getFriends" },
                 { "$ref": "#/definitions/dislike" }
             ]
         }
@@ -102,18 +103,32 @@
             "required": ["url"],
             "additionalProperties": false
         },
-        "like": {
+        "changeLikeStatus": {
             "description": "Like request",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/like", "/mobile/like" ] },
+                "url": { "enum": [ "/changeLikeStatus", "/mobile/changeLikeStatus" ] },
                 "id": {
                     "title": "VK user id",
                     "description": "liked by user",
                     "type": "string"
+                },
+                "status": {
+                    "title": "like status",
+                    "description": "relationship between users",
+                    "enum": [ "1", "-1" ]
                 }
             },
-            "required": ["url", "id"],
+            "required": ["url", "id", "status"],
+            "additionalProperties": false
+        },
+        "getFriends": {
+            "description": "get friends for current user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/getFriends", "/mobile/getFriends" ] }
+            },
+            "required": ["url"],
             "additionalProperties": false
         },
         "dislike": {

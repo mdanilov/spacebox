@@ -120,15 +120,65 @@ exports.selectLikes = function (request, response, next) {
     }
 };
 
-exports.insertLike = function (request, response, next) {
+function createFriendship (id1, id2) {
+    DB.query({text: "INSERT INTO friends (mid1, mid2, timestamp) VALUES ($1, $2, $3);",
+        values: [ id1, id2, os.uptime() ]},
+        function (results) {
+            log.info('Users id%d and id%d are friends now', id1, id2);
+        });
+}
+
+function updateRelations (request) {
+    if (request.query.status == 1) {
+        var mid = request.session.mid;
+        DB.query({ text: "SELECT * FROM likes WHERE mid = $1 AND liked = $2 AND status = 1;",
+            values: [ request.query.id, mid ]},
+            function (results) {
+                if (results.rows.length != 0) {
+                    createFriendship(mid, results.rows[0].mid);
+                }
+            });
+    }
+}
+
+exports.getFriends = function (request, response, next) {
+    try {
+        var id = request.session.mid;
+        DB.query({ text: "SELECT * FROM friends WHERE mid1 = $1 OR mid2 = $1;",  values: [ id ]},
+            function (results) {
+                response.friends = [];
+                for (var i = 0; i < results.rows.length; i++) {
+                    if (results.rows[i].mid1 == id) {
+                        response.friends.push(results.rows[i].mid2);
+                    }
+                    else {
+                        response.friends.push(results.rows[i].mid1);
+                    }
+                }
+                response.end();
+            });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+
+exports.changeLikeStatus = function (request, response, next) {
     try
     {
         var id = request.session.mid;
+        var status = request.query.status;
         DB.query({
-            text: "INSERT INTO likes (mid, liked) VALUES ($1, $2);",
-            values: [ id, request.query.id ]},
+            text: "INSERT INTO likes (mid, liked, status, timestamp) VALUES ($1, $2, $3, $4);",
+            values: [ id, request.query.id, status, os.uptime() ]},
             function (results) {
-                log.info('User %d liked user %d', id, request.query.id);
+                if (status == 1) {
+                    log.info('User id%d liked user id%d', id, request.query.id);
+                }
+                else if (status == -1) {
+                    log.info('User id%d disliked user id%d', id, request.query.id);
+                }
+                updateRelations(request);
                 response.end();
             });
     }
@@ -145,6 +195,9 @@ exports.deleteLike = function (request, response, next) {
             text: "DELETE FROM likes WHERE mid = $1 AND liked = $2;",
             values: [ id, request.query.id ]},
             function (results) {
+                if (results) {
+
+                }
                 log.info('User %d disliked user %d', id, request.query.id);
                 response.end();
             });
