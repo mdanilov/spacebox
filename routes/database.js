@@ -72,8 +72,7 @@ var DB = (function() {
 })();
 
 exports.removeUser = function (request, response, next) {
-    try
-    {
+    try {
         var id = request.session.mid;
         DB.query({ text: "DELETE FROM users WHERE mid = $1;",  values: [ id ]},
             function () {
@@ -87,8 +86,7 @@ exports.removeUser = function (request, response, next) {
 };
 
 exports.selectLikes = function (request, response, next) {
-    try
-    {
+    try {
         var userId = request.session.mid;
         // TODO: it can be done in two separate queries, may be it would be faster
         DB.query({ text: "SELECT * FROM likes WHERE mid = $1 OR liked = $1;",  values: [ userId ]},
@@ -98,16 +96,28 @@ exports.selectLikes = function (request, response, next) {
             if (results.rows.length != 0) {
                 for (var i = 0; i < results.rows.length; i++) {
                     if (results.rows[i].mid == userId) {
-                        response.likesForUsers.push(results.rows[i].liked);
+                        response.likesForUsers[results.rows[i].liked] = results.rows[i].status;
                     }
                     else {
-                        response.likesFromUsers.push(results.rows[i].mid);
+                        response.likesFromUsers[results.rows[i].mid] = results.rows[i].status;
                     }
                 }
+
+                function getFormatString (users) {
+                    var keys = [];
+                    for (var key in users) {
+                        if (users.hasOwnProperty(key)) {
+                            keys.push('{ id: ' + key + ', ' + 'status: ' + users[key] + ' }');
+                        }
+                    }
+                    return keys.join(', ');
+                }
+
                 log.info('The user id%d has likes for users: %s',
-                    userId, response.likesForUsers.join(', '));
+                    userId, getFormatString(response.likesForUsers));
+
                 log.info('The user id%d has likes from users: %s',
-                    userId, response.likesFromUsers.join(', '));
+                    userId, getFormatString(response.likesFromUsers));
             }
             else {
                 log.info('There are no likes for user id', userId);
@@ -164,8 +174,7 @@ exports.getFriends = function (request, response, next) {
 };
 
 exports.changeLikeStatus = function (request, response, next) {
-    try
-    {
+    try {
         var id = request.session.mid;
         var status = request.query.status;
         DB.query({
@@ -188,8 +197,7 @@ exports.changeLikeStatus = function (request, response, next) {
 };
 
 exports.deleteLike = function (request, response, next) {
-    try
-    {
+    try {
         var id = request.session.mid;
         DB.query({
             text: "DELETE FROM likes WHERE mid = $1 AND liked = $2;",
