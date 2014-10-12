@@ -1,6 +1,9 @@
+#spUserList .btn-group.btn-group-lg.btn-group-justified label{
+    border-radius: 0px;
+}
+
 #spUserList .btn-group.btn-group-lg.btn-group-justified {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 0;
 }
 
 #spUserList .list-group-item {
@@ -147,13 +150,13 @@
     cursor: pointer;
 }
 
-#spUserList .user-list-info {
+/*#spUserList .user-list-info {
     float: left;
     padding-left: 10px;
     width: auto;
-}
+}*/
 
-#spUserList .user-list-item-img {
+/*#spUserList .user-list-item-img {
     float: left;
 }
 
@@ -192,4 +195,4 @@
     -webkit-transition: all linear 0.5s;
     transition: all linear 0.5s;
     opacity: 1;
-}
+}*/

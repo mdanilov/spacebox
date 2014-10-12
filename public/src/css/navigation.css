@@ -4,8 +4,27 @@
     top: 0;
     right: 0;
     left: 0;
-    background-color: rgb(238, 238, 238);
+    background-color: white;
     height: 60px;
+}
+
+.navbar-collapse {
+    border-bottom: solid 1px;
+	border-bottom-color: rgba(0,0,0,0.55);
+}
+
+.spActiveButton {
+	border-bottom: solid #4387fd 4px;
+	border-radius: 0px;
+	background-color: white;
+	width: 90px;
+}
+
+#spSearchButton {
+	color: #4387fd;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 0px;
 }
 
 #navbar .navbar-right {
