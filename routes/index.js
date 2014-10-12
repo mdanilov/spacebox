@@ -14,7 +14,7 @@ router.all('*', checkAuth);
 
 router.get('/getUsers', validate, database.insertUserAndSelectNearUsers, database.selectLikes, main.getUsersWithLikes);
 router.get('/changeLikeStatus', validate, database.changeLikeStatus);
-router.get('/getFriends', validate, database.getFriends);
+router.get('/getFriends', validate, database.selectFriends);
 router.get('*', error['404']);
 
 module.exports = router;

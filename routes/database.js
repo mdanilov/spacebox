@@ -151,7 +151,7 @@ function updateRelations (request) {
     }
 }
 
-exports.getFriends = function (request, response, next) {
+exports.selectFriends = function (request, response, next) {
     try {
         var id = request.session.mid;
         DB.query({ text: "SELECT * FROM friends WHERE mid1 = $1 OR mid2 = $1;",  values: [ id ]},
@@ -233,7 +233,7 @@ exports.insertUserAndSelectNearUsers = function (request, response, next) {
             ]
         },
         {
-            text: "SELECT mid, latitude, longitude, " +
+            text: "SELECT * , " +
                 "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
                 "FROM users " +
                 "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +

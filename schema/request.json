@@ -130,20 +130,6 @@
             },
             "required": ["url"],
             "additionalProperties": false
-        },
-        "dislike": {
-            "description": "Dislike request",
-            "type": "object",
-            "properties": {
-                "url": { "enum": [ "/dislike", "/mobile/dislike" ] },
-                "id": {
-                    "title": "VK user id",
-                    "description": "disliked by user",
-                    "type": "string"
-                }
-            },
-            "required": ["url", "id"],
-            "additionalProperties": false
         }
     }
 }

@@ -11,10 +11,10 @@
                 { "$ref": "#/definitions/mobile/login" },
                 { "$ref": "#/definitions/mobile/getLoginStatus" },
                 { "$ref": "#/definitions/getUsers" },
+                { "$ref": "#/definitions/getFriends" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
-                { "$ref": "#/definitions/like" },
-                { "$ref": "#/definitions/dislike" }
+                { "$ref": "#/definitions/changeLikeStatus" }
             ]
         }
     },
@@ -107,24 +107,19 @@
             }
         },
         "login": {
-            "description": "Login response",
+            "description": "null",
             "type": "object",
             "properties": {},
             "additionalProperties": false
         },
         "logout": {
-            "description": "Logout response",
-            "properties": {},
-            "additionalProperties": false
-        },
-        "like": {
-            "description": "Like response",
+            "description": "null",
             "type": "object",
             "properties": {},
             "additionalProperties": false
         },
-        "dislike": {
-            "description": "Dislike response",
+        "changeLikeStatus": {
+            "description": "null",
             "type": "object",
             "properties": {},
             "additionalProperties": false
