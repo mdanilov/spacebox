@@ -4,8 +4,51 @@
     top: 0;
     right: 0;
     left: 0;
+    background-color: rgb(238, 238, 238);
+    height: 60px;
+}
+
+#navbar .navbar-right {
+    height: 60px;
+}
+
+
+#navbar .navbar-right .spProfileName li {
+    height: 60px;
+}
+
+#navbar .navbar-right .spProfileName {
+	margin-top: 18px;
+}
+
+
+#navbar li {
+    height: 60px;
+}
+
+#navbar .spProfile {
+	padding-bottom: 11px;
+	padding-top: 11px;
+	padding-right: 20px;
 }
 
 #navbar .icon-material-search {
     margin-right: 5px;
+}
+
+#navbar .spCircle {
+	float: right;
+	border-radius: 50%;
+	display: block;
+	border-color: transparent;
+	border: solid 2px;
+	height: 32px;
+	width: 32px;
+	box-sizing: content-box;
+}
+
+
+#navbar .spCircle:hover,
+#navbar .spCircle:focus {
+	border-color: #4387fd;
 }

@@ -1,4 +1,9 @@
-#user-list .list-group-item {
+#spUserList .btn-group.btn-group-lg.btn-group-justified {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#spUserList .list-group-item {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
@@ -8,28 +13,151 @@
     position: relative;
 }
 
-#user-list .user-list-distance {
+#spUserList .sp-list-item {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+/*    border: solid 1px;
+*/
+    padding: 15px;
+/*    height: 200px;
+*/
+}
+
+#spUserList .spListGroupSeparator {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+
+
+#spUserList .sp-list-item-photo
+{
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#spUserList .sp-list-item-photo-container:hover,
+#spUserList .sp-list-item-photo-container:active,
+#spUserList .sp-list-item-photo-container:focus
+{
+    border-color: #428bca;
+}
+
+#spUserList .sp-list-item-photo-container
+{
+    display: block;
+    margin: 0px;
+    padding: 6px;
+    
+    -webkit-transition-delay: 0s;
+    -webkit-transition-duration: 0.2s;
+    -webkit-transition-property: all;
+    -webkit-transition-timing-function: ease-in-out;
+
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+#spUserList .sp-list-item-info
+{
+    display: inline-block;
+    overflow: hidden;
+
+    margin: 0px;
+    width: 250px;
+    padding-left: 15px;
+    padding-top: 0px;
+    vertical-align: top;
+}
+
+#spUserList .sp-list-item-buttons
+{
+    display: inline-block;
+    overflow: hidden;
+    width: 70px;
+    height: 110px;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    margin: 0px;
+    vertical-align: top;
+}
+
+#spUserList .user-list-distance {
     float: right;
     margin-top: 65px;
     padding-right: 10px;
 }
 
-#user-list a {
+#spUserList a {
     display: block;
     cursor: pointer;
 }
 
-#user-list .user-list-info {
+#spUserList .spTimestamp {
+    position: absolute;
+    top: 3px;
+    margin: 0;
+    display: block;
+    clear: both;
+    width: 70px;
+    height: 20px;
+    padding: 2px;
+}
+
+#spUserList .spFavorite {
+    position: absolute;
+    top: 40px;
+    left: 15px;
+    display: block;
+    clear: both;
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+    opacity: 0.55;
+}
+
+#spUserList .spFavorite:hover {
+    opacity: 0.85;
+}
+
+#spUserList .spClose {
+    position: absolute;
+    top: 80px;
+    left: 15px;
+    display: block;
+    clear: both;
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+    opacity: 0.55;
+}
+
+#spUserList .spClose:hover {
+    opacity: 0.85;
+}
+
+#spUserList a {
+    display: block;
+    cursor: pointer;
+}
+
+#spUserList .user-list-info {
     float: left;
     padding-left: 10px;
     width: auto;
 }
 
-#user-list .user-list-item-img {
+#spUserList .user-list-item-img {
     float: left;
 }
 
-#user-list .user-list-item-img .glyphicon {
+#spUserList .user-list-item-img .glyphicon {
     display: block;
     position: absolute;
     top: 75px;
@@ -38,20 +166,20 @@
     opacity: 0.6;
 }
 
-#user-list .user-list-item-img img {
+#spUserList .user-list-item-img img {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
     margin: -1px;
 }
 
-#user-list .list-group-item .btn-group {
+#spUserList .list-group-item .btn-group {
     position: absolute;
     top: 10px;
     right: 10px;
 }
 
-#user-list .btn-group .glyphicon {
+#spUserList .btn-group .glyphicon {
     position: static;
     color: white;
 }

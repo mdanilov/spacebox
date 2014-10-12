@@ -1,7 +1,37 @@
 <div class="btn-group btn-group-lg btn-group-justified">
-    <label class="btn btn-success no-corners" ng-model="radioModel" btn-radio="'All'" uncheckable>Все</label>
-    <label class="btn btn-success no-corners" ng-model="radioModel" btn-radio="'Like'" uncheckable>Хочу</label>
-    <label class="btn btn-success no-corners" ng-model="radioModel" btn-radio="'Liked'" uncheckable>Хотят</label>
+ <!-- <div class="nav nav-pills"> -->
+    <label class="btn btn-primary" ng-model="radioModel" btn-radio="'All'" uncheckable>Рядом <span class="badge"> +{{users.length}}</span></label>
+    <label class="btn btn-default" ng-model="radioModel" btn-radio="'Liked'" uncheckable>Друзья</label>
+</div>
+<div class="list-group">
+    <a class="list-group-item"
+       ng-href="#"
+       ng-repeat="user in users | meet:radioModel"
+       ng-controller="UserListItemController"
+       ng-mouseover="gainFocus($event)"
+       ng-mouseleave="loseFocus($event)"
+       ng-click="onClick($event)">
+        <div class="sp-list-item">
+            <div class="sp-list-item-photo">
+                <div class="sp-list-item-photo-container">
+                    <img ng-src="{{user.largePhotoUrl}}" ng-click="openModal()">
+                </div>
+            </div><div class="sp-list-item-info">
+                <h4 class="list-group-item-heading">{{user.firstName}}, {{user.bdate | age}}</h4>
+                <p class="list-group-item-text">{{user.distance | distance}}</p>
+            </div><div class="sp-list-item-buttons">
+                <div class="spTimestamp">5 минут</div> 
+                <div class="spFavorite"><i class="icon icon-material-favorite" style="font-size: 15pt;"></i></div>
+                <div class="spClose"><i class="icon icon-material-close" style="font-size: 15pt;"></i></div>
+            </div>
+        </div>
+        <div class="list-group-separator spListGroupSeparator"></div>
+    </a>
+</div>
+
+<!-- <div class="btn-group btn-flat btn-group-lg btn-group-justified">
+    <label class="btn btn-flat btn-default" ng-model="radioModel" btn-radio="'All'" uncheckable>Рядом <span class="badge"> +{{users.length}}</span></label>
+    <label class="btn btn-flat btn-default" ng-model="radioModel" btn-radio="'Liked'" uncheckable>Хотят</label>
 </div>
 <div class="list-group">
     <a class="list-group-item"
@@ -34,4 +64,4 @@
         </div>
         <p class="user-list-distance"><em>{{user.distance | distance}}</em></p>
     </a>
-</div>
+</div> -->
