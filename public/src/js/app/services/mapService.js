@@ -14,17 +14,17 @@ function MapService ($log, $filter, GeolocationService) {
     MapService._icons = {
         default:  L.divIcon({
             className: 'info',
-            html: '<span class="icon icon-material-accessibility icon-material-indigo sp-user-marker"></span>',
+            html: '<span class="icon glyphicon glyphicon-map-marker sp-user-marker"></span>',
             iconSize: [30, 30]
         }),
         selected: L.divIcon({
             className: 'info',
-            html: '<span class="icon icon-material-accessibility icon-material-indigo sp-user-marker-selected"></span>',
+            html: '<span class="icon glyphicon glyphicon-map-marker sp-user-marker-selected"></span>',
             iconSize: [30, 30]
         }),
         locator: L.divIcon({
             className: 'info',
-            html: '<span class="icon icon-material-place icon-material-red sp-locator-marker"></span>',
+            html: '<span class="icon glyphicon glyphicon-map-marker sp-locator-marker"></span>',
             iconSize: [40, 40]
         })
     };
@@ -83,7 +83,7 @@ function MapService ($log, $filter, GeolocationService) {
             markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {icon: MapService._icons.locator}),
             remainActive: true,
             keepCurrentZoomLevel: true,
-            icon: 'icon icon-material-location map-icon-location',
+            icon: 'icon glyphicon glyphicon-globe sp-locate-control',
             showPopup: false,
             strings: {
                 title: "Мое текущее местоположение",

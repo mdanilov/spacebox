@@ -8,6 +8,10 @@
     position: absolute;
 }
 
+.sp-locate-control {
+    padding: 6px;
+}
+
 .sp-user-marker, .sp-user-marker-selected {
     font-size: 30px;
     opacity: 1;

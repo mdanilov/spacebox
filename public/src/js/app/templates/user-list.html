@@ -1,7 +1,7 @@
-<div class="btn-group btn-flat btn-group-lg btn-group-justified">
+<div class="btn-group btn-group-lg btn-group-justified">
 <!-- <div class="nav nav-pills"> -->
-    <label class="btn btn-flat btn-primary" ng-model="radioModel" btn-radio="'All'" uncheckable>Рядом <span class="badge"> +{{users.length}}</span></label>
-    <label class="btn btn-flat btn-default" ng-model="radioModel" btn-radio="'Liked'" uncheckable>Друзья</label>
+    <label class="btn btn-primary" ng-model="radioModel" btn-radio="'All'" uncheckable>Рядом <span class="badge"> +{{users.length}}</span></label>
+    <label class="btn btn-default" ng-model="radioModel" btn-radio="'Liked'" uncheckable>Друзья</label>
 </div>
 <div class="list-group">
     <a class="list-group-item"
@@ -21,8 +21,8 @@
                 <p class="list-group-item-text">{{user.distance | distance}}</p>
             </div><div class="sp-list-item-buttons">
                 <div class="spTimestamp">5 минут</div> 
-                <div class="spFavorite"><i class="icon icon-material-favorite" style="font-size: 15pt;"></i></div>
-                <div class="spClose"><i class="icon icon-material-close" style="font-size: 15pt;"></i></div>
+                <div class="spFavorite"><span class="glyphicon glyphicon-heart"></span></div>
+                <div class="spClose"><span class="glyphicon glyphicon-remove"></span></div>
             </div>
         </div>
         <div class="list-group-separator spListGroupSeparator"></div>
