@@ -1,4 +1,40 @@
-#navbar {
+#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav{
+	height: 60px;
+}
+
+#spNavbar .container-fluid {
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+#spNavbar .navbar-brand {
+	height: 58px;
+	padding-bottom: 13px;
+	padding-top: 10px;
+	margin-left: 0px;
+	cursor: pointer;
+}
+
+#spNavbar .sp-nav-button {
+	height: 58px;
+	line-height: 58px;
+	text-align: center;
+	padding: 5px 10px 0px 10px;
+	font-size: 16px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#spNavbar .sp-active {
+	box-shadow: 0px 2px 0px 0px #4387fd;
+}
+
+#spNavbar .sp-active a, #spNavbar a:hover {
+	color: #4387fd;
+}
+
+
+/*#navbar {
     border-width: 0;
     position: fixed;
     top: 0;
@@ -70,4 +106,4 @@
 #navbar .spCircle:hover,
 #navbar .spCircle:focus {
 	border-color: #4387fd;
-}
+}*/

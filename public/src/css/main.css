@@ -4,10 +4,10 @@ html {
 
 body {
     height: 100%;
-    padding-top: 61px;
+    /*padding-top: 61px;*/
 }
 
-.fill-height {
+/*.fill-height {
     height: 100%;
 }
 
@@ -21,3 +21,4 @@ body {
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
 }
+*/

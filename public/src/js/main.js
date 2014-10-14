@@ -33,7 +33,7 @@ yepnope({
     yep: [
         './src/css/main.css',
         './src/css/map.css',
-        './src/css/navigation.css',
+        './src/css/navbar.css',
         './src/css/login.css',
         './src/css/modal.css',
         './src/css/user-list.css'
@@ -61,7 +61,7 @@ yepnope({
         './src/js/app/filters/distanceFilter.js',
         './src/js/app/filters/meetFilter.js',
         './src/js/app/filters/ageFilter.js',
-        './src/js/app/directives/navigationDirective.js',
+        './src/js/app/directives/navbarDirective.js',
         './src/js/app/directives/modalDirective.js',
         './src/js/app/directives/userListDirective.js'
     ],

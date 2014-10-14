@@ -12,7 +12,7 @@ function MainViewController ($scope, $location, $log, VkService, GeolocationServ
         this.user.name = info[i].first_name;
     }).bind(this));
 
-    MapService.init();
+    //MapService.init();
     SearchUsers.apply(this);
 
     function CreateUserList (data, info) {
