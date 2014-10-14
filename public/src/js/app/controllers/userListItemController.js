@@ -1,4 +1,4 @@
-function UserListItemController ($scope, $window, $modal, MapService, MeetService) {
+function UserListItemController ($scope, $window, VkService, MapService, MeetService) {
 
     $scope.btnGroupIsHidden = true;
 
@@ -42,16 +42,19 @@ function UserListItemController ($scope, $window, $modal, MapService, MeetServic
         }
     };
 
-    $scope.openModal = function () {
-        $modal.open({
-            templateUrl: 'src/js/app/templates/modal.html',
-            controller: 'ModalController',
-            size: 'lg',
-            scope: $scope
+    $scope.openLightboxModal = function (user) {
+        VkService.getPhotos(user.uid, function (error, urls) {
+            if (error) {
+                return;
+            }
+
+            $scope.main.images = urls[0];
+            $scope.main.toggleModal = !$scope.main.toggleModal;
+            $scope.$apply();
         });
     };
 }
 
 angular.module('spacebox')
     .controller('UserListItemController',
-    ['$scope', '$window', '$modal', 'MapService', 'MeetService', UserListItemController]);
+        ['$scope', '$window', 'VkService', 'MapService', 'MeetService', UserListItemController]);

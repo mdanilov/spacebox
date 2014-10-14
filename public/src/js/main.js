@@ -12,19 +12,19 @@ yepnope({
     test: config.development,
     yep: [
         './lib/mapbox.js/mapbox.uncompressed.js',
-        './lib/leaflet.locatecontrol/src/L.Control.Locate.js'
+        './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
+        './lib/angular/angular.js',
+        './lib/angular-route/angular-route.min.js',
+        './lib/angular-touch/angular-touch.js',
+        './lib/angular-animate/angular-animate.js',
+        './lib/angular-bootstrap/ui-bootstrap-tpls.js'
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
         'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.30.0/L.Control.Locate.js'
     ],
     both: [
-        'https://vk.com/js/api/openapi.js',
-        './lib/angular/angular.js',
-        './lib/angular-route/angular-route.min.js',
-        './lib/angular-animate/angular-animate.js',
-        './lib/angular-bootstrap/ui-bootstrap-tpls.js',
-        './lib/jcarousel/dist/jquery.jcarousel.min.js'
+        'https://vk.com/js/api/openapi.js'
     ]
 });
 
@@ -51,7 +51,9 @@ yepnope({
         './src/js/app/services/mapService.js',
         './src/js/app/services/meetService.js',
         './src/js/app/controllers/applicationController.js',
-        './src/js/app/controllers/pageControllers.js',
+        './src/js/app/controllers/loginViewController.js',
+        './src/js/app/controllers/errorViewController.js',
+        './src/js/app/controllers/mainViewController.js',
         './src/js/app/controllers/userListItemController.js',
         './src/js/app/controllers/listController.js',
         './src/js/app/controllers/modalController.js',
@@ -60,7 +62,8 @@ yepnope({
         './src/js/app/filters/meetFilter.js',
         './src/js/app/filters/ageFilter.js',
         './src/js/app/directives/navigationDirective.js',
-        './src/js/app/directives/userListDirective.js'   
+        './src/js/app/directives/modalDirective.js',
+        './src/js/app/directives/userListDirective.js'
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {

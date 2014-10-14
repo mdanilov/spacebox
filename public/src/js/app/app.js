@@ -1,20 +1,21 @@
 var spacebox = angular.module('spacebox',
-    [ 'ngAnimate', 'ngRoute', 'ui.bootstrap.modal', 'ui.bootstrap.buttons', 'ui.bootstrap.tpls']);
+    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ui.bootstrap.buttons', 'ui.bootstrap.tpls']);
 
 spacebox.config(['$routeProvider',
-    function($routeProvider) {
+    function ($routeProvider) {
         $routeProvider.
             when('/login', {
                 templateUrl: 'src/js/app/templates/login-page.html',
-                controller: 'LoginPageController'
+                controller: 'LoginViewController'
             }).
             when('/', {
                 templateUrl: 'src/js/app/templates/main-page.html',
-                controller: 'MainPageController'
+                controller: 'MainViewController',
+                controllerAs: 'main'
             }).
             when('/error', {
                 templateUrl: 'src/js/app/templates/error-page.html',
-                controller: 'ErrorPageController'
+                controller: 'ErrorViewController'
             }).
             otherwise({
                 redirectTo: '/login'

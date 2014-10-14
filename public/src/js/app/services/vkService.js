@@ -60,6 +60,15 @@ function VkService ($http, $log) {
         });
     };
 
+    VkService.getCurrentUserInfo = function (callback) {
+        if (VkService._id == 0) {
+            $log.info('User is not authorized');
+            return;
+        }
+
+        VkService.getUsersInfo(VkService._id, callback);
+    };
+
     VkService.getPhotos = function (id, callback) {
         VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
             if (r.response) {

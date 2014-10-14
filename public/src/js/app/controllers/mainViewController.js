@@ -1,28 +1,21 @@
-function LoginPageController ($scope, $log, $location, VkService, ConfigService) {
+function MainViewController ($scope, $location, $log, VkService, GeolocationService, MapService) {
 
-    $log.debug('Initialize login page controller...');
+    $log.debug('Initialize main view controller...');
 
-    $scope.Login = function (e) {
-        e.preventDefault();
-        $log.debug('Try login to VK...');
-        VkService.login(function (error) {
-            if (!error) {
-                ConfigService.isAuthorized = true;
-                $location.path('/');
-            }
-        });
-    }
-}
+    this.user = {};
+    this.users = [];
 
-function MainPageController ($scope, $location, $log, VkService, GeolocationService, MapService) {
-
-    $log.debug('Initialize main page controller...');
+    VkService.getCurrentUserInfo((function (error, info) {
+        if (error) {
+            return;
+        }
+        this.user.name = info[i].first_name;
+    }).bind(this));
 
     MapService.init();
-    SearchUsers();
+    SearchUsers.apply(this);
 
     function CreateUserList (data, info) {
-
         var users = [];
         for (var i = 0; i < info.length; i++) {
             users[i] = {};
@@ -41,8 +34,7 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
             users[i].uid = info[i].uid;
         }
 
-        $scope.users = users;
-        $scope.$apply();
+        return users;
     }
 
     function processNearUsers (error, data) {
@@ -57,29 +49,31 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
             uids.push(data[i].mid);
         }
 
-        VkService.getUsersInfo(uids, function (error, info) {
+        VkService.getUsersInfo(uids, (function (error, info) {
             if (error) {
                 $log.error('Can\'t get VK users info due to error: ', error);
                 return;
             }
 
             $log.debug('VK users info collected: ', info);
-            CreateUserList(data, info);
+            this.users = CreateUserList(data, info);
+            $scope.$apply();
+
             MapService.invalidateSize();
-            MapService.invalidateUsers($scope.users);
-        })
+            MapService.invalidateUsers(this.users);
+        }).bind(this))
     }
 
     function SearchUsers () {
         $log.debug('Try to search near users...');
-        GeolocationService.getNearUsers(15000, processNearUsers);
+        GeolocationService.getNearUsers(15000, processNearUsers.bind(this));
     }
 
-    $scope.Search = function () {
-        SearchUsers();
+    this.Search = function () {
+        SearchUsers.apply(this);
     };
 
-    $scope.Logout = function () {
+    this.Logout = function () {
         $log.debug('Logout from VK...');
         VkService.logout(function () {
             $location.path('/login');
@@ -87,13 +81,6 @@ function MainPageController ($scope, $location, $log, VkService, GeolocationServ
     };
 }
 
-function ErrorPageController ($scope) {
-}
-
 angular.module('spacebox')
-    .controller('LoginPageController',
-        ['$scope', '$log', '$location', 'VkService', 'ConfigService', LoginPageController])
-    .controller('MainPageController',
-        ['$scope', '$location', '$log', 'VkService', 'GeolocationService', 'MapService', MainPageController])
-    .controller('ErrorPageController',
-        ['$scope', '$location', '$interval', ErrorPageController]);
+    .controller('MainViewController',
+        ['$scope', '$location', '$log', 'VkService', 'GeolocationService', 'MapService', MainViewController]);
