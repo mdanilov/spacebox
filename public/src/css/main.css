@@ -7,6 +7,12 @@ body {
     /*padding-top: 61px;*/
 }
 
+#spMainPage {
+	margin: 60px auto 0px auto;
+	min-width: 700px;
+	max-width: 800px;
+}
+
 /*.fill-height {
     height: 100%;
 }

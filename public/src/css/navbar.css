@@ -2,13 +2,17 @@
 	height: 60px;
 }
 
+#spNavbar .container-fluid {
+	min-width: 700px;
+	max-width: 800px;
+}
+
 #spNavbar .navbar-right {
 	margin: 0px;
 }
 
 #spNavbar .container-fluid {
-	margin-left: 20%;
-	margin-right: 20%;
+	margin: 0px auto;
 }
 
 #spNavbar .navbar-brand {
