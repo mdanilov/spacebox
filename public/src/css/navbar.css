@@ -1,5 +1,9 @@
-#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav{
+#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav,  #spNavbar .navbar-right{
 	height: 60px;
+}
+
+#spNavbar .navbar-right {
+	margin: 0px;
 }
 
 #spNavbar .container-fluid {
@@ -12,6 +16,7 @@
 	padding-bottom: 13px;
 	padding-top: 10px;
 	margin-left: 0px;
+	margin-right: 0px;
 	cursor: pointer;
 }
 
@@ -33,6 +38,14 @@
 	color: #4387fd;
 }
 
+#spNavbar .navbar-user-icon {
+	height: 58px;
+	padding-bottom: 8px;
+	padding-top: 8px;
+	margin-left: 0px;
+	margin-right: 0px;
+	cursor: pointer;
+}
 
 /*#navbar {
     border-width: 0;

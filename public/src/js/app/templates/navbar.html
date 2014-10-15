@@ -6,13 +6,11 @@
             <li class="sp-active"><a ng-click="Search()" ng-href="javascript:void(0)" class="sp-nav-button">Карта</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <h4 class="spProfileName">Артем</h4>
-            </li>
-            <li>
-                <a ng-click="Logout()" ng-href="javascript:void(0)" class="spProfile">
-                    <img class="spCircle" src="http://lorempixel.com/56/56/people/1" alt="icon">
-                </a>
+            <li><a ng-href="javascript:void(0)" class="sp-nav-button">Артем</a></li>
+            <li class="dropdown"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" src="http://lorempixel.com/56/56/people/1" alt="icon">
+                <ul class="dropdown-menu" role="menu">
+                    <li><a ng-click="Logout()" ng-href="javascript:void(0)">Выйти</a></li>
+                </ul>
             </li>
         </ul>
     </div>
