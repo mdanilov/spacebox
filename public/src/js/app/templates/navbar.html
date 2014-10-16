@@ -1,9 +1,9 @@
 <div id="spNavbar" class="navbar navbar-fixed-top navbar-default">
     <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><img ng-click="navbar.OpenMain()" class="navbar-brand" ng-src="src/img/logo.png"></li>
+        <ul class="nav navbar-nav navbar-left">
+            <li class="sp-active"><img ng-click="navbar.OpenMain()" class="navbar-brand" ng-src="src/img/logo.png"></li>
             <li><a ng-click="navbar.OpenFriends()" ng-href="javascript:void(0)" class="sp-nav-button">Друзья</a></li>
-            <li class="sp-active"><a ng-href="javascript:void(0)" class="sp-nav-button">Карта</a></li>
+            <li><a ng-href="javascript:void(0)" class="sp-nav-button">Карта</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a ng-href="javascript:void(0)" class="sp-nav-button">{{info.name}}</a></li>

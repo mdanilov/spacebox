@@ -25,8 +25,8 @@ function navbarDirective ($location, VkService) {
         },
         controllerAs: 'navbar',
         link: function (scope, element, attrs) {
-            var active = element.find('nav.navbar-nav li:first-child');
-            element.find('nav.navbar-nav li').on('click', function () {
+            var active = element.find('li.sp-active');
+            element.find('.nav.navbar-nav.navbar-left > li').on('click', function () {
                 active.removeClass('sp-active');
                 active = $(this);
                 active.addClass('sp-active');
