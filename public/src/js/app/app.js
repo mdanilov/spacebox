@@ -1,15 +1,15 @@
 var spacebox = angular.module('spacebox',
-    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ui.bootstrap.buttons', 'ui.bootstrap.tpls']);
+    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'ui.bootstrap.buttons', 'ui.bootstrap.tpls']);
 
-spacebox.config(['$routeProvider',
-    function ($routeProvider) {
+spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
+    function ($routeProvider, $logProvider, $compileProvider) {
         $routeProvider.
             when('/login', {
-                templateUrl: 'src/js/app/templates/login-page.html',
+                templateUrl: 'src/js/app/templates/login-view.html',
                 controller: 'LoginViewController'
             }).
             when('/', {
-                templateUrl: 'src/js/app/templates/main-page.html',
+                templateUrl: 'src/js/app/templates/main-view.html',
                 controller: 'MainViewController',
                 controllerAs: 'main'
             }).
@@ -19,19 +19,24 @@ spacebox.config(['$routeProvider',
                 controllerAs: 'friends'
             }).
             when('/error', {
-                templateUrl: 'src/js/app/templates/error-page.html',
+                templateUrl: 'src/js/app/templates/error-view.html',
                 controller: 'ErrorViewController'
             }).
             otherwise({
                 redirectTo: '/login'
             });
+
+        if (!angular.equals(config.development, true)) {
+            $logProvider.debugEnabled(false);
+            $compileProvider.debugInfoEnabled(false);
+        }
     }]);
 
-spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService',
-    function ($rootScope, $location, $log, VkService, ConfigService) {
+spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'StateService',
+    function ($rootScope, $location, $log, VkService, StateService) {
         $rootScope.$on('$locationChangeStart', function ($event) {
             var path = $location.path();
-            if (!ConfigService.isLogin && path != '/login') {
+            if (!StateService.isLogin && path != '/login') {
                 // TODO: prevent event don't work as assumed
                 // $event.preventDefault();
                 VkService.getLoginStatus(function (error, status) {
@@ -40,7 +45,7 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService',
                         $location.path('/login');
                     }
                     else {
-                        ConfigService.isLogin = true;
+                        StateService.isLogin = true;
                         $location.path('/');
                     }
                 });

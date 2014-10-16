@@ -1,15 +1,15 @@
 <div id="spNavbar" class="navbar navbar-fixed-top navbar-default">
     <div class="container-fluid">
         <ul class="nav navbar-nav navbar-left">
-            <li class="sp-active"><img ng-click="navbar.OpenMain()" class="navbar-brand" ng-src="src/img/logo.png"></li>
-            <li><a ng-click="navbar.OpenFriends()" ng-href="javascript:void(0)" class="sp-nav-button">Друзья</a></li>
-            <li><a ng-href="javascript:void(0)" class="sp-nav-button">Карта</a></li>
+            <li class="sp-active"><img class="navbar-brand" ng-click="navbar.OpenMain()" ng-src="src/img/logo.png"></li>
+            <li><a href="" class="sp-nav-button" ng-click="navbar.OpenFriends()">Друзья</a></li>
+            <li><a href="" class="sp-nav-button">Карта</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a ng-href="javascript:void(0)" class="sp-nav-button">{{info.name}}</a></li>
+            <li><a href="" class="sp-nav-button">{{info.name}}</a></li>
             <li class="dropdown"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}" alt="icon">
                 <ul class="dropdown-menu" role="menu">
-                    <li><a ng-click="navbar.Logout()" ng-href="javascript:void(0)">Выйти</a></li>
+                    <li><a href="" ng-click="navbar.Logout()">Выйти</a></li>
                 </ul>
             </li>
         </ul>

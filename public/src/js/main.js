@@ -14,14 +14,20 @@ yepnope({
         './lib/mapbox.js/mapbox.uncompressed.js',
         './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
         './lib/angular/angular.js',
-        './lib/angular-route/angular-route.min.js',
+        './lib/angular-route/angular-route.js',
         './lib/angular-touch/angular-touch.js',
+        './lib/angular-cookies/angular-cookies.js',
         './lib/angular-animate/angular-animate.js',
         './lib/angular-bootstrap/ui-bootstrap-tpls.js'
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
-        'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.30.0/L.Control.Locate.js'
+        'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.30.0/L.Control.Locate.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js'
     ],
     both: [
         'https://vk.com/js/api/openapi.js'
@@ -47,7 +53,7 @@ yepnope({
         './src/js/app/app.js',
         './src/js/app/services/geolocationService.js',
         './src/js/app/services/vkService.js',
-        './src/js/app/services/configService.js',
+        './src/js/app/services/stateService.js',
         './src/js/app/services/mapService.js',
         './src/js/app/services/meetService.js',
         './src/js/app/controllers/applicationController.js',

@@ -1,13 +1,11 @@
-function LoginViewController ($scope, $log, $location, VkService, ConfigService) {
+function LoginViewController ($scope, $log, $location, VkService, StateService) {
+    $log.debug('Initialize login view controller...');
 
-    $log.debug('Initialize login page controller...');
-
-    $scope.Login = function (e) {
-        e.preventDefault();
+    $scope.Login = function () {
         $log.debug('Try login to VK...');
         VkService.login(function (error) {
             if (!error) {
-                ConfigService.isAuthorized = true;
+                StateService.isLogin = true;
                 $location.path('/');
             }
         });
@@ -16,4 +14,4 @@ function LoginViewController ($scope, $log, $location, VkService, ConfigService)
 
 angular.module('spacebox')
     .controller('LoginViewController',
-        ['$scope', '$log', '$location', 'VkService', 'ConfigService', LoginViewController]);
+        ['$scope', '$log', '$location', 'VkService', 'StateService', LoginViewController]);

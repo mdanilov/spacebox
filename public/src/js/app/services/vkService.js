@@ -1,15 +1,17 @@
-function VkService ($http, $log) {
+function VkService ($http, $log, $cookieStore) {
 
     var VkService = {};
 
     VkService.VERSION = 5.25;
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
-    VkService._id = 0;
+    VkService._id = $cookieStore.get('vkUserId');
 
     VK.init({ apiId: config.vkApiId });
 
     function LoginToServer (data, callback) {
+        VkService._id = data.mid;
+        $cookieStore.put('vkUserId', VkService._id);
         $http.get(config.serverUrl + '/login', {params: data}).
             success(function (data, status, headers, config) {
                 callback(null, true);
@@ -23,7 +25,6 @@ function VkService ($http, $log) {
         VK.Auth.login(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s has been authorized', response.session.mid);
-                VkService._id = response.session.mid;
                 LoginToServer(response.session, callback);
             }
             else {
@@ -36,7 +37,7 @@ function VkService ($http, $log) {
     VkService.logout =  function (callback) {
         $http.get(config.serverUrl + '/logout').
             success(function (data, status, headers, config) {
-                VK.Auth.logout();
+                $cookieStore.remove('vkUserId');
                 callback(null);
             }).
             error(function (data, status, headers, config) {
@@ -61,7 +62,7 @@ function VkService ($http, $log) {
     };
 
     VkService.getCurrentUserInfo = function (callback) {
-        if (VkService._id == 0) {
+        if (angular.isUndefined(VkService._id)) {
             $log.info('User is not authorized');
             return;
         }
@@ -98,7 +99,6 @@ function VkService ($http, $log) {
         VK.Auth.getLoginStatus(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s already authorized', response.session.mid);
-                VkService._id = response.session.mid;
                 LoginToServer(response.session, callback);
             } else {
                 $log.debug('VK user is not authorized using OpenAPI');
@@ -111,4 +111,4 @@ function VkService ($http, $log) {
 }
 
 angular.module('spacebox')
-    .factory('VkService', ['$http', '$log', VkService]);
+    .factory('VkService', ['$http', '$log', '$cookieStore', VkService]);

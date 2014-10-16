@@ -1,22 +1,24 @@
-function ApplicationController ($scope, $log, VkService, ConfigService) {
+function ApplicationController ($scope, $log, VkService, StateService) {
     $log.debug('Initialize application controller...');
 
     this.user = {};
 
-    $scope.$watch(function () { return ConfigService.isLogin },
-        (function (newValue, oldValue) {
-            if (newValue == true) {
-                VkService.getCurrentUserInfo((function (error, info) {
-                    if (error) {
-                        return;
-                    }
-                    this.user.name = info[0].first_name;
-                    this.user.image = info[0].photo_50;
-                    $scope.$apply();
-                }).bind(this));
+    var fillUserInfo = angular.bind(this.user, function (error, info) {
+        if (error) {
+            return;
+        }
+        this.name = info[0].first_name;
+        this.image = info[0].photo_50;
+        $scope.$apply();
+    });
+
+    $scope.$watch(function () { return StateService.isLogin },
+        function (newValue, oldValue) {
+            if (angular.equals(newValue, true)) {
+                VkService.getCurrentUserInfo(fillUserInfo);
             }
-        }).bind(this));
+        });
 }
 
 angular.module('spacebox')
-    .controller('ApplicationController', ['$scope', '$log', 'VkService', 'ConfigService', ApplicationController]);
+    .controller('ApplicationController', ['$scope', '$log', 'VkService', 'StateService', ApplicationController]);
