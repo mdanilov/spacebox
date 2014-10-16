@@ -23,7 +23,7 @@ function VkService ($http, $log) {
         VK.Auth.login(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s has been authorized', response.session.mid);
-                _id = response.session.mid;
+                VkService._id = response.session.mid;
                 LoginToServer(response.session, callback);
             }
             else {
@@ -98,7 +98,7 @@ function VkService ($http, $log) {
         VK.Auth.getLoginStatus(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s already authorized', response.session.mid);
-                _id = response.session.mid;
+                VkService._id = response.session.mid;
                 LoginToServer(response.session, callback);
             } else {
                 $log.debug('VK user is not authorized using OpenAPI');

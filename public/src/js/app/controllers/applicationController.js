@@ -3,17 +3,19 @@ function ApplicationController ($scope, $log, VkService, ConfigService) {
 
     this.user = {};
 
-    $scope.$watch(ConfigService.isLogin, function (value) {
-        if (value == true) {
-            VkService.getCurrentUserInfo((function (error, info) {
-                if (error) {
-                    return;
-                }
-                this.user.name = info[0].first_name;
-                this.user.image = info[0].photo_50;
-            }).bind(this));
-        }
-    });
+    $scope.$watch(function () { return ConfigService.isLogin },
+        (function (newValue, oldValue) {
+            if (newValue == true) {
+                VkService.getCurrentUserInfo((function (error, info) {
+                    if (error) {
+                        return;
+                    }
+                    this.user.name = info[0].first_name;
+                    this.user.image = info[0].photo_50;
+                    $scope.$apply();
+                }).bind(this));
+            }
+        }).bind(this));
 }
 
 angular.module('spacebox')

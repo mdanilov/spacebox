@@ -3,9 +3,27 @@ function navbarDirective ($location, VkService) {
         restrict: 'E',
         transclude: true,
         scope: {
-            user: '='
+            info: '='
         },
         templateUrl: 'src/js/app/templates/navbar.html',
+        controller: function ($scope, $log, $location, VkService) {
+
+            this.OpenMain = function () {
+                $location.path('/');
+            };
+
+            this.OpenFriends = function () {
+                $location.path('/friends');
+            };
+
+            this.Logout = function () {
+                $log.debug('Logout from VK...');
+                VkService.logout(function () {
+                    $location.path('/login');
+                });
+            };
+        },
+        controllerAs: 'navbar',
         link: function (scope, element, attrs) {
             var active = element.find('nav.navbar-nav li:first-child');
             element.find('nav.navbar-nav li').on('click', function () {
@@ -13,23 +31,8 @@ function navbarDirective ($location, VkService) {
                 active = $(this);
                 active.addClass('sp-active');
             });
-
-            scope.OpenMain = function () {
-                $location.path('/');
-            };
-
-            scope.OpenFriends = function () {
-                $location.path('/friends');
-            };
-
-            scope.Logout = function () {
-                $log.debug('Logout from VK...');
-                VkService.logout(function () {
-                    $location.path('/login');
-                });
-            };
         }
     };
 }
 
-angular.module('spacebox').directive('spNavbar', ['$location', 'VkService', navbarDirective]);
+angular.module('spacebox').directive('spNavbar', ['$log', '$location', 'VkService', navbarDirective]);

@@ -1,15 +1,15 @@
 <div id="spNavbar" class="navbar navbar-fixed-top navbar-default">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
-            <li><img ng-click="OpenMain()" class="navbar-brand" ng-src="src/img/logo.png"></li>
-            <li><a ng-click="OpenFriends()" ng-href="javascript:void(0)" class="sp-nav-button">Друзья</a></li>
+            <li><img ng-click="navbar.OpenMain()" class="navbar-brand" ng-src="src/img/logo.png"></li>
+            <li><a ng-click="navbar.OpenFriends()" ng-href="javascript:void(0)" class="sp-nav-button">Друзья</a></li>
             <li class="sp-active"><a ng-href="javascript:void(0)" class="sp-nav-button">Карта</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a ng-href="javascript:void(0)" class="sp-nav-button">Артем</a></li>
-            <li class="dropdown"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" src="http://lorempixel.com/56/56/people/1" alt="icon">
+            <li><a ng-href="javascript:void(0)" class="sp-nav-button">{{info.name}}</a></li>
+            <li class="dropdown"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}" alt="icon">
                 <ul class="dropdown-menu" role="menu">
-                    <li><a ng-click="Logout()" ng-href="javascript:void(0)">Выйти</a></li>
+                    <li><a ng-click="navbar.Logout()" ng-href="javascript:void(0)">Выйти</a></li>
                 </ul>
             </li>
         </ul>
