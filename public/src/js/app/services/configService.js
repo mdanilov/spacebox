@@ -1,3 +1,3 @@
 angular.module('spacebox').value('ConfigService', {
-    isAuthorized: false
+    isLogin: false
 });

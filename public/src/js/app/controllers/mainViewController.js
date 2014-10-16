@@ -2,15 +2,7 @@ function MainViewController ($scope, $location, $log, VkService, GeolocationServ
 
     $log.debug('Initialize main view controller...');
 
-    this.user = {};
     this.users = [];
-
-    VkService.getCurrentUserInfo((function (error, info) {
-        if (error) {
-            return;
-        }
-        this.user.name = info[i].first_name;
-    }).bind(this));
 
     //MapService.init();
     SearchUsers.apply(this);
@@ -59,8 +51,8 @@ function MainViewController ($scope, $location, $log, VkService, GeolocationServ
             this.users = CreateUserList(data, info);
             $scope.$apply();
 
-            MapService.invalidateSize();
-            MapService.invalidateUsers(this.users);
+            //MapService.invalidateSize();
+            //MapService.invalidateUsers(this.users);
         }).bind(this))
     }
 
@@ -72,15 +64,8 @@ function MainViewController ($scope, $location, $log, VkService, GeolocationServ
     this.Search = function () {
         SearchUsers.apply(this);
     };
-
-    this.Logout = function () {
-        $log.debug('Logout from VK...');
-        VkService.logout(function () {
-            $location.path('/login');
-        });
-    };
 }
 
 angular.module('spacebox')
     .controller('MainViewController',
-        ['$scope', '$location', '$log', 'VkService', 'GeolocationService', 'MapService', MainViewController]);
+        ['$scope', '$location', '$log', 'VkService', 'GeolocationService', MainViewController]);

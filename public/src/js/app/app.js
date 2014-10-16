@@ -13,6 +13,11 @@ spacebox.config(['$routeProvider',
                 controller: 'MainViewController',
                 controllerAs: 'main'
             }).
+            when('/friends', {
+                templateUrl: 'src/js/app/templates/friends-view.html',
+                controller: 'FriendsViewController',
+                controllerAs: 'friends'
+            }).
             when('/error', {
                 templateUrl: 'src/js/app/templates/error-page.html',
                 controller: 'ErrorViewController'
@@ -26,7 +31,7 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService',
     function ($rootScope, $location, $log, VkService, ConfigService) {
         $rootScope.$on('$locationChangeStart', function ($event) {
             var path = $location.path();
-            if (!ConfigService.isAuthorized && path != '/login') {
+            if (!ConfigService.isLogin && path != '/login') {
                 // TODO: prevent event don't work as assumed
                 // $event.preventDefault();
                 VkService.getLoginStatus(function (error, status) {
@@ -35,7 +40,7 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService',
                         $location.path('/login');
                     }
                     else {
-                        ConfigService.isAuthorized = true;
+                        ConfigService.isLogin = true;
                         $location.path('/');
                     }
                 });

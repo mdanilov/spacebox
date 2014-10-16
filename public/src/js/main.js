@@ -54,6 +54,7 @@ yepnope({
         './src/js/app/controllers/loginViewController.js',
         './src/js/app/controllers/errorViewController.js',
         './src/js/app/controllers/mainViewController.js',
+        './src/js/app/controllers/friendsViewController.js',
         './src/js/app/controllers/userListItemController.js',
         './src/js/app/controllers/listController.js',
         './src/js/app/controllers/modalController.js',
