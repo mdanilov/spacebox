@@ -39,15 +39,12 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'StateService',
             if (!StateService.isLogin && path != '/login') {
                 // TODO: prevent event don't work as assumed
                 // $event.preventDefault();
-                VkService.getLoginStatus(function (error, status) {
-                    if (error || !status) {
-                        $log.debug('Prevent to load \'%s\', user is not authorized', path);
-                        $location.path('/login');
-                    }
-                    else {
-                        StateService.isLogin = true;
-                        $location.path('/');
-                    }
+                VkService.asyncGetLoginStatus().then(function () {
+                    StateService.isLogin = true;
+                    $location.path('/');
+                }, function (error) {
+                    $log.debug('Prevent to load \'%s\', user is not authorized', path);
+                    $location.path('/login');
                 });
             }
     });

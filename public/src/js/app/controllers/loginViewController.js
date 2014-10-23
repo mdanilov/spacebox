@@ -3,11 +3,9 @@ function LoginViewController ($scope, $log, $location, VkService, StateService) 
 
     $scope.Login = function () {
         $log.debug('Try login to VK...');
-        VkService.login(function (error) {
-            if (!error) {
-                StateService.isLogin = true;
-                $location.path('/');
-            }
+        VkService.asyncLogin().then(function () {
+            StateService.isLogin = true;
+            $location.path('/');
         });
     }
 }

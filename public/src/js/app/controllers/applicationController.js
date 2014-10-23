@@ -3,19 +3,15 @@ function ApplicationController ($scope, $log, VkService, StateService) {
 
     this.user = {};
 
-    var fillUserInfo = angular.bind(this.user, function (error, info) {
-        if (error) {
-            return;
-        }
+    var fillUserInfo = angular.bind(this.user, function (info) {
         this.name = info[0].first_name;
         this.image = info[0].photo_50;
-        $scope.$apply();
     });
 
     $scope.$watch(function () { return StateService.isLogin },
         function (newValue, oldValue) {
             if (angular.equals(newValue, true)) {
-                VkService.getCurrentUserInfo(fillUserInfo);
+                VkService.asyncGetCurrentUserInfo().then(fillUserInfo);
             }
         });
 }

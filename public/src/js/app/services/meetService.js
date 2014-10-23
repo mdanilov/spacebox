@@ -1,4 +1,4 @@
-function MeetService ($http, $log) {
+function MeetService ($http, $log, $q, VkService) {
 
     var MeetService = {};
 
@@ -22,19 +22,25 @@ function MeetService ($http, $log) {
             });
     };
 
-    MeetService.getFriends = function (callback) {
+    MeetService.asyncGetFriends = function () {
+        var deferred = $q.defer();
         $http.get(config.serverUrl + '/getFriends').
             success(function (data, status, headers, config) {
-                callback(null, data);
+                VkService.asyncGetUsersInfo(data).then(function (info) {
+                    deferred.resolve(info);
+                }, function (error) {
+                    deferred.reject(error);
+                })
             }).
             error(function (data, status, headers, config) {
-                callback(status);
+                deferred.reject(status);
             });
+        return deferred.promise;
     };
 
     return MeetService;
 }
 
 angular.module('spacebox')
-    .factory('MeetService', ['$http', '$log', MeetService]);
+    .factory('MeetService', ['$http', '$log', '$q', 'VkService', MeetService]);
 

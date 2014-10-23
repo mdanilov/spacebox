@@ -156,16 +156,16 @@ exports.selectFriends = function (request, response, next) {
         var id = request.session.mid;
         DB.query({ text: "SELECT * FROM friends WHERE mid1 = $1 OR mid2 = $1;",  values: [ id ]},
             function (results) {
-                response.friends = [];
+                var friends = [];
                 for (var i = 0; i < results.rows.length; i++) {
                     if (results.rows[i].mid1 == id) {
-                        response.friends.push(results.rows[i].mid2);
+                        friends.push(results.rows[i].mid2);
                     }
                     else {
-                        response.friends.push(results.rows[i].mid1);
+                        friends.push(results.rows[i].mid1);
                     }
                 }
-                response.end();
+                response.json(friends);
             });
     }
     catch (error) {

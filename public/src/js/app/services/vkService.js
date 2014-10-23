@@ -1,4 +1,4 @@
-function VkService ($http, $log, $cookieStore) {
+function VkService ($http, $log, $cookieStore, $q) {
 
     var VkService = {};
 
@@ -9,68 +9,86 @@ function VkService ($http, $log, $cookieStore) {
 
     VK.init({ apiId: config.vkApiId });
 
-    function LoginToServer (data, callback) {
+    function asyncLoginToServer (data) {
+        var deferred = $q.defer();
         VkService._id = data.mid;
         $cookieStore.put('vkUserId', VkService._id);
         $http.get(config.serverUrl + '/login', {params: data}).
             success(function (data, status, headers, config) {
-                callback(null, true);
+                deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                callback(status);
+                $log.debug('Failed login to server: %', status);
+                deferred.reject();
             });
+        return deferred.promise;
     }
 
-    VkService.login = function (callback) {
+    VkService.asyncLogin = function () {
+        var deferred = $q.defer();
         VK.Auth.login(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s has been authorized', response.session.mid);
-                LoginToServer(response.session, callback);
+                asyncLoginToServer(response.session).then(function () {
+                    deferred.resolve();
+                }, function (status) {
+                    deferred.reject(status);
+                });
             }
             else {
                 $log.error('Can\'t authorized VK user');
-                callback(response.status);
+                deferred.reject(response.status);
             }
         }, VkService.SCOPE);
+        return deferred.promise;
     };
 
-    VkService.logout =  function (callback) {
+    VkService.asyncLogout =  function () {
+        var deferred = $q.defer();
         $http.get(config.serverUrl + '/logout').
             success(function (data, status, headers, config) {
                 $cookieStore.remove('vkUserId');
-                callback(null);
+                deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                callback(status);
+                deferred.reject(status);
             });
+        return deferred.promise;
     };
 
-    VkService.getUsersInfo = function (ids, callback) {
-        if (ids.length == 0) {
-            return;
+    VkService.asyncGetUsersInfo = function (ids) {
+        var deferred = $q.defer();
+        if (!ids || ids.length == 0) {
+            deferred.reject();
         }
-
         VK.Api.call('users.get', { user_ids: ids, fields: VkService.FIELDS }, function (r) {
             if (r.response) {
-                callback(null, r.response);
+                deferred.resolve(r.response);
             }
             else {
                 $log.error('Can\'t get VK users information');
-                callback(r.error);
+                deferred.reject(r.error);
             }
         });
+        return deferred.promise;
     };
 
-    VkService.getCurrentUserInfo = function (callback) {
+    VkService.asyncGetCurrentUserInfo = function () {
+        var deferred = $q.defer();
         if (angular.isUndefined(VkService._id)) {
             $log.info('User is not authorized');
-            return;
+            deferred.reject();
         }
-
-        VkService.getUsersInfo(VkService._id, callback);
+        VkService.asyncGetUsersInfo(VkService._id).then(function (response) {
+            deferred.resolve(response);
+        }, function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
     };
 
-    VkService.getPhotos = function (id, callback) {
+    VkService.asyncGetPhotos = function (id) {
+        var deferred = $q.defer();
         VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
             if (r.response) {
                 var photos = [];
@@ -82,33 +100,36 @@ function VkService ($http, $log, $cookieStore) {
                         photos.push(r.response.items[i].photo_1280);
                     }
                 }
-                callback(null, photos);
+                deferred.resolve(photos);
             }
             else {
                 $log.error('Can\'t get VK photos');
-                callback(r.error);
+                deferred.reject(r.error);
             }
         });
+        return deferred.promise;
     };
 
-    VkService.call = function (method, options, callback) {
-        VK.Api.call(method, options, callback);
-    };
-
-    VkService.getLoginStatus = function (callback) {
+    VkService.asyncGetLoginStatus = function () {
+        var deferred = $q.defer();
         VK.Auth.getLoginStatus(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s already authorized', response.session.mid);
-                LoginToServer(response.session, callback);
+                asyncLoginToServer(response.session).then(function () {
+                    deferred.resolve();
+                }, function () {
+                    deferred.reject();
+                });
             } else {
                 $log.debug('VK user is not authorized using OpenAPI');
-                callback(null, false);
+                deferred.reject();
             }
         });
+        return deferred.promise;
     };
 
     return VkService;
 }
 
 angular.module('spacebox')
-    .factory('VkService', ['$http', '$log', '$cookieStore', VkService]);
+    .factory('VkService', ['$http', '$log', '$cookieStore', '$q', VkService]);

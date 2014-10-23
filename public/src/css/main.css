@@ -76,11 +76,15 @@ ol.carousel-indicators li {
     border-color: black;
 } 
 
-/*.fill-height {
+#spFriendsPage {
+    margin: 60px auto 0px auto;
+}
+
+.fill-height {
     height: 100%;
 }
 
-.nopadding {
+/*.nopadding {
     padding: 0 !important;
     margin: 0 !important;
 }

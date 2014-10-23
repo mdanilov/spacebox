@@ -1,29 +1,11 @@
-function UserListItemController ($scope, $window, VkService, MapService, MeetService) {
-
-    $scope.btnGroupIsHidden = true;
-
-    $scope.gainFocus = function (e) {
-        e.preventDefault();
-        $scope.btnGroupIsHidden = false;
-    };
-
-    $scope.onClick = function (e) {
-        e.preventDefault();
-        MapService.setCenter($scope.user.location);
-    };
-
-    $scope.loseFocus = function (e) {
-        e.preventDefault();
-        $scope.btnGroupIsHidden = true;
-    };
+function UserListItemController ($scope, $window, VkService, MeetService) {
 
     $scope.openVkProfile = function () {
         var url = 'http://vk.com/' + $scope.user.screenName;
         $window.open(url);
     };
 
-    $scope.toggleLike = function (e) {
-        e.preventDefault();
+    $scope.toggleLike = function () {
         if ($scope.user.like) {
             $scope.user.like = false;
             MeetService.dislike($scope.user.uid, function (error) {

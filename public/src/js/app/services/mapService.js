@@ -89,7 +89,8 @@ function MapService ($log, $filter, GeolocationService) {
                 title: "Мое текущее местоположение",
                 popup: "",
                 outsideMapBoundsMsg: ""
-            }
+            },
+            locateOptions: { watch: false }
         }).addTo(MapService._map);
 
         MapService._locator.locate();
@@ -98,18 +99,20 @@ function MapService ($log, $filter, GeolocationService) {
     MapService.init = function () {
         L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
         MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], 10);
-        GeolocationService.getCurrentPosition(function (position) {
+
+        GeolocationService.asyncGetCurrentPosition(function (position) {
             var pos = L.latLng(position.coords.latitude, position.coords.longitude);
             MapService._map.setView(pos, 15);
+
+            initializeLocator();
         });
+
         MapService._map.invalidateSize();
 
         // TODO: popupclose should be listening on marker
         MapService._map.on('popupclose', function () {
             MapService._popupFixed = false;
         });
-
-        initializeLocator();
     };
 
     MapService.setCenter = function (location) {
@@ -122,7 +125,6 @@ function MapService ($log, $filter, GeolocationService) {
     };
 
     MapService.invalidateUsers = function (users) {
-        MapService._locator.locate();
         MapService.clear();
         for (var i = 0; i < users.length; i++) {
             var marker = addMarker(users[i]);

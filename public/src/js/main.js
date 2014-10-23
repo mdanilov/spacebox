@@ -62,15 +62,14 @@ yepnope({
         './src/js/app/controllers/mainViewController.js',
         './src/js/app/controllers/friendsViewController.js',
         './src/js/app/controllers/userListItemController.js',
-        './src/js/app/controllers/listController.js',
         './src/js/app/controllers/modalController.js',
-        './src/js/app/controllers/loginController.js',
         './src/js/app/filters/distanceFilter.js',
         './src/js/app/filters/meetFilter.js',
         './src/js/app/filters/ageFilter.js',
         './src/js/app/directives/navbarDirective.js',
         './src/js/app/directives/modalDirective.js',
-        './src/js/app/directives/userListDirective.js'
+        './src/js/app/directives/userListDirective.js',
+        './src/js/app/directives/userListItemDirective.js'
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {

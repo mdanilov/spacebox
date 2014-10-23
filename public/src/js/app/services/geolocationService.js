@@ -1,4 +1,4 @@
-﻿function GeolocationService ($http, $log) {
+﻿function GeolocationService ($http, $log, $q) {
 
     var GeolocationService = {};
 
@@ -10,11 +10,13 @@
         }
     }
 
-    GeolocationService.getCurrentPosition = function (callback) {
+    GeolocationService.asyncGetCurrentPosition = function (callback) {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(callback, function () {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                callback(position);
+            }, function () {
                 handleNoGeolocation(true);
-            });
+            }, { maximumAge: 60000 });
         }
         else {
             handleNoGeolocation(false);
@@ -22,7 +24,7 @@
     };
 
     GeolocationService.getNearUsers = function (radius, callback) {
-        GeolocationService.getCurrentPosition(function (position) {
+        GeolocationService.asyncGetCurrentPosition(function (position) {
             var data = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -42,4 +44,4 @@
 }
 
 angular.module('spacebox')
-    .factory('GeolocationService', ['$http', '$log', GeolocationService]);
+    .factory('GeolocationService', ['$http', '$log', '$q', GeolocationService]);

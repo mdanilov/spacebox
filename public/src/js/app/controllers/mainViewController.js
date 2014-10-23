@@ -1,33 +1,9 @@
-function MainViewController ($scope, $location, $log, VkService, GeolocationService, MapService) {
-
+function MainViewController ($scope, $location, $log, VkService, GeolocationService) {
     $log.debug('Initialize main view controller...');
 
     this.users = [];
 
-    //MapService.init();
     SearchUsers.apply(this);
-
-    function CreateUserList (data, info) {
-        var users = [];
-        for (var i = 0; i < info.length; i++) {
-            users[i] = {};
-            users[i].location = {
-                latitude: data[i].latitude,
-                longitude: data[i].longitude
-            };
-            users[i].distance = data[i].distance;
-            users[i].like = data[i].like;
-            users[i].liked = data[i].likeMe;
-            users[i].bdate = info[i].bdate;
-            users[i].photoUrl = info[i].photo_50;
-            users[i].largePhotoUrl = info[i].photo_100;
-            users[i].firstName = info[i].first_name;
-            users[i].screenName = info[i].screen_name;
-            users[i].uid = info[i].uid;
-        }
-
-        return users;
-    }
 
     function processNearUsers (error, data) {
         if (error) {
@@ -41,19 +17,12 @@ function MainViewController ($scope, $location, $log, VkService, GeolocationServ
             uids.push(data[i].mid);
         }
 
-        VkService.getUsersInfo(uids, (function (error, info) {
-            if (error) {
-                $log.error('Can\'t get VK users info due to error: ', error);
-                return;
-            }
-
+        VkService.asyncGetUsersInfo(uids).then((function (info) {
             $log.debug('VK users info collected: ', info);
-            this.users = CreateUserList(data, info);
-            $scope.$apply();
-
-            //MapService.invalidateSize();
-            //MapService.invalidateUsers(this.users);
-        }).bind(this))
+            //$scope.$apply();
+        }).bind(this), function (error) {
+            $log.error('Can\'t get VK users info due to error: ', error);
+        })
     }
 
     function SearchUsers () {

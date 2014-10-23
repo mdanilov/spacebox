@@ -18,7 +18,7 @@ function navbarDirective ($location, VkService) {
 
             this.Logout = function () {
                 $log.debug('Logout from VK...');
-                VkService.logout(function () {
+                VkService.asyncLogout().then(function () {
                     $location.path('/login');
                 });
             };
