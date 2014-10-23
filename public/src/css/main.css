@@ -4,14 +4,77 @@ html {
 
 body {
     height: 100%;
-    /*padding-top: 61px;*/
+}
+
+.container {
+    max-width: 750px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.container .row {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 #spMainPage {
-	margin: 60px auto 0px auto;
-	min-width: 700px;
-	max-width: 800px;
 }
+
+#carousel-example-generic {
+    min-height: 300px;
+}
+
+.carousel-inner {
+    top: 50px;
+}
+
+@media (max-width: 768px) {
+    .carousel-inner {
+        top: 0px;
+    }
+}
+
+.row h2 {
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+.carousel > .carousel-inner > .item > img {
+    width: auto;
+    height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .carousel > .carousel-inner > .item > img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.carousel {
+  width: 100%;
+  height: 400px !important;
+  background-color: white;
+}
+
+.carousel-control span {
+    color: blue;
+}
+
+a.carousel-control.left, a.carousel-control.right {
+    background-image: none; 
+} 
+
+ol.carousel-indicators .active {
+    background-color: blue;
+}
+
+ol.carousel-indicators li {
+    border-color: black;
+} 
 
 /*.fill-height {
     height: 100%;

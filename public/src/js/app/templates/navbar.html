@@ -1,17 +1,19 @@
-<div id="spNavbar" class="navbar navbar-fixed-top navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-left">
-            <li class="sp-active"><img class="navbar-brand" ng-click="navbar.OpenMain()" ng-src="src/img/logo.png"></li>
-            <li><a href="" class="sp-nav-button" ng-click="navbar.OpenFriends()">Друзья</a></li>
-            <li><a href="" class="sp-nav-button">Карта</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="" class="sp-nav-button">{{info.name}}</a></li>
-            <li class="dropdown"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}" alt="icon">
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="" ng-click="navbar.Logout()">Выйти</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<div class="container-fluid clearfix">
+<div class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+        <li><img class="navbar-brand" ng-click="navbar.OpenMain()" ng-src="src/img/logo.png"></li>
+        <li><a href="" class="sp-nav-button" ng-click="navbar.OpenFriends()">Друзья</a></li>
+        <li><a href="" class="sp-nav-button">Карта</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown hidden-xs"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}" alt="icon">
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="" ng-click="navbar.Logout()">Выйти</a></li>
+            </ul>
+        </li>
+        <li class="hidden-xs"><a href="" class="sp-nav-button">{{info.name}}</a></li>
+        <li class="visible-xs-block"><a href="" ng-click="navbar.Logout()">Выйти</a></li>    
+    </ul>
+</div>
 </div>

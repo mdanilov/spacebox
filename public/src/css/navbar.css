@@ -1,18 +1,25 @@
-#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav,  #spNavbar .navbar-right{
+ul.navbar-nav, ul.navbar-nav li {
+	float: left !important;
+}
+
+ul.navbar-right {
+	margin-right: 0px !important;
+}
+
+ul.navbar-right, ul.navbar-right li {
+	float: right !important;
+}
+
+.navbar {
 	height: 60px;
 }
 
-#spNavbar .container-fluid {
-	min-width: 700px;
-	max-width: 800px;
+div.container-fluid {
+	padding: 0px;
 }
 
-#spNavbar .navbar-right {
-	margin: 0px;
-}
-
-#spNavbar .container-fluid {
-	margin: 0px auto;
+/*#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav,  #spNavbar .navbar-right {
+	height: 60px;
 }
 
 #spNavbar .navbar-brand {
@@ -51,6 +58,7 @@
 	cursor: pointer;
 }
 
+*/
 /*#navbar {
     border-width: 0;
     position: fixed;

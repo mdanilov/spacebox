@@ -19,8 +19,10 @@
         <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
     </head>
     <body ng-controller="ApplicationController as app">
-        <sp-navbar info="app.user"></sp-navbar>
-        <div ng-view class="fill-height"></div>
+        <div class="container">
+            <sp-navbar info="app.user"></sp-navbar>
+            <div ng-view class="fill-height"></div>
+        </div>
         <script src="lib/jquery/dist/jquery.js"></script>
         <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
