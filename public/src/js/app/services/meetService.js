@@ -26,8 +26,16 @@ function MeetService ($http, $log, $q, VkService) {
         var deferred = $q.defer();
         $http.get(config.serverUrl + '/getFriends').
             success(function (data, status, headers, config) {
-                VkService.asyncGetUsersInfo(data).then(function (info) {
-                    deferred.resolve(info);
+                var friends = data;
+                var uids = [];
+                for (var i = 0; i < data.length; i++) {
+                    uids.push(data[i].mid);
+                }
+                VkService.asyncGetUsersInfo(uids).then(function (info) {
+                    for (var i = 0; i < info.length; i++) {
+                        friends[i].info = info[i];
+                    }
+                    deferred.resolve(friends);
                 }, function (error) {
                     deferred.reject(error);
                 })

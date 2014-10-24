@@ -1,24 +1,23 @@
-<a class="list-group-item" href="" ng-class="{active:selected}" ng-mouseover="gainFocus()" ng-mouseleave="loseFocus()" ng-click="onClick()">
+<div class="list-group-item" href="" ng-class="{active:selected}" ng-click="onClick()">
     <div class="media">
-        <a class="pull-left" href="#">
-            <img class="media-object" src="{{user.largePhotoUrl}}" alt="...">
+        <a class="pull-left" href="">
+            <img class="media-object" ng-src="{{user.info.photo_50}}">
         </a>
         <div class="media-body">
-            <p class="media-heading">{{user.firstName}}, {{user.bdate | age}}</p>
+            <p class="media-heading">{{user.info.first_name}}{{user.info.bdate | age}}</p>
         </div>
     </div>
-</a>
+</div>
 
 <!-- <a class="list-group-item" href="" ng-class="{active:selected}" ng-mouseover="gainFocus()" ng-mouseleave="loseFocus()" ng-click="onClick()">
     <div class="sp-list-item">
         <div class="sp-list-item-photo">
             <div class="sp-list-item-photo-container">
-                <img ng-src="{{user.largePhotoUrl}}" ng-click="openLightboxModal(user)">
+                <img ng-src="{{user.info.photo_50}}" ng-click="openLightboxModal(user)">
             </div>
         </div>
         <div class="sp-list-item-info">
-            <h4 class="list-group-item-heading">{{user.firstName}}, {{user.bdate | age}}</h4>
-            <p class="list-group-item-text">{{user.distance | distance}}</p>
+            <h4 class="list-group-item-heading">{{user.info.first_name}}{{user.info.bdate | age}}</h4>
         </div>
         <div class="sp-list-item-buttons">
             <div class="spTimestamp">5 минут</div>

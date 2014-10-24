@@ -151,21 +151,43 @@ function updateRelations (request) {
     }
 }
 
+function GetLocations (ids, callback) {
+    DB.query("SELECT * FROM users WHERE mid IN (" + ids.join(',') + ") ORDER BY mid;",
+        function (results) {
+            callback(results.rows);
+        });
+}
+
 exports.selectFriends = function (request, response, next) {
     try {
         var id = request.session.mid;
         DB.query({ text: "SELECT * FROM friends WHERE mid1 = $1 OR mid2 = $1;",  values: [ id ]},
             function (results) {
-                var friends = [];
+                var uids = [];
                 for (var i = 0; i < results.rows.length; i++) {
                     if (results.rows[i].mid1 == id) {
-                        friends.push(results.rows[i].mid2);
+                        uids.push(results.rows[i].mid2);
                     }
                     else {
-                        friends.push(results.rows[i].mid1);
+                        uids.push(results.rows[i].mid1);
                     }
                 }
-                response.json(friends);
+                uids.sort(function (a,b) { return a - b; });
+                GetLocations(uids, function (locations) {
+                    var friends = [];
+                    for (var i = 0, j = 0; i < uids.length; i++) {
+                        friends.push({ mid: uids[i] });
+                        if (locations.length && (uids[i] == locations[j].mid)) {
+                            friends[i].location = {
+                                longitude: locations[j].longitude,
+                                latitude: locations[j].latitude,
+                                timestamp: locations[j].timestamp
+                            };
+                            j++;
+                        }
+                    }
+                    response.json(friends);
+                });
             });
     }
     catch (error) {

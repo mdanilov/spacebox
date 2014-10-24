@@ -36,11 +36,9 @@ function MapService ($log, $filter, GeolocationService) {
                 '<div class="sp-map-tooltip">',
                     '<span class="sp-map-tooltip-carat"></span>',
                     '<div class="sp-map-tooltip-content">',
-                        '<img class="sp-map-tooltip-img" src="' + user.largePhotoUrl + '">',
+                        '<img class="sp-map-tooltip-img" src="' + user.info.photo_50 + '">',
                         '<div class="sp-map-tooltip-info">',
-                            '<h4>' + user.firstName + '</h4>',
-                            '<p>' + $filter('age')(user.bdate) + '</p>',
-                            '<p><em>' + $filter('distance')(user.distance) + '</em></p>',
+                            '<h4>' + user.info.first_name + $filter('age')(user.info.bdate) + '</h4>',
                         '</div>',
                     '</div>',
                 '</div>'
@@ -69,9 +67,7 @@ function MapService ($log, $filter, GeolocationService) {
             riseOnHover: true
         });
         marker.addTo(MapService._map);
-
-        MapService._markers[user.uid] = marker;
-
+        MapService._markers[user.mid] = marker;
         return marker;
     }
 
@@ -104,7 +100,8 @@ function MapService ($log, $filter, GeolocationService) {
             var pos = L.latLng(position.coords.latitude, position.coords.longitude);
             MapService._map.setView(pos, 15);
 
-            initializeLocator();
+            // TODO: fix problem with geolocation
+            //initializeLocator();
         });
 
         MapService._map.invalidateSize();
@@ -127,8 +124,10 @@ function MapService ($log, $filter, GeolocationService) {
     MapService.invalidateUsers = function (users) {
         MapService.clear();
         for (var i = 0; i < users.length; i++) {
-            var marker = addMarker(users[i]);
-            bindPopupWindow(marker, users[i]);
+            if (users[i].location) {
+                var marker = addMarker(users[i]);
+                bindPopupWindow(marker, users[i]);
+            }
         }
     };
 

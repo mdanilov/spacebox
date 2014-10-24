@@ -17,5 +17,4 @@ function userListItemDirective (MapService) {
     };
 }
 
-angular.module('spacebox').directive('spUserListItem',
-    ['$window', 'VkService', 'MapService', 'MeetService', userListItemDirective]);
+angular.module('spacebox').directive('spUserListItem', ['MapService', userListItemDirective]);
