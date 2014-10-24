@@ -1,4 +1,15 @@
 <a class="list-group-item" href="" ng-class="{active:selected}" ng-mouseover="gainFocus()" ng-mouseleave="loseFocus()" ng-click="onClick()">
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="{{user.largePhotoUrl}}" alt="...">
+        </a>
+        <div class="media-body">
+            <p class="media-heading">{{user.firstName}}, {{user.bdate | age}}</p>
+        </div>
+    </div>
+</a>
+
+<!-- <a class="list-group-item" href="" ng-class="{active:selected}" ng-mouseover="gainFocus()" ng-mouseleave="loseFocus()" ng-click="onClick()">
     <div class="sp-list-item">
         <div class="sp-list-item-photo">
             <div class="sp-list-item-photo-container">
@@ -16,4 +27,4 @@
         </div>
     </div>
     <div class="list-group-separator spListGroupSeparator"></div>
-</a>
+</a> -->

@@ -10,12 +10,21 @@ ul.navbar-right, ul.navbar-right li {
 	float: right !important;
 }
 
-.navbar {
-	height: 60px;
+#spNavbar {
+	position: relative;
+	display: block;
 }
 
-div.container-fluid {
+.navbar {
+	height: 60px;
+	width: 100%;
+}
+
+#spNavbar div.container-fluid {
 	padding: 0px;
+	height: 60px;
+	width: 100%;
+	position: absolute;
 }
 
 /*#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav,  #spNavbar .navbar-right {

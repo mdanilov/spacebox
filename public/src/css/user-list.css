@@ -1,3 +1,36 @@
+#spFriendsList {
+    max-height: 100%;
+    overflow-y: scroll;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#spFriendsList .list-group-item
+{
+    margin: 0px;
+    padding: 0px;
+    border-width: 0px;
+    border: none;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#spFriendsList .media {
+    margin: 0px;
+    border-bottom: 1px solid;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+#spFriendsList .media-object {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 #spUserList .btn-group.btn-group-lg.btn-group-justified label{
     border-radius: 0px;
 }
