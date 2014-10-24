@@ -177,7 +177,7 @@ exports.selectFriends = function (request, response, next) {
                     var friends = [];
                     for (var i = 0, j = 0; i < uids.length; i++) {
                         friends.push({ mid: uids[i] });
-                        if (locations.length && (uids[i] == locations[j].mid)) {
+                        if (locations.length && (j < locations.length) && (uids[i] == locations[j].mid)) {
                             friends[i].location = {
                                 longitude: locations[j].longitude,
                                 latitude: locations[j].latitude,
