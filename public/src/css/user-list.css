@@ -13,7 +13,14 @@
     border: none;
     padding-top: 0px;
     padding-bottom: 0px;
-    border-radius: 0%;    
+    border-radius: 0%;   
+    cursor: pointer; 
+}
+
+#spFriendsList .active
+{
+    background-color: rgb(238, 238, 238);
+    color: black;
 }
 
 #spFriendsList .media {
@@ -24,7 +31,7 @@
     vertical-align: middle;
     line-height: 60px;
     border-bottom: 1px solid;
-    border-color: rgba(0, 0, 0, 0.2);
+    border-color: rgb(238, 238, 238);
 }
 
 #spFriendsList .media-object {
