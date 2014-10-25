@@ -82,6 +82,28 @@ ol.carousel-indicators li {
     height: 100%;
 }
 
+#spFavorite span{
+    left: 50%;
+    font-size: 50px;
+    opacity: 0.55;
+}
+
+#spFavorite:hover span{
+    opacity: 0.85;
+}
+
+#spClose span{
+    left: 50%;
+    font-size: 50px;
+    opacity: 0.55;
+}
+
+#spClose:hover span{
+    opacity: 0.85;
+}
+
+
+
 /*.nopadding {
     padding: 0 !important;
     margin: 0 !important;

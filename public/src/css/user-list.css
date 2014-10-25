@@ -7,16 +7,22 @@
 
 #spFriendsList .list-group-item
 {
-    margin: 0px;
+    margin: 0px 0px 0px 0px;
     padding: 0px;
     border-width: 0px;
     border: none;
     padding-top: 0px;
     padding-bottom: 0px;
+    border-radius: 0%;    
 }
 
 #spFriendsList .media {
     margin: 0px;
+}
+
+#spFriendsList .media-body {
+    vertical-align: middle;
+    line-height: 60px;
     border-bottom: 1px solid;
     border-color: rgba(0, 0, 0, 0.2);
 }
@@ -25,10 +31,14 @@
     border-radius: 50%;
     height: 50px;
     width: 50px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 3px;
-    padding-right: 3px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 5px;
+    margin-right: 5px; 
+    margin-top: 5px; 
+    margin-bottom: 5px;         
 }
 
 #spUserList .btn-group.btn-group-lg.btn-group-justified label{
