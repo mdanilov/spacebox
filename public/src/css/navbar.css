@@ -22,6 +22,7 @@ ul.navbar-right, ul.navbar-right li {
 
 #spNavbar .navbar-default {
 	border-radius: 0%;
+	border-top: 0px;
 }
 
 #spNavbar div.container-fluid {
@@ -31,12 +32,9 @@ ul.navbar-right, ul.navbar-right li {
 	position: absolute;
 }
 
-/*#spNavbar, #spNavbar .container-fluid, #spNavbar .nav, #spNavbar .navbar-nav,  #spNavbar .navbar-right {
-	height: 60px;
-}
 
 #spNavbar .navbar-brand {
-	height: 58px;
+	height: 58px;	
 	padding-bottom: 13px;
 	padding-top: 10px;
 	margin-left: 0px;
@@ -55,93 +53,28 @@ ul.navbar-right, ul.navbar-right li {
 }
 
 #spNavbar .sp-active {
-	box-shadow: 0px 2px 0px 0px #4387fd;
+	border-bottom: 2px solid;
+	border-color: #4387fd;
 }
 
-#spNavbar .sp-active a, #spNavbar a:hover {
-	color: #4387fd;
+#spNavbar a {
+	padding: 0px;
 }
 
-#spNavbar .navbar-user-icon {
+#spNavbar li:hover {
+	border-bottom: 2px solid;
+	border-color: #4387fd;
+}
+
+
+
+/*#spNavbar .navbar-user-icon {
 	height: 58px;
 	padding-bottom: 8px;
 	padding-top: 8px;
 	margin-left: 0px;
 	margin-right: 0px;
 	cursor: pointer;
-}
-
-*/
-/*#navbar {
-    border-width: 0;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    background-color: white;
-    height: 60px;
-}
-
-.navbar-collapse {
-    border-bottom: solid 1px;
-	border-bottom-color: rgba(0,0,0,0.55);
-}
-
-.spActiveButton {
-	border-bottom: solid #4387fd 4px;
-	border-radius: 0px;
-	background-color: white;
-	width: 90px;
-}
-
-#spSearchButton {
-	color: #4387fd;
-	font-weight: bold;
-	padding-left: 10px;
-	padding-right: 0px;
-}
-
-#navbar .navbar-right {
-    height: 60px;
-}
-
-
-#navbar .navbar-right .spProfileName li {
-    height: 60px;
-}
-
-#navbar .navbar-right .spProfileName {
-	margin-top: 18px;
-}
-
-
-#navbar li {
-    height: 60px;
-}
-
-#navbar .spProfile {
-	padding-bottom: 11px;
-	padding-top: 11px;
-	padding-right: 20px;
-}
-
-#navbar .icon-material-search {
-    margin-right: 5px;
-}
-
-#navbar .spCircle {
-	float: right;
-	border-radius: 50%;
-	display: block;
-	border-color: transparent;
-	border: solid 2px;
-	height: 32px;
-	width: 32px;
-	box-sizing: content-box;
-}
-
-
-#navbar .spCircle:hover,
-#navbar .spCircle:focus {
-	border-color: #4387fd;
 }*/
+
+
