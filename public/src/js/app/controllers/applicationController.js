@@ -1,4 +1,4 @@
-function ApplicationController ($scope, $log, VkService, StateService) {
+function ApplicationController ($scope, $log, VkService, ConfigService) {
     $log.debug('Initialize application controller...');
 
     var self = this;
@@ -10,7 +10,7 @@ function ApplicationController ($scope, $log, VkService, StateService) {
         self.image = info[0].photo_50;
     });
 
-    $scope.$watch(function () { return StateService.isLogin },
+    $scope.$watch(function () { return ConfigService.isLogin },
         function (value) {
             if (angular.equals(value, true)) {
                 VkService.asyncGetCurrentUserInfo().then(fillUserInfo);
@@ -19,4 +19,4 @@ function ApplicationController ($scope, $log, VkService, StateService) {
 }
 
 angular.module('spacebox')
-    .controller('ApplicationController', ['$scope', '$log', 'VkService', 'StateService', ApplicationController]);
+    .controller('ApplicationController', ['$scope', '$log', 'VkService', 'ConfigService', ApplicationController]);

@@ -1,54 +1,20 @@
-function MainViewController ($scope, $log, VkService, GeolocationService, MeetService) {
+function MainViewController ($scope, $log, LocatorService, MeetService, users) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
-
-    self.users = [];
-    self.current = null;
-
-    function invalidateUsers (users) {
-        var uids = [];
-        for (var i = 0; i < users.length; i++) {
-            uids.push(users[i].mid);
-        }
-
-        VkService.asyncGetUsersInfo(uids).then(function (info) {
-            $log.debug('VK users info collected: ', info);
-            for (var i = 0; i < info.length; i++) {
-                users[i].info = info[i];
-            }
-            self.users = users;
-            selectCurrent();
-         }, function (error) {
-            $log.error('Can\'t get VK users info due to error: ', error);
-        });
-    }
-
-    function selectCurrent () {
-        var users = self.users;
-        for (var i = 0; i < users.length; i++) {
-            if (users[i].like == 0) {
-                self.current = users[i];
-                return;
-            }
-        }
-        self.current = null;
-    }
+    self.users = users;
+    self.current = LocatorService.getFirstNewUser();
 
     self.Search = function () {
-        $log.debug('Try to search near users...');
-        GeolocationService.asyncGetUserPositions(15000).then(function (data) {
-            $log.debug('Founded near users locations: ', data);
-            invalidateUsers(data);
-        }, function (error) {
-            $log.error('Can\'t get near users due to error: ', error);
+        LocatorService.asyncSearch().then(function (users) {
+            self.users = users;
+            self.current = LocatorService.getFirstNewUser();
         });
     };
 
     self.Like = function () {
-        var current = self.current;
-        current.like = 1;
-        selectCurrent();
+        self.current.like = 1;
+        self.current = LocatorService.getFirstNewUser();
 //        MeetService.asyncLike(current.mid).then(function () {
 //            if (current.likeMe == 1) {
 //                // TODO: show modal window
@@ -59,23 +25,20 @@ function MainViewController ($scope, $log, VkService, GeolocationService, MeetSe
     };
 
     self.Dislike = function () {
-        var current = self.current;
-        current.like = -1;
-        selectCurrent();
+        self.current.like = -1;
+        self.current = LocatorService.getFirstNewUser();
 //        MeetService.asyncDislike(current.mid).then(null, function () {
 //            current.like = 0;
 //        });
     };
-
-    self.Search();
 }
 
 MainViewController.resolve = {
-//    users: function (GeolocationService) {
-//        return GeolocationService.asyncGetUsers(15000);
-//    }
+    'users': function (LocatorService) {
+        return LocatorService.asyncSearch();
+    }
 };
 
 angular.module('spacebox')
     .controller('MainViewController',
-        ['$scope', '$log', 'VkService', 'GeolocationService', 'MeetService', MainViewController]);
+        ['$scope', '$log', 'LocatorService', 'MeetService', MainViewController]);

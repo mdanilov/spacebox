@@ -1,10 +1,10 @@
-function LoginViewController ($scope, $log, $location, VkService, StateService) {
+function LoginViewController ($scope, $log, $location, VkService, ConfigService) {
     $log.debug('Initialize login view controller...');
 
     $scope.Login = function () {
         $log.debug('Try login to VK...');
         VkService.asyncLogin().then(function () {
-            StateService.isLogin = true;
+            ConfigService.isLogin = true;
             $location.path('/');
         });
     }
@@ -12,4 +12,4 @@ function LoginViewController ($scope, $log, $location, VkService, StateService) 
 
 angular.module('spacebox')
     .controller('LoginViewController',
-        ['$scope', '$log', '$location', 'VkService', 'StateService', LoginViewController]);
+        ['$scope', '$log', '$location', 'VkService', 'ConfigService', LoginViewController]);

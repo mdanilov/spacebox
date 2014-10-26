@@ -33,15 +33,15 @@ spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
         }
     }]);
 
-spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'StateService',
-    function ($rootScope, $location, $log, VkService, StateService) {
+spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService',
+    function ($rootScope, $location, $log, VkService, ConfigService) {
         $rootScope.$on('$locationChangeStart', function ($event) {
             var path = $location.path();
-            if (!StateService.isLogin && path != '/login') {
+            if (!ConfigService.isLogin && path != '/login') {
                 // TODO: prevent event don't work as assumed
                 // $event.preventDefault();
                 VkService.asyncGetLoginStatus().then(function () {
-                    StateService.isLogin = true;
+                    ConfigService.isLogin = true;
                     $location.path('/');
                 }, function (error) {
                     $log.debug('Prevent to load \'%s\', user is not authorized', path);
