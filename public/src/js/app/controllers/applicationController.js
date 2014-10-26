@@ -1,16 +1,18 @@
 function ApplicationController ($scope, $log, VkService, StateService) {
     $log.debug('Initialize application controller...');
 
-    this.user = {};
+    var self = this;
 
-    var fillUserInfo = angular.bind(this.user, function (info) {
-        this.name = info[0].first_name;
-        this.image = info[0].photo_50;
+    self.user = {};
+
+    var fillUserInfo = angular.bind(self.user, function (info) {
+        self.name = info[0].first_name;
+        self.image = info[0].photo_50;
     });
 
     $scope.$watch(function () { return StateService.isLogin },
-        function (newValue, oldValue) {
-            if (angular.equals(newValue, true)) {
+        function (value) {
+            if (angular.equals(value, true)) {
                 VkService.asyncGetCurrentUserInfo().then(fillUserInfo);
             }
         });

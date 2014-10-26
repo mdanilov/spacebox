@@ -96,7 +96,7 @@ function MapService ($log, $filter, GeolocationService) {
         L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
         MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], 10);
 
-        GeolocationService.asyncGetCurrentPosition(function (position) {
+        GeolocationService.asyncGetCurrentPosition().then(function (position) {
             var pos = L.latLng(position.coords.latitude, position.coords.longitude);
             MapService._map.setView(pos, 15);
 

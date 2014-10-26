@@ -1,16 +1,18 @@
 function FriendsViewController ($scope, $log, MapService, MeetService) {
     $log.debug('Initialize friends view...');
 
-    this.friends = [];
+    var self = this;
+
+    self.friends = [];
     MapService.init();
 
-    var InvalidateFriends = angular.bind(this, function (users) {
+    function invalidateFriends (users) {
         $log.debug('Array of friends: ', users);
-        this.friends = users;
+        self.friends = users;
         MapService.invalidateUsers(users);
-    });
+    }
 
-    MeetService.asyncGetFriends().then(InvalidateFriends, function () {
+    MeetService.asyncGetFriends().then(invalidateFriends, function () {
         $log.error('Can\'t get friends');
     });
 }

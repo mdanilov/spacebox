@@ -67,6 +67,7 @@ yepnope({
         './src/js/app/filters/meetFilter.js',
         './src/js/app/filters/ageFilter.js',
         './src/js/app/directives/navbarDirective.js',
+        './src/js/app/directives/cardsDirective.js',
         './src/js/app/directives/modalDirective.js',
         './src/js/app/directives/userListDirective.js',
         './src/js/app/directives/userListItemDirective.js'

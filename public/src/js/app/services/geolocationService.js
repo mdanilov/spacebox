@@ -10,21 +10,26 @@
         }
     }
 
-    GeolocationService.asyncGetCurrentPosition = function (callback) {
+    GeolocationService.asyncGetCurrentPosition = function () {
+        var deferred = $q.defer();
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                callback(position);
-            }, function () {
-                handleNoGeolocation(true);
-            }, { maximumAge: 60000 });
+            deferred.resolve({coords: {latitude: 59.91231, longitude: 30.3224363}});
+//            navigator.geolocation.getCurrentPosition(function (position) {
+//                deferred.resolve(position);
+//            }, function () {
+//                handleNoGeolocation(true);
+//                deferred.reject();
+//            }, { maximumAge: 0, timeout: 5000 });
         }
         else {
             handleNoGeolocation(false);
         }
+        return deferred.promise;
     };
 
-    GeolocationService.getNearUsers = function (radius, callback) {
-        GeolocationService.asyncGetCurrentPosition(function (position) {
+    GeolocationService.asyncGetUserPositions = function (radius) {
+        var deferred = $q.defer();
+        GeolocationService.asyncGetCurrentPosition().then(function (position) {
             var data = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -32,12 +37,13 @@
             };
             $http.get(config.serverUrl + '/getUsers', {params: data}).
                 success(function (data, status, headers, config) {
-                    callback(null, data);
+                    deferred.resolve(data);
                 }).
                 error(function (data, status, headers, config) {
-                    callback(status);
+                    deferred.reject(status);
                 });
         });
+        return deferred.promise;
     };
 
     return GeolocationService;

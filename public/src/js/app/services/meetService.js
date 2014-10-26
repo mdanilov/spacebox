@@ -2,24 +2,28 @@ function MeetService ($http, $log, $q, VkService) {
 
     var MeetService = {};
 
-    MeetService.like = function (userId, callback) {
+    MeetService.asyncLike = function (userId) {
+        var deferred = $q.defer();
         $http.get(config.serverUrl + '/changeLikeStatus', {params: {id: userId, status: 1}}).
             success(function (data, status, headers, config) {
-                callback(null);
+                deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                callback(status);
+                deferred.reject(status);
             });
+        return deferred.promise;
     };
 
-    MeetService.dislike = function (userId, callback) {
+    MeetService.asyncDislike = function (userId) {
+        var deferred = $q.defer();
         $http.get(config.serverUrl + '/changeLikeStatus', {params: {id: userId, status: -1}}).
             success(function (data, status, headers, config) {
-                callback(null);
+                deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                callback(status);
+                deferred.reject(status);
             });
+        return deferred.promise;
     };
 
     MeetService.asyncGetFriends = function () {

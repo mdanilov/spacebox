@@ -11,6 +11,7 @@ spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
             when('/', {
                 templateUrl: 'src/js/app/templates/main-view.html',
                 controller: 'MainViewController',
+                resolve: MainViewController.resolve,
                 controllerAs: 'main'
             }).
             when('/friends', {
