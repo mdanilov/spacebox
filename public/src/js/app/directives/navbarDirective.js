@@ -1,4 +1,4 @@
-function navbarDirective ($location, VkService) {
+function navbarDirective ($log, $rootScope, $location, VkService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -6,33 +6,29 @@ function navbarDirective ($location, VkService) {
             info: '='
         },
         templateUrl: 'src/js/app/templates/navbar.html',
-        controller: function ($scope, $log, $location, VkService) {
+        link: function (scope, element, attrs) {
+            function hashSelector () {
+                return "a[href='#" + $location.path() + "']";
+            }
 
-            this.OpenMain = function () {
-                $location.path('/');
-            };
+            var active = element.find(hashSelector()).parent();
+            active.addClass('sp-active');
 
-            this.OpenFriends = function () {
-                $location.path('/friends');
-            };
+            $rootScope.$on('$locationChangeSuccess', function ($event) {
+                active.removeClass('sp-active');
+                active = element.find(hashSelector()).parent();
+                active.addClass('sp-active');
+            });
 
-            this.Logout = function () {
+            scope.Logout = function () {
                 $log.debug('Logout from VK...');
                 VkService.asyncLogout().then(function () {
                     $location.path('/login');
                 });
             };
-        },
-        controllerAs: 'navbar',
-        link: function (scope, element, attrs) {
-            var active = element.find('li.sp-active');
-            element.find('.nav.navbar-nav.navbar-left > li').on('click', function () {
-                active.removeClass('sp-active');
-                active = $(this);
-                active.addClass('sp-active');
-            });
         }
     };
 }
 
-angular.module('spacebox').directive('spNavbar', ['$log', '$location', 'VkService', navbarDirective]);
+angular.module('spacebox').directive('spNavbar',
+    ['$log', '$rootScope', '$location', 'VkService', navbarDirective]);

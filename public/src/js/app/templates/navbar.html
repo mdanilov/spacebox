@@ -1,19 +1,20 @@
 <div class="container-fluid clearfix">
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav">
-            <li class="sp-active"><a href=""><img class="navbar-brand" ng-click="navbar.OpenMain()" ng-src="src/img/logo.png"></a></li>
-            <li><a href="" class="sp-nav-button" ng-click="navbar.OpenFriends()">Друзья</a></li>
-            <li><a href="" class="sp-nav-button visible-xs-block">Карта</a></li>
+            <li><a href="#/"><img class="navbar-brand" ng-src="src/img/logo.png"></a></li>
+            <li><a href="#/friends" class="sp-nav-button">Друзья</a></li>
+            <li><a href="#/friends" class="sp-nav-button visible-xs-block">Карта</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown hidden-xs"><img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}" alt="icon">
+            <li class="dropdown hidden-xs">
+                <img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}">
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="" ng-click="navbar.Logout()">Выйти</a></li>
+                    <li><a href="" ng-click="Logout()">Выйти</a></li>
                 </ul>
             </li>
             <li class="hidden-xs"><a href="" class="sp-nav-button">{{info.name}}</a></li>
-            <li class="visible-xs-block"><a href="" ng-click="navbar.Logout()">Выйти</a></li>    
+            <li class="visible-xs-block"><a href="" ng-click="Logout()">Выйти</a></li>
         </ul>
     </div>
 </div>
