@@ -4,7 +4,9 @@ function AgeFilter () {
             return '';
         }
 
-        var bdate = new Date(input);
+        var date = input.split('.');
+        date = [date[1], date[0], date[2]].join('.');
+        var bdate = new Date(date);
         var today = new Date();
         var age = today.getYear() - bdate.getYear();
 
