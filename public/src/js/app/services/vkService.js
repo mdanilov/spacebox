@@ -1,4 +1,4 @@
-function VkService ($http, $log, $cookieStore, $q) {
+function VkService ($http, $log, $cookieStore, $q, ConfigService) {
 
     var VkService = {};
 
@@ -10,7 +10,7 @@ function VkService ($http, $log, $cookieStore, $q) {
     VK.init({ apiId: config.vkApiId });
 
     function asyncLoginToServer (data) {
-        var deferred = $q.defer();
+        var deferred = this;
         VkService._id = data.mid;
         $cookieStore.put('vkUserId', VkService._id);
         $http.get(config.serverUrl + '/login', {params: data}).
@@ -21,7 +21,6 @@ function VkService ($http, $log, $cookieStore, $q) {
                 $log.debug('Failed login to server: %', status);
                 deferred.reject();
             });
-        return deferred.promise;
     }
 
     VkService.asyncLogin = function () {
@@ -29,11 +28,7 @@ function VkService ($http, $log, $cookieStore, $q) {
         VK.Auth.login(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s has been authorized', response.session.mid);
-                asyncLoginToServer(response.session).then(function () {
-                    deferred.resolve();
-                }, function (status) {
-                    deferred.reject(status);
-                });
+                asyncLoginToServer.bind(deferred)(response.session);
             }
             else {
                 $log.error('Can\'t authorized VK user');
@@ -92,12 +87,9 @@ function VkService ($http, $log, $cookieStore, $q) {
         VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
             if (r.response) {
                 var photos = [];
-                for (var i = 0; i < r.response.count; i++) {
-                    if (r.response.items[i].photo_2560) {
-                        photos.push(r.response.items[i].photo_2560);
-                    }
-                    else if (r.response.items[i].photo_1280){
-                        photos.push(r.response.items[i].photo_1280);
+                for (var i = 0; i < r.response.count && i < ConfigService.maxPhoto; i++) {
+                    if (r.response.items[i].photo_807) {
+                        photos.push(r.response.items[i].photo_807);
                     }
                 }
                 deferred.resolve(photos);
@@ -115,11 +107,7 @@ function VkService ($http, $log, $cookieStore, $q) {
         VK.Auth.getLoginStatus(function (response) {
             if (response.session) {
                 $log.debug('VK user id%s already authorized', response.session.mid);
-                asyncLoginToServer(response.session).then(function () {
-                    deferred.resolve();
-                }, function () {
-                    deferred.reject();
-                });
+                asyncLoginToServer.bind(deferred)(response.session);
             } else {
                 $log.debug('VK user is not authorized using OpenAPI');
                 deferred.reject();
@@ -132,4 +120,4 @@ function VkService ($http, $log, $cookieStore, $q) {
 }
 
 angular.module('spacebox')
-    .factory('VkService', ['$http', '$log', '$cookieStore', '$q', VkService]);
+    .factory('VkService', ['$http', '$log', '$cookieStore', '$q', 'ConfigService', VkService]);

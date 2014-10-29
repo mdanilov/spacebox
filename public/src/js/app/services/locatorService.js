@@ -45,7 +45,7 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
         return deferred.promise;
     };
 
-    LocatorService.getFirstNewUser = function () {
+    LocatorService.nextUser = function () {
         var users = LocatorService._users;
         var first = null;
         for (var i = 0; i < users.length; i++) {

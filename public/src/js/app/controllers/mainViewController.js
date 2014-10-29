@@ -1,20 +1,18 @@
-function MainViewController ($scope, $log, LocatorService, MeetService, users) {
+function MainViewController ($scope, $log, LocatorService, MeetService) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
-    self.users = users;
-    self.current = LocatorService.getFirstNewUser();
+    self.current = LocatorService.nextUser();
 
     self.Search = function () {
-        LocatorService.asyncSearch().then(function (users) {
-            self.users = users;
-            self.current = LocatorService.getFirstNewUser();
+        LocatorService.asyncSearch().then(function () {
+            self.current = LocatorService.nextUser();
         });
     };
 
     self.Like = function () {
         self.current.like = 1;
-        self.current = LocatorService.getFirstNewUser();
+        self.current = LocatorService.nextUser();
 //        MeetService.asyncLike(current.mid).then(function () {
 //            if (current.likeMe == 1) {
 //                // TODO: show modal window
@@ -26,7 +24,7 @@ function MainViewController ($scope, $log, LocatorService, MeetService, users) {
 
     self.Dislike = function () {
         self.current.like = -1;
-        self.current = LocatorService.getFirstNewUser();
+        self.current = LocatorService.nextUser();
 //        MeetService.asyncDislike(current.mid).then(null, function () {
 //            current.like = 0;
 //        });
