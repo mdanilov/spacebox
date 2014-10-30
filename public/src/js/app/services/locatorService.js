@@ -1,19 +1,28 @@
 function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigService) {
 
     var LocatorService = {};
+
     LocatorService._users = [];
+    LocatorService._currentId = 0;
+
+    function filterNewUsers (users) {
+        var newUsers = [];
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].like == 0) {
+                newUsers.push(users[i]);
+            }
+        }
+        return newUsers;
+    }
 
     function invalidateUsers (data) {
         var deferred = this;
 
-        function resolve (data) {
-            LocatorService._users = data;
-            deferred.resolve(data);
+        if (!data.length) {
+            deferred.resolve();
         }
 
-        if (!data.length) {
-            resolve();
-        }
+        data = filterNewUsers(data);
 
         var uids = [];
         for (var i = 0; i < data.length; i++) {
@@ -25,7 +34,13 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
             for (var i = 0; i < info.length; i++) {
                 data[i].info = info[i];
             }
-            resolve(data);
+            LocatorService._users = data;
+            LocatorService._currentId = 0;
+            var user = data[0];
+            VkService.asyncGetPhotos(user.mid).then(function (images) {
+                user.photos = images;
+            });
+            deferred.resolve(data);
         }, function (error) {
             $log.error('Can\'t get VK users info due to error: ', error);
             deferred.reject(error);
@@ -46,15 +61,25 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
     };
 
     LocatorService.nextUser = function () {
+        var currentId = LocatorService._currentId;
         var users = LocatorService._users;
-        var first = null;
-        for (var i = 0; i < users.length; i++) {
-            if (users[i].like == 0) {
-                first = users[i];
-                break;
-            }
+
+        if (users.length == 0 ||
+            currentId == users.length - 1) {
+            $log.debug('No new users to return');
+            return;
         }
-        return first;
+
+        currentId += 1;
+        if (!users[currentId].photos) {
+            VkService.asyncGetPhotos(users[currentId].mid).then(function (images) {
+                users[currentId].photos = images;
+            });
+        }
+
+        LocatorService._currentId = currentId;
+
+        return users[currentId];
     };
 
     return LocatorService;

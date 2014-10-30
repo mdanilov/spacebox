@@ -13,13 +13,12 @@
     GeolocationService.asyncGetCurrentPosition = function () {
         var deferred = $q.defer();
         if (navigator.geolocation) {
-            deferred.resolve({coords: {latitude: 59.91231, longitude: 30.3224363}});
-//            navigator.geolocation.getCurrentPosition(function (position) {
-//                deferred.resolve(position);
-//            }, function () {
-//                handleNoGeolocation(true);
-//                deferred.reject();
-//            }, { maximumAge: 0, timeout: 5000 });
+            navigator.geolocation.getCurrentPosition(function (position) {
+                deferred.resolve(position);
+            }, function () {
+                handleNoGeolocation(true);
+                deferred.reject();
+            }, { maximumAge: 0, timeout: 5000 });
         }
         else {
             handleNoGeolocation(false);

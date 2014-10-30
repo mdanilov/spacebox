@@ -2,18 +2,18 @@
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-        <li ng-repeat="image in images track by $index"
-            data-target="#carousel-example-generic"
+        <li ng-repeat="photo in user.photos"
+        data-target="#carousel-example-generic"
             data-slide-to="{{$index}}"
             ng-class="{active: $index == 0}"></li>
     </ol>
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
-        <div ng-repeat="image in images track by $index"
+        <div ng-repeat="photo in user.photos"
              class="item"
              ng-class="{active: $index == 0}">
-            <img ng-src="{{image}}">
+            <img ng-src="{{photo}}">
             <div class="carousel-caption"></div>
         </div>
     </div>
