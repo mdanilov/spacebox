@@ -1,10 +1,11 @@
-function userListDirective () {
+function friendListDirective () {
     return {
         restrict: 'E',
         transclude: true,
         scope: {
             users: '='
         },
+        templateUrl: 'src/js/app/templates/friend-list.html',
         controller: function ($scope) {
             var cards = $scope.cards = [];
 
@@ -18,9 +19,8 @@ function userListDirective () {
             this.addCard = function (card) {
                 cards.push(card);
             };
-        },
-        templateUrl: 'src/js/app/templates/user-list.html'
+        }
     };
 }
 
-angular.module('spacebox').directive('spUserList', userListDirective);
+angular.module('spacebox').directive('spFriendList', friendListDirective);

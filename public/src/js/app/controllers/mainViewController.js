@@ -37,6 +37,5 @@ MainViewController.resolve = {
     }
 };
 
-angular.module('spacebox')
-    .controller('MainViewController',
-        ['$scope', '$log', 'LocatorService', 'MeetService', MainViewController]);
+angular.module('spacebox').controller('MainViewController',
+    ['$scope', '$log', 'LocatorService', 'MeetService', MainViewController]);

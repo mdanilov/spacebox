@@ -37,6 +37,5 @@ function UserListItemController ($scope, $window, VkService, MeetService) {
     };
 }
 
-angular.module('spacebox')
-    .controller('UserListItemController',
-        ['$scope', '$window', 'VkService', 'MapService', 'MeetService', UserListItemController]);
+angular.module('spacebox').controller('UserListItemController',
+    ['$scope', '$window', 'VkService', 'MapService', 'MeetService', UserListItemController]);

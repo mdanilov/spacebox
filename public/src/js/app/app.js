@@ -1,5 +1,5 @@
 var spacebox = angular.module('spacebox',
-    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'ui.bootstrap.buttons', 'ui.bootstrap.tpls']);
+    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies']);
 
 spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
     function ($routeProvider, $logProvider, $compileProvider) {

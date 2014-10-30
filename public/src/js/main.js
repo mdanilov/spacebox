@@ -17,8 +17,7 @@ yepnope({
         './lib/angular-route/angular-route.js',
         './lib/angular-touch/angular-touch.js',
         './lib/angular-cookies/angular-cookies.js',
-        './lib/angular-animate/angular-animate.js',
-        './lib/angular-bootstrap/ui-bootstrap-tpls.js'
+        './lib/angular-animate/angular-animate.js'
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
@@ -63,15 +62,14 @@ yepnope({
         './src/js/app/controllers/mainViewController.js',
         './src/js/app/controllers/friendsViewController.js',
         './src/js/app/controllers/userListItemController.js',
-        './src/js/app/controllers/modalController.js',
         './src/js/app/filters/distanceFilter.js',
         './src/js/app/filters/meetFilter.js',
         './src/js/app/filters/ageFilter.js',
         './src/js/app/directives/navbarDirective.js',
         './src/js/app/directives/cardsDirective.js',
         './src/js/app/directives/modalDirective.js',
-        './src/js/app/directives/userListDirective.js',
-        './src/js/app/directives/userListItemDirective.js'
+        './src/js/app/directives/friendListDirective.js',
+        './src/js/app/directives/friendListItemDirective.js'
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {

@@ -85,7 +85,7 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
     return LocatorService;
 }
 
-angular.module('spacebox')
-    .factory('LocatorService', ['$http', '$log', '$q', 'VkService', 'GeolocationService', 'ConfigService', LocatorService]);
+angular.module('spacebox').factory('LocatorService',
+    ['$http', '$log', '$q', 'VkService', 'GeolocationService', 'ConfigService', LocatorService]);
 
 

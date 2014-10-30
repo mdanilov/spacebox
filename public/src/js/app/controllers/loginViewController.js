@@ -10,6 +10,5 @@ function LoginViewController ($scope, $log, $location, VkService, ConfigService)
     }
 }
 
-angular.module('spacebox')
-    .controller('LoginViewController',
-        ['$scope', '$log', '$location', 'VkService', 'ConfigService', LoginViewController]);
+angular.module('spacebox').controller('LoginViewController',
+    ['$scope', '$log', '$location', 'VkService', 'ConfigService', LoginViewController]);

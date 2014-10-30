@@ -15,5 +15,5 @@ function ApplicationController ($scope, $log, VkService, ConfigService) {
         });
 }
 
-angular.module('spacebox')
-    .controller('ApplicationController', ['$scope', '$log', 'VkService', 'ConfigService', ApplicationController]);
+angular.module('spacebox').controller('ApplicationController',
+    ['$scope', '$log', 'VkService', 'ConfigService', ApplicationController]);
