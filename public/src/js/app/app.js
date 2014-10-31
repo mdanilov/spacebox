@@ -41,8 +41,9 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService',
                 // TODO: prevent event don't work as assumed
                 // $event.preventDefault();
                 VkService.asyncGetLoginStatus().then(function () {
+                    $log.debug('User already authorized go to %s', path);
                     ConfigService.isLogin = true;
-                    $location.path('/');
+                    $location.path(path);
                 }, function (error) {
                     $log.debug('Prevent to load \'%s\', user is not authorized', path);
                     $location.path('/login');
