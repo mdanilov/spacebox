@@ -15,6 +15,12 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
         return newUsers;
     }
 
+    function preloadImages (images) {
+        for (var i = 0; i < images.length; i++) {
+            $(new Image()).prop('src', images[i]);
+        }
+    }
+
     function invalidateUsers (data) {
         var deferred = this;
 
@@ -73,6 +79,7 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
         currentId += 1;
         if (!users[currentId].photos) {
             VkService.asyncGetPhotos(users[currentId].mid).then(function (images) {
+                preloadImages(images);
                 users[currentId].photos = images;
             });
         }
