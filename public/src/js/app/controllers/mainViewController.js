@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, LocatorService, MeetService) {
+function MainViewController ($scope, $log, LocatorService, MeetService, ErrorService) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -32,10 +32,10 @@ function MainViewController ($scope, $log, LocatorService, MeetService) {
 }
 
 MainViewController.resolve = {
-    'users': function (LocatorService) {
-        return LocatorService.asyncSearch();
+    'users': function (LocatorService, ErrorService) {
+        return LocatorService.asyncSearch().then(null, ErrorService.handleError);
     }
 };
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', 'LocatorService', 'MeetService', MainViewController]);
+    ['$scope', '$log', 'LocatorService', 'MeetService', 'ErrorService', MainViewController]);

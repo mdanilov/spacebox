@@ -55,6 +55,7 @@ yepnope({
         './src/js/app/services/configService.js',
         './src/js/app/services/mapService.js',
         './src/js/app/services/meetService.js',
+        './src/js/app/services/errorService.js',
         './src/js/app/services/locatorService.js',
         './src/js/app/controllers/applicationController.js',
         './src/js/app/controllers/loginViewController.js',
