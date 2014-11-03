@@ -1,28 +1,25 @@
-<h2>{{user.info.first_name}}{{user.info.bdate | age}}</h2>
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li ng-repeat="photo in user.photos"
-        data-target="#carousel-example-generic"
-            data-slide-to="{{$index}}"
-            ng-class="{active: $index == 0}"></li>
-    </ol>
+<div id="people">
+    <div class="person">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div ng-repeat="photo in user.photos"
+                     class="item"
+                     ng-class="{active: $index == 0}">
+                    <img ng-src="{{photo}}">
+                </div>
+            </div>
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-        <div ng-repeat="photo in user.photos"
-             class="item"
-             ng-class="{active: $index == 0}">
-            <img ng-src="{{photo}}">
-            <div class="carousel-caption"></div>
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
         </div>
+        <span>
+            <strong>{{user.info.first_name}}</strong>{{user.info.bdate | age}}
+        </span>
     </div>
+</div> 
 
-    <!-- Controls -->
-    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-</div>
+

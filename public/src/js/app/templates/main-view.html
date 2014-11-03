@@ -2,16 +2,17 @@
 	<div class="row">
 		<div class="col-xs-12" ng-show="main.current">
             <sp-cards user="main.current"></sp-cards>
-            <div class="col-xs-6">
-                <div id="spClose" ng-click="main.Dislike()">
-                    <span class="glyphicon glyphicon-remove"></span>
+             <div id="control">
+                <div class="button no">
+                    <a href="" class="trigger" ng-click="main.Dislike()"></a>
                 </div>
-            </div>
-            <div class="col-xs-6">
-                <div id="spFavorite" ng-click="main.Like()">
-                    <span class="glyphicon glyphicon-heart"></span>
+                <div class="button info">
+                    <a href="" class="trigger"></a>
                 </div>
-            </div>
+                <div class="button yes">
+                    <a href="" class="trigger" ng-click="main.Like()"></a>
+                </div>
+            </div> 
 		</div>
         <div class="col-xs-12" ng-hide="main.current">
             Новых пользователей не найдено

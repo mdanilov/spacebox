@@ -1,3 +1,9 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
 html {
     height: 100%;
 }
@@ -23,7 +29,8 @@ body {
 }
 
 .carousel-inner {
-    top: 50px;
+    top: 0px;
+    background-color: black;
 }
 
 @media (max-width: 768px) {
@@ -39,28 +46,30 @@ body {
 }
 
 .carousel > .carousel-inner > .item > img {
-    width: auto;
-    height: 250px;
+    height: 200px;
     margin-left: auto;
     margin-right: auto;
 }
 
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
     .carousel > .carousel-inner > .item > img {
         width: 100%;
         height: auto;
     }
-}
+}*/
 
+/*
 .carousel {
   width: 100%;
   height: 400px !important;
   background-color: white;
 }
-
+*/
+/*
 .carousel-control span {
     color: blue;
 }
+*/
 
 a.carousel-control.left, a.carousel-control.right {
     background-image: none; 
@@ -102,3 +111,134 @@ ol.carousel-indicators li {
     opacity: 0.85;
 }
 
+
+#people, .person {
+  width: 250px;
+  height: 265px;
+}
+
+/*#people, .person {
+  width: 807px;
+  height: 807 px;
+}
+*/
+
+#people {
+  position: relative;
+  margin: 0 auto;
+}
+
+.person {
+  position: absolute;
+  background-color: transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: all .1s linear;
+}
+
+.person:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  content: '';
+}
+
+.person img {
+  max-width: 105%;
+  max-height: 105%;
+  background: white;
+}
+
+.person span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: white;
+  width: 100%;
+  padding: 10px;
+  font: 16px "Open Sans";
+  line-height: 30px;
+  color: #555;
+}
+
+.person span strong {
+  font-weight: 600;
+  color: #000;
+}
+
+
+#control {
+  position: relative;
+  margin: 15px auto 0;
+  width: 250px;
+}
+#control .button {
+  width: 65px;
+  height: 65px;
+  background: #eee;
+  position: absolute;
+  top: 5px;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+#control .button .trigger {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  width: 75%;
+  height: 75%;
+  margin: 0 auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all .1s;
+  text-align: center;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+#control .button .trigger:active {
+  transform: translateY(-50%) scale(0.75);
+  transition: all .05s linear;
+}
+#control .button .trigger:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  font-family: 'FontAwesome';
+}
+#control .no {
+  left: 38px;
+}
+#control .no .trigger:before {
+  content: "\f00d";
+  font-size: 28px;
+  color: #c33;
+}
+#control .yes {
+  right: 38px;
+}
+#control .yes .trigger:before {
+  content: "\f004";
+  font-size: 22px;
+  color: #3b7;
+}
+#control .info {
+  left: calc(50% - 23px);
+  top: 17px;
+  height: 46px;
+  width: 46px;
+}
+#control .info .trigger {
+  width: 65%;
+  height: 65%;
+}
+#control .info .trigger:before {
+  content: "\f05a";
+  font-size: 16px;
+  color: #3498db;
+}
