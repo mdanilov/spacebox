@@ -29,7 +29,8 @@ yepnope({
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js'
     ],
     both: [
-        'https://vk.com/js/api/openapi.js'
+        'https://vk.com/js/api/openapi.js',
+        'http://vk.com/js/api/share.js?90'
     ]
 });
 
@@ -70,7 +71,8 @@ yepnope({
         './src/js/app/directives/cardsDirective.js',
         './src/js/app/directives/modalDirective.js',
         './src/js/app/directives/friendListDirective.js',
-        './src/js/app/directives/friendListItemDirective.js'
+        './src/js/app/directives/friendListItemDirective.js',
+        './src/js/app/directives/radarDirective.js'
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {

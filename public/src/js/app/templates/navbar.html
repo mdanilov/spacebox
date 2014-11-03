@@ -1,20 +1,21 @@
 <div class="container-fluid clearfix">
     <div class="navbar navbar-default">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-left">
             <li><a href="#/"><img class="navbar-brand" ng-src="src/img/logo.png"></a></li>
-            <li><a href="#/friends" class="sp-nav-button">Друзья</a></li>
-            <li><a href="#/friends" class="sp-nav-button visible-xs-block">Карта</a></li>
+            <li class="hidden-xs"><a href="#/friends" class="sp-nav-button">Друзья</a></li>
+            <li class="visible-xs-block"><a href="#/friends" class="sp-nav-button"><span class="fontawesome-group"></span></a></li>
+            <li class="visible-xs-block"><a href="#/map" class="sp-nav-button"><span class="fontawesome-globe"></span></a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
-                <img class="navbar-user-icon img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}">
+                <img class="img-circle dropdown-toggle" data-toggle="dropdown" ng-src="{{info.image}}">
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="" ng-click="Logout()">Выйти</a></li>
                 </ul>
             </li>
             <li class="hidden-xs"><a href="" class="sp-nav-button">{{info.name}}</a></li>
-            <li class="visible-xs-block"><a href="" ng-click="Logout()">Выйти</a></li>
+            <li class="visible-xs-block"><a href="" class="sp-nav-button" ng-click="Logout()"><span class="fontawesome-signout"></span></a></li>
         </ul>
     </div>
 </div>

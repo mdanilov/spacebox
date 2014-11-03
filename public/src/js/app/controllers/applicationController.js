@@ -10,6 +10,7 @@ function ApplicationController ($scope, $log, VkService, ConfigService) {
                 VkService.asyncGetCurrentUserInfo().then(function (info) {
                     self.user.name = info[0].first_name;
                     self.user.image = info[0].photo_50;
+                    self.user.photo_100 = info[0].photo_100; 
                 });
             }
         });

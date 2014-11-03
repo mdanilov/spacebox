@@ -1,9 +1,12 @@
 ul.navbar-nav, ul.navbar-nav li {
 	float: left !important;
+	margin: 0px;
 }
 
 ul.navbar-right {
 	margin-right: 0px !important;
+	margin: 0px;
+	height: 60px
 }
 
 ul.navbar-right, ul.navbar-right li {
@@ -13,6 +16,14 @@ ul.navbar-right, ul.navbar-right li {
 #spNavbar {
 	position: relative;
 	display: block;
+	font-size: 16px;
+}
+
+
+@media (max-width: 768px) {
+    #spNavbar .sp-nav-button {
+    	font-size: 23px;
+    }
 }
 
 .navbar {
@@ -32,7 +43,6 @@ ul.navbar-right, ul.navbar-right li {
 	position: absolute;
 }
 
-
 #spNavbar .navbar-brand {
 	height: 58px;	
 	padding-bottom: 13px;
@@ -42,12 +52,20 @@ ul.navbar-right, ul.navbar-right li {
 	cursor: pointer;
 }
 
+#spNavbar .dropdown {
+	height: 60px;	
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+	cursor: pointer;
+}
+
+
 #spNavbar .sp-nav-button {
 	height: 58px;
 	line-height: 58px;
 	text-align: center;
 	padding: 5px 10px 0px 10px;
-	font-size: 16px;
 	margin-left: 10px;
 	margin-right: 10px;
 }
@@ -61,20 +79,9 @@ ul.navbar-right, ul.navbar-right li {
 	padding: 0px;
 }
 
-#spNavbar li:hover {
+#spNavbar .navbar-left > li:hover {
 	border-bottom: 2px solid;
 	border-color: #4387fd;
 }
-
-
-
-/*#spNavbar .navbar-user-icon {
-	height: 58px;
-	padding-bottom: 8px;
-	padding-top: 8px;
-	margin-left: 0px;
-	margin-right: 0px;
-	cursor: pointer;
-}*/
 
 
