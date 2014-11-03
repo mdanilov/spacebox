@@ -17,6 +17,11 @@
     cursor: pointer; 
 }
 
+/*#spFriendsList .list-group-item:hover .brandico-vkontakte-rect,*/
+#spFriendsList .active .brandico-vkontakte-rect {
+    display: inline;
+}
+
 #spFriendsList .active
 {
     background-color: rgb(238, 238, 238);
@@ -25,6 +30,13 @@
 
 #spFriendsList .media {
     margin: 0px;
+}
+
+#spFriendsList .brandico-vkontakte-rect {
+    margin-right: 10px;
+    color: #4387fd;
+    font-size: 18px;
+    display: none;
 }
 
 #spFriendsList .media-body {
@@ -199,3 +211,4 @@
     display: block;
     cursor: pointer;
 }
+

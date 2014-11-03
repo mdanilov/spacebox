@@ -4,8 +4,8 @@
             <img class="media-object" ng-src="{{user.info.photo_50}}">
         </a>
         <div class="media-body">
-            <!-- <p class="media-heading">{{user.info.first_name}}{{user.info.bdate | age}}</p> -->
             {{user.info.first_name}}{{user.info.bdate | age}}
+            <a ng-href="http://www.vk.com/id{{user.info.uid}}" target="_black"><span class="brandico-vkontakte-rect pull-right"></span></a>
         </div>
     </div>
 </div>

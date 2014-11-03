@@ -12,9 +12,10 @@
     padding: 6px;
 }
 
-.sp-user-marker, .sp-user-marker-selected {
+#map-canvas .fontawesome-map-marker {
     font-size: 30px;
     opacity: 1;
+    color: red;
 }
 
 .sp-user-marker {

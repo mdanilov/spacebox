@@ -1,7 +1,13 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
+@import url(http://weloveiconfonts.com/api/?family=brandico);
+
 [class*="fontawesome-"]:before {
   font-family: 'FontAwesome', sans-serif;
+}
+
+[class*="brandico-"]:before {
+  font-family: 'Brandico', sans-serif;
 }
 
 html {
@@ -159,7 +165,7 @@ ol.carousel-indicators li {
   background: white;
 }
 
-.person span {
+.person .sp-description {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -172,6 +178,10 @@ ol.carousel-indicators li {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.person .fontawesome-map-marker {
+  margin-right: 10px;
+}
+
 .person .fontawesome-chevron-right, .person .fontawesome-chevron-left{
   top: 50%;
   bottom: initial;
@@ -179,13 +189,13 @@ ol.carousel-indicators li {
   border: 0px;
   font-size: 25px;
   color: white;
+  position: absolute;
 }
 
 .person span strong {
   font-weight: 600;
   color: #000;
 }
-
 
 #control {
   position: relative;

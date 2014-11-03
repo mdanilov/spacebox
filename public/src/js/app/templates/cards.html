@@ -16,8 +16,9 @@
                 <span class="fontawesome-chevron-right"></span>
             </a>
         </div>
-        <span>
-            <strong>{{user.info.first_name}}</strong>{{user.info.bdate | age}}
-        </span>
+        <div class="sp-description">
+            <span><strong>{{user.info.first_name}}</strong>{{user.info.bdate | age}}</span>
+            <span class="pull-right"><span class="fontawesome-map-marker"></span><strong>{{user.distance | distance}}</strong></span>
+        </div>
     </div>
 </div> 

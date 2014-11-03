@@ -14,12 +14,12 @@ function MapService ($log, $filter, GeolocationService) {
     MapService._icons = {
         default:  L.divIcon({
             className: 'info',
-            html: '<span class="icon glyphicon glyphicon-map-marker sp-user-marker"></span>',
+            html: '<span class="fontawesome-map-marker"></span>',
             iconSize: [30, 30]
         }),
         selected: L.divIcon({
             className: 'info',
-            html: '<span class="icon glyphicon glyphicon-map-marker sp-user-marker-selected"></span>',
+            html: '<span class="fontawesome-map-marker"></span>',
             iconSize: [30, 30]
         }),
         locator: L.divIcon({
