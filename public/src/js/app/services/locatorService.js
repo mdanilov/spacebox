@@ -71,20 +71,20 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
         var users = LocatorService._users;
 
         if (users.length == 0 ||
-            currentId == users.length - 1) {
+            currentId == users.length) {
             $log.debug('No new users to return');
             return;
         }
 
-        currentId += 1;
-        if (!users[currentId].photos) {
-            VkService.asyncGetPhotos(users[currentId].mid).then(function (images) {
+        var nextId = currentId + 1;
+        if (nextId < users.length && !users[nextId].photos) {
+            VkService.asyncGetPhotos(users[nextId].mid).then(function (images) {
                 preloadImages(images);
-                users[currentId].photos = images;
+                users[nextId].photos = images;
             });
         }
 
-        LocatorService._currentId = currentId;
+        LocatorService._currentId = nextId;
 
         return users[currentId];
     };

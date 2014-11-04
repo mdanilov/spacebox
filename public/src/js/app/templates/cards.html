@@ -1,6 +1,6 @@
 <div id="people">
     <div class="person">
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <div id="carousel-example-generic" class="carousel slide">
             <div class="carousel-inner">
                 <div ng-repeat="photo in user.photos"
                      class="item"
@@ -9,12 +9,14 @@
                 </div>
             </div>
 
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="fontawesome-chevron-left"></span>            
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="fontawesome-chevron-right"></span>
-            </a>
+            <div class="carousel-controls">
+                <a class="left carousel-control" href="" ng-click="Prev()">
+                    <div class="fontawesome-chevron-left"></div>
+                </a>
+                <a class="right carousel-control" href="" ng-click="Next()">
+                    <div class="fontawesome-chevron-right"></div>
+                </a>
+            </div>
         </div>
         <div class="sp-description">
             <span><strong>{{user.info.first_name}}</strong>{{user.info.bdate | age}}</span>

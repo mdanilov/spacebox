@@ -5,6 +5,7 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
     VkService.VERSION = 5.25;
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
+    VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
     VkService._id = $cookieStore.get('vkUserId');
 
     VK.init({ apiId: config.vkApiId });
@@ -92,6 +93,11 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
                         photos.push(r.response.items[i].photo_807);
                     }
                 }
+
+                if (photos.length == 0) {
+                    photos.push(VkService.EMPTY_PHOTO);
+                }
+
                 deferred.resolve(photos);
             }
             else {

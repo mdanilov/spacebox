@@ -36,16 +36,21 @@ body {
 }
 
 .carousel-inner {
-    top: 0px;
+    top: 0;
     background-color: black;
 }
 
 #people .carousel-control {
-  opacity: 0;
+    background-image: none;
+    width: 50%;
 }
 
-#people .carousel-control:hover {
-  opacity: 0.9;
+#people .carousel-controls {
+    opacity: 0;
+}
+
+#people .carousel-controls:hover {
+    opacity: 0.9;
 }
 
 @media (max-width: 768px) {
@@ -86,10 +91,6 @@ body {
     color: blue;
 }
 */
-
-a.carousel-control.left, a.carousel-control.right {
-    background-image: none; 
-} 
 
 ol.carousel-indicators .active {
     background-color: blue;
@@ -182,14 +183,22 @@ ol.carousel-indicators li {
   margin-right: 10px;
 }
 
-.person .fontawesome-chevron-right, .person .fontawesome-chevron-left{
+.person .fontawesome-chevron-right, .person .fontawesome-chevron-left {
   top: 50%;
-  bottom: initial;
   background: transparent;
-  border: 0px;
+  border: 0;
+  padding: 10px;
   font-size: 25px;
   color: white;
   position: absolute;
+}
+
+.person .fontawesome-chevron-right {
+    right: 0;
+}
+
+.person .fontawesome-chevron-left {
+    left: 0;
 }
 
 .person span strong {
