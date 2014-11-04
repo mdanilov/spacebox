@@ -1,4 +1,4 @@
-function cardsDirective (VkService) {
+function cardsDirective () {
     return {
         restrict: 'E',
         transclude: true,
@@ -35,5 +35,4 @@ function cardsDirective (VkService) {
     };
 }
 
-angular.module('spacebox').directive('spCards',
-    ['VkService', cardsDirective]);
+angular.module('spacebox').directive('spCards', cardsDirective);

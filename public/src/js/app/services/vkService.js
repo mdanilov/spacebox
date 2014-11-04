@@ -88,7 +88,7 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
         VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
             if (r.response) {
                 var photos = [];
-                for (var i = 0; i < r.response.count && photos.length <= ConfigService.maxPhoto; i++) {
+                for (var i = r.response.count - 1; i >= 0 && photos.length <= ConfigService.maxPhoto; i--) {
                     if (r.response.items[i].photo_807) {
                         photos.push(r.response.items[i].photo_807);
                     }

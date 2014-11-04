@@ -36,10 +36,10 @@ function MapService ($log, $filter, GeolocationService) {
                 '<div class="sp-map-tooltip">',
                     '<span class="sp-map-tooltip-carat"></span>',
                     '<div class="sp-map-tooltip-content">',
-                        '<img class="sp-map-tooltip-img" src="' + user.info.photo_50 + '">',
                         '<div class="sp-map-tooltip-info">',
                             '<h4>' + user.info.first_name + $filter('age')(user.info.bdate) + '</h4>',
                         '</div>',
+                        '<img class="img-thumbnail" src="' + user.info.photo_100 + '">',
                     '</div>',
                 '</div>'
             ].join('')
