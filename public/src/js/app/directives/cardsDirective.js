@@ -22,8 +22,8 @@ function cardsDirective () {
             };
 
             var controls = element.find('.carousel-controls');
-            scope.$watch('user.photos', function () {
-                if (scope.user.photos &&
+            scope.$watch('user', function () {
+                if (scope.user && scope.user.hasOwnProperty('photos') &&
                     scope.user.photos.length > 1) {
                     controls.show();
                 }

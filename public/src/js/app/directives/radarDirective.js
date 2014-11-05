@@ -3,7 +3,8 @@ function radarDirective () {
         restrict: 'E',
         transclude: true,
         scope: {
-            image: '='
+            image: '=',
+            status: '='
         },
         templateUrl: 'src/js/app/templates/radar.html',
         link: function (scope, element, attrs) {

@@ -21,13 +21,12 @@ function navbarDirective ($log, $rootScope, $location, $window, VkService) {
                 };
             })();
 
-            $window.matchMedia("(max-width: 768px)").addListener(function (mediaQueryList) {
-                if (mediaQueryList.matches) {
-                }
-                else  {
-
-                }
-            });
+//            $window.matchMedia("(max-width: 768px)").addListener(function (mediaQueryList) {
+//                if (mediaQueryList.matches) {
+//                }
+//                else  {
+//                }
+//            });
 
             $rootScope.$on('$locationChangeSuccess', Menu.changeState);
 

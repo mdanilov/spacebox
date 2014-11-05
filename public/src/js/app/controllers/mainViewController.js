@@ -2,10 +2,16 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
     $log.debug('Initialize main view controller...');
 
     var self = this;
-    self.current = LocatorService.nextUser();
+    self.MESSAGES = {
+        onSearch: "Идет поиск новых пользователей...",
+        onDone: "Рядом с вами нет новых пользователей."
+    };
+    self.current = null;
 
     self.Search = function () {
+        self.status = self.MESSAGES.onSearch;
         LocatorService.asyncSearch().then(function () {
+            self.status = self.MESSAGES.onDone;
             self.current = LocatorService.nextUser();
         });
     };
@@ -29,12 +35,14 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
 //            current.like = 0;
 //        });
     };
+
+    self.Search();
 }
 
 MainViewController.resolve = {
-    'users': function (LocatorService, ErrorService) {
-        return LocatorService.asyncSearch().then(null, ErrorService.handleError);
-    }
+//    'users': function (LocatorService, ErrorService) {
+//        return LocatorService.asyncSearch().then(null, ErrorService.handleError);
+//    }
 };
 
 angular.module('spacebox').controller('MainViewController',
