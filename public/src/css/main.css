@@ -19,6 +19,14 @@ body {
     height: 100%;
 }
 
+.view {
+    padding-top: 60px;
+}
+
+#spMapView {
+    position: relative;
+}
+
 .container {
     max-width: 750px;
     height: 100%;
@@ -99,10 +107,6 @@ ol.carousel-indicators .active {
 ol.carousel-indicators li {
     border-color: black;
 } 
-
-#spMainView, #spFriendsPage {
-    padding-top: 60px;
-}
 
 .fill-height {
     height: 100%;

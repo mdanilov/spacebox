@@ -53,6 +53,6 @@ function MeetService ($http, $log, $q, VkService) {
     return MeetService;
 }
 
-angular.module('spacebox')
-    .factory('MeetService', ['$http', '$log', '$q', 'VkService', MeetService]);
+angular.module('spacebox').factory('MeetService',
+    ['$http', '$log', '$q', 'VkService', MeetService]);
 

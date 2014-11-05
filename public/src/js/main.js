@@ -42,7 +42,8 @@ yepnope({
         './src/css/navbar.css',
         './src/css/login.css',
         './src/css/modal.css',
-        './src/css/user-list.css'
+        './src/css/user-list.css',
+        './src/css/friends.css'
     ],
     nope: './dist/spacebox.min.css'
 });

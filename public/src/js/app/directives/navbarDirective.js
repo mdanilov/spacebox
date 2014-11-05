@@ -1,4 +1,4 @@
-function navbarDirective ($log, $rootScope, $location, VkService) {
+function navbarDirective ($log, $rootScope, $location, $window, VkService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -7,18 +7,29 @@ function navbarDirective ($log, $rootScope, $location, VkService) {
         },
         templateUrl: 'src/js/app/templates/navbar.html',
         link: function (scope, element, attrs) {
-            function hashSelector () {
-                return "a[href='#" + $location.path() + "']";
-            }
+            var Menu = (function () {
+                var _active = element.find("a[href='#" + $location.path() + "']").parent();
+                _active.addClass('sp-active');
+                return {
+                    changeState: function () {
+                        if (_active) {
+                            _active.removeClass('sp-active');
+                        }
+                        _active = element.find("a[href='#" + $location.path() + "']").parent();
+                        _active.addClass('sp-active');
+                    }
+                };
+            })();
 
-            var active = element.find(hashSelector()).parent();
-            active.addClass('sp-active');
+            $window.matchMedia("(max-width: 768px)").addListener(function (mediaQueryList) {
+                if (mediaQueryList.matches) {
+                }
+                else  {
 
-            $rootScope.$on('$locationChangeSuccess', function ($event) {
-                active.removeClass('sp-active');
-                active = element.find(hashSelector()).parent();
-                active.addClass('sp-active');
+                }
             });
+
+            $rootScope.$on('$locationChangeSuccess', Menu.changeState);
 
             scope.Logout = function () {
                 $log.debug('Logout from VK...');
@@ -31,4 +42,4 @@ function navbarDirective ($log, $rootScope, $location, VkService) {
 }
 
 angular.module('spacebox').directive('spNavbar',
-    ['$log', '$rootScope', '$location', 'VkService', navbarDirective]);
+    ['$log', '$rootScope', '$location', '$window', 'VkService', navbarDirective]);
