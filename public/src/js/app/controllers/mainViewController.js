@@ -2,18 +2,18 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
     $log.debug('Initialize main view controller...');
 
     var self = this;
-    self.MESSAGES = {
-        onSearch: "Идет поиск новых пользователей...",
-        onDone: "Рядом с вами нет новых пользователей."
-    };
-    self.status = "";
+//    self.MESSAGES = {
+//        onSearch: "Идет поиск новых пользователей...",
+//        onDone: "Рядом с вами нет новых пользователей."
+//    };
+    self.status = '';
     self.current = null;
     $scope.app.isNavbarHidden = false;
 
     self.Search = function () {
-        self.status = self.MESSAGES.onSearch;
+        self.status = 'search';
         LocatorService.asyncSearch().then(function () {
-            self.status = self.MESSAGES.onDone;
+            self.status = 'done';
             self.current = LocatorService.nextUser();
         });
     };
