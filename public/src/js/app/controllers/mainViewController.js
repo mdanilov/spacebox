@@ -6,7 +6,9 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
         onSearch: "Идет поиск новых пользователей...",
         onDone: "Рядом с вами нет новых пользователей."
     };
+    self.status = "";
     self.current = null;
+    $scope.app.isNavbarHidden = false;
 
     self.Search = function () {
         self.status = self.MESSAGES.onSearch;

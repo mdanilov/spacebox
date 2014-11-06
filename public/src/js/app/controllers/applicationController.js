@@ -3,6 +3,7 @@ function ApplicationController ($scope, $log, VkService, ConfigService) {
 
     var self = this;
     self.user = {};
+    self.isNavbarHidden = false;
 
     $scope.$watch(function () { return ConfigService.isLogin },
         function (value) {
