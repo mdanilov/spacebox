@@ -1,8 +1,11 @@
 ﻿var os = require('os');
+var util = require('util');
 var async = require('async');
 var pg = require('pg');
 var log = require('../utils/log')(module);
 var config = require('../config/index');
+
+var db = require('pg-bricks').configure(config.get('database:connection'));
 
 var DB = (function() {
     var options = config.get('database:connection');
@@ -27,37 +30,7 @@ var DB = (function() {
         }, config.get('database:options:clearInterval') * 1000);
     }
 
-    function createTask(sql, client) {
-        return function(cb) {
-            client.query(sql, function(error) {
-                if (error)
-                    throw error;
-                cb(null, arguments[1]);
-            });
-        }
-    }
-
     return {
-        series: function(sqls, next) {
-            pg.connect(options, function(error, client, done) {
-                if (error)
-                    throw error;
-
-                var tasks = [];
-                for (var i = 0; i < sqls.length; i++) {
-                    tasks[i] = createTask(sqls[i], client);
-                }
-
-                async.series(tasks, function (error, results) {
-                    if (error)
-                        throw error;
-
-                    done();
-                    next(error, results);
-                });
-            });
-        },
-
         query: function (sql, callback) {
             pg.connect(options, function (error, client, done) {
                 if (error) throw error;
@@ -151,29 +124,27 @@ function updateRelations (request) {
     }
 }
 
-function GetLocations (ids, callback) {
-    DB.query("SELECT * FROM users WHERE mid IN (" + ids.join(',') + ") ORDER BY mid;",
-        function (results) {
-            callback(results.rows);
-        });
-}
-
 exports.selectFriends = function (request, response, next) {
     try {
-        var id = request.session.mid;
-        DB.query({ text: "SELECT * FROM friends WHERE mid1 = $1 OR mid2 = $1;",  values: [ id ]},
-            function (results) {
-                var uids = [];
-                for (var i = 0; i < results.rows.length; i++) {
-                    if (results.rows[i].mid1 == id) {
-                        uids.push(results.rows[i].mid2);
+        db.transaction(function (client, callback) {
+            var id = request.session.mid;
+            var uids = [];
+            async.waterfall([
+                client.select().from('friends').where(db.sql.or({'mid1': id}, {'mid2': id})).run,
+                function (result, callback) {
+                    for (var i = 0; i < result.rows.length; i++) {
+                        if (result.rows[i].mid1 == id) {
+                            uids.push(result.rows[i].mid2);
+                        }
+                        else {
+                            uids.push(result.rows[i].mid1);
+                        }
                     }
-                    else {
-                        uids.push(results.rows[i].mid1);
-                    }
-                }
-                uids.sort(function (a,b) { return a - b; });
-                GetLocations(uids, function (locations) {
+                    uids.sort(function (a,b) { return a - b; });
+                    client.select().from('users').where(db.sql.in('mid', uids)).orderBy('mid').run(callback);
+                },
+                function (result, callback) {
+                    var locations = result.rows;
                     var friends = [];
                     for (var i = 0, j = 0; i < uids.length; i++) {
                         friends.push({ mid: uids[i] });
@@ -186,9 +157,14 @@ exports.selectFriends = function (request, response, next) {
                             j++;
                         }
                     }
-                    response.json(friends);
-                });
-            });
+                    callback(null, friends);
+                }
+            ], callback);
+        }, function (error, result) {
+            if (error)
+                throw error;
+            response.json(result);
+        });
     }
     catch (error) {
         next(error);
@@ -238,44 +214,42 @@ exports.deleteLike = function (request, response, next) {
 };
 
 exports.insertUserAndSelectNearUsers = function (request, response, next) {
-    var sqls =
-    [
-        {
-            text: "DELETE FROM users WHERE mid = $1;",
-            values: [request.session.mid]
-        },
-        {
-            text: "INSERT INTO users (mid, latitude, longitude, timestamp) VALUES ($1, $2, $3, $4);",
-            values:
-            [
-                request.session.mid,
-                request.query['latitude'],
-                request.query['longitude'],
-                os.uptime()
-            ]
-        },
-        {
-            text: "SELECT * , " +
-                "earth_distance(ll_to_earth($1, $2), ll_to_earth(users.latitude, users.longitude)) AS distance " +
-                "FROM users " +
-                "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(users.latitude, users.longitude) " +
-                "AND mid != $4 " +
-                "ORDER BY distance ASC;",
-            values:
-            [
-                request.query['latitude'],
-                request.query['longitude'],
-                request.query['radius'],
-                request.session.mid
-            ]
-        }
-    ];
-
     try
     {
-        DB.series(sqls, function(error, results) {
-            if (results[2].rows) {
-                response.users = results[2].rows;
+        db.transaction(function (client, callback) {
+            var id = request.session.mid;
+            async.waterfall([
+                client.delete().from('users').where({'mid': id}).run,
+                function (result, callback) {
+                    client.insert('users', {
+                        'mid': id,
+                        'latitude': request.query['latitude'],
+                        'longitude': request.query['longitude'],
+                        'timestamp': os.uptime()
+                    }).run(callback);
+                },
+                function (result, callback) {
+                    var sql =
+                        "SELECT * , " +
+                        "earth_distance(ll_to_earth($1, $2), ll_to_earth(latitude, longitude)) AS distance " +
+                        "FROM users " +
+                        "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(latitude, longitude) " +
+                        "AND mid != $4 " +
+                        "ORDER BY distance ASC;";
+                    client.query(sql, [
+                        request.query['latitude'],
+                        request.query['longitude'],
+                        request.query['radius'],
+                        id
+                    ], callback);
+                }
+            ], callback);
+        }, function (error, result) {
+            if (error)
+                throw error;
+
+            if (result.rows.length != 0) {
+                response.users = result.rows;
                 next();
             }
             else {
