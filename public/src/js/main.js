@@ -91,7 +91,10 @@ if (config.development) {
 }
 else {
     yepnope({
-        load: ['./dist/spacebox.min.css', './dist/spacebox.min.js'],
+        test: Modernizr.touch,
+        yep: './dist/spacebox-mobile.min.js',
+        nope: './dist/spacebox.min.js',
+        both: './dist/spacebox.min.css',
         complete: bootstrapAngular
     });
 }
