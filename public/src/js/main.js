@@ -48,12 +48,21 @@ yepnope({
     nope: './dist/spacebox.min.css'
 });
 
+// main app script should be loaded first
+yepnope('./src/js/app/app.js');
+
+// platform dependent scripts
+yepnope({
+    test: Modernizr.touch,
+    yep: './src/js/app/services/mobile/vkService.js',
+    nope: './src/js/app/services/vkService.js'
+});
+
+// common scripts
 yepnope({
     test: config.development,
     yep: [
-        './src/js/app/app.js',
         './src/js/app/services/geolocationService.js',
-        './src/js/app/services/vkService.js',
         './src/js/app/services/configService.js',
         './src/js/app/services/mapService.js',
         './src/js/app/services/meetService.js',
@@ -77,6 +86,7 @@ yepnope({
     ],
     nope: './dist/spacebox.min.js',
     complete: function () {
+        // manually bootstrap AngularJS
         angular.bootstrap(document, ['spacebox']);
     }
 });

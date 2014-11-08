@@ -8,7 +8,7 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
     VkService._id = $cookieStore.get('vkUserId');
 
-    VK.init({ apiId: config.vkApiId });
+    VK.init({ apiId: ConfigService.vkApiId });
 
     function asyncLoginToServer (data) {
         var deferred = this;
