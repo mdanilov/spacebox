@@ -26,15 +26,15 @@
         return deferred.promise;
     };
 
-    GeolocationService.asyncGetUserPositions = function (radius) {
+    GeolocationService.asyncGetUserPositions = function (options) {
         var deferred = $q.defer();
         GeolocationService.asyncGetCurrentPosition().then(function (position) {
             var data = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
-                radius: radius
+                options: options
             };
-            $http.get(config.serverUrl + '/getUsers', {params: data}).
+            $http.post(config.serverUrl + '/getUsers', data).
                 success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).

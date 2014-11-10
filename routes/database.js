@@ -103,27 +103,6 @@ exports.selectLikes = function (request, response, next) {
     }
 };
 
-function createFriendship (id1, id2) {
-    DB.query({text: "INSERT INTO friends (mid1, mid2, timestamp) VALUES ($1, $2, $3);",
-        values: [ id1, id2, os.uptime() ]},
-        function (results) {
-            log.info('Users id%d and id%d are friends now', id1, id2);
-        });
-}
-
-function updateRelations (request) {
-    if (request.query.status == 1) {
-        var mid = request.session.mid;
-        DB.query({ text: "SELECT * FROM likes WHERE mid = $1 AND liked = $2 AND status = 1;",
-            values: [ request.query.id, mid ]},
-            function (results) {
-                if (results.rows.length != 0) {
-                    createFriendship(mid, results.rows[0].mid);
-                }
-            });
-    }
-}
-
 exports.selectFriends = function (request, response, next) {
     try {
         db.transaction(function (client, callback) {
@@ -131,7 +110,7 @@ exports.selectFriends = function (request, response, next) {
             var uids = [];
             async.waterfall([
                 client.select().from('friends').where(db.sql.or({'mid1': id}, {'mid2': id})).run,
-                function (result, callback) {
+                function __selectUserLocations(result, callback) {
                     for (var i = 0; i < result.rows.length; i++) {
                         if (result.rows[i].mid1 == id) {
                             uids.push(result.rows[i].mid2);
@@ -143,7 +122,7 @@ exports.selectFriends = function (request, response, next) {
                     uids.sort(function (a,b) { return a - b; });
                     client.select().from('users').where(db.sql.in('mid', uids)).orderBy('mid').run(callback);
                 },
-                function (result, callback) {
+                function __updateFriendsInfo(result, callback) {
                     var locations = result.rows;
                     var friends = [];
                     for (var i = 0, j = 0; i < uids.length; i++) {
@@ -160,7 +139,7 @@ exports.selectFriends = function (request, response, next) {
                     callback(null, friends);
                 }
             ], callback);
-        }, function (error, result) {
+        }, function __callback(error, result) {
             if (error)
                 throw error;
             response.json(result);
@@ -170,6 +149,27 @@ exports.selectFriends = function (request, response, next) {
         next(error);
     }
 };
+
+function createFriendship (id1, id2) {
+    DB.query({text: "INSERT INTO friends (mid1, mid2, timestamp) VALUES ($1, $2, $3);",
+            values: [ id1, id2, os.uptime() ]},
+        function (results) {
+            log.info('Users id%d and id%d are friends now', id1, id2);
+        });
+}
+
+function updateRelations (request) {
+    if (request.query.status == 1) {
+        var mid = request.session.mid;
+        DB.query({ text: "SELECT * FROM likes WHERE mid = $1 AND liked = $2 AND status = 1;",
+                values: [ request.query.id, mid ]},
+            function (results) {
+                if (results.rows.length != 0) {
+                    createFriendship(mid, results.rows[0].mid);
+                }
+            });
+    }
+}
 
 exports.changeLikeStatus = function (request, response, next) {
     try {
@@ -213,38 +213,60 @@ exports.deleteLike = function (request, response, next) {
     }
 };
 
-exports.insertUserAndSelectNearUsers = function (request, response, next) {
+exports.selectUsers = function (request, response, next) {
     try
     {
         db.transaction(function (client, callback) {
             var id = request.session.mid;
             async.waterfall([
                 client.delete().from('users').where({'mid': id}).run,
-                function (result, callback) {
+                function __insertUser(result, callback) {
+                    var info = {};
+                    if (request.cookies.userInfo) {
+                        info = JSON.parse(unescape(request.cookies.userInfo));
+                    }
                     client.insert('users', {
                         'mid': id,
-                        'latitude': request.query['latitude'],
-                        'longitude': request.query['longitude'],
+                        'latitude': request.body['latitude'],
+                        'longitude': request.body['longitude'],
+                        'sex': info.sex || 0,
+                        'age': info.age || -1,
                         'timestamp': os.uptime()
                     }).run(callback);
                 },
-                function (result, callback) {
+                function __selectUsers(result, callback) {
+                    var where = util.format(
+                        "WHERE earth_box(ll_to_earth(%d, %d), %d) @> ll_to_earth(latitude, longitude) AND mid != %d ",
+                        request.body['latitude'],
+                        request.body['longitude'],
+                        request.body['options'].radius,
+                        id);
+
+                    var sex = request.body.options.sex;
+                    if (sex && sex != 0) {
+                        where += util.format("AND sex = %d ", sex);
+                    }
+
+                    var interval = request.body.options.ageInterval;
+                    if (interval) {
+                        where += util.format("AND (age > %d AND age < %d OR age = -1) ",
+                            interval.bottom,
+                            interval.top);
+                    }
+
                     var sql =
                         "SELECT * , " +
                         "earth_distance(ll_to_earth($1, $2), ll_to_earth(latitude, longitude)) AS distance " +
                         "FROM users " +
-                        "WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(latitude, longitude) " +
-                        "AND mid != $4 " +
+                        where +
                         "ORDER BY distance ASC;";
                     client.query(sql, [
-                        request.query['latitude'],
-                        request.query['longitude'],
-                        request.query['radius'],
-                        id
+                        request.body['latitude'],
+                        request.body['longitude']
                     ], callback);
                 }
             ], callback);
-        }, function (error, result) {
+        }, function __callback(error, result) {
             if (error)
                 throw error;
 

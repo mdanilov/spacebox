@@ -5,7 +5,7 @@ var log = require('../utils/log')(module);
 var HttpError = require('../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
-    var session = request.query;
+    var session = request.body;
     var md5sum = crypto.createHash('md5');
 
     md5sum.update('expire=' + session['expire']);

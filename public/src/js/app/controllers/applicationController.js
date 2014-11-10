@@ -1,21 +1,34 @@
-function ApplicationController ($scope, $log, VkService, ConfigService) {
+function ApplicationController ($scope, $log, UserService, ConfigService) {
     $log.debug('Initialize application controller...');
 
     var self = this;
     self.user = {};
     self.isNavbarHidden = false;
 
+    function updateConfig (info) {
+        // age is defined
+        if (info.age > 0) {
+            var top = info.age + 5;
+            var bottom = info.age - 5;
+            ConfigService.searchOptions.ageInterval.top = top > 99 ? 99 : top;
+            ConfigService.searchOptions.ageInterval.bottom = bottom < 0 ? 0 : bottom;
+        }
+
+        // sex is defined
+        if (info.sex != 0) {
+            ConfigService.searchOptions.sex = 3 - info.sex;
+        }
+    }
+
     $scope.$watch(function () { return ConfigService.isLogin },
         function (value) {
             if (angular.equals(value, true)) {
-                VkService.asyncGetCurrentUserInfo().then(function (info) {
-                    self.user.name = info[0].first_name;
-                    self.user.image = info[0].photo_50;
-                    self.user.photo_100 = info[0].photo_100; 
-                });
+                var userInfo = UserService.getInfo();
+                updateConfig(userInfo);
+                self.user = userInfo;
             }
         });
 }
 
 angular.module('spacebox').controller('ApplicationController',
-    ['$scope', '$log', 'VkService', 'ConfigService', ApplicationController]);
+    ['$scope', '$log', 'UserService', 'ConfigService', ApplicationController]);

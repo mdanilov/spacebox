@@ -56,7 +56,7 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
     LocatorService.asyncSearch = function () {
         var deferred = $q.defer();
         $log.debug('Search near users...');
-        GeolocationService.asyncGetUserPositions(ConfigService.searchRadius).then(function (data) {
+        GeolocationService.asyncGetUserPositions(ConfigService.searchOptions).then(function (data) {
             $log.debug('Founded near users locations: ', data);
             invalidateUsers.bind(deferred)(data);
         }, function (error) {

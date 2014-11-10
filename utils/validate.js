@@ -9,8 +9,10 @@ var HttpError = require('../routes/error').HttpError;
     env.addSchema('schema', schema);
 
     module.exports = function (request, response, next) {
-        request.query.url = request.originalUrl.split('?')[0];
-        var errors = env.validate('schema', { "request": request.query });
+        var query = (request.method == 'POST') ? request.body : request.query;
+        query.url = request.originalUrl.split('?')[0];
+
+        var errors = env.validate('schema', { "request": query });
         if (!errors) {
             log.info('Request has been validated');
             next();

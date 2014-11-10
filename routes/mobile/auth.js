@@ -8,7 +8,7 @@ exports.login = function (request, response, next) {
     var options = 'https://oauth.vk.com/access_token?' +
         'client_id=' + config.get('vk:apiID') +
         '&client_secret=' + config.get('vk:privateKey') +
-        '&code=' + request.query.code +
+        '&code=' + request.body.code +
         '&redirect_uri=' + config.get('vk:redirectUrl');
     https.get(options, function (res) {
         res.on("data", function (chunk) {
@@ -23,7 +23,10 @@ exports.login = function (request, response, next) {
                 request.session.expires = os.uptime() + body.expires_in;
                 request.session.access_token = body.access_token;
                 log.info('VK user %s has been authorized using OAuth2', request.session.mid);
-                response.json({access_token: body.access_token});
+                response.json({
+                    mid: body.user_id,
+                    access_token: body.access_token
+                });
             }
         });
     });

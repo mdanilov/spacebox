@@ -6,17 +6,14 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
-    VkService._id = $cookieStore.get('vkUserId');
 
     VK.init({ apiId: ConfigService.vkApiId });
 
-    function asyncLoginToServer (data) {
+    function asyncLoginToServer (session) {
         var deferred = this;
-        VkService._id = data.mid;
-        $cookieStore.put('vkUserId', VkService._id);
-        $http.get(config.serverUrl + '/login', {params: data}).
+        $http.post(config.serverUrl + '/login', session).
             success(function (data, status, headers, config) {
-                deferred.resolve();
+                deferred.resolve(session);
             }).
             error(function (data, status, headers, config) {
                 $log.debug('Failed login to server: %', status);
@@ -69,20 +66,6 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
         return deferred.promise;
     };
 
-    VkService.asyncGetCurrentUserInfo = function () {
-        var deferred = $q.defer();
-        if (angular.isUndefined(VkService._id)) {
-            $log.info('User is not authorized');
-            deferred.reject();
-        }
-        VkService.asyncGetUsersInfo(VkService._id).then(function (response) {
-            deferred.resolve(response);
-        }, function (error) {
-            deferred.reject(error);
-        });
-        return deferred.promise;
-    };
-
     VkService.asyncGetPhotos = function (id) {
         var deferred = $q.defer();
         VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
@@ -125,5 +108,5 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
     return VkService;
 }
 
-angular.module('spacebox')
-    .factory('VkService', ['$http', '$log', '$cookieStore', '$q', 'ConfigService', VkService]);
+angular.module('spacebox').factory('VkService',
+    ['$http', '$log', '$cookieStore', '$q', 'ConfigService', VkService]);

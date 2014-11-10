@@ -70,6 +70,7 @@ if (config.development) {
             './src/js/app/services/meetService.js',
             './src/js/app/services/errorService.js',
             './src/js/app/services/locatorService.js',
+            './src/js/app/services/userService.js',
             './src/js/app/controllers/applicationController.js',
             './src/js/app/controllers/loginViewController.js',
             './src/js/app/controllers/errorViewController.js',

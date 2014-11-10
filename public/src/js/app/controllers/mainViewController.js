@@ -2,10 +2,6 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
     $log.debug('Initialize main view controller...');
 
     var self = this;
-//    self.MESSAGES = {
-//        onSearch: "Идет поиск новых пользователей...",
-//        onDone: "Рядом с вами нет новых пользователей."
-//    };
     self.status = '';
     self.current = null;
     $scope.app.isNavbarHidden = false;

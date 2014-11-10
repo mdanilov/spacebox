@@ -24,12 +24,16 @@
                 "description": "Mobile login response",
                 "type": "object",
                 "properties": {
+                    "mid": {
+                        "title": "VK user id",
+                        "type": "string"
+                    },
                     "access_token": {
                         "title": "VK API access code",
                         "type": "string"
                     }
                 },
-                "required": ["access_token"],
+                "required": ["mid", "access_token"],
                 "additionalProperties": false
             },
             "getLoginStatus": {
