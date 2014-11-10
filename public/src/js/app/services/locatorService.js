@@ -42,11 +42,11 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
             }
             LocatorService._users = data;
             LocatorService._currentId = 0;
-            var user = data[0];
-            VkService.asyncGetPhotos(user.mid).then(function (images) {
-                user.photos = images;
+            VkService.asyncGetPhotos(data[0].mid).then(function (images) {
+                preloadImages(images);
+                data[0].photos = images;
+                deferred.resolve(data);
             });
-            deferred.resolve(data);
         }, function (error) {
             $log.error('Can\'t get VK users info due to error: ', error);
             deferred.reject(error);
