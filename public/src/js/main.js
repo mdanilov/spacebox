@@ -30,7 +30,7 @@ yepnope({
     ],
     both: [
         'https://vk.com/js/api/openapi.js',
-        'http://vk.com/js/api/share.js?90'
+        'https://vk.com/js/api/share.js?90'
     ]
 });
 
