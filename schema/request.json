@@ -28,7 +28,7 @@
                     "url": { "enum": [ "/mobile/login" ] },
                     "code": {
                         "title": "VK API access code",
-                        "type": "number"
+                        "type": "string"
                     }
                 },
                 "required": ["url", "code"],
