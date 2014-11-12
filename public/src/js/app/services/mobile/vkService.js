@@ -1,4 +1,4 @@
-function VkService ($http, $log, $cookieStore, $q, $window, $timeout, UserService, ConfigService) {
+function VkService ($http, $log, $cookieStore, $q, $window, $timeout, ConfigService) {
 
     var VkService = {};
 
@@ -155,4 +155,4 @@ function VkService ($http, $log, $cookieStore, $q, $window, $timeout, UserServic
 }
 
 angular.module('spacebox').factory('VkService',
-    ['$http', '$log', '$cookieStore', '$q', '$window', '$timeout', 'UserService', 'ConfigService', VkService]);
+    ['$http', '$log', '$cookieStore', '$q', '$window', '$timeout', 'ConfigService', VkService]);
