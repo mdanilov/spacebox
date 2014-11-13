@@ -3,6 +3,15 @@ ul.navbar-nav, ul.navbar-nav li {
 	margin: 0px;
 }
 
+@media (max-width: 768px) {
+	ul.navbar-left li {
+		width: 33.33%;
+	}
+	ul.navbar-right li {
+		width: 100%;
+	}
+}
+
 ul.navbar-right {
 	margin-right: 0px !important;
 	margin: 0px;
@@ -13,12 +22,20 @@ ul.navbar-right, ul.navbar-right li {
 	float: right !important;
 }
 
+@media (max-width: 768px) {
+	ul.navbar-right {
+		width: 25%;
+	}
+	ul.navbar-left {
+		width: 75%;	
+	}
+}
+
 #spNavbar {
 	position: relative;
 	display: block;
 	font-size: 16px;
 }
-
 
 @media (max-width: 768px) {
     #spNavbar .sp-nav-button {
@@ -52,6 +69,18 @@ ul.navbar-right, ul.navbar-right li {
 	cursor: pointer;
 }
 
+@media (max-width: 768px) {
+	#spNavbar .navbar-brand {
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		float: none;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: 20px;
+	}
+}
+
 #spNavbar .dropdown {
 	height: 60px;	
 	padding-top: 5px;
@@ -73,6 +102,10 @@ ul.navbar-right, ul.navbar-right li {
 #spNavbar .sp-active {
 	border-bottom: 2px solid;
 	border-color: #4387fd;
+}
+
+#spNavbar li.sp-active > a {
+	color: #333;
 }
 
 #spNavbar a {
