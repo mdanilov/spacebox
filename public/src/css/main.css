@@ -49,8 +49,15 @@ body {
 }
 
 #people .carousel-control {
+    height: 448px;
     background-image: none;
     width: 50%;
+}
+
+@media (max-width: 768px) {
+    #people .carousel-control {
+        height: 248px;
+    }
 }
 
 #people .carousel-controls {
@@ -172,7 +179,7 @@ ol.carousel-indicators li {
 }
 
 .person .fontawesome-chevron-right, .person .fontawesome-chevron-left {
-  top: 50%;
+  top: 47%;
   background: transparent;
   border: 0;
   padding: 10px;
@@ -289,6 +296,8 @@ ol.carousel-indicators li {
     z-index: 2;
     cursor: pointer;
     overflow: hidden;
+    border: 2px solid;
+    border-color: white;
 }
 
 #spRadar .circle {
@@ -309,9 +318,14 @@ ol.carousel-indicators li {
 }
 
 #spRadar .status {
-  margin-top: 70%;
-  display: block;
-  text-align: center;
+    bottom: 20%;
+    position: absolute;
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    margin-left: -15px;
 }
 
 #spShareButton * {
