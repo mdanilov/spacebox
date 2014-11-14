@@ -1,8 +1,33 @@
+@media (max-width: 768px) {
+    #spNavPills {
+        position: absolute;
+        padding: 10px;
+    }
+
+    #spNavPills ul > li {
+        display: table-cell;
+        width: 1%;
+    }
+
+    #spRowContainer {
+        position: relative;
+    }
+
+    #spFriendsList {
+        z-index: 0;
+    }
+
+    #spFriendsList.sp-active{
+        z-index: 10000;
+    }
+}
+
 #spFriendsList {
     max-height: 100%;
     overflow-y: scroll;
     padding-left: 0px;
     padding-right: 0px;
+    background-color: white;
 }
 
 #spFriendsList .list-group-item
@@ -35,7 +60,7 @@
 #spFriendsList .brandico-vkontakte-rect {
     margin-right: 10px;
     color: #4387fd;
-    font-size: 18px;
+    font-size: 30px;
     display: none;
 }
 

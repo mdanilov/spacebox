@@ -1,9 +1,16 @@
+<div id="spNavPills" class="visible-xs-block">
+	<ul class="nav nav-pills nav-justified">
+	 	<li class="active"><a href="">Список</a></li>
+	  	<li ><a href="">Карта</a></li>
+	</ul>
+</div>
+
 <div id="spFriendsPage" class="container fill-height">
-    <div class="row fill-height">
+    <div id="spRowContainer" class="row fill-height">
         <div id="spFriendsList" class="col-xs-12 col-sm-4 fill-height">
             <sp-friend-list users="friends.friends"></sp-friend-list>
         </div>
-        <div class="col-sm-8 fill-height hidden-xs">
+        <div id="spMapContainer" class="col-xs-12 col-sm-8 fill-height">
             <div id="map-canvas"></div>
         </div>
     </div>
