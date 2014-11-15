@@ -13,7 +13,7 @@ function VkService ($http, $log, $cookieStore, $q, ConfigService) {
         var deferred = this;
         $http.post(config.serverUrl + '/login', session).
             success(function (data, status, headers, config) {
-                deferred.resolve(session);
+                deferred.resolve(session.mid);
             }).
             error(function (data, status, headers, config) {
                 $log.debug('Failed login to server: %', status);

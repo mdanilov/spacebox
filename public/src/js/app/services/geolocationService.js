@@ -18,7 +18,7 @@
             }, function () {
                 handleNoGeolocation(true);
                 deferred.reject();
-            }, { maximumAge: 0, timeout: 10000 });
+            });
         }
         else {
             handleNoGeolocation(false);

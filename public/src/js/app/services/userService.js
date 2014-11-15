@@ -1,7 +1,7 @@
 function UserService ($q, $log, $cookieStore, VkService) {
 
     var UserService = {};
-    UserService._user = $cookieStore.get('userInfo');
+    UserService._user = {};
 
     function computeAge (vkDate) {
         var age = -1;
@@ -21,7 +21,6 @@ function UserService ($q, $log, $cookieStore, VkService) {
             if (angular.isArray(response) && response.length > 0) {
                 var user = response[0];
                 user.age = computeAge(response[0].bdate);
-                $cookieStore.put('userInfo', user);
                 UserService._user = user;
                 deferred.resolve(user);
             }

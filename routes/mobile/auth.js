@@ -1,5 +1,6 @@
 var os = require('os');
 var https = require('https');
+var url = require('url');
 var config = require('../../config/index');
 var log = require('../../utils/log')(module);
 var HttpError = require('../../routes/error').HttpError;
@@ -8,8 +9,9 @@ exports.login = function (request, response, next) {
     var options = 'https://oauth.vk.com/access_token?' +
         'client_id=' + config.get('vk:apiID') +
         '&client_secret=' + config.get('vk:privateKey') +
-        '&code=' + request.body.code +
-        '&redirect_uri=' + config.get('vk:redirectUrl');
+        '&code=' + request.query.code +
+        '&redirect_uri=' + url.resolve(request.headers.referer, request.query.url);
+
     https.get(options, function (res) {
         res.on("data", function (chunk) {
             var body = JSON.parse(chunk);
@@ -23,20 +25,14 @@ exports.login = function (request, response, next) {
                 request.session.expires = os.uptime() + body.expires_in;
                 request.session.access_token = body.access_token;
                 log.info('VK user %s has been authorized using OAuth2', request.session.mid);
-                response.json({
-                    mid: body.user_id,
-                    access_token: body.access_token
-                });
+                response.redirect('back');
             }
         });
     });
 };
 
 exports.getLoginStatus = function (request, response, next) {
-    response.json({
-        mid: request.session.mid,
-        access_token: request.session.access_token
-    });
+    response.json(request.session);
 };
 
 exports.logout = function (request, response, next) {

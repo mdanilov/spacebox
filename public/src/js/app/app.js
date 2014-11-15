@@ -40,9 +40,9 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService', '
             if (!ConfigService.isLogin && path != '/login') {
                 // TODO: prevent event don't work as assumed
                 // $event.preventDefault();
-                VkService.asyncGetLoginStatus().then(function (data) {
+                VkService.asyncGetLoginStatus().then(function (id) {
                     $log.debug('User already authorized go to %s', path);
-                    UserService.asyncUpdateInfo(data.mid).then(function () {
+                    UserService.asyncUpdateInfo(id).then(function () {
                         ConfigService.isLogin = true;
                         $location.path(path);
                     });
