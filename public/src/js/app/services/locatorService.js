@@ -30,10 +30,9 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
 
         data = filterNewUsers(data);
 
-        var uids = [];
-        for (var i = 0; i < data.length; i++) {
-            uids.push(data[i].mid);
-        }
+        var uids = data.map(function (user) {
+            return user.mid;
+        });
 
         VkService.asyncGetUsersInfo(uids).then(function (info) {
             $log.debug('VK users info collected: ', info);

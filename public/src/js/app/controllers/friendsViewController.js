@@ -3,6 +3,11 @@ function FriendsViewController ($scope, $log, MapService, MeetService, ErrorServ
 
     var self = this;
     self.friends = [];
+    self.list = true;
+
+    self.toggle = function (value) {
+        self.list = value;
+    };
 
     MapService.init();
 
