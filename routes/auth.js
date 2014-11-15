@@ -15,10 +15,11 @@ exports.login = function (request, response, next) {
     md5sum.update(config.get('vk:privateKey'));
 
     if (session.sig === md5sum.digest('hex')) {
-        request.session.authorized = true;
-        request.session.mid = session.mid;
-        request.session.expires = session.expire + os.uptime();
-        log.info('VK user id%s has been authorized using OpenAPI', request.session.mid);
+        var sess = request.session;
+        sess.authorized = true;
+        sess.expires = session.expire + os.uptime();
+        sess.mid = session.mid;
+        log.info('VK OpenAPI session has created ', sess.mid);
         response.end();
     }
     else {
@@ -27,12 +28,11 @@ exports.login = function (request, response, next) {
 };
 
 exports.logout = function (request, response, next) {
-    var mid = request.session.mid;
     request.session.destroy(function (error) {
         if (error) {
-            next(new HttpError(400, error));
+            next(new HttpError(500, error));
         }
-        log.info('User id%s session has been deleted', mid);
+        log.info('VK OpenAPI session has deleted');
         response.end();
     });
 };

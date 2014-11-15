@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, LocatorService, MeetService, ErrorService) {
+function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHandler) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -11,7 +11,7 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
         LocatorService.asyncSearch().then(function () {
             self.status = 'done';
             self.current = LocatorService.nextUser();
-        }, ErrorService.handleError);
+        }, ErrorHandler.handle);
     };
 
     self.Like = function () {
@@ -44,4 +44,4 @@ MainViewController.resolve = {
 };
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', 'LocatorService', 'MeetService', 'ErrorService', MainViewController]);
+    ['$scope', '$log', 'LocatorService', 'MeetService', 'ErrorHandler', MainViewController]);

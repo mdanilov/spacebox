@@ -68,7 +68,7 @@ if (config.development) {
             './src/js/app/services/configService.js',
             './src/js/app/services/mapService.js',
             './src/js/app/services/meetService.js',
-            './src/js/app/services/errorService.js',
+            './src/js/app/services/errorHandler.js',
             './src/js/app/services/locatorService.js',
             './src/js/app/services/userService.js',
             './src/js/app/controllers/applicationController.js',

@@ -21,14 +21,16 @@ exports.login = function (request, response, next) {
                     url: option,
                     message: body
                 };
-                next(new HttpError(401, JSON.stringify(error)));
+                next(new HttpError(400, JSON.stringify(error)));
             }
             else {
-                request.session.authorized = true;
-                request.session.mid = body.user_id;
-                request.session.expires = os.uptime() + body.expires_in;
-                request.session.access_token = body.access_token;
-                log.info('VK user %s has been authorized using OAuth2', request.session.mid);
+                var session = request.session;
+                session.authorized = true;
+                session.expires = os.uptime() + body.expires_in;
+                session.mid = body.user_id;
+                session.access_token = body.access_token;
+                session.save();
+                log.info('VK OAuth2 session has created ', session.mid, session.access_token);
                 response.redirect('back');
             }
         });
@@ -36,15 +38,21 @@ exports.login = function (request, response, next) {
 };
 
 exports.getLoginStatus = function (request, response, next) {
-    response.json(request.session);
+    var session = request.session;
+    log.info('Get VK OAuth2 session ', session.mid, session.access_token);
+    response.json({
+        mid: session.mid,
+        access_token: session.access_token,
+        expires: session.expires
+    });
 };
 
 exports.logout = function (request, response, next) {
     request.session.destroy(function (error) {
         if (error) {
-            next(new HttpError(400, error));
+            next(new HttpError(500, error));
         }
-        log.info('User session %s is deleted', request.session.mid);
+        log.info('VK OAuth2 session has deleted');
         response.end();
     });
 };

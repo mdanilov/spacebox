@@ -1,14 +1,6 @@
-﻿function GeolocationService ($http, $log, $q) {
+﻿function GeolocationService ($http, $log, $q, ConfigService, ErrorHandler) {
 
     var GeolocationService = {};
-
-    function handleNoGeolocation (errorFlag) {
-        if (errorFlag) {
-            $log.error('Geolocation is off');
-        } else {
-            $log.error('Browser doesn\'t support geolocation');
-        }
-    }
 
     GeolocationService.asyncGetCurrentPosition = function () {
         var deferred = $q.defer();
@@ -16,12 +8,13 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 deferred.resolve(position);
             }, function () {
-                handleNoGeolocation(true);
+                ErrorHandler.handleNoGeolocation(true);
                 deferred.reject();
             });
         }
         else {
-            handleNoGeolocation(false);
+            ErrorHandler.handleNoGeolocation(false);
+            deferred.reject();
         }
         return deferred.promise;
     };
@@ -34,13 +27,15 @@
                 longitude: position.coords.longitude,
                 options: options
             };
-            $http.post(config.serverUrl + '/getUsers', data).
+            $http.post(ConfigService.SERVER_URL + '/getUsers', data).
                 success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).
                 error(function (data, status, headers, config) {
-                    deferred.reject(status);
+                    deferred.reject(new HttpError(status, 'get users request failed'));
                 });
+        }, function () {
+            deferred.reject();
         });
         return deferred.promise;
     };
@@ -48,5 +43,5 @@
     return GeolocationService;
 }
 
-angular.module('spacebox')
-    .factory('GeolocationService', ['$http', '$log', '$q', GeolocationService]);
+angular.module('spacebox').factory('GeolocationService',
+    ['$http', '$log', '$q', 'ConfigService', 'ErrorHandler', GeolocationService]);

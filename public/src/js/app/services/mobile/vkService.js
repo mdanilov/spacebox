@@ -1,22 +1,21 @@
-function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
+function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
 
     var VkService = {};
 
     VkService.VERSION = 5.25;
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.DISPLAY = { PAGE: 'page', POPUP: 'popup', MOBILE: 'mobile' };
-    VkService.SERVER_URL = window.location.origin;
-    VkService.REDIRECT_URL = VkService.SERVER_URL + '/mobile/login';
+    VkService.REDIRECT_URL = ConfigService.SERVER_URL + '/mobile/login';
     VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
-    VkService._appId = ConfigService.vkApiId;
+    VkService._appId = ConfigService.VK_APP_ID;
     VkService._session = $cookieStore.get('vk.session');
 
     function asyncApiCall (method, options) {
         var deferred = $q.defer();
         if (angular.isUndefined(VkService._session)) {
-            deferred.reject(401);
+            deferred.reject(new HttpError(401, 'VK session is undefined'));
         }
         else {
             var url = 'https://api.vk.com/method/' + method;
@@ -28,11 +27,12 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
                     if (data.response) {
                         deferred.resolve(data.response);
                     }
-                    deferred.reject(data.error);
+                    else {
+                        deferred.reject(new Error(data));
+                    }
                 }).
                 error(function (data, status, headers, config) {
-                    $log.error('VK call error: %', status);
-                    deferred.reject(status);
+                    deferred.reject(new HttpError(status, 'VK call failed'));
                 });
         }
         return deferred.promise;
@@ -41,23 +41,26 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
     VkService.asyncLogin = function () {
         var deferred = $q.defer();
 
-        window.location.href = 'https://oauth.vk.com/authorize?' +
-            'client_id=' + VkService._appId + '&scope=' + VkService.SCOPE +
-            '&redirect_uri=' + VkService.REDIRECT_URL +
-            '&display=' + VkService.DISPLAY.MOBILE + '&response_type=' + 'code';
+        $timeout(function () {
+            window.location.href = 'https://oauth.vk.com/authorize?' +
+                'client_id=' + VkService._appId + '&scope=' + VkService.SCOPE +
+                '&redirect_uri=' + VkService.REDIRECT_URL +
+                '&display=' + VkService.DISPLAY.MOBILE + '&response_type=' + 'code';
+            deferred.reject();
+        }, 50);
 
         return deferred.promise;
     };
 
     VkService.asyncLogout =  function () {
         var deferred = $q.defer();
-        $http.get(VkService.SERVER_URL + '/logout').
+        $http.get(ConfigService.SERVER_URL + '/logout').
             success(function (data, status, headers, config) {
                 $cookieStore.remove('vk.session');
                 deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                deferred.reject(status);
+                deferred.reject(new HttpError(status, 'VK logout failed'));
             });
         return deferred.promise;
     };
@@ -65,7 +68,7 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
     VkService.asyncGetUsersInfo = function (ids) {
         var deferred = $q.defer();
         if (!ids || ids.length == 0) {
-            deferred.reject();
+            deferred.resolve();
         }
         else if (angular.isArray(ids)) {
             ids = ids.join(',');
@@ -83,7 +86,7 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
         var deferred = $q.defer();
         asyncApiCall('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }).then(function (response) {
             var photos = [];
-            for (var i = response.count - 1; i >= 0 && photos.length <= ConfigService.maxPhoto; i--) {
+            for (var i = response.count - 1; i >= 0 && photos.length <= ConfigService.MAX_USER_PHOTOS; i--) {
                 if (response.items[i].photo_807) {
                     photos.push(response.items[i].photo_807);
                 }
@@ -108,20 +111,20 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
             deferred.resolve(VkService._session.mid);
         }
         else {
-            $http.get(VkService.SERVER_URL + '/mobile/getLoginStatus').
+            $http.get(ConfigService.SERVER_URL + '/mobile/getLoginStatus').
                 success(function (data, status, headers, config) {
-                    if (data.access_token) {
-                        $log.debug('VK user id%s already authorized', data.mid);
+                    if (!angular.isUndefined(data.access_token)) {
+                        $log.debug('VK session ', data);
                         VkService._session = data;
                         $cookieStore.put('vk.session', data);
                         deferred.resolve(data.mid);
                     }
                     else {
-                        deferred.reject(401);
+                        deferred.reject(new HttpError(401, 'VK access_token is null'));
                     }
                 }).
                 error(function (data, status, headers, config) {
-                    deferred.reject(status);
+                    deferred.reject(new HttpError(status, 'VK login status failed'));
                 });
         }
 
@@ -132,4 +135,4 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
 }
 
 angular.module('spacebox').factory('VkService',
-    ['$http', '$log', '$cookieStore', '$q', '$location', 'ConfigService', VkService]);
+    ['$http', '$log', '$cookieStore', '$q', '$timeout', 'ConfigService', VkService]);

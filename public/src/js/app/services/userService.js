@@ -1,4 +1,4 @@
-function UserService ($q, $log, $cookieStore, VkService) {
+function UserService ($q, $log, VkService) {
 
     var UserService = {};
     UserService._user = {};
@@ -17,15 +17,15 @@ function UserService ($q, $log, $cookieStore, VkService) {
 
     UserService.asyncUpdateInfo = function (id) {
         var deferred = $q.defer();
-        VkService.asyncGetUsersInfo(id).then(function (response) {
-            if (angular.isArray(response) && response.length > 0) {
-                var user = response[0];
-                user.age = computeAge(response[0].bdate);
+        VkService.asyncGetUsersInfo(id).then(function (info) {
+            if (angular.isArray(info) && info.length > 0) {
+                var user = info[0];
+                user.age = computeAge(info[0].bdate);
                 UserService._user = user;
                 deferred.resolve(user);
             }
             else {
-                deferred.reject();
+                deferred.reject(new Error('user info is null'));
             }
         }, function (error) {
             deferred.reject(error);
@@ -41,4 +41,4 @@ function UserService ($q, $log, $cookieStore, VkService) {
 }
 
 angular.module('spacebox').factory('UserService',
-    ['$q', '$log', '$cookieStore', 'VkService', UserService]);
+    ['$q', '$log', 'VkService', UserService]);

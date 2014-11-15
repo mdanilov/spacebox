@@ -1,40 +1,37 @@
-function MeetService ($http, $log, $q, VkService) {
+function MeetService ($http, $log, $q, VkService, ConfigService) {
 
     var MeetService = {};
 
     MeetService.asyncLike = function (userId) {
         var deferred = $q.defer();
-        $http.get(config.serverUrl + '/changeLikeStatus', {params: {id: userId, status: 1}}).
+        $http.get(ConfigService.SERVER_URL + '/changeLikeStatus', {params: {id: userId, status: 1}}).
             success(function (data, status, headers, config) {
                 deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                deferred.reject(status);
+                deferred.reject(new HttpError(status, 'like request failed'));
             });
         return deferred.promise;
     };
 
     MeetService.asyncDislike = function (userId) {
         var deferred = $q.defer();
-        $http.get(config.serverUrl + '/changeLikeStatus', {params: {id: userId, status: -1}}).
+        $http.get(ConfigService.SERVER_URL + '/changeLikeStatus', {params: {id: userId, status: -1}}).
             success(function (data, status, headers, config) {
                 deferred.resolve();
             }).
             error(function (data, status, headers, config) {
-                deferred.reject(status);
+                deferred.reject(new HttpError(status, 'dislike request failed'));
             });
         return deferred.promise;
     };
 
     MeetService.asyncGetFriends = function () {
         var deferred = $q.defer();
-        $http.get(config.serverUrl + '/getFriends').
+        $http.get(ConfigService.SERVER_URL + '/getFriends').
             success(function (data, status, headers, config) {
                 var friends = data;
-                var uids = [];
-                for (var i = 0; i < data.length; i++) {
-                    uids.push(data[i].mid);
-                }
+                var uids = data.map(function (user) { return user.mid; });
                 VkService.asyncGetUsersInfo(uids).then(function (info) {
                     for (var i = 0; i < info.length; i++) {
                         friends[i].info = info[i];
@@ -45,7 +42,7 @@ function MeetService ($http, $log, $q, VkService) {
                 })
             }).
             error(function (data, status, headers, config) {
-                deferred.reject(status);
+                deferred.reject(new HttpError(status, 'get friends request failed'));
             });
         return deferred.promise;
     };
@@ -54,5 +51,5 @@ function MeetService ($http, $log, $q, VkService) {
 }
 
 angular.module('spacebox').factory('MeetService',
-    ['$http', '$log', '$q', 'VkService', MeetService]);
+    ['$http', '$log', '$q', 'VkService', 'ConfigService', MeetService]);
 

@@ -29,10 +29,7 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
         }
 
         data = filterNewUsers(data);
-
-        var uids = data.map(function (user) {
-            return user.mid;
-        });
+        var uids = data.map(function (user) { return user.mid; });
 
         VkService.asyncGetUsersInfo(uids).then(function (info) {
             $log.debug('VK users info collected: ', info);
@@ -45,9 +42,11 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
                 preloadImages(images);
                 data[0].photos = images;
                 deferred.resolve(data);
+            }, function (error) {
+                $log.error('VK get photos error ', error);
+                deferred.resolve([]);
             });
         }, function (error) {
-            $log.error('Can\'t get VK users info due to error: ', error);
             deferred.reject(error);
         });
     }
@@ -55,11 +54,11 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
     LocatorService.asyncSearch = function () {
         var deferred = $q.defer();
         $log.debug('Search near users...');
-        GeolocationService.asyncGetUserPositions(ConfigService.searchOptions).then(function (data) {
+        var options = ConfigService.getSearchOptions();
+        GeolocationService.asyncGetUserPositions(options).then(function (data) {
             $log.debug('Founded near users locations: ', data);
             invalidateUsers.bind(deferred)(data);
         }, function (error) {
-            $log.error('Can\'t get near users due to error: ', error);
             deferred.reject(error);
         });
         return deferred.promise;
@@ -80,6 +79,8 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
             VkService.asyncGetPhotos(users[nextId].mid).then(function (images) {
                 preloadImages(images);
                 users[nextId].photos = images;
+            }, function (error) {
+                $log.error('VK get photos error ', error);
             });
         }
 

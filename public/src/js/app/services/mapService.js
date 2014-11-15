@@ -142,5 +142,5 @@ function MapService ($log, $filter, GeolocationService) {
     return MapService;
 }
 
-angular.module('spacebox')
-    .factory('MapService', ['$log', '$filter', 'GeolocationService', MapService]);
+angular.module('spacebox').factory('MapService',
+    ['$log', '$filter', 'GeolocationService', MapService]);
