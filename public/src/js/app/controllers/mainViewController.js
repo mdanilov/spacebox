@@ -11,7 +11,7 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorSer
         LocatorService.asyncSearch().then(function () {
             self.status = 'done';
             self.current = LocatorService.nextUser();
-        });
+        }, ErrorService.handleError);
     };
 
     self.Like = function () {

@@ -13,19 +13,29 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
     VkService._appId = ConfigService.vkApiId;
     VkService._session = $cookieStore.get('vk.session');
 
-    function vkApiCall (method, options, callback) {
-        var url = 'https://api.vk.com/method/' + method;
-        var data = options;
-        data.access_token = VkService._session.access_token;
+    function asyncApiCall (method, options) {
+        var deferred = $q.defer();
+        if (angular.isUndefined(VkService._session)) {
+            deferred.reject(401);
+        }
+        else {
+            var url = 'https://api.vk.com/method/' + method;
+            var data = options;
+            data.access_token = VkService._session.access_token;
 
-        $http.get(url, {params: data }).
-            success(function (data, status, headers, config) {
-                callback(data);
-            }).
-            error(function (data, status, headers, config) {
-                $log.debug('VK call error: %', status);
-                callback(null);
-            });
+            $http.get(url, {params: data }).
+                success(function (data, status, headers, config) {
+                    if (data.response) {
+                        deferred.resolve(data.response);
+                    }
+                    deferred.reject(data.error);
+                }).
+                error(function (data, status, headers, config) {
+                    $log.error('VK call error: %', status);
+                    deferred.reject(status);
+                });
+        }
+        return deferred.promise;
     }
 
     VkService.asyncLogin = function () {
@@ -60,39 +70,31 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
         else if (angular.isArray(ids)) {
             ids = ids.join(',');
         }
-        vkApiCall('users.get', { user_ids: ids, fields: VkService.FIELDS }, function (r) {
-            if (r.response) {
-                deferred.resolve(r.response);
-            }
-            else {
-                $log.error('Can\'t get VK users information');
-                deferred.reject(r.error);
-            }
+        asyncApiCall('users.get', { user_ids: ids, fields: VkService.FIELDS }).then(function (response) {
+            deferred.resolve(response);
+        }, function (error) {
+            $log.error('Can\'t get VK users information');
+            deferred.reject(error);
         });
         return deferred.promise;
     };
 
     VkService.asyncGetPhotos = function (id) {
         var deferred = $q.defer();
-        vkApiCall('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
-            if (r.response) {
-                var photos = [];
-                for (var i = r.response.count - 1; i >= 0 && photos.length <= ConfigService.maxPhoto; i--) {
-                    if (r.response.items[i].photo_807) {
-                        photos.push(r.response.items[i].photo_807);
-                    }
+        asyncApiCall('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }).then(function (response) {
+            var photos = [];
+            for (var i = response.count - 1; i >= 0 && photos.length <= ConfigService.maxPhoto; i--) {
+                if (response.items[i].photo_807) {
+                    photos.push(response.items[i].photo_807);
                 }
-
-                if (photos.length == 0) {
-                    photos.push(VkService.EMPTY_PHOTO);
-                }
-
-                deferred.resolve(photos);
             }
-            else {
-                $log.error('Can\'t get VK photos');
-                deferred.reject(r.error);
+            if (photos.length == 0) {
+                photos.push(VkService.EMPTY_PHOTO);
             }
+            deferred.resolve(photos);
+        }, function (error) {
+            $log.error('Can\'t get VK photos');
+            deferred.reject(error);
         });
         return deferred.promise;
     };
