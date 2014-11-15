@@ -5,7 +5,7 @@ function VkService ($http, $log, $cookieStore, $q, $location, ConfigService) {
     VkService.VERSION = 5.25;
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.DISPLAY = { PAGE: 'page', POPUP: 'popup', MOBILE: 'mobile' };
-    VkService.SERVER_URL = $location.protocol() + '://' + $location.host() + ':' + $location.port();
+    VkService.SERVER_URL = window.location.origin;
     VkService.REDIRECT_URL = VkService.SERVER_URL + '/mobile/login';
     VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';

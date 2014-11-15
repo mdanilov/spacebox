@@ -16,8 +16,12 @@ exports.login = function (request, response, next) {
         res.on("data", function (chunk) {
             var body = JSON.parse(chunk);
             if (body.error) {
-                var message = 'VK OAuth2 error: ' + chunk;
-                next(new HttpError(400, message));
+                var error = {
+                    error: 'vk oauth2 error',
+                    url: option,
+                    message: body
+                };
+                next(new HttpError(401, JSON.stringify(error)));
             }
             else {
                 request.session.authorized = true;
