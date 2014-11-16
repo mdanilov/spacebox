@@ -1,13 +1,21 @@
-function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigService) {
+function LocatorService ($log, $q, VkService, GeolocationService, ConfigService) {
 
     var LocatorService = {};
 
     LocatorService._users = [];
     LocatorService._currentId = 0;
 
-    function preloadImages (images) {
-        images.forEach(function __loadImage (image) {
-            $(new Image()).prop('src', image);
+    LocatorService.LOAD_ERROR_PHOTO = 'https://vk.com/images/camera_400.gif';
+
+    function asyncLoadImages (user) {
+        return VkService.asyncGetPhotos(user.mid).then(function __success (images) {
+            images.forEach(function __loadImage (image) {
+                $(new Image()).prop('src', image);
+            });
+            user.photos = images;
+        }, function (error) {
+            $log.error('VK get photos error ', error);
+            user.photos = [ LocatorService.LOAD_ERROR_PHOTO ];
         });
     }
 
@@ -26,22 +34,34 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
             });
             LocatorService._users = users;
             LocatorService._currentId = 0;
-            return VkService.asyncGetPhotos(users[0].mid).then(function (images) {
-                preloadImages(images);
-                users[0].photos = images;
-            });
+            return asyncLoadImages(users[0]);
         });
     }
 
     LocatorService.asyncSearch = function () {
-        $log.debug('Search near users...');
         var options = ConfigService.getSearchOptions();
+        $log.debug('Search options ', options);
         return GeolocationService.asyncGetUserPositions(options).then(function __success (users) {
             if (angular.isArray(users) && users.length > 0) {
                 $log.debug('Near users ', users);
                 return asyncInvalidateUsers(users);
             }
         });
+    };
+
+    LocatorService.prevUser = function () {
+        if (LocatorService._users.length === 0) {
+            return;
+        }
+
+        if (angular.equals(LocatorService._currentId, 0)) {
+            $log.debug('No previous user');
+        }
+        else {
+            LocatorService._currentId -= 1;
+        }
+
+        return LocatorService._users[LocatorService._currentId];
     };
 
     LocatorService.nextUser = function () {
@@ -56,12 +76,7 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
 
         var nextId = currentId + 1;
         if (nextId < users.length && !users[nextId].photos) {
-            VkService.asyncGetPhotos(users[nextId].mid).then(function (images) {
-                preloadImages(images);
-                users[nextId].photos = images;
-            }, function (error) {
-                $log.error('VK get photos error ', error);
-            });
+            asyncLoadImages(users[nextId]);
         }
 
         LocatorService._currentId = nextId;
@@ -73,6 +88,4 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
 }
 
 angular.module('spacebox').factory('LocatorService',
-    ['$http', '$log', '$q', 'VkService', 'GeolocationService', 'ConfigService', LocatorService]);
-
-
+    ['$log', '$q', 'VkService', 'GeolocationService', 'ConfigService', LocatorService]);
