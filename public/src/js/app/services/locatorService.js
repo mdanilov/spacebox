@@ -13,7 +13,7 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
                 $(new Image()).prop('src', image);
             });
             user.photos = images;
-        }, function (error) {
+        }, function __error (error) {
             $log.error('VK get photos error ', error);
             user.photos = [ LocatorService.LOAD_ERROR_PHOTO ];
         });
@@ -27,7 +27,7 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
             return user.mid;
         });
 
-        return VkService.asyncGetUsersInfo(uids).then(function __success (info) {
+        return VkService.asyncGetUsersInfo(uids).then(function (info) {
             $log.debug('VK users info ', info);
             users.forEach(function __addInfo (user, i) {
                 user.info = info[i];
@@ -41,7 +41,7 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
     LocatorService.asyncSearch = function () {
         var options = ConfigService.getSearchOptions();
         $log.debug('Search options ', options);
-        return GeolocationService.asyncGetUserPositions(options).then(function __success (users) {
+        return GeolocationService.asyncGetUserPositions(options).then(function (users) {
             if (angular.isArray(users) && users.length > 0) {
                 $log.debug('Near users ', users);
                 return asyncInvalidateUsers(users);

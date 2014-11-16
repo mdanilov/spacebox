@@ -5,9 +5,9 @@ function HttpError (status, message) {
 }
 HttpError.prototype = new Error();
 
-function VkError (message) {
+function VkError (error) {
     this.name = 'VkError';
-    this.message = message;
+    this.message = JSON.stringify(error);
 }
 VkError.prototype = new Error();
 

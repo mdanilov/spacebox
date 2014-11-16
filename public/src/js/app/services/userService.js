@@ -16,21 +16,12 @@ function UserService ($q, $log, VkService) {
     }
 
     UserService.asyncUpdateInfo = function (id) {
-        var deferred = $q.defer();
-        VkService.asyncGetUsersInfo(id).then(function (info) {
-            if (angular.isArray(info) && info.length > 0) {
-                var user = info[0];
-                user.age = computeAge(info[0].bdate);
-                UserService._user = user;
-                deferred.resolve(user);
-            }
-            else {
-                deferred.reject(new Error('user info is null'));
-            }
-        }, function (error) {
-            deferred.reject(error);
+        return VkService.asyncGetUsersInfo(id).then(function (info) {
+            var user = info[0];
+            user.age = computeAge(info[0].bdate);
+            UserService._user = user;
+            return user;
         });
-        return deferred.promise;
     };
 
     UserService.getInfo = function () {

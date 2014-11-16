@@ -24,12 +24,10 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
 
             $http.get(url, {params: data }).
                 success(function (data, status, headers, config) {
-                    if (data.response) {
-                        deferred.resolve(data.response);
+                    if (!angular.isUndefined(data.error)) {
+                        deferred.reject(new VkError(data.error));
                     }
-                    else {
-                        deferred.reject(new Error(data));
-                    }
+                    deferred.resolve(data.response);
                 }).
                 error(function (data, status, headers, config) {
                     deferred.reject(new HttpError(status, 'VK call failed'));
@@ -66,25 +64,25 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     };
 
     VkService.asyncGetUsersInfo = function (ids) {
-        var deferred = $q.defer();
-        if (!ids || ids.length == 0) {
-            deferred.resolve();
-        }
-        else if (angular.isArray(ids)) {
+        if (angular.isArray(ids)) {
             ids = ids.join(',');
         }
-        asyncApiCall('users.get', { user_ids: ids, fields: VkService.FIELDS }).then(function (response) {
-            deferred.resolve(response);
-        }, function (error) {
-            $log.error('Can\'t get VK users information');
-            deferred.reject(error);
+        return asyncApiCall('users.get', {
+            user_ids: ids, fields: VkService.FIELDS, v: VkService.VERSION
+        }).then(function (response) {
+            if (angular.isArray(response) && response.length > 0) {
+                return response;
+            }
+            else {
+                return $q.reject(new HttpError(500));
+            }
         });
-        return deferred.promise;
     };
 
     VkService.asyncGetPhotos = function (id) {
-        var deferred = $q.defer();
-        asyncApiCall('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }).then(function (response) {
+        return asyncApiCall('photos.get', {
+            owner_id: id, album_id: 'profile', v: VkService.VERSION
+        }).then(function (response) {
             var photos = [];
             for (var i = response.count - 1; i >= 0 && photos.length <= ConfigService.MAX_USER_PHOTOS; i--) {
                 if (response.items[i].photo_807) {
@@ -94,12 +92,9 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
             if (photos.length == 0) {
                 photos.push(VkService.EMPTY_PHOTO);
             }
-            deferred.resolve(photos);
-        }, function (error) {
-            $log.error('Can\'t get VK photos');
-            deferred.reject(error);
+            return photos;
+
         });
-        return deferred.promise;
     };
 
     VkService.asyncGetLoginStatus = function () {

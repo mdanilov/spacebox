@@ -51,8 +51,8 @@ function VkService ($http, $log, $q, ConfigService) {
         if (angular.isUndefined(ids) || ids.length == 0) {
             deferred.resolve();
         }
-        VK.Api.call('users.get', { user_ids: ids, fields: VkService.FIELDS }, function (r) {
-            if (r.response) {
+        VK.Api.call('users.get', { user_ids: ids, fields: VkService.FIELDS, v: VkService.VERSION }, function (r) {
+            if (angular.isArray(r.response) && r.response.length > 0) {
                 deferred.resolve(r.response);
             }
             else {
