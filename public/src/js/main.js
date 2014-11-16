@@ -12,7 +12,6 @@ yepnope({
     test: config.development,
     yep: [
         './lib/mapbox.js/mapbox.uncompressed.js',
-        './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
         './lib/angular/angular.js',
         './lib/angular-route/angular-route.js',
         './lib/angular-touch/angular-touch.js',
@@ -21,7 +20,6 @@ yepnope({
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
-        'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.30.0/L.Control.Locate.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
