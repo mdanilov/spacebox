@@ -20,24 +20,21 @@
     };
 
     GeolocationService.asyncGetUserPositions = function (options) {
-        var deferred = $q.defer();
-        GeolocationService.asyncGetCurrentPosition().then(function (position) {
-            var data = {
+        return GeolocationService.asyncGetCurrentPosition().then(function (position) {
+            var params = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 options: options
             };
-            $http.post(ConfigService.SERVER_URL + '/getUsers', data).
-                success(function (data, status, headers, config) {
-                    deferred.resolve(data);
-                }).
-                error(function (data, status, headers, config) {
-                    deferred.reject(new HttpError(status, 'get users request failed'));
+            return $http.post(ConfigService.SERVER_URL + '/getUsers', params).then(
+                function __success (response) {
+                    $log.debug('Get near users ', response.data);
+                    return response.data;
+                },
+                function __error (response) {
+                    return $q.reject(new HttpError(response.status, 'get users request failed'));
                 });
-        }, function () {
-            deferred.reject();
         });
-        return deferred.promise;
     };
 
     return GeolocationService;
