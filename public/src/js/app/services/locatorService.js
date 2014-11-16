@@ -5,63 +5,43 @@ function LocatorService ($http, $log, $q, VkService, GeolocationService, ConfigS
     LocatorService._users = [];
     LocatorService._currentId = 0;
 
-    function filterNewUsers (users) {
-        var newUsers = [];
-        for (var i = 0; i < users.length; i++) {
-            if (users[i].like == 0) {
-                newUsers.push(users[i]);
-            }
-        }
-        return newUsers;
-    }
-
     function preloadImages (images) {
-        for (var i = 0; i < images.length; i++) {
-            $(new Image()).prop('src', images[i]);
-        }
+        images.forEach(function __loadImage (image) {
+            $(new Image()).prop('src', image);
+        });
     }
 
-    function invalidateUsers (data) {
-        var deferred = this;
+    function asyncInvalidateUsers (users) {
+        users = users.filter(function __isNewUser (user) {
+            return user.like == 0;
+        });
+        var uids = users.map(function __map (user) {
+            return user.mid;
+        });
 
-        if (!data.length) {
-            deferred.resolve();
-        }
-
-        data = filterNewUsers(data);
-        var uids = data.map(function (user) { return user.mid; });
-
-        VkService.asyncGetUsersInfo(uids).then(function (info) {
-            $log.debug('VK users info collected: ', info);
-            for (var i = 0; i < info.length; i++) {
-                data[i].info = info[i];
-            }
-            LocatorService._users = data;
-            LocatorService._currentId = 0;
-            VkService.asyncGetPhotos(data[0].mid).then(function (images) {
-                preloadImages(images);
-                data[0].photos = images;
-                deferred.resolve(data);
-            }, function (error) {
-                $log.error('VK get photos error ', error);
-                deferred.resolve([]);
+        return VkService.asyncGetUsersInfo(uids).then(function __success (info) {
+            $log.debug('VK users info ', info);
+            users.forEach(function __addInfo (user, i) {
+                user.info = info[i];
             });
-        }, function (error) {
-            deferred.reject(error);
+            LocatorService._users = users;
+            LocatorService._currentId = 0;
+            return VkService.asyncGetPhotos(users[0].mid).then(function (images) {
+                preloadImages(images);
+                users[0].photos = images;
+            });
         });
     }
 
     LocatorService.asyncSearch = function () {
-        var deferred = $q.defer();
         $log.debug('Search near users...');
         var options = ConfigService.getSearchOptions();
-        GeolocationService.asyncGetUserPositions(options).then(function (data) {
-            $log.debug('Founded near users locations: ', data);
-            invalidateUsers.bind(deferred)(data);
-        }, function (error) {
-            deferred.reject(error);
+        return GeolocationService.asyncGetUserPositions(options).then(function __success (users) {
+            if (angular.isArray(users) && users.length > 0) {
+                $log.debug('Near users ', users);
+                return asyncInvalidateUsers(users);
+            }
         });
-        return deferred.promise;
     };
 
     LocatorService.nextUser = function () {

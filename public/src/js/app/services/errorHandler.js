@@ -30,10 +30,13 @@ function ErrorHandler ($log, $location, ConfigService) {
     };
 
     ErrorHandler.handleNoGeolocation = function (errorFlag) {
+        var message = "";
         if (errorFlag) {
-            $log.error('Geolocation is off');
+            message += 'Geolocation is off';
+            $log.error(message);
+            window.alert(message);
         } else {
-            var message = 'Browser doesn\'t support geolocation';
+            message += 'Browser does not support geolocation';
             $log.error(message);
             ErrorHandler._lastError = new Error(message);
             $location.path('/error');
