@@ -1,16 +1,21 @@
 function AgeFilter () {
-    return function (input) {
-        if (!input || input.length < 6) {
-            return '';
+    return function (input, format) {
+        input = input || '';
+        var age = -1;
+
+        if (input.length > 6) {
+            var date = input.split('.');
+            date = [date[1], date[0], date[2]].join('.');
+            var bdate = new Date(date);
+            var today = new Date();
+            age = today.getYear() - bdate.getYear();
         }
 
-        var date = input.split('.');
-        date = [date[1], date[0], date[2]].join('.');
-        var bdate = new Date(date);
-        var today = new Date();
-        var age = today.getYear() - bdate.getYear();
+        if (format) {
+            age = (age != -1) ? [', ', age].join('') : '';
+        }
 
-        return [', ', age].join('');
+        return age;
     }
 }
 

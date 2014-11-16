@@ -1,25 +1,16 @@
-function UserService ($q, $log, VkService) {
+function UserService ($q, $log, $filter, VkService) {
 
     var UserService = {};
     UserService._user = {};
 
-    function computeAge (vkDate) {
-        var age = -1;
-        if (vkDate.length > 6) {
-            var date = vkDate.split('.');
-            date = [date[1], date[0], date[2]].join('.');
-            var bdate = new Date(date);
-            var today = new Date();
-            age = today.getYear() - bdate.getYear();
-        }
-        return age;
-    }
-
     UserService.asyncUpdateInfo = function (id) {
         return VkService.asyncGetUsersInfo(id).then(function (info) {
             var user = info[0];
-            user.age = computeAge(info[0].bdate);
+            user.age = $filter('age')(info[0].bdate);
+
+            $log.debug('Current user info ', user);
             UserService._user = user;
+
             return user;
         });
     };
@@ -32,4 +23,4 @@ function UserService ($q, $log, VkService) {
 }
 
 angular.module('spacebox').factory('UserService',
-    ['$q', '$log', 'VkService', UserService]);
+    ['$q', '$log', '$filter', 'VkService', UserService]);

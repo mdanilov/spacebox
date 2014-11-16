@@ -10,14 +10,9 @@ function VkService ($http, $log, $q, ConfigService) {
     VK.init({ apiId: ConfigService.VK_APP_ID });
 
     function asyncLoginToServer (session) {
-        var deferred = this;
-        $http.post(ConfigService.SERVER_URL + '/login', session).
-            success(function (data, status, headers, config) {
-                deferred.resolve(session.mid);
-            }).
-            error(function (data, status, headers, config) {
-                deferred.reject(new HttpError(status, 'VK login failed'));
-            });
+        return $http.post(ConfigService.SERVER_URL + '/login', session).catch(function (response) {
+            return $q.reject(new HttpError(response.status, 'VK login failed'));
+        });
     }
 
     VkService.asyncLogin = function () {
@@ -25,7 +20,9 @@ function VkService ($http, $log, $q, ConfigService) {
         VK.Auth.login(function (response) {
             if (response.session) {
                 $log.debug('VK session ', response.session);
-                asyncLoginToServer.bind(deferred)(response.session);
+                return asyncLoginToServer(response.session).then(function () {
+                    deferred.resolve(response.session.mid);
+                });
             }
             else {
                 deferred.reject(new HttpError(401, 'VK login failed'));
@@ -35,28 +32,25 @@ function VkService ($http, $log, $q, ConfigService) {
     };
 
     VkService.asyncLogout =  function () {
-        var deferred = $q.defer();
-        $http.get(ConfigService.SERVER_URL + '/logout').
-            success(function (data, status, headers, config) {
-                deferred.resolve();
-            }).
-            error(function (data, status, headers, config) {
-                deferred.reject(new HttpError(status, 'VK logout failed'));
-            });
-        return deferred.promise;
+        return $http.get(ConfigService.SERVER_URL + '/logout').catch(function (response) {
+            return $q.reject(new HttpError(response.status, 'VK logout failed'));
+        });
     };
 
     VkService.asyncGetUsersInfo = function (ids) {
         var deferred = $q.defer();
-        if (angular.isUndefined(ids) || ids.length == 0) {
-            deferred.resolve();
-        }
-        VK.Api.call('users.get', { user_ids: ids, fields: VkService.FIELDS, v: VkService.VERSION }, function (r) {
-            if (angular.isArray(r.response) && r.response.length > 0) {
-                deferred.resolve(r.response);
+        VK.Api.call('users.get', {
+            user_ids: ids, fields: VkService.FIELDS, v: VkService.VERSION
+        }, function (data) {
+            if (angular.isDefined(data.error)) {
+                deferred.reject(new VkError(data.error));
+            }
+
+            if (angular.isArray(data.response) && data.response.length > 0) {
+                deferred.resolve(data.response);
             }
             else {
-                deferred.reject(new VkError(r));
+                return deferred.reject(new HttpError(417, 'VK users.get response invalid'));
             }
         });
         return deferred.promise;
@@ -64,12 +58,20 @@ function VkService ($http, $log, $q, ConfigService) {
 
     VkService.asyncGetPhotos = function (id) {
         var deferred = $q.defer();
-        VK.Api.call('photos.get', { owner_id: id, album_id: 'profile', v: VkService.VERSION }, function (r) {
-            if (r.response) {
+        VK.Api.call('photos.get', {
+            owner_id: id, album_id: 'profile', v: VkService.VERSION
+        }, function (data) {
+            if (angular.isDefined(data.error)) {
+                deferred.reject(new VkError(data.error));
+            }
+
+            if (angular.isObject(data.response) &&
+                angular.isNumber(data.response.count) &&
+                angular.isArray(data.response.items)) {
                 var photos = [];
-                for (var i = r.response.count - 1; i >= 0 && photos.length <= ConfigService.MAX_USER_PHOTOS; i--) {
-                    if (r.response.items[i].photo_807) {
-                        photos.push(r.response.items[i].photo_807);
+                for (var i = data.response.count - 1; i >= 0 && photos.length <= ConfigService.MAX_USER_PHOTOS; i--) {
+                    if (data.response.items[i].photo_807) {
+                        photos.push(data.response.items[i].photo_807);
                     }
                 }
 
@@ -80,7 +82,7 @@ function VkService ($http, $log, $q, ConfigService) {
                 deferred.resolve(photos);
             }
             else {
-                deferred.reject(new VkError(r));
+                deferred.reject(new HttpError(417, 'VK photos.get response invalid'));
             }
         });
         return deferred.promise;
@@ -91,9 +93,11 @@ function VkService ($http, $log, $q, ConfigService) {
         VK.Auth.getLoginStatus(function (response) {
             if (response.session) {
                 $log.debug('VK session ', response.session);
-                asyncLoginToServer.bind(deferred)(response.session);
+                return asyncLoginToServer(response.session).then(function () {
+                    deferred.resolve(response.session.mid);
+                });
             } else {
-                deferred.reject(new HttpError(401, 'VK OpenAPI unauthorized'));
+                deferred.reject(new HttpError(401, 'VK OpenAPI user is not authorized'));
             }
         });
         return deferred.promise;

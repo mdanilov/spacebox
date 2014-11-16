@@ -34,6 +34,10 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHan
 //        });
     };
 
+    self.Revert = function () {
+        self.current = LocatorService.prevUser();
+    };
+
     self.Search();
 }
 

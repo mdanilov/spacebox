@@ -37,7 +37,7 @@ function MapService ($log, $filter, GeolocationService) {
                     '<span class="sp-map-tooltip-carat"></span>',
                     '<div class="sp-map-tooltip-content">',
                         '<div class="sp-map-tooltip-info">',
-                            '<h4>' + user.info.first_name + $filter('age')(user.info.bdate) + '</h4>',
+                            '<h4>' + user.info.first_name + $filter('age')(user.info.bdate, true) + '</h4>',
                         '</div>',
                         '<img class="img-thumbnail" src="' + user.info.photo_100 + '">',
                     '</div>',
