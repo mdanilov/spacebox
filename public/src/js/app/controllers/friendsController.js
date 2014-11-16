@@ -12,7 +12,7 @@ function FriendsViewController ($scope, $log, MapService, MeetService, ErrorHand
     MapService.init();
 
     function invalidateFriends (users) {
-        $log.debug('Array of friends: ', users);
+        $log.debug('Friends: ', users);
         self.friends = users;
         MapService.invalidateUsers(users);
     }

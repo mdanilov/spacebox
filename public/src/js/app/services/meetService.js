@@ -1,50 +1,45 @@
 function MeetService ($http, $log, $q, VkService, ConfigService) {
 
     var MeetService = {};
-
-    MeetService.asyncLike = function (userId) {
-        var deferred = $q.defer();
-        $http.get(ConfigService.SERVER_URL + '/changeLikeStatus', {params: {id: userId, status: 1}}).
-            success(function (data, status, headers, config) {
-                deferred.resolve();
-            }).
-            error(function (data, status, headers, config) {
-                deferred.reject(new HttpError(status, 'like request failed'));
-            });
-        return deferred.promise;
+    MeetService._friends = [];
+    MeetService.LIKE_STATES = {
+        LIKE: 1,
+        DISLIKE: -1
     };
 
-    MeetService.asyncDislike = function (userId) {
-        var deferred = $q.defer();
-        $http.get(ConfigService.SERVER_URL + '/changeLikeStatus', {params: {id: userId, status: -1}}).
-            success(function (data, status, headers, config) {
-                deferred.resolve();
-            }).
-            error(function (data, status, headers, config) {
-                deferred.reject(new HttpError(status, 'dislike request failed'));
+    function asyncChangeLikeStatus (id, status) {
+        return $http.get(ConfigService.SERVER_URL + '/changeLikeStatus', {
+            params: {id: id, status: status}
+        }).catch(
+            function (response) {
+                return $q.reject(new HttpError(response.status, 'change like status request failed'));
             });
-        return deferred.promise;
+    }
+
+    MeetService.asyncLike = function (id) {
+        return asyncChangeLikeStatus(id, MeetService.LIKE_STATES.LIKE);
+    };
+
+    MeetService.asyncDislike = function (id) {
+        return asyncChangeLikeStatus(id, MeetService.LIKE_STATES.DISLIKE);
     };
 
     MeetService.asyncGetFriends = function () {
-        var deferred = $q.defer();
-        $http.get(ConfigService.SERVER_URL + '/getFriends').
-            success(function (data, status, headers, config) {
-                var friends = data;
-                var uids = data.map(function (user) { return user.mid; });
-                VkService.asyncGetUsersInfo(uids).then(function (info) {
-                    for (var i = 0; i < info.length; i++) {
-                        friends[i].info = info[i];
-                    }
-                    deferred.resolve(friends);
-                }, function (error) {
-                    deferred.reject(error);
+        return $http.get(ConfigService.SERVER_URL + '/getFriends').then(
+            function __success (response) {
+                var friends = response.data;
+                var uids = friends.map(function (friend) { return friend.mid; });
+                return VkService.asyncGetUsersInfo(uids).then(function (info) {
+                    friends.forEach(function __addInfo (friend, i) {
+                        friend.info = info[i];
+                    });
+                    MeetService._friends = friends;
+                    return friends;
                 })
-            }).
-            error(function (data, status, headers, config) {
-                deferred.reject(new HttpError(status, 'get friends request failed'));
+            },
+            function __error (response) {
+                return $q.reject(new HttpError(response.status, 'get friends request failed'));
             });
-        return deferred.promise;
     };
 
     return MeetService;

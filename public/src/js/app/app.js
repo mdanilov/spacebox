@@ -5,23 +5,27 @@ spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
     function ($routeProvider, $logProvider, $compileProvider) {
         $routeProvider.
             when('/login', {
-                templateUrl: 'src/js/app/templates/login-view.html',
+                templateUrl: 'src/js/app/templates/views/login-view.html',
                 controller: 'LoginViewController'
             }).
             when('/', {
-                templateUrl: 'src/js/app/templates/main-view.html',
+                templateUrl: 'src/js/app/templates/views/main-view.html',
                 controller: 'MainViewController',
                 resolve: MainViewController.resolve,
                 controllerAs: 'main'
             }).
             when('/friends', {
-                templateUrl: 'src/js/app/templates/friends-view.html',
+                templateUrl: 'src/js/app/templates/views/friends-view.html',
                 controller: 'FriendsViewController',
                 controllerAs: 'friends'
             }).
             when('/error', {
-                templateUrl: 'src/js/app/templates/error-view.html',
+                templateUrl: 'src/js/app/templates/views/error-view.html',
                 controller: 'ErrorViewController'
+            }).
+            when('/properties', {
+                templateUrl: 'src/js/app/templates/views/properties-view.html',
+                controller: 'PropertiesViewController'
             }).
             otherwise({
                 redirectTo: '/login'
