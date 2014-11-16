@@ -6,7 +6,7 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.DISPLAY = { PAGE: 'page', POPUP: 'popup', MOBILE: 'mobile' };
     VkService.REDIRECT_URL = ConfigService.SERVER_URL + '/mobile/login';
-    VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
+    VkService.FIELDS = 'sex,bdate,first_name,photo_50,photo_100,screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
     VkService._appId = ConfigService.VK_APP_ID;
@@ -21,8 +21,9 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
             var url = 'https://api.vk.com/method/' + method;
             var data = options;
             data.access_token = VkService._session.access_token;
+            data.callback = 'JSON_CALLBACK';
 
-            $http.get(url, {params: data }).
+            $http.jsonp(url, {params: data}).
                 success(function (data, status, headers, config) {
                     if (!angular.isUndefined(data.error)) {
                         deferred.reject(new VkError(data.error));
