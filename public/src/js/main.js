@@ -1,10 +1,12 @@
 ﻿yepnope({
     test: config.development,
     yep: [
-        './lib/mapbox.js/mapbox.uncompressed.css'
+        './lib/mapbox.js/mapbox.uncompressed.css',
+        './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css'
     ],
     nope: [
-        'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.css'
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.css',
+        './lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css'
     ]
 });
 
@@ -16,7 +18,8 @@ yepnope({
         './lib/angular-route/angular-route.js',
         './lib/angular-touch/angular-touch.js',
         './lib/angular-cookies/angular-cookies.js',
-        './lib/angular-animate/angular-animate.js'
+        './lib/angular-animate/angular-animate.js',
+        './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js'
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
@@ -24,7 +27,8 @@ yepnope({
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
-        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js'
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js',
+        './lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js'
     ],
     both: [
         'https://vk.com/js/api/openapi.js',
