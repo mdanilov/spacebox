@@ -50,7 +50,8 @@ if (config.development) {
         './src/css/login.css',
         './src/css/modal.css',
         './src/css/user-list.css',
-        './src/css/friends.css'
+        './src/css/friends.css',
+        './src/css/properties.css' 
     ]);
 
     // main app script should be loaded first
