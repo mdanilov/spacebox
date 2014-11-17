@@ -7,8 +7,11 @@ function AgeFilter () {
             var date = input.split('.');
             date = date.reverse().join('/');
             var bdate = new Date(date);
-            var today = new Date();
-            age = today.getYear() - bdate.getYear();
+            var now = new Date();
+            age = now.getFullYear() - bdate.getFullYear();
+            if (now.setFullYear(1972) < bdate.setFullYear(1972)) {
+                age--;
+            }
         }
 
         if (format) {
