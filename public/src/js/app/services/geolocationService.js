@@ -8,13 +8,11 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 deferred.resolve(position);
             }, function () {
-                ErrorHandler.handleNoGeolocation(true);
-                deferred.reject();
+                deferred.reject(new GeoError(true));
             });
         }
         else {
-            ErrorHandler.handleNoGeolocation(false);
-            deferred.reject();
+            deferred.reject(new GeoError(false));
         }
         return deferred.promise;
     };

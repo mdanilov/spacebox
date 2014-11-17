@@ -11,35 +11,38 @@ function VkError (error) {
 }
 VkError.prototype = new Error();
 
+function GeoError (errorFlag) {
+    this.name = 'GeolocationError';
+    if (errorFlag) {
+        this.message = 'Geolocation is off';
+    } else {
+        this.message = 'Browser does not support geolocation';
+    }
+}
+GeoError.prototype = new Error();
+
 function ErrorHandler ($log, $location, ConfigService) {
     var ErrorHandler = {};
-    ErrorHandler._lastError = new Error();
 
     ErrorHandler.handle = function (error) {
-        ErrorHandler._lastError = error;
-        $log.error(error);
-        if (error instanceof HttpError) {
-            if (error.status === 401) {
-                $location.path('/login');
-                ConfigService.isLogin = false;
+        if (error instanceof Error) {
+            ErrorHandler._lastError = error;
+            $log.error(error);
+            if (error instanceof HttpError) {
+                if (error.status === 401) {
+                    $location.path('/login');
+                    ConfigService.isLogin = false;
+                }
+            }
+            else if (error instanceof GeoError) {
+                $location.path('/error');
+            }
+            else {
+                window.alert('Что-то пошло не так.\nПопробуйте повторить позже.');
             }
         }
         else {
-            $location.path('/error');
-        }
-    };
-
-    ErrorHandler.handleNoGeolocation = function (errorFlag) {
-        var message = "";
-        if (errorFlag) {
-            message += 'Geolocation is off';
-            $log.error(message);
-            window.alert(message);
-        } else {
-            message += 'Browser does not support geolocation';
-            $log.error(message);
-            ErrorHandler._lastError = new Error(message);
-            $location.path('/error');
+            window.alert('Неизвестная ошибка.');
         }
     };
 
