@@ -17,6 +17,7 @@
         "angular-route": "1.2.x",
         "angular-touch": "1.2.x",
         "angular-cookies": "1.2.x",
-        "angular-animate": "1.2.x"
+        "angular-animate": "1.2.x",
+	"seiyria-bootstrap-slider":""
     }
 }
