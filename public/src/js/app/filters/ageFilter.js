@@ -5,7 +5,7 @@ function AgeFilter () {
 
         if (input.length > 6) {
             var date = input.split('.');
-            date = [date[1], date[0], date[2]].join('.');
+            date = date.reverse().join('/');
             var bdate = new Date(date);
             var today = new Date();
             age = today.getYear() - bdate.getYear();
