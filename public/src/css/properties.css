@@ -1,17 +1,17 @@
-.sp-slider-container {
+.sp-property-container {
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
 }
 
-.sp-slider-container .sp-slider-header {
+.sp-property-container .sp-property-header {
 	margin-left: -20px;
 	margin-right: -20px;
 	margin-top: 15px;
 	margin-bottom: 10px;
 }
 
-.sp-slider-container .slider.slider-horizontal {
+.sp-property-container .slider.slider-horizontal {
 	width: 100%;
 }

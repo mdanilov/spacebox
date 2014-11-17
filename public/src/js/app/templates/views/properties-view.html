@@ -1,8 +1,12 @@
-<div class="sp-slider-container">
-	<div class="sp-slider-header"><span>Возраст</span><span id="spSliderValue" class="pull-right"></span></div> 
+<div class="sp-property-container">
+	<div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div> 
+	<textarea class="form-control" rows="3" ng-change="checkLength()" ng-model="status.text"></textarea>
+</div>
+<div class="sp-property-container">
+	<div class="sp-property-header"><span>Возраст</span><span id="spSliderValue" class="pull-right"></span></div> 
 	<div><input id="spAgeSlider" type="text" class="span2"/></div> 
 </div>
-<div class="sp-slider-container">
-	<div class="sp-slider-header"><span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span></div> 
+<div class="sp-property-container">
+	<div class="sp-property-header"><span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span></div> 
 	<div><input id="spDistanceSlider" type="text"/></div> 
 </div>
