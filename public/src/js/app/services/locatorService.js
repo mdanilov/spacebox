@@ -3,7 +3,7 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
     var LocatorService = {};
 
     LocatorService._users = [];
-    LocatorService._currentId = 0;
+    LocatorService._current = -1;
 
     LocatorService.LOAD_ERROR_PHOTO = 'https://vk.com/images/camera_400.gif';
 
@@ -33,7 +33,7 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
                 user.info = info[i];
             });
             LocatorService._users = users;
-            LocatorService._currentId = 0;
+            LocatorService._current = -1;
             return asyncLoadImages(users[0]);
         });
     }
@@ -49,39 +49,45 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
         });
     };
 
-    LocatorService.prevUser = function () {
-        if (LocatorService._users.length === 0) {
+    LocatorService.getPreviousUser = function () {
+        var current = LocatorService._current;
+        var users = LocatorService._users;
+
+        if (!angular.isArray(users) || users.length == 0) {
             return;
         }
 
-        if (angular.equals(LocatorService._currentId, 0)) {
+        if (current < 1) {
             $log.debug('No previous user');
         }
         else {
-            LocatorService._currentId -= 1;
+            current -= 1;
         }
 
-        return LocatorService._users[LocatorService._currentId];
+        LocatorService._current = current;
+        return users[current];
     };
 
-    LocatorService.nextUser = function () {
-        var currentId = LocatorService._currentId;
+    LocatorService.getNextUser = function () {
+        var current = LocatorService._current;
         var users = LocatorService._users;
 
-        if (users.length == 0 ||
-            currentId == users.length) {
-            $log.debug('No new users to return');
+        if (!angular.isArray(users) || users.length == 0) {
             return;
         }
 
-        var nextId = currentId + 1;
-        if (nextId < users.length && !users[nextId].photos) {
-            asyncLoadImages(users[nextId]);
+        if (current >= users.length - 1) {
+            $log.debug('No next user');
+            return;
         }
 
-        LocatorService._currentId = nextId;
+        current += 1;
+        if (!users[current].photos) {
+            asyncLoadImages(users[current]);
+        }
 
-        return users[currentId];
+        LocatorService._current = current;
+        return users[current];
     };
 
     return LocatorService;

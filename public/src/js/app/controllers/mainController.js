@@ -10,13 +10,13 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHan
         self.status = 'search';
         LocatorService.asyncSearch().then(function () {
             self.status = 'done';
-            self.current = LocatorService.nextUser();
+            self.current = LocatorService.getNextUser();
         }, ErrorHandler.handle);
     };
 
     self.Like = function () {
         self.current.like = 1;
-        self.current = LocatorService.nextUser();
+        self.current = LocatorService.getNextUser();
 //        MeetService.asyncLike(current.mid).then(function () {
 //            if (current.likeMe == 1) {
 //                // TODO: show modal window
@@ -28,14 +28,14 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHan
 
     self.Dislike = function () {
         self.current.like = -1;
-        self.current = LocatorService.nextUser();
+        self.current = LocatorService.getNextUser();
 //        MeetService.asyncDislike(current.mid).then(null, function () {
 //            current.like = 0;
 //        });
     };
 
-    self.Revert = function () {
-        self.current = LocatorService.prevUser();
+    self.Undo = function () {
+        self.current = LocatorService.getPreviousUser();
     };
 
     self.Search();

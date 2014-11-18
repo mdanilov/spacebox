@@ -3,6 +3,9 @@
 		<div class="col-xs-12" ng-show="main.current">
             <sp-cards user="main.current"></sp-cards>
              <div id="control">
+                <div class="button undo" ng-click="main.Undo()">
+                    <a href="" class="trigger"></a>
+                </div>
                 <div class="button no">
                     <a href="" class="trigger" ng-click="main.Dislike()"></a>
                 </div>
@@ -11,6 +14,9 @@
                 </div>
                 <div class="button yes">
                     <a href="" class="trigger" ng-click="main.Like()"></a>
+                </div>
+                <div class="button map-marker">
+                    <a href="" class="trigger"></a>
                 </div>
             </div> 
 		</div>

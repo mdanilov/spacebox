@@ -20,7 +20,6 @@ function ErrorViewController ($scope, $log, $location, $timeout, ErrorHandler, G
                 $timeout(checkGeolocationStatus, 2000);
             })
         }
-
         $timeout(checkGeolocationStatus, 2000);
     }
 
