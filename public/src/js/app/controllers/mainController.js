@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHandler) {
+function MainViewController ($scope, $log, $timeout, LocatorService, MeetService, ErrorHandler) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -6,17 +6,22 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHan
     self.current = null;
     $scope.app.isNavbarHidden = false;
 
-    self.Search = function () {
-        self.status = 'search';
-        LocatorService.asyncSearch().then(function () {
-            self.status = 'done';
-            self.current = LocatorService.getNextUser();
-        }, ErrorHandler.handle);
-    };
+//    function search () {
+//        self.status = 'search';
+//        LocatorService.asyncSearch().then(function () {
+//            self.status = 'done';
+//            self.current = LocatorService.getNextUser();
+//        }, ErrorHandler.handle);
+//    }
 
     self.Like = function () {
         self.current.like = 1;
         self.current = LocatorService.getNextUser();
+
+        if (angular.isUndefined(self.current)) {
+            searchLoop();
+        }
+
 //        MeetService.asyncLike(current.mid).then(function () {
 //            if (current.likeMe == 1) {
 //                // TODO: show modal window
@@ -38,7 +43,21 @@ function MainViewController ($scope, $log, LocatorService, MeetService, ErrorHan
         self.current = LocatorService.getPreviousUser();
     };
 
-    self.Search();
+    function searchLoop () {
+        self.status = 'search';
+        LocatorService.asyncSearch().then(function (count) {
+            self.status = 'done';
+            if (count > 0) {
+                self.current = LocatorService.getNextUser();
+            }
+            else {
+                $log.debug('No users has been founded');
+                $timeout(searchLoop, 10000);
+            }
+        }, ErrorHandler.handle);
+    }
+
+    searchLoop();
 }
 
 MainViewController.resolve = {
@@ -48,4 +67,4 @@ MainViewController.resolve = {
 };
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', 'LocatorService', 'MeetService', 'ErrorHandler', MainViewController]);
+    ['$scope', '$log', '$timeout', 'LocatorService', 'MeetService', 'ErrorHandler', MainViewController]);

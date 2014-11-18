@@ -34,7 +34,9 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
             });
             LocatorService._users = users;
             LocatorService._current = -1;
-            return asyncLoadImages(users[0]);
+            return asyncLoadImages(users[0]).then(function () {
+                return users.length;
+            });
         });
     }
 
