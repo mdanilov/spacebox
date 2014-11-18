@@ -9,7 +9,7 @@ function friendListItemDirective (MapService) {
 
             scope.onClick = function () {
                 if (scope.user.location) {
-                    MapService.setCenter(scope.user.location);
+                    MapService.selectUser(scope.user);
                 }
                 spFriendListCtrl.select(scope);
             };

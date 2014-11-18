@@ -27,7 +27,20 @@
     font-size: 30px;
     line-height: 30px;
     opacity: 1;
+}
+
+#map-canvas .fontawesome-map-marker.male {
+    color: blue;
+}
+
+#map-canvas .fontawesome-map-marker.female {
     color: red;
+}
+
+#map-canvas .fontawesome-map-marker.selected {
+    color: green;
+    font-size: 40px;
+    line-height: 40px;
 }
 
 .sp-user-marker {

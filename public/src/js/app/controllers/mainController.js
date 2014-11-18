@@ -6,14 +6,6 @@ function MainViewController ($scope, $log, $timeout, LocatorService, MeetService
     self.current = null;
     $scope.app.isNavbarHidden = false;
 
-//    function search () {
-//        self.status = 'search';
-//        LocatorService.asyncSearch().then(function () {
-//            self.status = 'done';
-//            self.current = LocatorService.getNextUser();
-//        }, ErrorHandler.handle);
-//    }
-
     self.Like = function () {
         self.current.like = 1;
         self.current = LocatorService.getNextUser();
