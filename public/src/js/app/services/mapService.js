@@ -104,7 +104,7 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
 
         // TODO: this is workaround to show locator marker immediately
         $timeout(MapService._locator.locate, 1000);
-        $timeout(MapService._locator.locate, 3000);
+        $timeout(MapService._locator.locate, 2000);
     }
 
     MapService.invalidateSize = function () {
@@ -155,6 +155,8 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
         if (angular.isDefined(MapService._markers[id])) {
             MapService._selected = id;
             MapService._markers[id].setIcon(MapService.MARKER_ICONS.SELECTED);
+            MapService._markers[id].openPopup();
+            MapService._popupFixed = true;
         }
     }
 
