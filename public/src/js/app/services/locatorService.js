@@ -84,8 +84,10 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
         }
 
         current += 1;
-        if (!users[current].photos) {
-            asyncLoadImages(users[current]);
+
+        var next = current + 1;
+        if (next < users.length && !users[next].photos) {
+            asyncLoadImages(users[next]);
         }
 
         LocatorService._current = current;
