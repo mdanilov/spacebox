@@ -9,6 +9,8 @@ function FriendsViewController ($scope, $log, MapService, MeetService, ErrorHand
         self.list = value;
     };
 
+    self.openMap = self.toggle.bind(null, false);
+
     MapService.init();
 
     function invalidateFriends (users) {

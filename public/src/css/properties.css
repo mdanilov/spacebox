@@ -38,3 +38,7 @@
 .sp-property-container .slider.slider-horizontal {
 	width: 100%;
 }
+
+.sp-save-btn {
+	margin-top: 30px;
+}
