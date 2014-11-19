@@ -1,4 +1,4 @@
-function MapService ($log, $filter, GeolocationService) {
+function MapService ($log, $filter, ConfigService, GeolocationService) {
 
     var MapService = {};
 
@@ -30,8 +30,8 @@ function MapService ($log, $filter, GeolocationService) {
         }),
         LOCATOR: L.divIcon({
             className: 'info',
-            html: '<span class="icon glyphicon glyphicon-map-marker sp-locator-marker"></span>',
-            iconSize: [40, 40]
+            html: '<div class="locator"></div>',
+            iconSize: [18, 18]
         })
     };
 
@@ -86,33 +86,34 @@ function MapService ($log, $filter, GeolocationService) {
         MapService._locator = L.control.locate({
             drawCircle: false,
             follow: false,
-            setView: true,
-            markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {icon: MapService._icons.locator}),
             remainActive: true,
+            markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {icon: MapService.MARKER_ICONS.LOCATOR}),
+            icon: 'fa fa-location-arrow',
+            setView: true,
             keepCurrentZoomLevel: true,
-            icon: 'icon glyphicon glyphicon-globe sp-locate-control',
             showPopup: false,
             strings: {
                 title: "Мое текущее местоположение",
                 popup: "",
                 outsideMapBoundsMsg: ""
             },
-            locateOptions: { watch: false }
+            locateOptions: {
+                watch: false
+            }
         }).addTo(MapService._map);
-
-        MapService._locator.locate();
     }
 
     MapService.init = function () {
         L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
-        MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], 10);
+        var options = ConfigService.getMapOptions();
+        MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], options.zoom);
 
         GeolocationService.asyncGetCurrentPosition().then(function (position) {
             var pos = L.latLng(position.coords.latitude, position.coords.longitude);
-            MapService._map.setView(pos, 15);
+            MapService._map.setView(pos);
 
-            // TODO: fix problem with geolocation
-            //initializeLocator();
+            initializeLocator();
+            MapService._locator.locate();
         });
 
         MapService._map.invalidateSize();
@@ -127,7 +128,7 @@ function MapService ($log, $filter, GeolocationService) {
         if (angular.isNumber(location.latitude) &&
             angular.isNumber(location.longitude)) {
             var pos = L.latLng(location.latitude, location.longitude);
-            MapService._map.setView(pos, MapService._map.getZoom());
+            MapService._map.setView(pos);
         }
     };
 
@@ -185,4 +186,4 @@ function MapService ($log, $filter, GeolocationService) {
 }
 
 angular.module('spacebox').factory('MapService',
-    ['$log', '$filter', 'GeolocationService', MapService]);
+    ['$log', '$filter', 'ConfigService', 'GeolocationService', MapService]);

@@ -24,13 +24,13 @@ exports.login = function (request, response, next) {
                 next(new HttpError(400, JSON.stringify(error)));
             }
             else {
-                var session = request.session;
-                session.authorized = true;
-                session.expires = os.uptime() + body.expires_in;
-                session.mid = body.user_id;
-                session.access_token = body.access_token;
-                session.save();
-                log.info('VK OAuth2 session has created ', session.mid, session.access_token);
+                request.session.authorized = true;
+                request.session.expires = os.uptime() + body.expires_in;
+                request.session.mid = body.user_id;
+                request.session.access_token = body.access_token;
+                request.session.save();
+                log.info('VK OAuth2 session has created ',
+                    request.session.mid, request.session.access_token);
                 response.redirect('back');
             }
         });
@@ -38,12 +38,12 @@ exports.login = function (request, response, next) {
 };
 
 exports.getLoginStatus = function (request, response, next) {
-    var session = request.session;
-    log.info('Get VK OAuth2 session ', session.mid, session.access_token);
+    log.info('Get VK OAuth2 session ',
+        request.session.mid, request.session.access_token);
     response.json({
-        mid: session.mid,
-        access_token: session.access_token,
-        expires: session.expires
+        mid: request.session.mid,
+        access_token: request.session.access_token,
+        expires: request.session.expires
     });
 };
 

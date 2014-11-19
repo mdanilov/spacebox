@@ -5,7 +5,7 @@
         './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css'
     ],
     nope: [
-        'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.css',
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.css',
         './lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css'
     ]
 });
@@ -14,6 +14,7 @@ yepnope({
     test: config.development,
     yep: [
         './lib/mapbox.js/mapbox.uncompressed.js',
+        './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
         './lib/angular/angular.js',
         './lib/angular-route/angular-route.js',
         './lib/angular-touch/angular-touch.js',
@@ -22,7 +23,7 @@ yepnope({
         './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js'
     ],
     nope: [
-        'https://api.tiles.mapbox.com/mapbox.js/v2.1.1/mapbox.js',
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',

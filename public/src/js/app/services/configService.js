@@ -11,13 +11,17 @@ function ConfigService ($cookieStore) {
     function isValid (config) {
         var valid = false;
         if (angular.isObject(config)) {
-            if (angular.isNumber(config.radius) &&
-                angular.isNumber(config.sex) &&
-                angular.isObject(config.ageInterval)) {
-                var interval = config.ageInterval;
-                if (angular.isNumber(interval.top) &&
-                    angular.isNumber(interval.bottom)) {
-                    valid = true;
+            if (angular.isObject(config.map) &&
+                angular.isObject(config.search)) {
+                var searchOptions = ConfigService._config.search;
+                if (angular.isNumber(searchOptions.radius) &&
+                    angular.isNumber(searchOptions.sex) &&
+                    angular.isObject(searchOptions.ageInterval)) {
+                    var interval = searchOptions.ageInterval;
+                    if (angular.isNumber(interval.top) &&
+                        angular.isNumber(interval.bottom)) {
+                        valid = true;
+                    }
                 }
             }
         }
@@ -26,11 +30,17 @@ function ConfigService ($cookieStore) {
 
     if (!isValid(ConfigService._config)) {
         ConfigService._config = {
-            radius: 15000,
-            sex: 0,
-            ageInterval: {
-                top: 99,
-                bottom: 18
+            init: false,
+            map: {
+                zoom: 15
+            },
+            search: {
+                radius: 15000,
+                sex: 0,
+                ageInterval: {
+                    top: 99,
+                    bottom: 18
+                }
             }
         }
     }
@@ -40,26 +50,33 @@ function ConfigService ($cookieStore) {
     };
 
     ConfigService.getSearchOptions = function () {
-        return ConfigService._config;
+        return ConfigService._config.search;
     };
 
-    ConfigService.update = function (info) {
-        var options = ConfigService._config;
+    ConfigService.getMapOptions = function () {
+        return ConfigService._config.map;
+    };
 
-        // age is defined
-        if (info.age > 0) {
-            var top = info.age + 5;
-            var bottom = info.age - 5;
-            options.ageInterval.top = top > 99 ? 99 : top;
-            options.ageInterval.bottom = bottom < 0 ? 0 : bottom;
+    ConfigService.init = function (info) {
+        if (!ConfigService._config.init) {
+            var options = ConfigService._config.search;
+
+            // age is defined
+            if (info.age > 0) {
+                var top = info.age + 5;
+                var bottom = info.age - 5;
+                options.ageInterval.top = top > 99 ? 99 : top;
+                options.ageInterval.bottom = bottom < 0 ? 0 : bottom;
+            }
+
+            // sex is defined
+            if (info.sex != 0) {
+                options.sex = 3 - info.sex;
+            }
+
+            ConfigService._config.search = options;
+            ConfigService._config.init = true;
         }
-
-        // sex is defined
-        if (info.sex != 0) {
-            options.sex = 3 - info.sex;
-        }
-
-        ConfigService._config = options;
         ConfigService._login = true;
         $cookieStore.put('config', ConfigService._config);
     };

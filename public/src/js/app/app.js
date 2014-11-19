@@ -47,7 +47,7 @@ spacebox.run(['$rootScope', '$location', '$log', 'VkService', 'ConfigService', '
                 VkService.asyncGetLoginStatus().then(function (id) {
                     $log.debug('User is authorized, change location path to ', path);
                     UserService.asyncUpdateInfo(id).then(function (info) {
-                        ConfigService.update(info);
+                        ConfigService.init(info);
                         $location.path(path);
                     }, ErrorHandler.handle);
                 }, function (error) {

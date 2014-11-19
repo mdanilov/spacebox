@@ -7,7 +7,7 @@ function LoginViewController ($scope, $log, $location, VkService, UserService, C
         $log.debug('Try login to VK...');
         VkService.asyncLogin().then(function (id) {
             UserService.asyncUpdateInfo(id).then(function (info) {
-                ConfigService.update(info);
+                ConfigService.init(info);
                 $location.path('/');
             }, ErrorHandler.handle);
         });
