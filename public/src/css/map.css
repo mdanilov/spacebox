@@ -30,7 +30,7 @@
 }
 
 #map-canvas .fontawesome-map-marker.male {
-    color: blue;
+    color: #4387fd;
 }
 
 #map-canvas .fontawesome-map-marker.female {
@@ -150,8 +150,23 @@
     border-radius: 5px;
 }
 
-.leaflet-control-locate {
+/* Leaflet controls */
+#map-canvas .leaflet-control-locate a {
     text-align: center;
     font-size: 18px;
     line-height: 26px;
+}
+
+@media (max-width: 768px) {
+    #map-canvas .leaflet-control-locate a {
+        text-align: center;
+        font-size: 32px;
+        line-height: 50px;
+        height: 50px;
+        width: 50px;
+    }
+
+    #map-canvas .leaflet-control-zoom {
+        display: none;
+    }
 }

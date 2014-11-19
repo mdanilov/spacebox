@@ -1,4 +1,4 @@
-function MapService ($log, $filter, ConfigService, GeolocationService) {
+function MapService ($log, $filter, $timeout, ConfigService, GeolocationService) {
 
     var MapService = {};
 
@@ -101,7 +101,15 @@ function MapService ($log, $filter, ConfigService, GeolocationService) {
                 watch: false
             }
         }).addTo(MapService._map);
+
+        // TODO: this is workaround to show locator marker immediately
+        $timeout(MapService._locator.locate, 1000);
+        $timeout(MapService._locator.locate, 3000);
     }
+
+    MapService.invalidateSize = function () {
+        MapService._map.invalidateSize();
+    };
 
     MapService.init = function () {
         L.mapbox.accessToken = MapService.MAPBOX.ACCESS_TOKEN;
@@ -113,7 +121,6 @@ function MapService ($log, $filter, ConfigService, GeolocationService) {
             MapService._map.setView(pos);
 
             initializeLocator();
-            MapService._locator.locate();
         });
 
         MapService._map.invalidateSize();
@@ -130,10 +137,6 @@ function MapService ($log, $filter, ConfigService, GeolocationService) {
             var pos = L.latLng(location.latitude, location.longitude);
             MapService._map.setView(pos);
         }
-    };
-
-    MapService.invalidateSize = function () {
-        MapService._map.invalidateSize();
     };
 
     function selectMarker (id) {
@@ -186,4 +189,4 @@ function MapService ($log, $filter, ConfigService, GeolocationService) {
 }
 
 angular.module('spacebox').factory('MapService',
-    ['$log', '$filter', 'ConfigService', 'GeolocationService', MapService]);
+    ['$log', '$filter', '$timeout', 'ConfigService', 'GeolocationService', MapService]);
