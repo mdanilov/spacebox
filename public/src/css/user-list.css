@@ -43,9 +43,14 @@
     cursor: pointer; 
 }
 
-/*#spFriendsList .list-group-item:hover .brandico-vkontakte-rect,*/
 #spFriendsList .active .brandico-vkontakte-rect {
     display: inline;
+}
+
+@media (max-width: 768px) {
+    #spFriendsList .active .fa-map-marker {
+        display: inline;
+    }
 }
 
 #spFriendsList .active
@@ -63,6 +68,19 @@
     color: #4387fd;
     font-size: 30px;
     display: none;
+}
+
+@media (max-width: 768px) {
+    #spFriendsList .brandico-vkontakte-rect {
+        margin-right: 30px;
+    }
+    #spFriendsList .fa-map-marker {
+        margin-right: 30px;
+        color: #4387fd;
+        font-size: 30px;
+        line-height: 60px;
+        display: none;
+    }
 }
 
 #spFriendsList .media-body {

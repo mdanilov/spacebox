@@ -3,7 +3,8 @@ function friendListDirective () {
         restrict: 'E',
         transclude: true,
         scope: {
-            users: '='
+            users: '=',
+            onMarkerClick: '='
         },
         templateUrl: 'src/js/app/templates/friend-list.html',
         controller: function ($scope) {
