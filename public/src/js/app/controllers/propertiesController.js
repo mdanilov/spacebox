@@ -12,6 +12,7 @@ function PropertiesViewController ($scope, ConfigService) {
 			status.length = status.maxLength - status.text.length;			
 		}
 		$scope.status = status;
+        $scope.changed = true;
 	};
 
 	var options = ConfigService.getSearchOptions();
