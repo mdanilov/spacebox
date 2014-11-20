@@ -1,7 +1,7 @@
 <div id="people">
     <div class="person">
         <div id="carousel-example-generic" class="carousel slide">
-            <div class="carousel-inner">
+            <div class="carousel-inner" ng-swipe-left="Next()" ng-swipe-right="Prev()">
                 <div ng-repeat="photo in user.photos"
                      class="item"
                      ng-class="{active: $index == 0}">

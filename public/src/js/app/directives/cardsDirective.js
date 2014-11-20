@@ -1,4 +1,4 @@
-function cardsDirective () {
+function cardsDirective ($window) {
     return {
         restrict: 'E',
         transclude: true,
@@ -9,7 +9,7 @@ function cardsDirective () {
         link: function (scope, element, attrs) {
             var cards = element.find('#carousel-example-generic');
             cards.carousel({
-                interval: 4000,
+                interval: false,
                 wrap: true
             });
 
@@ -22,7 +22,8 @@ function cardsDirective () {
             };
 
             var controls = element.find('.carousel-controls');
-            scope.$watch('user', function () {
+
+            function checkControlsVisibility () {
                 if (scope.user && scope.user.hasOwnProperty('photos') &&
                     scope.user.photos.length > 1) {
                     controls.show();
@@ -30,9 +31,27 @@ function cardsDirective () {
                 else {
                     controls.hide();
                 }
+            }
+
+            var userListener = scope.$watch('user', checkControlsVisibility);
+            if ($window.matchMedia("(max-width: 768px)").matches) {
+                controls.hide();
+                userListener();
+            }
+
+            $window.matchMedia("(max-width: 768px)").addListener(function (mediaQueryList) {
+                if (mediaQueryList.matches) {
+                    controls.hide();
+                    userListener();
+                }
+                else  {
+                    checkControlsVisibility();
+                    userListener = scope.$watch('user', checkControlsVisibility);
+                }
             });
         }
     };
 }
 
-angular.module('spacebox').directive('spCards', cardsDirective);
+angular.module('spacebox').directive('spCards',
+    [ '$window', cardsDirective]);
