@@ -4,6 +4,7 @@ function ConfigService ($cookieStore) {
 
     ConfigService.VK_APP_ID = 4213835;
     ConfigService.MAX_USER_PHOTOS = 6;
+    ConfigService.MAX_STATUS_LENGTH = 100;
     ConfigService.SERVER_URL = window.location.origin;
     ConfigService._login = false;
     ConfigService._config = $cookieStore.get('config');
