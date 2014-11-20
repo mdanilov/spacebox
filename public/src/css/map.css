@@ -29,18 +29,16 @@
     opacity: 1;
 }
 
-#map-canvas .fontawesome-map-marker.male {
+#map-canvas .fontawesome-map-marker.user {
     color: #4387fd;
 }
 
-#map-canvas .fontawesome-map-marker.female {
-    color: red;
-}
-
 #map-canvas .fontawesome-map-marker.selected {
-    color: green;
+    color: #4387fd;
     font-size: 40px;
     line-height: 40px;
+    z-index: 250;
+    text-shadow: -3px 0 white, 0 3px white, 3px 0 white, 0 -3px white;
 }
 
 #map-canvas .locator {

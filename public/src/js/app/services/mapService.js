@@ -13,14 +13,9 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
     };
 
     MapService.MARKER_ICONS = {
-        MALE:  L.divIcon({
+        USER:  L.divIcon({
             className: 'info',
-            html: '<span class="fontawesome-map-marker male"></span>',
-            iconSize: [30, 30]
-        }),
-        FEMALE:  L.divIcon({
-            className: 'info',
-            html: '<span class="fontawesome-map-marker female"></span>',
+            html: '<span class="fontawesome-map-marker user"></span>',
             iconSize: [30, 30]
         }),
         SELECTED: L.divIcon({
@@ -68,17 +63,12 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
     }
 
     function addMarker (user) {
-        var icon = MapService.MARKER_ICONS.MALE;
-        if (user.info.sex == 1) {
-            icon = MapService.MARKER_ICONS.FEMALE;
-        }
         var marker = L.marker([user.location.latitude, user.location.longitude], {
-            icon: icon,
+            icon: MapService.MARKER_ICONS.USER,
             riseOnHover: true
         });
         marker.addTo(MapService._map);
         MapService._markers[user.mid] = marker;
-        MapService._markers[user.mid].sex = user.info.sex;
         return marker;
     }
 
@@ -143,12 +133,7 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
         var selected = MapService._selected;
         if (angular.isDefined(selected) && selected != id &&
             angular.isDefined(MapService._markers[selected])) {
-            if (MapService._markers[selected].sex == 1) {
-                MapService._markers[selected].setIcon(MapService.MARKER_ICONS.FEMALE);
-            }
-            else {
-                MapService._markers[selected].setIcon(MapService.MARKER_ICONS.MALE);
-            }
+            MapService._markers[selected].setIcon(MapService.MARKER_ICONS.USER);
             MapService._selected = undefined;
         }
 
