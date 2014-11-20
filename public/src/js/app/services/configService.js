@@ -8,20 +8,27 @@ function ConfigService ($cookieStore) {
     ConfigService._login = false;
     ConfigService._config = $cookieStore.get('config');
 
+    function validateSearchOptions (options) {
+        if (angular.isNumber(options.radius) &&
+            angular.isNumber(options.sex) &&
+            angular.isObject(options.ageInterval)) {
+            var interval = options.ageInterval;
+            if (angular.isNumber(interval.top) &&
+                angular.isNumber(interval.bottom)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function isValid (config) {
         var valid = false;
         if (angular.isObject(config)) {
             if (angular.isObject(config.map) &&
                 angular.isObject(config.search)) {
-                var searchOptions = ConfigService._config.search;
-                if (angular.isNumber(searchOptions.radius) &&
-                    angular.isNumber(searchOptions.sex) &&
-                    angular.isObject(searchOptions.ageInterval)) {
-                    var interval = searchOptions.ageInterval;
-                    if (angular.isNumber(interval.top) &&
-                        angular.isNumber(interval.bottom)) {
-                        valid = true;
-                    }
+                if (validateSearchOptions(ConfigService._config.search)) {
+                    valid = true;
                 }
             }
         }
@@ -51,6 +58,14 @@ function ConfigService ($cookieStore) {
 
     ConfigService.getSearchOptions = function () {
         return ConfigService._config.search;
+    };
+
+    ConfigService.setSearchOptions = function (options) {
+        if (!validateSearchOptions(options)) {
+            return;
+        }
+        ConfigService._config.search = options;
+        $cookieStore.put('config', ConfigService._config);
     };
 
     ConfigService.getMapOptions = function () {
