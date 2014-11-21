@@ -2,10 +2,12 @@
     test: config.development,
     yep: [
         './lib/mapbox.js/mapbox.uncompressed.css',
+        './lib/angular-carousel/dist/angular-carousel.css',
         './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css'
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.css',
+        './lib/angular-carousel/dist/angular-carousel.min.css',
         './lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css'
     ]
 });
@@ -20,6 +22,7 @@ yepnope({
         './lib/angular-touch/angular-touch.js',
         './lib/angular-cookies/angular-cookies.js',
         './lib/angular-animate/angular-animate.js',
+        './lib/angular-carousel/dist/angular-carousel.js',
         './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js'
     ],
     nope: [
@@ -29,6 +32,7 @@ yepnope({
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js',
+        './lib/angular-carousel/dist/angular-carousel.min.js',
         './lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js'
     ],
     both: [
@@ -53,7 +57,8 @@ if (config.development) {
         './src/css/user-list.css',
         './src/css/friends.css',
         './src/css/properties.css',
-        './src/css/error.css'
+        './src/css/error.css',
+        './src/css/main/cards.css'
     ]);
 
     // main app script should be loaded first

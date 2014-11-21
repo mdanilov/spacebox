@@ -18,6 +18,7 @@
         "angular-touch": "1.2.x",
         "angular-cookies": "1.2.x",
         "angular-animate": "1.2.x",
+        "angular-carousel": "0.3.7",
 	    "seiyria-bootstrap-slider": ""
     }
 }
