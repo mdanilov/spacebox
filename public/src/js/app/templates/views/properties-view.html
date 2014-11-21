@@ -1,21 +1,40 @@
-<div id="spNavPills" class="visible-xs-block">
-	<ul class="nav nav-pills nav-justified">
-	 	<li class="active"><a href="" ng-click="">Поиск</a></li>
-	  	<li><a href="" ng-click="">Профиль</a></li>
-	</ul>
-</div>
+<div class="row">
+	<div class="col-sm-3 col-xs-0 sp-without-padding"></div>
+	<div class="col-sm-6 col-xs-12 sp-without-padding">
+		<div id="spNavPills">
+			<ul class="nav nav-pills nav-justified">
+			 	<li class="active"><a href="" ng-click="">Поиск</a></li>
+			  	<li><a href="" ng-click="">Профиль</a></li>
+			</ul>
+		</div>
+	</div>	
+	<div class="col-sm-3 col-xs-0 sp-without-padding"></div>
+</div>	
 <div id="spPropertiesView">
 	<div class="row">
+		<div class="col-sm-3 col-xs-0"></div>
 		<div class="col-sm-6 col-xs-12">
 			<div class="sp-property-container">
 		    	<div class="sp-property-header">
-			    	<span>Показать</span> 
-				    <label class="checkbox-inline pull-right">
-						<input type="checkbox" id="inlineCheckbox1" value="option1"> Парней
-					</label>
-					<label class="checkbox-inline pull-right">
-				  		<input type="checkbox" id="inlineCheckbox2" value="option2"> Девушек
-					</label>
+		    		<span>Показать:</span>
+		    		<div class="radio">
+						<label>
+							<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+							Парней
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+							Девушек
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+							Парней и девушек
+						</label>
+					</div>
 				</div>
 			</div>
 			<div class="sp-property-container">
@@ -30,15 +49,23 @@
 		    	<a href="" class="btn btn-primary" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
 		    </div>
 		</div>
+		<div class="col-sm-3 col-xs-0"></div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3 col-xs-0"></div>
 		<div class="col-sm-6 col-xs-12">
 			<div class="sp-property-container">
 				<div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div> 
 				<textarea class="form-control" rows="3" ng-change="checkLength()" ng-model="status.text"></textarea>
 			</div>
+			<div class="sp-property-container sp-save-btn text-center">
+		    	<a href="" class="btn btn-primary" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
+		    </div>
 			<div class="sp-property-container sp-delete-btn text-center">
-		    	<a href="" class="btn btn-danger" ng-click="" role="button">Удалить профиль</a>
+		    	<a href="" class="btn btn-danger" ng-click="" role="button">Удалить аккаунт</a>
 		    </div>
 		</div>
+		<div class="col-sm-3 col-xs-0"></div>
 	</div>
 </div>
 
