@@ -1,17 +1,44 @@
-<div id="spPropertiesView">
-	<div class="sp-property-container">
-		<div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div> 
-		<textarea class="form-control" rows="3" ng-change="checkLength()" ng-model="status.text"></textarea>
-	</div>
-	<div class="sp-property-container">
-		<div class="sp-property-header"><span>Возраст</span><span id="spSliderValue" class="pull-right"></span></div> 
-		<div><input id="spAgeSlider" type="text" class="span2"/></div> 
-	</div>
-	<div class="sp-property-container">
-		<div class="sp-property-header"><span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span></div> 
-		<div><input id="spDistanceSlider" type="text"/></div> 
-	</div>
-    <div class="sp-property-container sp-save-btn text-center">
-    	<a href="" class="btn btn-lg btn-primary" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
-    </div>
+<div id="spNavPills" class="visible-xs-block">
+	<ul class="nav nav-pills nav-justified">
+	 	<li class="active"><a href="" ng-click="">Поиск</a></li>
+	  	<li><a href="" ng-click="">Профиль</a></li>
+	</ul>
 </div>
+<div id="spPropertiesView">
+	<div class="row">
+		<div class="col-sm-6 col-xs-12">
+			<div class="sp-property-container">
+		    	<div class="sp-property-header">
+			    	<span>Показать</span> 
+				    <label class="checkbox-inline pull-right">
+						<input type="checkbox" id="inlineCheckbox1" value="option1"> Парней
+					</label>
+					<label class="checkbox-inline pull-right">
+				  		<input type="checkbox" id="inlineCheckbox2" value="option2"> Девушек
+					</label>
+				</div>
+			</div>
+			<div class="sp-property-container">
+				<div class="sp-property-header"><span>Возраст</span><span id="spSliderValue" class="pull-right"></span></div> 
+				<div><input id="spAgeSlider" type="text" class="span2"/></div> 
+			</div>
+			<div class="sp-property-container">
+				<div class="sp-property-header"><span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span></div> 
+				<div><input id="spDistanceSlider" type="text"/></div> 
+			</div>
+			<div class="sp-property-container sp-save-btn text-center">
+		    	<a href="" class="btn btn-primary" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
+		    </div>
+		</div>
+		<div class="col-sm-6 col-xs-12">
+			<div class="sp-property-container">
+				<div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div> 
+				<textarea class="form-control" rows="3" ng-change="checkLength()" ng-model="status.text"></textarea>
+			</div>
+			<div class="sp-property-container sp-delete-btn text-center">
+		    	<a href="" class="btn btn-danger" ng-click="" role="button">Удалить профиль</a>
+		    </div>
+		</div>
+	</div>
+</div>
+

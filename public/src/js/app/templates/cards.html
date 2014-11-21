@@ -1,6 +1,9 @@
 <div id="people">
     <div class="person">
         <div id="carousel-example-generic" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="$index" ng-repeat="photo in user.photos"></li>
+            </ol>
             <div class="carousel-inner" ng-swipe-left="Next()" ng-swipe-right="Prev()">
                 <div ng-repeat="photo in user.photos"
                      class="item"
@@ -8,7 +11,6 @@
                     <img ng-src="{{photo}}">
                 </div>
             </div>
-
             <div class="carousel-controls">
                 <a class="left carousel-control" href="" ng-click="Prev()">
                     <div class="fontawesome-chevron-left"></div>
