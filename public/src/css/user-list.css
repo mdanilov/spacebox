@@ -70,6 +70,9 @@
     display: none;
 }
 
+#spFriendsList .sp-user-info {
+}
+
 @media (max-width: 768px) {
     #spFriendsList .brandico-vkontakte-rect {
         margin-right: 30px;
