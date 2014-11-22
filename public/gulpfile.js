@@ -12,8 +12,17 @@ gulp.task('clean', function () {
 
 gulp.task('build', function () {
     gulp.src([
-            './src/css/style.css',
-            './src/css/wildcard.css'
+            './src/css/main.css',
+            './src/css/map.css',
+            './src/css/navbar.css',
+            './src/css/login.css',
+            './src/css/modal.css',
+            './src/css/user-list.css',
+            './src/css/friends.css',
+            './src/css/views/properties.css',
+            './src/css/views/error.css',
+            './src/css/partials/cards.css',
+            './src/css/partials/controls.css'
         ])
         .pipe(concat('spacebox.css'))
         .pipe(gulp.dest('dist'))
@@ -22,21 +31,68 @@ gulp.task('build', function () {
         .pipe(gulp.dest('dist'));
 
     gulp.src([
-            './src/js/app/utils.js',
-            './src/js/app/server.js',
-            './src/js/app/navigation.js',
-            './src/js/app/vk.js',
-            './src/js/app/pages/pglogin.js',
-            './src/js/app/thirdparty/ejs_0.9_alpha_1_production.js',
-            './src/js/app/views/userlist.js',
-            './src/js/app/views/navbar.js',
-            './src/js/app/views/map.js',
-            './src/js/app/model.js',
-            './src/js/app/pages/pgmain.js'
+            './src/js/app/app.js',
+            './src/js/app/services/vkService.js',
+            './src/js/app/services/geolocationService.js',
+            './src/js/app/services/configService.js',
+            './src/js/app/services/mapService.js',
+            './src/js/app/services/meetService.js',
+            './src/js/app/services/errorHandler.js',
+            './src/js/app/services/locatorService.js',
+            './src/js/app/services/userService.js',
+            './src/js/app/controllers/applicationController.js',
+            './src/js/app/controllers/propertiesController.js',
+            './src/js/app/controllers/loginController.js',
+            './src/js/app/controllers/errorController.js',
+            './src/js/app/controllers/mainController.js',
+            './src/js/app/controllers/friendsController.js',
+            './src/js/app/controllers/userListItemController.js',
+            './src/js/app/filters/distanceFilter.js',
+            './src/js/app/filters/meetFilter.js',
+            './src/js/app/filters/ageFilter.js',
+            './src/js/app/directives/navbarDirective.js',
+            './src/js/app/directives/cardsDirective.js',
+            './src/js/app/directives/modalDirective.js',
+            './src/js/app/directives/friendListDirective.js',
+            './src/js/app/directives/friendListItemDirective.js',
+            './src/js/app/directives/radarDirective.js'
         ])
         .pipe(concat('spacebox.js'))
         .pipe(gulp.dest('dist'))
         .pipe(rename('spacebox.min.js'))
         .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+
+    gulp.src([
+        './src/js/app/app.js',
+        './src/js/app/services/mobile/vkService.js',
+        './src/js/app/services/geolocationService.js',
+        './src/js/app/services/configService.js',
+        './src/js/app/services/mapService.js',
+        './src/js/app/services/meetService.js',
+        './src/js/app/services/errorHandler.js',
+        './src/js/app/services/locatorService.js',
+        './src/js/app/services/userService.js',
+        './src/js/app/controllers/applicationController.js',
+        './src/js/app/controllers/propertiesController.js',
+        './src/js/app/controllers/loginController.js',
+        './src/js/app/controllers/errorController.js',
+        './src/js/app/controllers/mainController.js',
+        './src/js/app/controllers/friendsController.js',
+        './src/js/app/controllers/userListItemController.js',
+        './src/js/app/filters/distanceFilter.js',
+        './src/js/app/filters/meetFilter.js',
+        './src/js/app/filters/ageFilter.js',
+        './src/js/app/directives/navbarDirective.js',
+        './src/js/app/directives/cardsDirective.js',
+        './src/js/app/directives/modalDirective.js',
+        './src/js/app/directives/friendListDirective.js',
+        './src/js/app/directives/friendListItemDirective.js',
+        './src/js/app/directives/radarDirective.js'
+    ])
+        .pipe(concat('spacebox-mobile.js'))
         .pipe(gulp.dest('dist'))
+        .pipe(rename('spacebox-mobile.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
 });

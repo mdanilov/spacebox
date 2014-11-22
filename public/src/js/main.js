@@ -27,6 +27,7 @@ yepnope({
     ],
     nope: [
         'https://api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.js',
+        './lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
@@ -106,7 +107,7 @@ else {
     yepnope({
         test: Modernizr.touch,
         yep: './dist/spacebox-mobile.min.js',
-        nope: './dist/spacebox.min.js',
+        nope: './dist/spacebox.js',
         both: './dist/spacebox.min.css',
         complete: bootstrapAngular
     });

@@ -1,8 +1,8 @@
 var spacebox = angular.module('spacebox',
     [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'angular-carousel']);
 
-spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
-    function ($routeProvider, $logProvider, $compileProvider) {
+spacebox.config(['$routeProvider', '$logProvider',
+    function ($routeProvider, $logProvider) {
         $routeProvider.
             when('/login', {
                 templateUrl: 'src/js/app/templates/views/login-view.html',
@@ -33,7 +33,6 @@ spacebox.config(['$routeProvider', '$logProvider', '$compileProvider',
 
         if (!angular.equals(config.development, true)) {
             $logProvider.debugEnabled(false);
-            $compileProvider.debugInfoEnabled(false);
         }
     }]);
 

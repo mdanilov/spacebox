@@ -84,6 +84,7 @@
 }
 
 #spFriendsList .media-body {
+    display: block;
     vertical-align: middle;
     line-height: 60px;
     border-bottom: 1px solid;
