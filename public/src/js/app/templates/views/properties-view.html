@@ -1,71 +1,65 @@
-<div class="row">
-	<div class="col-sm-3 col-xs-0 sp-without-padding"></div>
-	<div class="col-sm-6 col-xs-12 sp-without-padding">
-		<div id="spNavPills">
-			<ul class="nav nav-pills nav-justified">
-			 	<li class="active"><a href="" ng-click="">Поиск</a></li>
-			  	<li><a href="" ng-click="">Профиль</a></li>
-			</ul>
-		</div>
-	</div>	
-	<div class="col-sm-3 col-xs-0 sp-without-padding"></div>
-</div>	
+<div id="spNavPills">
+    <ul class="nav nav-pills nav-justified">
+        <li ng-class="{'active': !profile}"><a href="" ng-click="toggle(false)">Поиск</a></li>
+        <li ng-class="{'active': profile}"><a href="" ng-click="toggle(true)">Профиль</a></li>
+    </ul>
+</div>
 <div id="spPropertiesView">
-	<div class="row">
+	<div class="row" ng-show="!profile">
 		<div class="col-sm-3 col-xs-0"></div>
 		<div class="col-sm-6 col-xs-12">
 			<div class="sp-property-container">
 		    	<div class="sp-property-header">
-		    		<span>Показать:</span>
-		    		<div class="radio">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-							Парней
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-							Девушек
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-							Парней и девушек
-						</label>
-					</div>
+		    		<span>Показывать:</span>
 				</div>
+                <div class="sp-property-control">
+                    <form class="btn-group sp-sex-radio-buttons">
+                        <label class="btn" ng-class="{active: sex==1}">
+                            <input type="radio" ng-model="sex" value="1" name="sex"> Девушек
+                        </label>
+                        <label class="btn" ng-class="{active: sex==2}">
+                            <input type="radio" ng-model="sex" value="2" name="sex"> Парней
+                        </label>
+                        <label class="btn" ng-class="{active: sex==0}">
+                            <input type="radio" ng-model="sex" value="0" name="sex"> Всех
+                        </label>
+                    </form>
+                </div>
 			</div>
 			<div class="sp-property-container">
-				<div class="sp-property-header"><span>Возраст</span><span id="spSliderValue" class="pull-right"></span></div> 
-				<div><input id="spAgeSlider" type="text" class="span2"/></div> 
+				<div class="sp-property-header">
+                    <span>Возраст</span><span id="spSliderValue" class="pull-right"></span>
+                </div>
+				<div class="sp-slider"><input id="spAgeSlider" type="text" class="span2"/></div>
 			</div>
 			<div class="sp-property-container">
-				<div class="sp-property-header"><span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span></div> 
-				<div><input id="spDistanceSlider" type="text"/></div> 
+				<div class="sp-property-header">
+                    <span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span>
+                </div>
+				<div class="sp-slider"><input id="spDistanceSlider" type="text"/></div>
 			</div>
-			<div class="sp-property-container sp-save-btn text-center">
-		    	<a href="" class="btn btn-primary" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
-		    </div>
 		</div>
 		<div class="col-sm-3 col-xs-0"></div>
 	</div>
-	<div class="row">
+	<div class="row" ng-show="profile">
 		<div class="col-sm-3 col-xs-0"></div>
-		<div class="col-sm-6 col-xs-12">
+		<div class="col-sm-6 col-xs-12 sp-profile">
+            <div class="sp-profile-title">
+                <div class="sp-profile-background" ng-style="{'background-image':'url('+info.photo_100+')'}"></div>
+                <img ng-src="{{info.photo_100}}">
+                <div class="sp-user-description">
+                    <span>{{info.first_name}}<br>Просмотр профиля</span>
+                </div>
+            </div>
 			<div class="sp-property-container">
 				<div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div> 
 				<textarea class="form-control" rows="3" ng-change="checkLength()" ng-model="status.text"></textarea>
 			</div>
-			<div class="sp-property-container sp-save-btn text-center">
-		    	<a href="" class="btn btn-primary" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
-		    </div>
-			<div class="sp-property-container sp-delete-btn text-center">
-		    	<a href="" class="btn btn-danger" ng-click="" role="button">Удалить аккаунт</a>
-		    </div>
+        	<a href="" class="btn btn-danger sp-delete-account" ng-click="" role="button">Удалить аккаунт</a>
 		</div>
 		<div class="col-sm-3 col-xs-0"></div>
 	</div>
+    <div class="sp-save-btn">
+        <a href="" class="btn" ng-click="save()" role="button" ng-show="changed">Сохранить</a>
+    </div>
 </div>
-

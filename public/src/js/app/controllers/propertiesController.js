@@ -1,4 +1,13 @@
 function PropertiesViewController ($scope, UserService, ConfigService) {
+    $scope.profile = true;
+
+    $scope.info = UserService.getInfo();
+
+    $scope.toggle = function (value) {
+        $scope.profile = value;
+        $scope.changed = false;
+    };
+
     var status = UserService.getStatus();
 	$scope.status = {
         text: status,
@@ -17,10 +26,17 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
 			status.length = status.maxLength - status.text.length;			
 		}
 		$scope.status = status;
-        $scope.changed = true;
+        optionsChanged();
 	};
 
 	var options = ConfigService.getSearchOptions();
+
+    $scope.sex = options.sex;
+    $scope.$watch('sex', optionsChanged);
+
+     function optionsChanged () {
+        $scope.changed = true;
+    }
 
     var ages = $('#spSliderValue');
 	var ageSlider = $('#spAgeSlider').slider({
@@ -36,15 +52,14 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
     ages.text(ageSlider.slider('getValue').join('-'));
 	ageSlider.on('slide', function (event) {
         ages.text(event.value.join('-'));
+        $scope.$apply(optionsChanged);
 	});
     ageSlider.on('onSlideStop', function () {
-        $scope.changed = true;
-        $scope.$apply();
+        $scope.$apply(optionsChanged);
     });
-    ageSlider.parent().click( function (clickEvt) {
+    ageSlider.parent().click( function () {
         ages.text(ageSlider.slider('getValue').join('-'));
-        $scope.changed = true;
-        $scope.$apply();
+        $scope.$apply(optionsChanged);
 	});
 
     var distance = $('#spDistanceValue');
@@ -58,21 +73,20 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
     distance.text(distanceSlider.slider('getValue') + ' км');
     distanceSlider.on('slide', function (event) {
         distance.text(event.value + ' км');
+        $scope.$apply(optionsChanged);
 	});
     distanceSlider.on('onSlideStop', function () {
-        $scope.changed = true;
-        $scope.$apply();
+        $scope.$apply(optionsChanged);
     });
-    distanceSlider.parent().click( function (clickEvt) {
+    distanceSlider.parent().click( function () {
         distance.text(distanceSlider.slider('getValue') + ' км');
-        $scope.changed = true;
-        $scope.$apply();
+        $scope.$apply(optionsChanged);
 	});
 
     $scope.save = function () {
         var options = {};
         var ages = ageSlider.slider('getValue');
-        options.sex = 0;
+        options.sex = parseInt($scope.sex);
         options.radius = distanceSlider.slider('getValue') * 1000;
         options.ageInterval = {
             top: ages[1],

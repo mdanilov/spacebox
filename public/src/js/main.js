@@ -56,9 +56,10 @@ if (config.development) {
         './src/css/modal.css',
         './src/css/user-list.css',
         './src/css/friends.css',
-        './src/css/properties.css',
-        './src/css/error.css',
-        './src/css/main/cards.css'
+        './src/css/views/properties.css',
+        './src/css/views/error.css',
+        './src/css/partials/cards.css',
+        './src/css/partials/controls.css'
     ]);
 
     // main app script should be loaded first
