@@ -87,6 +87,12 @@ body {
     width: 400px;
 }
 
+@media (max-width: 768px) {
+    #control {
+        width: 300px;
+    }
+}
+
 #control .button {
     width: 80px;
     height: 80px;
