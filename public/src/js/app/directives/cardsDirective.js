@@ -7,6 +7,9 @@ function cardsDirective () {
         },
         templateUrl: 'src/js/app/templates/cards.html',
         link: function (scope, element, attrs) {
+            scope.$watch('user', function () {
+                scope.carouselIndex = 0;
+            });
         }
     };
 }

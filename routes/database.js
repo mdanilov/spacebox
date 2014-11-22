@@ -214,72 +214,66 @@ exports.deleteLike = function (request, response, next) {
 };
 
 exports.selectUsers = function (request, response, next) {
-    try
-    {
-        db.transaction(function (client, callback) {
-            var id = request.session.mid;
-            async.waterfall([
-                client.delete().from('users').where({'mid': id}).run,
-                function __insertUser(result, callback) {
-                    var info = {};
-                    if (request.cookies.userInfo) {
-                        info = JSON.parse(unescape(request.cookies.userInfo));
-                    }
-                    client.insert('users', {
-                        'mid': id,
-                        'latitude': request.body['latitude'],
-                        'longitude': request.body['longitude'],
-                        'sex': info.sex || 0,
-                        'age': info.age || -1,
-                        'timestamp': os.uptime()
-                    }).run(callback);
-                },
-                function __selectUsers(result, callback) {
-                    var where = util.format(
-                        "WHERE earth_box(ll_to_earth(%d, %d), %d) @> ll_to_earth(latitude, longitude) AND mid != %d ",
-                        request.body['latitude'],
-                        request.body['longitude'],
-                        request.body['options'].radius,
-                        id);
-
-                    var sex = request.body.options.sex;
-                    if (sex && sex != 0) {
-                        where += util.format("AND sex = %d ", sex);
-                    }
-
-                    var interval = request.body.options.ageInterval;
-                    if (interval) {
-                        where += util.format("AND (age > %d AND age < %d OR age = -1) ",
-                            interval.bottom,
-                            interval.top);
-                    }
-
-                    var sql =
-                        "SELECT * , " +
-                        "earth_distance(ll_to_earth($1, $2), ll_to_earth(latitude, longitude)) AS distance " +
-                        "FROM users " +
-                        where +
-                        "ORDER BY distance ASC;";
-                    client.query(sql, [
-                        request.body['latitude'],
-                        request.body['longitude']
-                    ], callback);
+    db.transaction(function (client, callback) {
+        var id = request.session.mid;
+        async.waterfall([
+            client.delete().from('users').where({'mid': id}).run,
+            function __insertUser(result, callback) {
+                var info = {};
+                if (request.cookies.userInfo) {
+                    info = JSON.parse(unescape(request.cookies.userInfo));
                 }
-            ], callback);
-        }, function __callback(error, result) {
-            if (error)
-                throw error;
+                client.insert('users', {
+                    'mid': id,
+                    'latitude': request.body['latitude'],
+                    'longitude': request.body['longitude'],
+                    'sex': info.sex || 0,
+                    'age': info.age || -1,
+                    'timestamp': os.uptime()
+                }).run(callback);
+            },
+            function __selectUsers(result, callback) {
+                var where = util.format(
+                    "WHERE earth_box(ll_to_earth(%d, %d), %d) @> ll_to_earth(latitude, longitude) AND mid != %d ",
+                    request.body['latitude'],
+                    request.body['longitude'],
+                    request.body['options'].radius,
+                    id);
 
-            if (result.rows.length != 0) {
-                response.users = result.rows;
-                next();
+                var sex = request.body.options.sex;
+                if (sex && sex != 0) {
+                    where += util.format("AND sex = %d ", sex);
+                }
+
+                var interval = request.body.options.ageInterval;
+                if (interval) {
+                    where += util.format("AND (age > %d AND age < %d OR age = -1) ",
+                        interval.bottom,
+                        interval.top);
+                }
+
+                var sql =
+                    "SELECT * , " +
+                    "earth_distance(ll_to_earth($1, $2), ll_to_earth(latitude, longitude)) AS distance " +
+                    "FROM users " +
+                    where +
+                    "ORDER BY distance ASC;";
+                client.query(sql, [
+                    request.body['latitude'],
+                    request.body['longitude']
+                ], callback);
             }
-            else {
-                response.end();
-            }
-        });
-    }
-    catch(error) {
-        next(error);
-    }
+        ], callback);
+    }, function __callback(error, result) {
+        if (error)
+            next(error);
+
+        if (result.rows.length != 0) {
+            response.users = result.rows;
+            next();
+        }
+        else {
+            response.end();
+        }
+    });
 };
