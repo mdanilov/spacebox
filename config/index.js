@@ -14,7 +14,9 @@ if (process.env.PORT) {
 // Connecting to a Heroku Postgres database from outside of the Heroku network requires SSL.
 // Example: $(DATABASE_URL)?ssl=true
 nconf.set('database:connection', process.env.DATABASE_URL);
+
 nconf.set('vk:privateKey', process.env.VK_PRIVATE_KEY);
+
 // TODO: Please note that secure: true is a recommended option. However, it requires an https-enabled website,
 // i.e., HTTPS is necessary for secure cookies. If secure is set, and you access your site over HTTP,
 // the cookie will not be set.

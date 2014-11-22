@@ -1,0 +1,16 @@
+<div id="spNavPills" class="visible-xs-block">
+	<ul class="nav nav-pills nav-justified">
+	 	<li ng-class="{'active': friends.list}"><a href="" ng-click="friends.toggle(true)">Список</a></li>
+	  	<li ng-class="{'active': !friends.list}"><a href="" ng-click="friends.toggle(false)">Карта</a></li>
+	</ul>
+</div>
+<div id="spFriendsPage" class="container fill-height">
+    <div id="spRowContainer" class="row fill-height">
+        <div id="spFriendsList" class="col-xs-12 col-sm-4 fill-height" ng-class="{'sp-active': friends.list}">
+            <sp-friend-list users="friends.friends" on-marker-click="friends.openMap"></sp-friend-list>
+        </div>
+        <div id="spMapContainer" class="col-xs-12 col-sm-8 fill-height" ng-class="{'sp-active': !friends.list}">
+            <div id="map-canvas"></div>
+        </div>
+    </div>
+</div>

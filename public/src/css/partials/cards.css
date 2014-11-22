@@ -1,0 +1,142 @@
+/* other */
+#people {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 400px;
+    height: 450px;
+}
+
+@media (max-width: 768px) {
+    #people {
+        width: 300px;
+        height: 350px;
+    }
+}
+
+.person {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    background-color: transparent;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    transition: all .1s linear;
+}
+
+@media (max-width: 768px) {
+    .person {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+.person:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    content: '';
+}
+
+.person .sp-description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    background: white;
+    width: 100%;
+    padding: 10px;
+    font: 16px "Open Sans";
+    line-height: 30px;
+    color: #555;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.person span strong {
+    font-weight: 600;
+    color: #000;
+}
+
+.sp-description .location {
+    color: rgb(171, 171, 171);
+    font-size: 14px;
+}
+
+.sp-description .fa.fa-location-arrow {
+    font-size: 18px;
+    padding-right: 8px;
+}
+
+/* carousel */
+#people .sp-carousel-layer {
+    max-height: 100%;
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#people .sp-carousel-image {
+    height: 400px;
+    background-color: black;
+}
+
+    @media (max-width: 768px) {
+        #people .sp-carousel-image {
+            height: 300px;
+        }
+    }
+
+/* carousel controls */
+#people .rn-carousel-control {
+    font-family: 'FontAwesome';
+    font-size: 25px;
+    color: white;
+}
+
+    @media (max-width: 768px) {
+        #people .rn-carousel-control {
+            display: none;
+        }
+    }
+
+#people .rn-carousel-control.rn-carousel-control-next::before {
+    content: "\f054"
+}
+
+#people .rn-carousel-control.rn-carousel-control-prev::before {
+    content: "\f053"
+}
+
+/* carousel indicators */
+#people .rn-carousel-indicator {
+    font-family: 'FontAwesome';
+    margin-bottom: 10px;
+    display: table;
+    width: 100%;
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+#people .custom-indicator span {
+    color: #666;
+    font-size: 10px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#people .custom-indicator span::before {
+    content: "\f111"
+}
+
+#people .custom-indicator span.active::before {
+    color: #3498db;
+    font-size: 16px;
+    content: "\f10c"
+}

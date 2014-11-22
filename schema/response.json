@@ -11,10 +11,10 @@
                 { "$ref": "#/definitions/mobile/login" },
                 { "$ref": "#/definitions/mobile/getLoginStatus" },
                 { "$ref": "#/definitions/getUsers" },
+                { "$ref": "#/definitions/getFriends" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
-                { "$ref": "#/definitions/like" },
-                { "$ref": "#/definitions/dislike" }
+                { "$ref": "#/definitions/changeLikeStatus" }
             ]
         }
     },
@@ -24,12 +24,16 @@
                 "description": "Mobile login response",
                 "type": "object",
                 "properties": {
+                    "mid": {
+                        "title": "VK user id",
+                        "type": "string"
+                    },
                     "access_token": {
                         "title": "VK API access code",
                         "type": "string"
                     }
                 },
-                "required": ["access_token"],
+                "required": ["mid", "access_token"],
                 "additionalProperties": false
             },
             "getLoginStatus": {
@@ -60,13 +64,17 @@
                         "title": "User id",
                         "type": "string"
                     },
+                    "distance": {
+                        "title": "Distance",
+                        "type": "number"
+                    },
                     "latitude": {
                         "title": "Latitude",
-                        "type": "string"
+                        "type": "number"
                     },
                     "longitude": {
                         "title": "Longitude",
-                        "type": "string"
+                        "type": "number"
                     },
                     "like": {
                         "description": "Does current user like this user?",
@@ -81,25 +89,59 @@
                 "additionalProperties": false
             }
         },
+        "getFriends": {
+            "description": "friends for current user",
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "title": "friend",
+                "type": "object",
+                "properties": {
+                    "mid": {
+                        "title": "user id",
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "title": "dating date",
+                        "type": "number"
+                    },
+                    "location": {
+                        "title": "location",
+                        "type": "object",
+                        "properties": {
+                            "latitude": {
+                                "title": "latitude",
+                                "type": "number"
+                            },
+                            "longitude": {
+                                "title": "longitude",
+                                "type": "number"
+                            },
+                            "timestamp": {
+                                "title": "location time",
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "required": ["mid", "timestamp"],
+                "additionalProperties": false
+            }
+        },
         "login": {
-            "description": "Login response",
+            "description": "null",
             "type": "object",
             "properties": {},
             "additionalProperties": false
         },
         "logout": {
-            "description": "Logout response",
-            "properties": {},
-            "additionalProperties": false
-        },
-        "like": {
-            "description": "Like response",
+            "description": "null",
             "type": "object",
             "properties": {},
             "additionalProperties": false
         },
-        "dislike": {
-            "description": "Dislike response",
+        "changeLikeStatus": {
+            "description": "null",
             "type": "object",
             "properties": {},
             "additionalProperties": false

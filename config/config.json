@@ -1,6 +1,6 @@
 ﻿{
     "project": "Spacebox",
-    "port": 1337,
+    "port": 8080,
     "mail":
     {
         "to": "eternity@nextmail.ru",

@@ -1,0 +1,16 @@
+<div class="list-group-item" href="" ng-class="{active:selected}" ng-click="onClick()">
+    <div class="media">
+        <a class="pull-left" href="">
+            <img class="media-object" ng-src="{{user.info.photo_50}}">
+        </a>
+        <div class="media-body">
+            {{user.info.first_name}}{{user.info.bdate|age:true}}
+            <a href="" class="visible-xs-inline" ng-click="$parent.onMarkerClick()">
+                <i class="fa fa-map-marker pull-right"></i>
+            </a>
+            <a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">
+                <span class="brandico-vkontakte-rect pull-right"></span>
+            </a>
+        </div>
+    </div>
+</div>

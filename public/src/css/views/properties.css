@@ -1,0 +1,158 @@
+.sp-without-padding {
+	padding: 0 !important;
+}
+
+#spNavPills {
+    padding: 10px;
+}
+
+.sp-property-container {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+    @media (max-width: 768px) {
+
+        #spPropertiesView {
+            width: 100%;
+            padding-top: 60px;
+            position: relative;
+        }
+
+        .sp-property-container {
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .sp-property-container textarea {
+            border-left: 0;
+            border-right: 0;
+            border-radius: 0;
+            position: relative;
+            width: 100%;
+        }
+    }
+
+.sp-property-container .sp-property-header {
+	margin-left: 0;
+	margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.sp-property-container .slider.slider-horizontal {
+	width: 100%;
+}
+
+.sp-save-btn {
+	margin-top: 10px;
+    text-align: center;
+}
+
+.sp-save-btn .btn {
+    font-size: 24px;
+}
+
+#spPropertiesView .sp-delete-account {
+    position: absolute;
+    bottom: -150px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #spPropertiesView .sp-delete-account {
+        border-radius: 0;
+        height: 60px;
+        left: 0;
+        font-size: 24px;
+        padding: 10px 0;
+    }
+}
+
+.sp-slider {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sp-property-control {
+    text-align: center;
+}
+
+.sp-sex-radio-buttons .btn {
+    border: 1px solid #4387fd;
+    padding: 6px 12px;
+    width: 80px;
+}
+
+.sp-sex-radio-buttons .btn:active, .sp-sex-radio-buttons .btn.active {
+    background-color: #4387fd;
+    color: white;
+}
+
+.sp-sex-radio-buttons input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: pointer;
+    margin: -6px -12px;
+}
+
+#spPropertiesView .col-xs-12 {
+    padding: 0;
+}
+
+/* profile */
+#spPropertiesView .sp-profile {
+    padding: 0;
+}
+
+#spPropertiesView .sp-profile .sp-property-header {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#spPropertiesView .sp-profile-title {
+    margin-top: 10px;
+    position: relative;
+    color: white;
+    text-align: center;
+}
+
+#spPropertiesView .sp-profile .sp-property-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#spPropertiesView .sp-profile-title img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border: 3px solid white;
+}
+
+#spPropertiesView .sp-user-description {
+    padding-bottom: 10px;
+}
+
+#spPropertiesView .sp-profile-background {
+    position: absolute;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+}

@@ -1,46 +1,114 @@
 ﻿yepnope({
     test: config.development,
     yep: [
-        './src/css/style.css',
-        './src/css/wildcard.css'
+        './lib/mapbox.js/mapbox.uncompressed.css',
+        './lib/angular-carousel/dist/angular-carousel.css',
+        './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css'
     ],
-    nope: './dist/spacebox.min.css',
-    both: './lib/mapbox.js/mapbox.css'
+    nope: [
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.css',
+        './lib/angular-carousel/dist/angular-carousel.min.css',
+        './lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css'
+    ]
 });
-
-yepnope([
-    'https://vk.com/js/api/openapi.js',
-    './lib/jquery/dist/jquery.min.js',
-    './lib/bootstrap/dist/js/bootstrap.min.js',
-    './lib/mapbox.js/mapbox.js'
-]);
 
 yepnope({
     test: config.development,
     yep: [
-        './src/js/app/utils.js',
-        './src/js/app/server.js',
-        './src/js/app/navigation.js',
-        './src/js/app/vk.js',
-        './src/js/app/pages/pglogin.js',
-        './src/js/app/thirdparty/ejs_0.9_alpha_1_production.js',
-        './src/js/app/views/userlist.js',
-        './src/js/app/views/navbar.js',
-        './src/js/app/views/map.js',
-        './src/js/app/model.js',
-        './src/js/app/pages/pgmain.js'
+        './lib/mapbox.js/mapbox.uncompressed.js',
+        './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
+        './lib/angular/angular.js',
+        './lib/angular-route/angular-route.js',
+        './lib/angular-touch/angular-touch.js',
+        './lib/angular-cookies/angular-cookies.js',
+        './lib/angular-animate/angular-animate.js',
+        './lib/angular-carousel/dist/angular-carousel.js',
+        './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js'
     ],
-    nope: './dist/spacebox.min.js',
-    complete: function () {
-        vk.getLoginStatus(function (status) {
-            if (status) {
-                navigation.go('mainPage');
-                Map.invalidate();
-                Model.update();
-            }
-            else {
-                navigation.go('loginPage');
-            }
-        });
-    }
+    nope: [
+        'https://api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.js',
+        './lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
+        'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js',
+        './lib/angular-carousel/dist/angular-carousel.min.js',
+        './lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js'
+    ],
+    both: [
+        'https://vk.com/js/api/openapi.js',
+        'https://vk.com/js/api/share.js?90'
+    ]
 });
+
+function bootstrapAngular () {
+    // manually bootstrap AngularJS
+    angular.bootstrap(document, ['spacebox']);
+}
+
+if (config.development) {
+    // css styles
+    yepnope([
+        './src/css/main.css',
+        './src/css/map.css',
+        './src/css/navbar.css',
+        './src/css/login.css',
+        './src/css/modal.css',
+        './src/css/user-list.css',
+        './src/css/friends.css',
+        './src/css/views/properties.css',
+        './src/css/views/error.css',
+        './src/css/partials/cards.css',
+        './src/css/partials/controls.css'
+    ]);
+
+    // main app script should be loaded first
+    yepnope('./src/js/app/app.js');
+
+    // platform dependent scripts
+    yepnope({
+        test: Modernizr.touch,
+        yep: './src/js/app/services/mobile/vkService.js',
+        nope: './src/js/app/services/vkService.js'
+    });
+
+    // common scripts
+    yepnope({
+        load: [
+            './src/js/app/services/geolocationService.js',
+            './src/js/app/services/configService.js',
+            './src/js/app/services/mapService.js',
+            './src/js/app/services/meetService.js',
+            './src/js/app/services/errorHandler.js',
+            './src/js/app/services/locatorService.js',
+            './src/js/app/services/userService.js',
+            './src/js/app/controllers/applicationController.js',
+            './src/js/app/controllers/propertiesController.js',
+            './src/js/app/controllers/loginController.js',
+            './src/js/app/controllers/errorController.js',
+            './src/js/app/controllers/mainController.js',
+            './src/js/app/controllers/friendsController.js',
+            './src/js/app/controllers/userListItemController.js',
+            './src/js/app/filters/distanceFilter.js',
+            './src/js/app/filters/meetFilter.js',
+            './src/js/app/filters/ageFilter.js',
+            './src/js/app/directives/navbarDirective.js',
+            './src/js/app/directives/cardsDirective.js',
+            './src/js/app/directives/modalDirective.js',
+            './src/js/app/directives/friendListDirective.js',
+            './src/js/app/directives/friendListItemDirective.js',
+            './src/js/app/directives/radarDirective.js'
+        ],
+        complete: bootstrapAngular
+    });
+}
+else {
+    yepnope({
+        test: Modernizr.touch,
+        yep: './dist/spacebox-mobile.min.js',
+        nope: './dist/spacebox.js',
+        both: './dist/spacebox.min.css',
+        complete: bootstrapAngular
+    });
+}

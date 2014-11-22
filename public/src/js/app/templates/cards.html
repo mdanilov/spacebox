@@ -1,0 +1,27 @@
+<div id="people">
+    <div class="rn-carousel-indicator custom-indicator">
+        <span ng-repeat="photo in user.photos"
+              ng-class="{active: $index==$parent.carouselIndex}"
+              ng-click="$parent.carouselIndex = $index">
+        </span>
+    </div>
+    <div class="person">
+        <ul rn-carousel
+            rn-carousel-controls
+            rn-carousel-buffered
+            rn-carousel-index="carouselIndex"
+            class="sp-carousel-image">
+            <li ng-repeat="photo in user.photos">
+                <img class="sp-carousel-layer" ng-src="{{photo}}">
+            </li>
+        </ul>
+        <div class="sp-description">
+            <div class="pull-left">
+                <strong>{{user.info.first_name}}</strong>{{user.info.bdate|age:true}}
+            </div>
+            <div class="pull-right location">
+                <i class="fa fa-location-arrow"></i><b>{{user.distance|distance}}</b>
+            </div>
+        </div>
+    </div>
+</div>

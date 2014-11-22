@@ -13,7 +13,8 @@
                 { "$ref": "#/definitions/getUsers" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
-                { "$ref": "#/definitions/like" },
+                { "$ref": "#/definitions/changeLikeStatus" },
+                { "$ref": "#/definitions/getFriends" },
                 { "$ref": "#/definitions/dislike" }
             ]
         }
@@ -49,18 +50,50 @@
                 "url": { "enum": [ "/getUsers", "/mobile/getUsers" ] },
                 "latitude": {
                     "title": "Latitude",
-                    "type": "string"
+                    "type": "number"
                 },
                 "longitude": {
                     "title": "Longitude",
-                    "type": "string"
+                    "type": "number"
                 },
-                "radius": {
-                    "title": "Search radius",
-                    "type": "string"
+                "options": {
+                    "description": "Search option",
+                    "type": "object",
+                    "properties": {
+                        "ageInterval": {
+                            "description": "Age interval",
+                            "type": "object",
+                            "properties": {
+                                "top": {
+                                    "title": "Top age",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 99
+                                },
+                                "bottom": {
+                                    "title": "Bottom age",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 99
+                                }
+                            },
+                            "required": ["top", "bottom"],
+                            "additionalProperties": false
+                        },
+                        "sex": {
+                            "title": "Sex: 1 - female, 2 - male, 0 - both",
+                            "enum": [ 0, 1, 2 ]
+                        },
+                        "radius": {
+                            "title": "Search radius",
+                            "type": "number"
+                        }
+                    },
+                    "required": ["radius"],
+                    "additionalProperties": false
                 }
             },
-            "required": ["url", "latitude", "longitude", "radius"],
+            "required": ["url", "latitude", "longitude", "options"],
             "additionalProperties": false
         },
         "login": {
@@ -87,7 +120,7 @@
                 },
                 "expire": {
                     "title": "Expire session time",
-                    "type": "string"
+                    "type": "number"
                 }
             },
             "required": ["url", "secret", "mid", "expire", "sid", "sig"],
@@ -102,32 +135,32 @@
             "required": ["url"],
             "additionalProperties": false
         },
-        "like": {
+        "changeLikeStatus": {
             "description": "Like request",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/like", "/mobile/like" ] },
+                "url": { "enum": [ "/changeLikeStatus", "/mobile/changeLikeStatus" ] },
                 "id": {
                     "title": "VK user id",
                     "description": "liked by user",
                     "type": "string"
+                },
+                "status": {
+                    "title": "like status",
+                    "description": "relationship between users",
+                    "enum": [ "1", "-1" ]
                 }
             },
-            "required": ["url", "id"],
+            "required": ["url", "id", "status"],
             "additionalProperties": false
         },
-        "dislike": {
-            "description": "Dislike request",
+        "getFriends": {
+            "description": "get friends for current user",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/dislike", "/mobile/dislike" ] },
-                "id": {
-                    "title": "VK user id",
-                    "description": "disliked by user",
-                    "type": "string"
-                }
+                "url": { "enum": [ "/getFriends", "/mobile/getFriends" ] }
             },
-            "required": ["url", "id"],
+            "required": ["url"],
             "additionalProperties": false
         }
     }
