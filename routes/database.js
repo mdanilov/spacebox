@@ -110,34 +110,37 @@ exports.selectFriends = function (request, response, next) {
             var uids = [];
             async.waterfall([
                 client.select().from('friends').where(db.sql.or({'mid1': id}, {'mid2': id})).run,
-                function __selectUserLocations(result, callback) {
-                    if (result.rows === undefined || result.rows.length === 0) {
-                        callback(null, []);
+                function __selectUserLocations (result, callback) {
+                    var users = result.rows;
+                    if (users.length > 0) {
+                        uids = users.map(function __map (row) {
+                            return (row.mid1 === id) ? row.mid2 : row.mid1;
+                        });
+                        uids.sort(function __compare (a, b) {
+                            return a - b;
+                        });
+                        client.select().from('users').where(db.sql.in('mid', uids)).orderBy('mid').run(callback);
                     }
-
-                    for (var i = 0; i < result.rows.length; i++) {
-                        if (result.rows[i].mid1 == id) {
-                            uids.push(result.rows[i].mid2);
-                        }
-                        else {
-                            uids.push(result.rows[i].mid1);
-                        }
+                    else {
+                        callback(null, {rows: []});
                     }
-                    uids.sort(function (a,b) { return a - b; });
-                    client.select().from('users').where(db.sql.in('mid', uids)).orderBy('mid').run(callback);
                 },
-                function __updateFriendsInfo(result, callback) {
-                    var locations = result.rows;
+                function __updateFriendsInfo (result, callback) {
                     var friends = [];
-                    for (var i = 0, j = 0; i < uids.length; i++) {
-                        friends.push({ mid: uids[i] });
-                        if (locations.length && (j < locations.length) && (uids[i] == locations[j].mid)) {
-                            friends[i].location = {
-                                longitude: locations[j].longitude,
-                                latitude: locations[j].latitude,
-                                timestamp: locations[j].timestamp
-                            };
-                            j++;
+                    uids.forEach(function __createFriend (id) {
+                        friends.push({ mid: id });
+                    });
+                    var locations = result.rows;
+                    if (locations.length > 0) {
+                        for (var i = 0, j = 0; i < uids.length; i++) {
+                            if ((j < locations.length) && (uids[i] == locations[j].mid)) {
+                                friends[i].location = {
+                                    longitude: locations[j].longitude,
+                                    latitude: locations[j].latitude,
+                                    timestamp: locations[j].timestamp
+                                };
+                                j++;
+                            }
                         }
                     }
                     callback(null, friends);
