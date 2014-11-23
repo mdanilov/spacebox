@@ -1,4 +1,4 @@
-﻿﻿function bootstrapAngular() {
+﻿function bootstrapAngular() {
     // manually bootstrap AngularJS
     angular.bootstrap(document, ['spacebox']);
 }
@@ -21,8 +21,8 @@ if (CONFIG.CORDOVA) {
         './lib/angular-animate/angular-animate.js',
         './lib/angular-carousel/dist/angular-carousel.js',
         './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js',
-        '//vk.com/js/api/openapi.js',
-        '//vk.com/js/api/share.js?90'
+        'https://vk.com/js/api/openapi.js',
+        'https://vk.com/js/api/share.js?90'
     ]);
 
     yepnope({
@@ -106,7 +106,6 @@ else {
                 './src/css/login.css',
                 './src/css/modal.css',
                 './src/css/user-list.css',
-                './src/css/friends.css',
                 './src/css/views/properties.css',
                 './src/css/views/error.css',
                 './src/css/partials/cards.css',
