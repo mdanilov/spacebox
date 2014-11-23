@@ -111,6 +111,10 @@ exports.selectFriends = function (request, response, next) {
             async.waterfall([
                 client.select().from('friends').where(db.sql.or({'mid1': id}, {'mid2': id})).run,
                 function __selectUserLocations(result, callback) {
+                    if (result.rows === undefined || result.rows.length === 0) {
+                        callback(null, []);
+                    }
+
                     for (var i = 0; i < result.rows.length; i++) {
                         if (result.rows[i].mid1 == id) {
                             uids.push(result.rows[i].mid2);
