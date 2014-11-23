@@ -156,7 +156,7 @@ else {
             yepnope({
                 test: Modernizr.touch,
                 yep: './dist/spacebox-mobile.min.js',
-                nope: './dist/spacebox.js',
+                nope: './dist/spacebox.min.js',
                 both: './dist/spacebox.min.css',
                 complete: bootstrapAngular
             });
