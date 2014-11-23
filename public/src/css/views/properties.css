@@ -1,3 +1,9 @@
+@media (min-width: 768px) {
+    #spPropertiesView .row.ng-hide {
+        display: block !important;
+    }
+}
+
 .sp-without-padding {
 	padding: 0 !important;
 }
@@ -57,10 +63,14 @@
     font-size: 24px;
 }
 
-#spPropertiesView .sp-delete-account {
-    position: absolute;
-    bottom: -150px;
-    width: 100%;
+.sp-delete-btn {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sp-delete-btn .btn {
+    font-size: 24px;
+    color: red;
 }
 
 @media (max-width: 768px) {
