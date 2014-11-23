@@ -6,22 +6,18 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <script>
-            var config =
-            {
-                development: true
+            var CONFIG = {
+                CORDOVA: false,
+                SERVER_URL: undefined,
+                DEVELOPMENT: true
             };
         </script>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     </head>
     <body ng-controller="ApplicationController as app">
         <div class="container">
             <sp-navbar id="spNavbar" info="app.user" ng-hide="app.isNavbarHidden"></sp-navbar>
             <div ng-view class="fill-height view"></div>
         </div>
-        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <script src="lib/modernizr/modernizr.js"></script>
         <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
         <script src="src/js/main.js"></script>
     </body>
