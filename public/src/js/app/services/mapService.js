@@ -70,6 +70,7 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
         marker.addTo(MapService._map);
         MapService._markers[user.mid] = marker;
         return marker;
+
     }
 
     function initializeLocator () {

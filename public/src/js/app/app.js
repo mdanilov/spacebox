@@ -31,7 +31,7 @@ spacebox.config(['$routeProvider', '$logProvider',
                 redirectTo: '/login'
             });
 
-        if (!angular.equals(config.development, true)) {
+        if (!angular.equals(CONFIG.DEVELOPMENT, true)) {
             $logProvider.debugEnabled(false);
         }
     }]);
