@@ -1,4 +1,4 @@
-﻿function bootstrapAngular() {
+﻿﻿function bootstrapAngular() {
     // manually bootstrap AngularJS
     angular.bootstrap(document, ['spacebox']);
 }
