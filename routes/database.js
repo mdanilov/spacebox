@@ -272,11 +272,11 @@ exports.selectUsers = function (request, response, next) {
                     ], callback);
                 }
             ], callback);
-        }, function __callback(error, result) {
+        }, function __callback (error, result) {
             if (error)
                 next(error);
 
-            if (result.rows.length != 0) {
+            if (result && result.rows && (result.rows.length != 0)) {
                 response.users = result.rows;
                 next();
             }

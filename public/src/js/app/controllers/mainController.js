@@ -4,6 +4,8 @@ function MainViewController ($scope, $log, $timeout, LocatorService, MeetService
     var self = this;
     self.status = '';
     self.current = null;
+    self.searchTimer = undefined;
+
     $scope.app.isNavbarHidden = false;
 
     self.Like = function () {
@@ -44,12 +46,18 @@ function MainViewController ($scope, $log, $timeout, LocatorService, MeetService
             }
             else {
                 $log.debug('No users has been founded');
-                $timeout(searchLoop, 10000);
+                self.searchTimer = $timeout(searchLoop, 20000);
             }
         }, ErrorHandler.handle);
     }
 
     searchLoop();
+
+    $scope.$on('$destroy', function __destroy (event) {
+        if (angular.isDefined(self.searchTimer)) {
+            $timeout.cancel(self.searchTimer);
+        }
+    });
 }
 
 MainViewController.resolve = {

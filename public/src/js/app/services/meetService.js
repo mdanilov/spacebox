@@ -28,14 +28,21 @@ function MeetService ($http, $log, $q, VkService, ConfigService) {
         return $http.get(ConfigService.SERVER_URL + '/getFriends').then(
             function __success (response) {
                 var friends = response.data;
-                var uids = friends.map(function (friend) { return friend.mid; });
-                return VkService.asyncGetUsersInfo(uids).then(function (info) {
-                    friends.forEach(function __addInfo (friend, i) {
-                        friend.info = info[i];
+                if (angular.isArray(friends) && friends.length > 0) {
+                    var uids = friends.map(function (friend) {
+                        return friend.mid;
                     });
-                    MeetService._friends = friends;
-                    return friends;
-                })
+                    return VkService.asyncGetUsersInfo(uids).then(function (info) {
+                        friends.forEach(function __addInfo(friend, i) {
+                            friend.info = info[i];
+                        });
+                        MeetService._friends = friends;
+                        return friends;
+                    })
+                }
+                else {
+                    return [];
+                }
             },
             function __error (response) {
                 return $q.reject(new HttpError(response.status, 'get friends request failed'));

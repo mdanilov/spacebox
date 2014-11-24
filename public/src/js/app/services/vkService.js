@@ -45,13 +45,7 @@ function VkService ($http, $log, $q, ConfigService) {
             if (angular.isDefined(data.error)) {
                 deferred.reject(new VkError(data.error));
             }
-
-            if (angular.isArray(data.response) && data.response.length > 0) {
-                deferred.resolve(data.response);
-            }
-            else {
-                return deferred.reject(new HttpError(417, 'VK users.get response invalid'));
-            }
+            deferred.resolve(data.response);
         });
         return deferred.promise;
     };
