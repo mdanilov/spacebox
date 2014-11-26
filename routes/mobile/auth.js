@@ -6,11 +6,12 @@ var log = require('../../utils/log')(module);
 var HttpError = require('../../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
+    var hostname = request.protocol + '://' + request.headers.host + '/';
     var options = 'https://oauth.vk.com/access_token?' +
         'client_id=' + config.get('vk:apiID') +
         '&client_secret=' + config.get('vk:privateKey') +
         '&code=' + request.query.code +
-        '&redirect_uri=' + url.resolve(request.headers.referer, request.query.url);
+        '&redirect_uri=' + url.resolve(hostname, request.query.url);
 
     https.get(options, function (res) {
         res.on("data", function (chunk) {
@@ -18,7 +19,7 @@ exports.login = function (request, response, next) {
             if (body.error) {
                 var error = {
                     error: 'vk oauth2 error',
-                    url: option,
+                    url: options,
                     message: body
                 };
                 next(new HttpError(400, JSON.stringify(error)));
