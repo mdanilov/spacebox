@@ -18,7 +18,7 @@ exports.login = function (request, response, next) {
             if (body.error) {
                 var error = {
                     error: 'vk oauth2 error',
-                    url: option,
+                    url: options,
                     message: body
                 };
                 next(new HttpError(400, JSON.stringify(error)));
