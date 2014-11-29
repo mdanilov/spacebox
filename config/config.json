@@ -1,20 +1,11 @@
 ﻿{
     "project": "Spacebox",
     "port": 8080,
-    "mail":
-    {
-        "to": "eternity@nextmail.ru",
-        "from": "eternity@nextmail.ru",
-        "host": "smtp.yandex.ru",
-        "port": 25,
-        "username": "eternity@nextmail.ru",
-        "password": "230470max",
-        "ssl": false
-    },
     "vk":
     {
         "apiID": 4213835,
-        "redirectUrl": "https://oauth.vk.com/blank.html"
+        "redirectUrl": "https://oauth.vk.com/blank.html",
+        "privateKey": ""
     },
     "session":
     {
@@ -24,8 +15,11 @@
             "path": "/",
             "httpOnly": true,
             "secure": false,
-            "maxAge": 3600000
-        }
+            "maxAge": 999999999999
+        },
+        "resave": false,
+        "saveUninitialized": false,
+        "unset": "keep"
     },
     "logger":
     {
@@ -34,10 +28,8 @@
     },
     "database":
     {
-        "options":
-        {
-            "clearInterval": 600,
-            "connectionLimit": 10
-        }
+        "connection": "",
+        "connectionLimit": 10,
+        "dateRange": 1800000
     }
 }

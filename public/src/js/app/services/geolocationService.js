@@ -24,7 +24,7 @@
                 longitude: position.coords.longitude,
                 options: options
             };
-            return $http.post(ConfigService.SERVER_URL + '/getUsers', params).then(
+            return $http.post(ConfigService.SERVER_URL + '/users.get', params).then(
                 function __success (response) {
                     $log.debug('Get near users ', response.data);
                     return response.data;

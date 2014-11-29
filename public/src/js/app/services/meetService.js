@@ -25,7 +25,7 @@ function MeetService ($http, $log, $q, VkService, ConfigService) {
     };
 
     MeetService.asyncGetFriends = function () {
-        return $http.get(ConfigService.SERVER_URL + '/getFriends').then(
+        return $http.get(ConfigService.SERVER_URL + '/friends.get').then(
             function __success (response) {
                 var friends = response.data;
                 if (angular.isArray(friends) && friends.length > 0) {

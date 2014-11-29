@@ -15,12 +15,16 @@ exports.login = function (request, response, next) {
     md5sum.update(config.get('vk:privateKey'));
 
     if (session.sig === md5sum.digest('hex')) {
-        var sess = request.session;
-        sess.authorized = true;
-        sess.expires = session.expire + os.uptime();
-        sess.mid = session.mid;
-        log.info('VK OpenAPI session has created ', sess.mid);
-        response.end();
+        request.session.reload( function (error) {
+            if (error) {
+                next(new HttpError(500, error));
+            }
+            request.session.authorized = true;
+            request.session.expires = session.expire + os.uptime();
+            request.session.mid = session.mid;
+            log.info('New VK OpenAPI session instance initialized at ', request.session);
+            response.end();
+        });
     }
     else {
         next(new HttpError(400, 'OpenAPI authorized error: wrong signature'));

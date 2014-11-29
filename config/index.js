@@ -4,7 +4,7 @@ var nconf = require('nconf');
 nconf.argv().env().file({file: path.join(__dirname, 'config.json')});
 
 if (process.env.NODE_ENV === 'development') {
-    nconf.set('database:options:clearInterval', undefined);
+    nconf.set('database:dateRange', undefined);
 }
 
 if (process.env.PORT) {

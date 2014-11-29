@@ -10,11 +10,13 @@
             "oneOf": [
                 { "$ref": "#/definitions/mobile/login" },
                 { "$ref": "#/definitions/mobile/getLoginStatus" },
-                { "$ref": "#/definitions/getUsers" },
+                { "$ref": "#/definitions/users.get" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
                 { "$ref": "#/definitions/changeLikeStatus" },
-                { "$ref": "#/definitions/getFriends" },
+                { "$ref": "#/definitions/friends.get" },
+                { "$ref": "#/definitions/friends.delete" },
+                { "$ref": "#/definitions/account.destroy" },
                 { "$ref": "#/definitions/dislike" }
             ]
         }
@@ -44,16 +46,18 @@
                 "additionalProperties": false
             }
         },
-        "getUsers": {
+        "users.get": {
+            "title": "users.get",
+            "description": "returns detailed information about users",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/getUsers", "/mobile/getUsers" ] },
+                "url": { "enum": [ "/users.get", "/mobile/users.get" ] },
                 "latitude": {
-                    "title": "Latitude",
+                    "title": "latitude",
                     "type": "number"
                 },
                 "longitude": {
-                    "title": "Longitude",
+                    "title": "longitude",
                     "type": "number"
                 },
                 "options": {
@@ -154,11 +158,37 @@
             "required": ["url", "id", "status"],
             "additionalProperties": false
         },
-        "getFriends": {
-            "description": "get friends for current user",
+        "friends.get": {
+            "title": "friends.get",
+            "description": "returns a list of ID of the user's friends",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/getFriends", "/mobile/getFriends" ] }
+                "url": { "enum": [ "/friends.get", "/mobile/friends.get" ] }
+            },
+            "required": ["url"],
+            "additionalProperties": false
+        },
+        "friends.delete": {
+            "title": "friends.delete",
+            "description": "remove user from your friends list",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/friends.delete", "/mobile/friends.delete" ] },
+                "user_id": {
+                    "title": "user_id",
+                    "description": "ID of the user you want to remove from your friends list",
+                    "type": "number"
+                }
+            },
+            "required": ["url", "user_id"],
+            "additionalProperties": false
+        },
+        "account.destroy": {
+            "title": "account.destroy",
+            "description": "delete account for current user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/account.destroy", "/mobile/account.destroy" ] }
             },
             "required": ["url"],
             "additionalProperties": false
