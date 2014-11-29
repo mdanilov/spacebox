@@ -105,9 +105,9 @@ else {
                 './src/css/navbar.css',
                 './src/css/login.css',
                 './src/css/modal.css',
-                './src/css/user-list.css',
                 './src/css/views/properties.css',
                 './src/css/views/error.css',
+                './src/css/partials/friend-list.css',
                 './src/css/partials/cards.css',
                 './src/css/partials/controls.css'
             ]);
