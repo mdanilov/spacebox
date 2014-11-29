@@ -114,7 +114,7 @@ exports.selectFriends = function (request, response, next) {
                     var users = result.rows;
                     if (users.length > 0) {
                         uids = users.map(function __map (row) {
-                            return (row.mid1 === id) ? row.mid2 : row.mid1;
+                            return (row.mid1 == id) ? row.mid2 : row.mid1;
                         });
                         uids.sort(function __compare (a, b) {
                             return a - b;

@@ -29,10 +29,11 @@ exports.login = function (request, response, next) {
                 request.session.expires = os.uptime() + body.expires_in;
                 request.session.mid = body.user_id;
                 request.session.access_token = body.access_token;
-                request.session.save();
-                log.info('VK OAuth2 session has created ',
-                    request.session.mid, request.session.access_token);
-                response.redirect('back');
+                request.session.save(function (error) {
+                    log.info('VK OAuth2 session has created ',
+                        request.session.mid, request.session.access_token);
+                    response.redirect('back');
+                });
             }
         });
     });
