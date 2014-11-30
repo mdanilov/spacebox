@@ -2,7 +2,6 @@ function UserService ($q, $log, $filter, VkService) {
 
     var UserService = {};
     UserService._user = {};
-    UserService._status = '';
 
     UserService.asyncUpdateInfo = function (id) {
         return VkService.asyncGetUsersInfo(id).then(function (info) {
@@ -18,17 +17,6 @@ function UserService ($q, $log, $filter, VkService) {
 
     UserService.getInfo = function () {
         return UserService._user;
-    };
-
-    UserService.setStatus = function (status) {
-        if (!angular.isString(status)) {
-            return;
-        }
-        UserService._status = status;
-    };
-
-    UserService.getStatus = function () {
-        return UserService._status;
     };
 
     return UserService;

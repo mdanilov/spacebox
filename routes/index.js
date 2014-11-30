@@ -2,6 +2,7 @@ var auth = require('./auth');
 var database = require('./database');
 var account = require('./account');
 var friends = require('./friends');
+var status = require('./status');
 var error = require('./error');
 var main = require('./main');
 var validate = require('../utils/validate');
@@ -19,6 +20,9 @@ router.get('/changeLikeStatus', validate, database.changeLikeStatus);
 
 router.get('/friends.get', validate, friends.get);
 router.get('/friends.delete', validate, friends.delete);
+
+router.get('/status.set', validate, status.set);
+router.get('/status.get', validate, status.get);
 
 router.get('/account.destroy', validate, account.destroy);
 

@@ -16,6 +16,8 @@
                 { "$ref": "#/definitions/changeLikeStatus" },
                 { "$ref": "#/definitions/friends.get" },
                 { "$ref": "#/definitions/friends.delete" },
+                { "$ref": "#/definitions/status.set" },
+                { "$ref": "#/definitions/status.get" },
                 { "$ref": "#/definitions/account.destroy" },
                 { "$ref": "#/definitions/dislike" }
             ]
@@ -45,6 +47,37 @@
                 "required": ["url"],
                 "additionalProperties": false
             }
+        },
+        "status.set": {
+            "title": "status.set",
+            "description": "sets a new status to the current user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/status.set", "/mobile/status.set" ] },
+                "text": {
+                    "title": "text",
+                    "description": "the text of the new status",
+                    "type": "string"
+                }
+            },
+            "required": ["url", "text"],
+            "additionalProperties": false
+        },
+        "status.get": {
+            "title": "status.get",
+            "description": "gets the status text user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/status.get", "/mobile/status.get" ] },
+                "user_ids": {
+                    "title": "user_ids",
+                    "description": "user ID's, information on the status of which you want to receive",
+                    "type": "array",
+                    "minItems": 1
+                }
+            },
+            "required": ["url"],
+            "additionalProperties": false
         },
         "users.get": {
             "title": "users.get",

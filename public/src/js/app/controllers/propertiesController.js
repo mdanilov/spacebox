@@ -1,4 +1,4 @@
-function PropertiesViewController ($scope, UserService, ConfigService) {
+function PropertiesViewController ($scope, UserService, ConfigService, StatusService) {
     $scope.profile = true;
 
     $scope.info = UserService.getInfo();
@@ -8,12 +8,14 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
         $scope.changed = false;
     };
 
-    var status = UserService.getStatus();
-	$scope.status = {
-        text: status,
-        length: ConfigService.MAX_STATUS_LENGTH - status.length,
-        maxLength: ConfigService.MAX_STATUS_LENGTH
-    };
+    StatusService.get().then(function (text) {
+        $scope.status = {
+            text: text,
+            length: ConfigService.MAX_STATUS_LENGTH - text.length,
+            maxLength: ConfigService.MAX_STATUS_LENGTH
+        };
+    });
+
     $scope.changed = false;
 
 	$scope.checkLength = function() {
@@ -93,10 +95,16 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
             bottom: ages[0]
         };
         ConfigService.setSearchOptions(options);
-        UserService.setStatus($scope.status.text);
+        StatusService.set($scope.status.text);
         $scope.changed = false;
     }
 }
 
+PropertiesViewController.resolve = {
+    'status': function (StatusService) {
+        return StatusService.promise;
+    }
+};
+
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', 'UserService', 'ConfigService', PropertiesViewController]);
+    ['$scope', 'UserService', 'ConfigService', 'StatusService', PropertiesViewController]);

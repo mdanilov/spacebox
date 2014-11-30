@@ -25,7 +25,8 @@ spacebox.config(['$routeProvider', '$logProvider',
             }).
             when('/properties', {
                 templateUrl: 'src/js/app/templates/views/properties-view.html',
-                controller: 'PropertiesViewController'
+                controller: 'PropertiesViewController',
+                resolve: PropertiesViewController.resolve
             }).
             otherwise({
                 redirectTo: '/login'

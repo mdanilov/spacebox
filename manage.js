@@ -40,6 +40,14 @@ function dropDatabase (callback) {
                 log.info('Table FRIENDS is created');
         });
 
+    client.query("CREATE TABLE IF NOT EXISTS status (mid BIGINT PRIMARY KEY, text VARCHAR);",
+        function (error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Table STATUS is created');
+        });
+
     client.query("CREATE TABLE IF NOT EXISTS connect_session (sid VARCHAR NOT NULL, expires TIMESTAMP WITHOUT TIME ZONE NOT NULL, session JSON NOT NULL, CONSTRAINT sid_pk PRIMARY KEY (sid));",
         function (error) {
             if (error)

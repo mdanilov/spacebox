@@ -1,7 +1,6 @@
 var async = require('async');
 var log = require('../utils/log')(module);
 var config = require('../config/index');
-
 var db = require('pg-bricks').configure(config.get('database:connection'));
 
 exports.get = function (request, response, next) {
@@ -69,8 +68,10 @@ exports.delete = function (request, response, next) {
                         db.sql.and({'mid1': user_id}, {'mid2': mid}),
                         db.sql.and({'mid1': mid}, {'mid2': user_id})
                     )).run,
-                client.update('likes').set('status', -1)
-                    .where(db.sql.and({'mid': mid}, {'liked': user_id})).run
+                function (result, callback) {
+                    client.update('likes').set('status', -1)
+                        .where(db.sql.and({'mid': mid}, {'liked': user_id})).run(callback);
+                }
             ], callback);
         }, function __callback(error) {
             if (error)
