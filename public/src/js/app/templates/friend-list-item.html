@@ -1,18 +1,27 @@
 <div class="list-group-item" ng-class="{active:selected}" ng-click="onClick()">
     <div class="media">
-        <a href="" class="pull-left">
-            <img class="media-object" ng-src="{{user.info.photo_50}}">
-        </a>
-        <div class="media-body">
-            {{user.info.first_name}}{{user.info.bdate|age:true}}
-            <span ng-if="selected">
-                <a href="" class="visible-xs-inline" ng-click="$parent.onMarkerClick()">
-                    <i class="fa fa-map-marker pull-right"></i>
-                </a>
-                <a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">
-                    <span class="brandico-vkontakte-rect pull-right"></span>
-                </a>
-            </span>
-        </div>
+        <table>
+            <tr>
+                <td>
+                    <a href="">
+                        <img class="media-object" ng-src="{{user.info.photo_50}}">
+                    </a>
+                </td>
+                <td class="sp-user-info">
+                    <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
+                    <span>5 минут назад</span>
+                </td>
+                <td class="sp-icons">
+                    <span ng-if="selected">
+                        <a href="" class="visible-xs-inline" ng-click="$parent.onMarkerClick()">
+                            <i class="fa fa-map-marker pull-right"></i>
+                        </a>
+                        <a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">
+                            <span class="brandico-vkontakte-rect pull-right"></span>
+                        </a>
+                    </span>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
