@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, $timeout, LocatorService, MeetService, ErrorHandler) {
+function MainViewController ($scope, $log, $timeout, LocatorService, FriendsService, ErrorHandler) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -16,7 +16,7 @@ function MainViewController ($scope, $log, $timeout, LocatorService, MeetService
             searchLoop();
         }
 
-//        MeetService.asyncLike(current.mid).then(function () {
+//        FriendsService.asyncLike(current.mid).then(function () {
 //            if (current.likeMe == 1) {
 //                // TODO: show modal window
 //            }
@@ -28,7 +28,7 @@ function MainViewController ($scope, $log, $timeout, LocatorService, MeetService
     self.Dislike = function () {
         self.current.like = -1;
         self.current = LocatorService.getNextUser();
-//        MeetService.asyncDislike(current.mid).then(null, function () {
+//        FriendsService.asyncDislike(current.mid).then(null, function () {
 //            current.like = 0;
 //        });
     };
@@ -67,4 +67,4 @@ MainViewController.resolve = {
 };
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', 'LocatorService', 'MeetService', 'ErrorHandler', MainViewController]);
+    ['$scope', '$log', '$timeout', 'LocatorService', 'FriendsService', 'ErrorHandler', MainViewController]);

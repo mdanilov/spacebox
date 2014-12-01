@@ -9,7 +9,7 @@
                 </td>
                 <td class="sp-user-info">
                     <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
-                    <span>5 минут назад</span>
+                    <span am-time-ago="user.location.timestamp"></span>
                 </td>
                 <td class="sp-icons">
                     <span ng-if="selected">

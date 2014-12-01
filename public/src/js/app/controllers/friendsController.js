@@ -1,4 +1,4 @@
-function FriendsViewController ($scope, $log, MapService, MeetService, ErrorHandler) {
+function FriendsViewController ($scope, $log, MapService, FriendsService, ErrorHandler) {
     $log.debug('Initialize friends view...');
 
     var self = this;
@@ -19,8 +19,8 @@ function FriendsViewController ($scope, $log, MapService, MeetService, ErrorHand
         MapService.invalidateUsers(users);
     }
 
-    MeetService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);
+    FriendsService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);
 }
 
 angular.module('spacebox').controller('FriendsViewController',
-    ['$scope', '$log', 'MapService', 'MeetService', 'ErrorHandler', FriendsViewController]);
+    ['$scope', '$log', 'MapService', 'FriendsService', 'ErrorHandler', FriendsViewController]);

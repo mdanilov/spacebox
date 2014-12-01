@@ -125,7 +125,7 @@
 }
 
 .sp-map-tooltip .sp-map-tooltip-carat {
-    background: url('../img/tooltip-carat.png') 0 -7px no-repeat;
+    background: url('../../img/tooltip-carat.png') 0 -7px no-repeat;
     display: block;
     height: 7px;
     left: 50%;

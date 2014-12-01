@@ -1,4 +1,4 @@
-function UserListItemController ($scope, $window, VkService, MeetService) {
+function UserListItemController ($scope, $window, VkService, FriendsService) {
 
     $scope.openVkProfile = function () {
         var url = 'http://vk.com/' + $scope.user.screenName;
@@ -8,7 +8,7 @@ function UserListItemController ($scope, $window, VkService, MeetService) {
     $scope.toggleLike = function () {
         if ($scope.user.like) {
             $scope.user.like = false;
-            MeetService.dislike($scope.user.uid, function (error) {
+            FriendsService.dislike($scope.user.uid, function (error) {
                 if (error) {
                     $scope.user.like = true;
                 }
@@ -16,7 +16,7 @@ function UserListItemController ($scope, $window, VkService, MeetService) {
         }
         else {
             $scope.user.like = true;
-            MeetService.like($scope.user.uid, function (error) {
+            FriendsService.like($scope.user.uid, function (error) {
                 if (error) {
                     $scope.user.like = false;
                 }
@@ -38,4 +38,4 @@ function UserListItemController ($scope, $window, VkService, MeetService) {
 }
 
 angular.module('spacebox').controller('UserListItemController',
-    ['$scope', '$window', 'VkService', 'MapService', 'MeetService', UserListItemController]);
+    ['$scope', '$window', 'VkService', 'MapService', 'FriendsService', UserListItemController]);

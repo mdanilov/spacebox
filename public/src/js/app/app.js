@@ -1,5 +1,5 @@
 var spacebox = angular.module('spacebox',
-    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'angular-carousel']);
+    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'angular-carousel', 'angularMoment']);
 
 spacebox.config(['$routeProvider', '$logProvider',
     function ($routeProvider, $logProvider) {
@@ -37,8 +37,9 @@ spacebox.config(['$routeProvider', '$logProvider',
         }
     }]);
 
-spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler',
-    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler) {
+spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment',
+    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment) {
+        amMoment.changeLocale('ru');
         $rootScope.$on('$locationChangeStart', function (event) {
             var path = $location.path();
             if (!ConfigService.isAuthorized() && path != '/login') {

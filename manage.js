@@ -16,7 +16,7 @@ function openConnection (callback) {
 }
 
 function dropDatabase (callback) {
-    client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY, sex INT, age INT, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp DOUBLE PRECISION);",
+    client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY, sex INT, age INT, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp TIMESTAMP WITH TIME ZONE);",
         function (error) {
             if (error)
                 log.error(error);
@@ -24,7 +24,7 @@ function dropDatabase (callback) {
                 log.info('Table USERS is created');
         });
 
-    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT, status INT, timestamp DOUBLE PRECISION);",
+    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT, status INT, timestamp TIMESTAMP WITH TIME ZONE);",
         function (error) {
             if (error)
                 log.error(error);

@@ -1,5 +1,4 @@
-﻿var os = require('os');
-var util = require('util');
+﻿var util = require('util');
 var async = require('async');
 var pg = require('pg');
 var log = require('../utils/log')(module);
@@ -18,7 +17,7 @@ var DB = (function() {
                     throw error;
                 client.query("DELETE FROM users WHERE timestamp < $1",
                     [
-                        os.uptime() - config.get('database:options:clearInterval')
+                        new Date().getTime() - config.get('database:options:clearInterval')
                     ],
                     function (error) {
                         if (error)
@@ -105,7 +104,7 @@ exports.selectLikes = function (request, response, next) {
 
 function createFriendship (id1, id2) {
     DB.query({text: "INSERT INTO friends (mid1, mid2, timestamp) VALUES ($1, $2, $3);",
-            values: [ id1, id2, os.uptime() ]},
+            values: [ id1, id2, new Date().toUTCString() ]},
         function (results) {
             log.info('Users id%d and id%d are friends now', id1, id2);
         });
@@ -130,7 +129,7 @@ exports.changeLikeStatus = function (request, response, next) {
         var status = request.query.status;
         DB.query({
             text: "INSERT INTO likes (mid, liked, status, timestamp) VALUES ($1, $2, $3, $4);",
-            values: [ id, request.query.id, status, os.uptime() ]},
+            values: [ id, request.query.id, status, new Date().toUTCString() ]},
             function (results) {
                 if (status == 1) {
                     log.info('User id%d liked user id%d', id, request.query.id);
@@ -183,7 +182,7 @@ exports.selectUsers = function (request, response, next) {
                         'longitude': request.body['longitude'],
                         'sex': info.sex || 0,
                         'age': info.age || -1,
-                        'timestamp': os.uptime()
+                        'timestamp': new Date().toUTCString()
                     }).run(callback);
                 },
                 function __selectUsers(result, callback) {
@@ -208,7 +207,7 @@ exports.selectUsers = function (request, response, next) {
 
                     if (config.get('database:dateRange') !== undefined) {
                         where += util.format("AND timestamp > %d ",
-                            os.uptime() - config.get('database:dateRange'));
+                            new Date(new Date().getTime() - config.get('database:dateRange'))).toUTCString();
                     }
 
                     var sql =
