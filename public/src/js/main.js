@@ -112,6 +112,7 @@ else {
                 './src/css/views/login.css',
                 './src/css/views/properties.css',
                 './src/css/views/error.css',
+                './src/css/views/friends.css',
                 './src/css/partials/navbar.css',
                 './src/css/partials/modal.css',
                 './src/css/partials/friend-list.css',

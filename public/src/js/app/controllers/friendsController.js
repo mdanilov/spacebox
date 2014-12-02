@@ -1,4 +1,4 @@
-function FriendsViewController ($scope, $log, MapService, FriendsService, ErrorHandler) {
+function FriendsViewController ($scope, $log, $location, MapService, FriendsService, ErrorHandler) {
     $log.debug('Initialize friends view...');
 
     var self = this;
@@ -7,6 +7,10 @@ function FriendsViewController ($scope, $log, MapService, FriendsService, ErrorH
 
     self.toggle = function (value) {
         self.list = value;
+    };
+
+    self.find = function () {
+        $location.path('/');
     };
 
     self.openMap = self.toggle.bind(null, false);
@@ -23,4 +27,4 @@ function FriendsViewController ($scope, $log, MapService, FriendsService, ErrorH
 }
 
 angular.module('spacebox').controller('FriendsViewController',
-    ['$scope', '$log', 'MapService', 'FriendsService', 'ErrorHandler', FriendsViewController]);
+    ['$scope', '$log', '$location', 'MapService', 'FriendsService', 'ErrorHandler', FriendsViewController]);
