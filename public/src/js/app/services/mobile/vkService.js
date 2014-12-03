@@ -10,7 +10,12 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
     VkService._appId = ConfigService.VK_APP_ID;
-    VkService._session = $cookieStore.get('vk.session');
+    VkService._session = null;
+
+    var session = $cookieStore.get('vk.session');
+    if (session.expires > new Date().getTime()) {
+        VkService._session = session;
+    }
 
     function asyncApiCall (method, options) {
         var deferred = $q.defer();
@@ -101,9 +106,8 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.asyncGetLoginStatus = function () {
         var deferred = $q.defer();
 
-        var date = new Date();
-        if (!angular.isUndefined(VkService._session) &&
-            VkService._session.expires < date.getTime()) {
+        if (VkService._session != null &&
+            VkService._session.expires < new Date().getTime()) {
             deferred.resolve(VkService._session.mid);
         }
         else {

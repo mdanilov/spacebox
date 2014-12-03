@@ -1,4 +1,3 @@
-var os = require('os');
 var https = require('https');
 var url = require('url');
 var config = require('../../config/index');
@@ -30,7 +29,7 @@ exports.login = function (request, response, next) {
                         next(new HttpError(500, error));
                     }
                     request.session.authorized = true;
-                    request.session.expires = os.uptime() + body.expires_in;
+                    request.session.expires = new Date().getTime() + body.expires_in * 1000;
                     request.session.mid = body.user_id;
                     request.session.access_token = body.access_token;
                     log.info('New VK OAuth2 session instance initialized at ', request.session);

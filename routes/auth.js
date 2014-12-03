@@ -1,5 +1,4 @@
-﻿var os = require('os');
-var crypto = require('crypto');
+﻿var crypto = require('crypto');
 var config = require('../config/index');
 var log = require('../utils/log')(module);
 var HttpError = require('../routes/error').HttpError;
@@ -20,7 +19,7 @@ exports.login = function (request, response, next) {
                 next(new HttpError(500, error));
             }
             request.session.authorized = true;
-            request.session.expires = session.expire + os.uptime();
+            request.session.expires = session.expire * 1000 + new Date().getTime();
             request.session.mid = session.mid;
             log.info('New VK OpenAPI session instance initialized at ', request.session);
             response.end();
