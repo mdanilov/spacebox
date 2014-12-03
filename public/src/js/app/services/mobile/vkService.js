@@ -11,9 +11,9 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
 
     VkService._appId = ConfigService.VK_APP_ID;
     VkService._session = null;
-
     var session = $cookieStore.get('vk.session');
-    if (session.expires > new Date().getTime()) {
+    if (angular.isObject(session) &&
+        session.expires > new Date().getTime()) {
         VkService._session = session;
     }
 

@@ -1,4 +1,4 @@
-function PropertiesViewController ($scope, UserService, ConfigService, StatusService) {
+function PropertiesViewController ($scope, UserService, ConfigService, ErrorHandler, StatusService) {
     $scope.profile = true;
 
     $scope.info = UserService.getInfo();
@@ -14,7 +14,7 @@ function PropertiesViewController ($scope, UserService, ConfigService, StatusSer
             length: ConfigService.MAX_STATUS_LENGTH - text.length,
             maxLength: ConfigService.MAX_STATUS_LENGTH
         };
-    });
+    }, ErrorHandler.handle);
 
     $scope.changed = false;
 
@@ -101,10 +101,10 @@ function PropertiesViewController ($scope, UserService, ConfigService, StatusSer
 }
 
 PropertiesViewController.resolve = {
-    'status': function (StatusService) {
-        return StatusService.promise;
+    'status': function (StatusService, ErrorHandler) {
+        return StatusService.promise.catch(ErrorHandler.handle);
     }
 };
 
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', 'UserService', 'ConfigService', 'StatusService', PropertiesViewController]);
+    ['$scope', 'UserService', 'ConfigService', 'ErrorHandler', 'StatusService', PropertiesViewController]);
