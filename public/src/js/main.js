@@ -22,6 +22,8 @@ if (CONFIG.CORDOVA) {
         './lib/angular-cookies/angular-cookies.js',
         './lib/angular-animate/angular-animate.js',
         './lib/angular-moment/angular-moment.js',
+        './lib/angular-bootstrap/ui-bootstrap.js',
+        './lib/angular-bootstrap/ui-bootstrap-tpls.js',
         './lib/angular-carousel/dist/angular-carousel.js',
         './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js',
         'https://vk.com/js/api/openapi.js',
@@ -76,6 +78,8 @@ else {
             './lib/angular-animate/angular-animate.js',
             './lib/angular-carousel/dist/angular-carousel.js',
             './lib/angular-moment/angular-moment.js',
+            './lib/angular-bootstrap/ui-bootstrap.js',
+            './lib/angular-bootstrap/ui-bootstrap-tpls.js',
             './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js'
         ],
         nope: [
@@ -88,6 +92,8 @@ else {
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js',
             '//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.8.0/angular-moment.min.js',
+            './lib/angular-bootstrap/ui-bootstrap.min.js',
+            './lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
             './lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js',
             './lib/angular-carousel/dist/angular-carousel.min.js',
             './lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js'
@@ -147,7 +153,7 @@ else {
                     './src/js/app/controllers/errorController.js',
                     './src/js/app/controllers/mainController.js',
                     './src/js/app/controllers/friendsController.js',
-                    './src/js/app/controllers/userListItemController.js',
+                    './src/js/app/controllers/modals/dialogController.js',
                     './src/js/app/filters/distanceFilter.js',
                     './src/js/app/filters/ageFilter.js',
                     './src/js/app/directives/navbarDirective.js',

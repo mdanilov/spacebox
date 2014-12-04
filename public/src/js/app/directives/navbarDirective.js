@@ -1,4 +1,4 @@
-function navbarDirective ($log, $rootScope, $location, $window, VkService) {
+function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -21,19 +21,21 @@ function navbarDirective ($log, $rootScope, $location, $window, VkService) {
                 };
             })();
 
-//            $window.matchMedia("(max-width: 768px)").addListener(function (mediaQueryList) {
-//                if (mediaQueryList.matches) {
-//                }
-//                else  {
-//                }
-//            });
-
             $rootScope.$on('$locationChangeSuccess', Menu.changeState);
 
             scope.Logout = function () {
-                $log.debug('Logout from VK...');
-                VkService.asyncLogout().then(function () {
-                    $location.path('/login');
+                var dialog = $modal.open({
+                    templateUrl: 'src/js/app/templates/modals/dialog.html',
+                    windowClass: 'dialog',
+                    controller: 'dialogController',
+                    size: 'sm',
+                    backdrop: 'static'
+                });
+
+                dialog.result.then(function () {
+                    VkService.asyncLogout().then(function () {
+                        $location.path('/login');
+                    });
                 });
             };
         }
@@ -41,4 +43,4 @@ function navbarDirective ($log, $rootScope, $location, $window, VkService) {
 }
 
 angular.module('spacebox').directive('spNavbar',
-    ['$log', '$rootScope', '$location', '$window', 'VkService', navbarDirective]);
+    ['$log', '$rootScope', '$location', '$modal', 'VkService', navbarDirective]);

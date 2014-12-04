@@ -1,5 +1,6 @@
-#dialog {
+.dialog {
     position: absolute;
+    text-align: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); 
@@ -8,31 +9,27 @@
 }
 
 @media (max-width: 768px) {
-    #dialog {
+    .dialog {
         width: 80%;
     }
 }
 
-#dialog .modal-body {
+.dialog .modal-body {
     min-height: 100px;
 }
 
-#dialog .modal-content {
-    text-align: center;
-}
-
-#dialog .modal-footer {
+.dialog .modal-footer {
     padding: 0;
     border: 0;
 }
 
-#dialog .btn-group {
+.dialog .btn-group {
     width: 100%;
     height: 100%;
     height: 50px;
 }
 
-#dialog .btn-group .btn:first-child {
+.dialog .btn-group .btn:first-child {
     width: 50%;
     border-top-left-radius: 0;
     border-left: 0;
@@ -42,7 +39,7 @@
 }
 
 
-#dialog .btn-group .btn:last-child {
+.dialog .btn-group .btn:last-child {
     width: 50%;
     border-top-right-radius: 0;
     border-right: 0;
