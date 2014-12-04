@@ -52,7 +52,6 @@ gulp.task('build', function () {
             './src/js/app/filters/ageFilter.js',
             './src/js/app/directives/navbarDirective.js',
             './src/js/app/directives/cardsDirective.js',
-            './src/js/app/directives/modalDirective.js',
             './src/js/app/directives/friendListDirective.js',
             './src/js/app/directives/friendListItemDirective.js',
             './src/js/app/directives/radarDirective.js'
@@ -85,7 +84,6 @@ gulp.task('build', function () {
         './src/js/app/filters/ageFilter.js',
         './src/js/app/directives/navbarDirective.js',
         './src/js/app/directives/cardsDirective.js',
-        './src/js/app/directives/modalDirective.js',
         './src/js/app/directives/friendListDirective.js',
         './src/js/app/directives/friendListItemDirective.js',
         './src/js/app/directives/radarDirective.js'
