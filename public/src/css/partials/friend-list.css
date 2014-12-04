@@ -7,7 +7,7 @@
     #spNavPills ul > li {
         display: table-cell;
         width: 1%;
-        z-index: 100000;
+        z-index: 1000;
     }
 
     #spRowContainer {
@@ -19,7 +19,7 @@
     }
 
     #spFriendsList.sp-active {
-        z-index: 10000;
+        z-index: 1000;
     }
 }
 

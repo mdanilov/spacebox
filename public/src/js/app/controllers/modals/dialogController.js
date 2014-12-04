@@ -1,4 +1,6 @@
-function dialogController ($scope, $modalInstance) {
+function dialogController ($scope, $modalInstance, text) {
+    $scope.text = text;
+
     $scope.ok = function () {
         $modalInstance.close();
     };
@@ -9,4 +11,4 @@ function dialogController ($scope, $modalInstance) {
 }
 
 angular.module('spacebox').controller('dialogController',
-    ['$scope', '$modalInstance', dialogController]);
+    ['$scope', '$modalInstance', 'text', dialogController]);

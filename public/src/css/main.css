@@ -24,6 +24,12 @@ body {
     height: 100%;
 }
 
+p {
+    color: grey;
+    opacity: 0.9;
+    font-size: 12px;
+}
+
 .view {
     padding-top: 60px;
 }

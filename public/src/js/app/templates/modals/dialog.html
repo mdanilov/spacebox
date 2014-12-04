@@ -1,12 +1,10 @@
-<!-- <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel">Уебок смотри сюды</h4>
-</div> -->
 <div class="modal-body">
-    Вы уверены что хотите удалить этого уёбка?
+    <h4>{{text.title}}</h4>
+    <p>{{text.description}}</p>
 </div>
 <div class="modal-footer">
     <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="cancel()">Закрыть</button>
-        <button type="button" class="btn btn-default" ng-click="ok()">Удалить</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">{{text.cancel}}</button>
+        <button type="button" class="btn btn-default" ng-click="ok()">{{text.ok}}</button>
     </div>
 </div>
