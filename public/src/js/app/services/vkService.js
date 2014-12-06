@@ -97,6 +97,14 @@ function VkService ($http, $log, $q, ConfigService) {
         return deferred.promise;
     };
 
+    VkService.asyncDestroy = function () {
+        var deferred = $q.defer();
+        VK.Auth.logout(function () {
+            deferred.resolve();
+        });
+        return deferred.promise;
+    };
+
     return VkService;
 }
 

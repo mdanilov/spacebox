@@ -131,6 +131,13 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
         return deferred.promise;
     };
 
+    // TODO: revoke grants for application
+    VkService.asyncDestroy = function () {
+        var deferred = $q.defer();
+        deferred.resolve();
+        return deferred.promise;
+    };
+
     return VkService;
 }
 

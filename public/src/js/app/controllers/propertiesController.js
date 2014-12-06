@@ -1,4 +1,4 @@
-function PropertiesViewController ($scope, UserService, ConfigService, ErrorHandler, StatusService) {
+function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, StatusService, AccountService, status) {
     $scope.profile = true;
 
     $scope.info = UserService.getInfo();
@@ -8,13 +8,11 @@ function PropertiesViewController ($scope, UserService, ConfigService, ErrorHand
         $scope.changed = false;
     };
 
-    StatusService.get().then(function (text) {
-        $scope.status = {
-            text: text,
-            length: ConfigService.MAX_STATUS_LENGTH - text.length,
-            maxLength: ConfigService.MAX_STATUS_LENGTH
-        };
-    }, ErrorHandler.handle);
+    $scope.status = {
+        text: status,
+        length: ConfigService.MAX_STATUS_LENGTH - status.length,
+        maxLength: ConfigService.MAX_STATUS_LENGTH
+    };
 
     $scope.changed = false;
 
@@ -97,7 +95,37 @@ function PropertiesViewController ($scope, UserService, ConfigService, ErrorHand
         ConfigService.setSearchOptions(options);
         StatusService.set($scope.status.text);
         $scope.changed = false;
-    }
+    };
+
+    $scope.dialogs = {};
+    $scope.dialogs.destroy = {
+        title: 'Вы уверены, что хотите удалить аккаунт?',
+        description: 'При удалении вашего аккаунта будут безвозвратно \
+            удалены ваши друзья, профиль и фотографии.',
+        ok: 'Удалить аккаунт',
+        cancel: 'Отмена'
+    };
+
+    $scope.destroy = function () {
+        var dialog = $modal.open({
+            templateUrl: 'src/js/app/templates/modals/dialog.html',
+            windowClass: 'dialog',
+            controller: 'dialogController',
+            resolve: {
+                text: function () {
+                    return $scope.dialogs.destroy;
+                }
+            },
+            size: 'sm',
+            backdrop: 'static'
+        });
+
+        dialog.result.then(function () {
+            AccountService.asyncDestroy().then(function () {
+                $location.path('/login');
+            });
+        });
+    };
 }
 
 PropertiesViewController.resolve = {
@@ -107,4 +135,4 @@ PropertiesViewController.resolve = {
 };
 
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', 'UserService', 'ConfigService', 'ErrorHandler', 'StatusService', PropertiesViewController]);
+    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'ErrorHandler', 'StatusService', 'AccountService', 'status', PropertiesViewController]);
