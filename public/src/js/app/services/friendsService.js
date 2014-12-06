@@ -32,11 +32,13 @@ function FriendsService ($http, $log, $q, VkService, ConfigService) {
                     var uids = friends.map(function (friend) {
                         return friend.mid;
                     });
+
                     return VkService.asyncGetUsersInfo(uids).then(function (info) {
                         friends.forEach(function __addInfo(friend, i) {
                             friend.info = info[i];
                         });
                         FriendsService._friends = friends;
+
                         return friends;
                     })
                 }

@@ -1,4 +1,4 @@
-function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, StatusService, AccountService, status) {
+function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, ErrorHandler, StatusService, AccountService, status) {
     $scope.profile = true;
 
     $scope.info = UserService.getInfo();
@@ -8,6 +8,9 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
         $scope.changed = false;
     };
 
+    if (!angular.isString(status)) {
+        status = '';
+    }
     $scope.status = {
         text: status,
         length: ConfigService.MAX_STATUS_LENGTH - status.length,

@@ -1,4 +1,4 @@
-function MapService ($log, $filter, $timeout, ConfigService, GeolocationService) {
+function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigService, GeolocationService) {
 
     var MapService = {};
 
@@ -31,21 +31,31 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
     };
 
     function bindPopupWindow (marker, user) {
-        var popup = L.popup({
-                closeButton: false
-            }).setContent([
-                '<div class="sp-map-tooltip">',
-                    '<span class="sp-map-tooltip-carat"></span>',
-                    '<div class="sp-map-tooltip-content">',
-                        '<div class="sp-map-tooltip-info">',
-                            '<h4>' + user.info.first_name + $filter('age')(user.info.bdate, true) + '</h4>',
-                        '</div>',
-                        '<img class="img-thumbnail" src="' + user.info.photo_100 + '">',
+        var html = [
+            '<div class="sp-map-tooltip">',
+                '<span class="sp-map-tooltip-carat"></span>',
+                '<div class="sp-map-tooltip-content">',
+                    '<img class="img-rounded" ng-src="{{user.info.photo_100}}">',
+                    '<div class="sp-map-tooltip-info">',
+                        '<h4>{{user.info.first_name}}{{user.info.bdate|age:true}}</h4>',
+                        '<p>{{user.info.sex == 1 ? \'Была \' : \'Был \' }}<span am-time-ago="user.location.timestamp"></span></p>',
+                        '<a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">',
+                            '<span class="brandico-vkontakte-rect"></span>',
+                        '</a>',
                     '</div>',
-                '</div>'
-            ].join('')
-        );
+                '</div>',
+                '<div class="sp-map-tooltip-status">',
+                    '<p ng-if="user.status">{{user.status}}</p>',
+                    '<p ng-if="!user.status">Нет статуса</p>',
+                '</div>',
+            '</div>'
+        ].join('');
 
+        var link = $compile(angular.element(html));
+        var scope = $rootScope.$new();
+        scope.user = user;
+
+        var popup = L.popup({ closeButton: false }).setContent(link(scope)[0]);
         marker.bindPopup(popup);
 
         marker.on('mouseover', function () {
@@ -177,4 +187,4 @@ function MapService ($log, $filter, $timeout, ConfigService, GeolocationService)
 }
 
 angular.module('spacebox').factory('MapService',
-    ['$log', '$filter', '$timeout', 'ConfigService', 'GeolocationService', MapService]);
+    ['$compile', '$rootScope', '$log', '$filter', '$timeout', 'ConfigService', 'GeolocationService', MapService]);

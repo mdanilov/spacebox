@@ -115,6 +115,7 @@ else {
             yepnope([
                 './src/css/main.css',
                 './src/css/map/map.css',
+                './src/css/map/leaflet.css',
                 './src/css/views/login.css',
                 './src/css/views/properties.css',
                 './src/css/views/error.css',

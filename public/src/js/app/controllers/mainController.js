@@ -60,11 +60,5 @@ function MainViewController ($scope, $log, $timeout, LocatorService, FriendsServ
     });
 }
 
-MainViewController.resolve = {
-//    'users': function (LocatorService, ErrorService) {
-//        return LocatorService.asyncSearch().then(null, ErrorService.handleError);
-//    }
-};
-
 angular.module('spacebox').controller('MainViewController',
     ['$scope', '$log', '$timeout', 'LocatorService', 'FriendsService', 'ErrorHandler', MainViewController]);
