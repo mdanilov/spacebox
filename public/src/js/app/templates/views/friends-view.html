@@ -6,19 +6,22 @@
 </div>
 <div id="spFriendsPage" class="container fill-height">
     <div id="spRowContainer" class="row fill-height">
-        <div id="spFriendsList" class="col-xs-12 col-sm-4 fill-height" ng-class="{'sp-active': friends.list}">
-            <sp-friend-list
-                users="friends.friends"
-                on-marker-click="friends.openMap"
-                ng-if="friends.friends.length != 0">
-            </sp-friend-list>
-            <div class="sp-friends-not-found" ng-if="friends.friends.length == 0">
+        <div id="spFriendsList" class="col-xs-12 col-sm-5 fill-height"
+             ng-class="{'sp-active': friends.list}" ng-switch on="friends.state">
+            <div ng-switch-when="ready">
+                <sp-friend-list users="friends.friends" on-marker-click="friends.openMap"></sp-friend-list>
+            </div>
+            <div class="sp-friends-state" ng-switch-when="empty">
                 <h4>У вас пока что нет друзей</h4>
                 <p>Просматривай больше людей, чтобы находить друзей</p>
                 <a href="" class="btn btn-primary" ng-click="friends.find()" role="button">Найти новых друзей</a>
             </div>
+            <div class="sp-friends-state" ng-switch-when="loading">
+                <h4>Получаем список друзей...</h4>
+                <i class="fa fa-circle-o-notch fa-spin"></i>
+            </div>
         </div>
-        <div id="spMapContainer" class="col-xs-12 col-sm-8 fill-height" ng-class="{'sp-active': !friends.list}">
+        <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': !friends.list}">
             <div id="map-canvas"></div>
         </div>
     </div>

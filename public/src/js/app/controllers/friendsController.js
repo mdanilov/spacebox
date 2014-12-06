@@ -4,6 +4,7 @@ function FriendsViewController ($scope, $log, $location, MapService, FriendsServ
     var self = this;
     self.friends = [];
     self.list = true;
+    self.state = 'loading';
 
     self.toggle = function (value) {
         self.list = value;
@@ -19,8 +20,14 @@ function FriendsViewController ($scope, $log, $location, MapService, FriendsServ
 
     function invalidateFriends (users) {
         $log.debug('Friends: ', users);
-        self.friends = users;
-        MapService.invalidateUsers(users);
+        if (angular.isArray(users) && users.length != 0) {
+            self.friends = users;
+            self.state = 'ready';
+            MapService.invalidateUsers(users);
+        }
+        else {
+            self.state = 'empty';
+        }
     }
 
     FriendsService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);

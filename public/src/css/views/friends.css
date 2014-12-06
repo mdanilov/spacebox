@@ -1,4 +1,4 @@
-#spFriendsPage .sp-friends-not-found {
+#spFriendsPage .sp-friends-state {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -8,7 +8,13 @@
     width: 100%;
 }
 
-#spFriendsPage .sp-friends-not-found p {
+.sp-friends-state i {
+    color: #4683ea;
+    font-size: 40px;
+    margin-top: 20px;
+}
+
+#spFriendsPage .sp-friends-state p {
     font-size: 12px;
     color: grey;
 }
