@@ -8,14 +8,13 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
         $scope.changed = false;
     };
 
-    if (!angular.isString(status)) {
-        status = '';
-    }
-    $scope.status = {
-        text: status,
-        length: ConfigService.MAX_STATUS_LENGTH - status.length,
-        maxLength: ConfigService.MAX_STATUS_LENGTH
-    };
+    StatusService.get().then(function (status) {
+        $scope.status = {
+            text: status,
+            length: ConfigService.MAX_STATUS_LENGTH - status.length,
+            maxLength: ConfigService.MAX_STATUS_LENGTH
+        };
+    });
 
     $scope.changed = false;
 
