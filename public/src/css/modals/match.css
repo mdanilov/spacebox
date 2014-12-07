@@ -25,7 +25,7 @@
 
 .sp-match-modal i {
     font-size: 18px;
-    padding-right: 10px;
+    padding: 5px;
 }
 
 .sp-match-modal img {
@@ -40,7 +40,7 @@
 
 .sp-match-modal .modal-footer {
     border: none;
-    padding-top: 30px;
+    padding-top: 50px;
 }
 
 .sp-match-modal .modal-footer .btn {
