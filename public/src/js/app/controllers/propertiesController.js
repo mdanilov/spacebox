@@ -112,7 +112,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
         var dialog = $modal.open({
             templateUrl: 'src/js/app/templates/modals/dialog.html',
             windowClass: 'dialog',
-            controller: 'dialogController',
+            controller: 'DialogController',
             resolve: {
                 text: function () {
                     return $scope.dialogs.destroy;

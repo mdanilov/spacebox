@@ -24,6 +24,11 @@ body {
     height: 100%;
 }
 
+.blur {
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+}
+
 p {
     color: grey;
     opacity: 0.9;

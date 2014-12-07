@@ -4,6 +4,7 @@ function ApplicationController ($scope, $log, UserService, ConfigService) {
     var self = this;
     self.user = {};
     self.isNavbarHidden = false;
+    self.isMatched = false;
 
     $scope.$watch(function () { return ConfigService._login },
         function (value) {

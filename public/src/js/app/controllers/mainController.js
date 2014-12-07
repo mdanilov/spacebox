@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, $timeout, LocatorService, FriendsService, ErrorHandler) {
+function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, FriendsService, UserService, ErrorHandler) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -10,24 +10,55 @@ function MainViewController ($scope, $log, $timeout, LocatorService, FriendsServ
 
     self.Like = function () {
         self.current.like = 1;
+        //FriendsService.asyncLike(current.mid).then(function () {
+
+//        }, function () {
+//            current.like = 0;
+//        });
+
+        if (self.current.likeMe == 1) {
+            self.couple = [
+                UserService.getInfo(),
+                self.current.info
+            ];
+
+            $scope.app.isMatched = true;
+            var matchWindow = $modal.open({
+                templateUrl: 'src/js/app/templates/modals/match.html',
+                windowClass: 'sp-match-modal',
+                backdropClass: 'sp-match-backdrop',
+                controller: 'MatchController',
+                resolve: {
+                    couple: function () {
+                        return self.couple;
+                    }
+                },
+                size: 'sm',
+                backdrop: 'static'
+            });
+
+            matchWindow.result.then(function () {
+                $scope.app.isMatched = false;
+                $location.path('/friends');
+            }, function () {
+                $scope.app.isMatched = false;
+            });
+        }
+
+        self.current = LocatorService.getNextUser();
+        if (angular.isUndefined(self.current)) {
+            searchLoop();
+        }
+    };
+
+    self.Dislike = function () {
+        self.current.like = -1;
         self.current = LocatorService.getNextUser();
 
         if (angular.isUndefined(self.current)) {
             searchLoop();
         }
 
-//        FriendsService.asyncLike(current.mid).then(function () {
-//            if (current.likeMe == 1) {
-//                // TODO: show modal window
-//            }
-//        }, function () {
-//            current.like = 0;
-//        });
-    };
-
-    self.Dislike = function () {
-        self.current.like = -1;
-        self.current = LocatorService.getNextUser();
 //        FriendsService.asyncDislike(current.mid).then(null, function () {
 //            current.like = 0;
 //        });
@@ -61,4 +92,4 @@ function MainViewController ($scope, $log, $timeout, LocatorService, FriendsServ
 }
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', 'LocatorService', 'FriendsService', 'ErrorHandler', MainViewController]);
+    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'FriendsService', 'UserService', 'ErrorHandler', MainViewController]);

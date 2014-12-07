@@ -157,6 +157,7 @@ else {
                     './src/js/app/controllers/mainController.js',
                     './src/js/app/controllers/friendsController.js',
                     './src/js/app/controllers/modals/dialogController.js',
+                    './src/js/app/controllers/modals/matchController.js',
                     './src/js/app/filters/distanceFilter.js',
                     './src/js/app/filters/ageFilter.js',
                     './src/js/app/directives/navbarDirective.js',

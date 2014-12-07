@@ -63,8 +63,8 @@ exports.selectLikes = function (request, response, next) {
         // TODO: it can be done in two separate queries, may be it would be faster
         DB.query({ text: "SELECT * FROM likes WHERE mid = $1 OR liked = $1;",  values: [ userId ]},
         function (results) {
-            response.likesForUsers = [];
-            response.likesFromUsers = [];
+            response.likesForUsers = {};
+            response.likesFromUsers = {};
             if (results.rows.length != 0) {
                 for (var i = 0; i < results.rows.length; i++) {
                     if (results.rows[i].mid == userId) {

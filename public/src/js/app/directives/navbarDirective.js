@@ -29,7 +29,7 @@ function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
                 var dialog = $modal.open({
                     templateUrl: 'src/js/app/templates/modals/dialog.html',
                     windowClass: 'dialog',
-                    controller: 'dialogController',
+                    controller: 'DialogController',
                     resolve: {
                         text: function () {
                             return scope.text;
