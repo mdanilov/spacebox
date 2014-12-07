@@ -122,6 +122,7 @@ else {
                 './src/css/views/friends.css',
                 './src/css/partials/navbar.css',
                 './src/css/modals/dialog.css',
+                './src/css/modals/match.css',
                 './src/css/partials/friend-list.css',
                 './src/css/partials/cards.css',
                 './src/css/partials/controls.css'
