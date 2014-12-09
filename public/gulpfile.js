@@ -100,3 +100,32 @@ gulp.task('build', function () {
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
+
+gulp.task('cordova', function () {
+    gulp.src([
+        './lib/bootstrap/dist/css/bootstrap.css',
+        './lib/components-font-awesome/css/font-awesome.css',
+        './lib/mapbox.js/mapbox.uncompressed.css',
+        './lib/moment/moment.js',
+        './lib/moment/locale/ru.js',
+        './lib/angular-carousel/dist/angular-carousel.css',
+        './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css',
+        './lib/jquery/dist/jquery.js',
+        './lib/bootstrap/dist/js/bootstrap.js',
+        './lib/mapbox.js/mapbox.uncompressed.js',
+        './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
+        './lib/angular/angular.js',
+        './lib/angular-route/angular-route.js',
+        './lib/angular-touch/angular-touch.js',
+        './lib/angular-cookies/angular-cookies.js',
+        './lib/angular-animate/angular-animate.js',
+        './lib/angular-moment/angular-moment.js',
+        './lib/angular-bootstrap/ui-bootstrap.js',
+        './lib/angular-bootstrap/ui-bootstrap-tpls.js',
+        './lib/angular-carousel/dist/angular-carousel.js',
+        './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js',
+        './dist/spacebox-mobile.min.js',
+        './dist/spacebox.min.css',
+    ])
+        .pipe(gulp.dest('cordova'));
+});
