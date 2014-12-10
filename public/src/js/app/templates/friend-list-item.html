@@ -1,29 +1,28 @@
 <div class="list-group-item" ng-class="{active:selected}" ng-click="onClick()">
     <div class="media">
-        <table>
-            <tr>
-                <td>
-                    <a href="">
-                        <img class="media-object" ng-src="{{user.info.photo_50}}">
+        <table><tr>
+            <td>
+                <a href="">
+                    <img class="media-object" ng-src="{{user.info.photo_50}}">
+                </a>
+            </td>
+            <td class="sp-user-info">
+                <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
+                <span>{{user.info.sex == 1 ? 'Была ' : 'Был ' }}
+                    <span am-time-ago="user.location.timestamp"></span>
+                </span>
+            </td>
+            <td class="sp-icons">
+                <span ng-if="selected">
+                    <a href="" ng-click="openChat()"><i class="fa fa-comments"></i></a>
+                    <a href="" class="visible-xs-inline" ng-click="$parent.onMarkerClick()">
+                        <i class="fa fa-map-marker pull-right"></i>
                     </a>
-                </td>
-                <td class="sp-user-info">
-                    <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
-                    <span>{{user.info.sex == 1 ? 'Была ' : 'Был ' }}
-                        <span am-time-ago="user.location.timestamp"></span>
-                    </span>
-                </td>
-                <td class="sp-icons">
-                    <span ng-if="selected">
-                        <a href="" class="visible-xs-inline" ng-click="$parent.onMarkerClick()">
-                            <i class="fa fa-map-marker pull-right"></i>
-                        </a>
-                        <a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">
-                            <span class="brandico-vkontakte-rect pull-right"></span>
-                        </a>
-                    </span>
-                </td>
-            </tr>
-        </table>
+                    <a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">
+                        <span class="brandico-vkontakte-rect pull-right"></span>
+                    </a>
+                </span>
+            </td>
+        </tr></table>
     </div>
 </div>

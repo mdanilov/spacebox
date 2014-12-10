@@ -22,7 +22,6 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
                 self.current.info
             ];
 
-            $scope.app.isMatched = true;
             var matchWindow = $modal.open({
                 templateUrl: 'src/js/app/templates/modals/match.html',
                 windowClass: 'sp-match-modal',
@@ -37,11 +36,11 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
                 backdrop: 'static'
             });
 
-            matchWindow.result.then(function () {
+            $scope.app.isMatched = true;
+            matchWindow.result.finally(function () {
                 $scope.app.isMatched = false;
+            }).then(function () {
                 $location.path('/friends');
-            }, function () {
-                $scope.app.isMatched = false;
             });
         }
 
@@ -54,7 +53,6 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
     self.Dislike = function () {
         self.current.like = -1;
         self.current = LocatorService.getNextUser();
-
         if (angular.isUndefined(self.current)) {
             searchLoop();
         }

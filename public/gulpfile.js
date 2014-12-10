@@ -22,6 +22,7 @@ gulp.task('build', function () {
             './src/css/views/error.css',
             './src/css/views/friends.css',
             './src/css/partials/navbar.css',
+            './src/css/partials/chat.css',
             './src/css/partials/friend-list.css',
             './src/css/partials/cards.css',
             './src/css/partials/controls.css'
@@ -55,6 +56,7 @@ gulp.task('build', function () {
             './src/js/app/filters/distanceFilter.js',
             './src/js/app/filters/ageFilter.js',
             './src/js/app/directives/navbarDirective.js',
+            './src/js/app/directives/chatDirective.js',
             './src/js/app/directives/cardsDirective.js',
             './src/js/app/directives/friendListDirective.js',
             './src/js/app/directives/friendListItemDirective.js',
@@ -89,6 +91,7 @@ gulp.task('build', function () {
         './src/js/app/filters/distanceFilter.js',
         './src/js/app/filters/ageFilter.js',
         './src/js/app/directives/navbarDirective.js',
+        './src/js/app/directives/chatDirective.js',
         './src/js/app/directives/cardsDirective.js',
         './src/js/app/directives/friendListDirective.js',
         './src/js/app/directives/friendListItemDirective.js',

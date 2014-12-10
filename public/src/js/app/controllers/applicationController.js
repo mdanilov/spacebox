@@ -1,4 +1,4 @@
-function ApplicationController ($scope, $log, UserService, ConfigService) {
+function ApplicationController ($scope, $log, $cookieStore, UserService, ConfigService) {
     $log.debug('Initialize application controller...');
 
     var self = this;
@@ -15,4 +15,4 @@ function ApplicationController ($scope, $log, UserService, ConfigService) {
 }
 
 angular.module('spacebox').controller('ApplicationController',
-    ['$scope', '$log', 'UserService', 'ConfigService', ApplicationController]);
+    ['$scope', '$log', '$cookieStore', 'UserService', 'ConfigService', ApplicationController]);

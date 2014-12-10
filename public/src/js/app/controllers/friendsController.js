@@ -3,10 +3,12 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
 
     var self = this;
     self.friends = [];
+    self.current = undefined;
     self.list = true;
     self.state = 'loading';
     self.statusUpdater = undefined;
     self.STATUS_UPDATE_INTERVAL = 300000; // 5 minutes
+    self.isChatOpen = false;
 
     self.toggle = function (value) {
         self.list = value;
@@ -50,6 +52,14 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
             MapService.invalidateUsers(self.friends);
         });
     }
+    
+    self.openChat = function () {
+        self.isChatOpen = true;
+    };
+
+    self.closeChat = function () {
+        self.isChatOpen = false;
+    };
 
     $scope.$on('$destroy', function __destroy (event) {
         if (angular.isDefined(self.statusUpdater)) {

@@ -9,7 +9,12 @@
         <div id="spFriendsList" class="col-xs-12 col-sm-5 fill-height"
              ng-class="{'sp-active': friends.list}" ng-switch on="friends.state">
             <div ng-switch-when="ready">
-                <sp-friend-list users="friends.friends" on-marker-click="friends.openMap"></sp-friend-list>
+                <sp-friend-list
+                        users="friends.friends"
+                        selected="friends.current"
+                        on-marker-click="friends.openMap"
+                        on-chat="friends.openChat()">
+                </sp-friend-list>
             </div>
             <div class="sp-friends-state" ng-switch-when="empty">
                 <h4>У вас пока что нет друзей</h4>
@@ -22,6 +27,14 @@
             </div>
         </div>
         <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': !friends.list}">
+            <div id="spChat" ng-if="friends.isChatOpen">
+                <div class="sp-back-header">
+                    <a href="" class="sp-back-button" ng-click="friends.closeChat()"><i class="fa fa-arrow-left"></i></a>
+                    <img class="img-circle" ng-src="{{friends.current.info.photo_50}}">
+                    <p>{{friends.current.info.first_name}}</p>
+                </div>
+                <sp-chat user="friends.current"></sp-chat>
+            </div>
             <div id="map-canvas"></div>
         </div>
     </div>

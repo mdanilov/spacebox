@@ -83,7 +83,29 @@ function dropDatabase (callback) {
             log.error(error);
         else
             log.info('Extension EARTHDISTANCE is created');
-        callback();
+    });
+
+    client.query("CREATE SEQUENCE IF NOT EXISTS message_id_seq;", function (error) {
+        if (error)
+            log.error(error);
+        else
+            log.info('Sequence message_id_seq is created');
+    });
+
+    client.query([
+        "CREATE TABLE IF NOT EXISTS messages (",
+            "message_id BIGINT NOT NULL default nextval('message_id_seq') PRIMARY KEY,",
+            "user_id_send BIGINT NOT NULL,",
+            "user_id_get BIGINT NOT NULL,",
+            "message VARCHAR NOT NULL,",
+            "date TIMESTAMP WITH TIME ZONE NOT NULL",
+        ");"].join(''),
+        function (error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Table MESSAGES is created');
+            callback();
     });
 }
 

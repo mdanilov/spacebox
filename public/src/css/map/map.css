@@ -1,7 +1,14 @@
+#spMapContainer {
+    padding: 0;
+    border-left: 1px solid silver;
+    border-right: 1px solid silver;
+}
+
 @media (max-width: 768px) {
     #spMapContainer {
         position: absolute;
-        z-index: 0;
+        border-left: none;
+        border-right: none;
     }
 
     #spMapContainer.sp-active {

@@ -7,7 +7,7 @@
     #spNavPills ul > li {
         display: table-cell;
         width: 1%;
-        z-index: 1000;
+        z-index: 2000;
     }
 
     #spRowContainer {
@@ -19,7 +19,7 @@
     }
 
     #spFriendsList.sp-active {
-        z-index: 1000;
+        z-index: 2000;
     }
 }
 
@@ -91,6 +91,12 @@
 
 #spFriendsList .brandico-vkontakte-rect {
     margin-right: 10px;
+    color: #4387fd;
+    font-size: 30px;
+    line-height: 60px;
+}
+
+#spFriendsList a {
     color: #4387fd;
     font-size: 30px;
     line-height: 60px;

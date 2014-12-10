@@ -1,0 +1,13 @@
+<div class="chat-content">
+    <div class="sp-messages-content">
+        <div id="spMessages" class="sp-messages"></div>
+    </div>
+</div>
+<div class="sp-chat-input">
+    <textarea id="spInput" ng-model="message" name="textarea" placeholder="Сообщение"
+        rows="1" cols="50" ng-change="startTyping()" ng-keypress="onSend($event)">
+    </textarea>
+    <div class="sp-chat-send-btn">
+        <a id="spSendButton" href="" ng-click="onSend($event)">Отправить</a>
+    </div>
+</div>
