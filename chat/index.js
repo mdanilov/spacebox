@@ -16,6 +16,10 @@ module.exports = function (server) {
             log.info('User disconnected');
         });
 
+        socket.on('connect', function (id) {
+            socket.id = id;
+        });
+
         socket.on('typing', function (message) {
             socket.broadcast.to(message.to).json.emit('typing', message);
         });

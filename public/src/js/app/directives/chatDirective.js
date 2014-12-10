@@ -54,6 +54,8 @@ function chatDirective ($log, UserService, ConfigService) {
                     $log.debug('Disconnected from the chat');
                 });
 
+                socket.emit('connect', userSendId);
+
                 socket.on('typing', function (message) {
                     if (message.from == userGetId) {
                         $log.debug('User is typing to you...');
