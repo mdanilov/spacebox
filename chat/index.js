@@ -12,6 +12,10 @@ module.exports = function (server) {
     io.on('connection', function (socket) {
         log.info('User connected');
 
+        socket.on('join', function (id) {
+            socket.join(id);
+        });
+
         socket.on('disconnect', function () {
             log.info('User disconnected');
         });

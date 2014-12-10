@@ -49,7 +49,8 @@ function chatDirective ($log, UserService, ConfigService) {
             var socket = io.connect(ConfigService.SERVER_URL);
             socket.on('connect', function () {
                 $log.debug('Connected to the chat');
-                socket.id = userSendId;
+
+                socket.emit('join', userSendId);
 
                 socket.on('disconnect', function () {
                     $log.debug('Disconnected from the chat');
