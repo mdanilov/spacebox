@@ -85,15 +85,14 @@
 }
 
 .sp-messages-content {
-    position: relative;
     height: 100%;
     background: white;
     overflow: auto;
 }
 
 .sp-messages {
-    position: absolute;
-    bottom: 0;
+    position: relative;
+    bottom: -100%;
     right: 0;
     left: 0;
     display: -webkit-box;

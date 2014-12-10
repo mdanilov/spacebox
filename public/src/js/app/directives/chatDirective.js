@@ -8,6 +8,7 @@ function chatDirective ($log, UserService, ConfigService) {
         templateUrl: 'src/js/app/templates/chat.html',
         link: function (scope, element, attrs) {
             var messagesElement = $("#spMessages");
+            var scrollElement = $('.sp-messages-content');
             var textAreaElement = $("#spInput").focus();
             var sendButtonElement = $("#spSendButton");
             var lastMessageElement = null;
@@ -43,7 +44,7 @@ function chatDirective ($log, UserService, ConfigService) {
                 lastMessageElement.addClass('sp-message-last');
 
                 messagesElement.append(messageElement);
-                messagesElement.scrollTop(messagesElement.prop('scrollHeight'));
+                scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
             }
 
             var socket = io.connect(ConfigService.SERVER_URL);
