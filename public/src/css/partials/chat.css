@@ -116,8 +116,8 @@
     -ms-flex-direction: column;
     -webkit-flex-direction: column;
     flex-direction: column;
-    -ms-justify-content: flex-start;
-    -webkit-justify-content: flex-start;
+    -ms-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
     justify-content: flex-end;
 }
 
@@ -152,7 +152,7 @@
     align-self: flex-end;
     color: white;
     border-image-source: url("data:image/svg+xml;charset=utf-8,<svg height='35' viewBox='0 0 96 70' width='48' xmlns='http://www.w3.org/2000/svg'><path style='fill: #00d449' d='m84 35c1 7-5 37-42 35-37 2-43-28-42-35-1-7 5-37 42-35 37-2 43 28 42 35z'/></svg>");
-    border-image-slice: 50% 56% 50% 44% fill;
+    border-image-slice: 49% 55% 49% 43% fill;
 }
 
 .sp-message-sent.sp-message-last {
@@ -167,7 +167,7 @@
     align-self: flex-start;
     color: black;
     border-image-source: url("data:image/svg+xml;charset=utf-8,<svg height='35' viewBox='0 0 96 70' width='48' xmlns='http://www.w3.org/2000/svg'><path style='fill: #e5e5ea' d='m96 35c1 7-5 37-42 35-37 2-43-28-42-35-1-7 5-37 42-35 37-2 43 28 42 35z'/></svg>");
-    border-image-slice: 50% 44% 50% 56% fill;
+    border-image-slice: 49% 43% 49% 55% fill;
 }
 
 .sp-message-received.sp-message-last {
