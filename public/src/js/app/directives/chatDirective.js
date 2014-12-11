@@ -3,7 +3,8 @@ function chatDirective ($log, UserService, ConfigService) {
         restrict: 'E',
         transclude: true,
         scope: {
-            user: '='
+            user: '=',
+            close: '&onClose'
         },
         templateUrl: 'src/js/app/templates/chat.html',
         link: function (scope, element, attrs) {
@@ -111,10 +112,17 @@ function chatDirective ($log, UserService, ConfigService) {
                 }
             };
 
+            scope.hasMessages = function () {
+                return lastTime != null;
+            };
+
             scope.startTyping = function () {
                 if (!scope.isTyping && scope.message.length > 0) {
                     sendButtonElement.addClass('sp-active');
                     scope.isTyping = true;
+                }
+                else if (scope.message.length == 0) {
+                    sendButtonElement.removeClass('sp-active');
                 }
             };
         }

@@ -6,36 +6,50 @@
     z-index: 3000;
 }
 
-#spChat .sp-back-header {
+.sp-chat-header {
     border-bottom: 1px solid silver;
-    background-color: white;
-    line-height: 40px;
+    background: white;
+    height: 60px;
     text-align: center;
     position: absolute;
     width: 100%;
     z-index: 1;
 }
 
-#spChat .sp-back-button {
-    position: absolute;
-    font-size: 20px;
-    color: #4683ea;
-    top: 0;
-    left: 15px;
+.sp-chat-header:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
 
-#spChat .sp-back-header img {
-    width: 30px;
-    height: 30px;
+.sp-chat-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
-#spChat .sp-back-header p {
-    display: inline;
+.sp-chat-header span {
     font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
     padding-left: 10px;
-    font-size: 14px;
-    color: black;
-    opacity: 1;
+    font-size: 16px;
+}
+
+.sp-chat-header .sp-chat-control {
+    position: absolute;
+    font-size: 2em;
+    color: #4683ea;
+    top: 7px;
+}
+
+.sp-chat-header .sp-chat-control.left {
+     left: 15px;
+}
+
+.sp-chat-header .sp-chat-control.right {
+    right: 15px;
 }
 
 .sp-chat-input {
@@ -72,7 +86,7 @@
     color: #4683ea;
 }
 
-#spChat .chat-content {
+#spChat .sp-chat-content {
     background-color: white;
     height: 100%;
     padding-bottom: 47px;
@@ -92,7 +106,7 @@
 
 .sp-messages {
     position: relative;
-    bottom: -100%;
+    bottom: -80%;
     right: 0;
     left: 0;
     display: -webkit-box;
@@ -168,4 +182,19 @@
     display: block;
     height: auto;
     max-width: 100%;
+}
+
+.sp-empty-content {
+    margin-top: 20%;
+    text-align: center;
+}
+
+.sp-empty-content img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.sp-empty-content span {
+    font-weight: bold;
 }

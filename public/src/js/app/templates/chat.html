@@ -1,6 +1,16 @@
-<div class="chat-content">
+<div class="sp-chat-header">
+    <a href="" class="sp-chat-control left" ng-click="close()"><i class="fa fa-arrow-left"></i></a>
+    <img ng-src="{{user.info.photo_50}}">
+    <span>{{user.info.first_name}}</span>
+    <a href="" class="sp-chat-control right"><i class="fa fa-ellipsis-h"></i></a>
+</div>
+<div class="sp-chat-content">
     <div class="sp-messages-content">
-        <div id="spMessages" class="sp-messages"></div>
+        <div class="sp-empty-content" ng-if="!hasMessages()">
+            <h5>У вас появился новый друг - <span>{{user.info.first_name}}</span></h5>
+            <img ng-src="{{user.info.photo_100}}">
+        </div>
+        <div id="spMessages" class="sp-messages" ng-show="hasMessages()"></div>
     </div>
 </div>
 <div class="sp-chat-input">

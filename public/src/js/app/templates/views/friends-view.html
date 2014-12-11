@@ -28,12 +28,7 @@
         </div>
         <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': !friends.list}">
             <div id="spChat" ng-if="friends.isChatOpen">
-                <div class="sp-back-header">
-                    <a href="" class="sp-back-button" ng-click="friends.closeChat()"><i class="fa fa-arrow-left"></i></a>
-                    <img class="img-circle" ng-src="{{friends.current.info.photo_50}}">
-                    <p>{{friends.current.info.first_name}}</p>
-                </div>
-                <sp-chat user="friends.current"></sp-chat>
+                <sp-chat user="friends.current" on-close="friends.closeChat()"></sp-chat>
             </div>
             <div id="map-canvas"></div>
         </div>
