@@ -56,7 +56,7 @@
 }
 
 #spFriendsList table {
-    height: 61px;
+    height: 60px;
 }
 
 #spFriendsList .sp-user-info {
@@ -93,13 +93,11 @@
     margin-right: 10px;
     color: #4387fd;
     font-size: 30px;
-    line-height: 60px;
 }
 
 #spFriendsList a {
     color: #4387fd;
     font-size: 30px;
-    line-height: 60px;
 }
 
 @media (max-width: 768px) {
