@@ -10,7 +10,7 @@ function chatDirective ($log, UserService, ConfigService) {
         link: function (scope, element, attrs) {
             var messagesElement = $("#spMessages");
             var scrollElement = $('.sp-messages-content');
-            var textAreaElement = $("#spInput").focus();
+            var textAreaElement = $("#spInput");
             var sendButtonElement = $("#spSendButton");
             var lastMessageElement = null;
             var lastTime = null;
