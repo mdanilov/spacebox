@@ -68,6 +68,8 @@
     border-color: rgb(210, 210, 210);
     width: 70%;
     float: left;
+    outline: none;
+    overflow: auto;
 }
 
 #spChat .sp-chat-send-btn {
@@ -101,7 +103,8 @@
 .sp-messages-content {
     height: 100%;
     background: white;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .sp-messages {
@@ -130,6 +133,7 @@
     min-height: 35px;
     max-width: 60%;
     border-image-width: auto;
+    overflow-wrap: break-word;
 }
 
 .sp-messages-date {
