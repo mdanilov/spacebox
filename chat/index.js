@@ -38,7 +38,7 @@ module.exports = function (server) {
 
             log.info('Socket message received: ', message);
 
-            socket.broadcast.to(message.to).json.emit('incoming_message', message);
+            socket.broadcast.to(message.user_id).json.emit('incoming_message', message);
         });
     });
 };
