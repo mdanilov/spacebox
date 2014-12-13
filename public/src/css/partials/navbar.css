@@ -89,6 +89,11 @@ ul.navbar-right, ul.navbar-right li {
 	cursor: pointer;
 }
 
+#spNavbar .dropdown-menu {
+	z-index: 1002;
+}
+
+
 
 #spNavbar .sp-nav-button {
 	height: 58px;
