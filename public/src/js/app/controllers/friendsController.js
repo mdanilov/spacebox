@@ -1,4 +1,4 @@
-function FriendsViewController ($scope, $log, $location, $interval, MapService, FriendsService, ErrorHandler, StatusService) {
+function FriendsViewController ($scope, $log, $location, $interval, MapService, FriendsService, ErrorHandler, StatusService, MessagesService) {
     $log.debug('Initialize friends view...');
 
     var self = this;
@@ -54,7 +54,10 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
     }
     
     self.openChat = function () {
-        self.isChatOpen = true;
+        MessagesService.asyncGetHistory(self.current.info.id).then(function (messages) {
+            self.messages = messages;
+            self.isChatOpen = true;
+        });
     };
 
     self.closeChat = function () {
@@ -69,4 +72,4 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
 }
 
 angular.module('spacebox').controller('FriendsViewController',
-    ['$scope', '$log', '$location', '$interval', 'MapService', 'FriendsService', 'ErrorHandler', 'StatusService', FriendsViewController]);
+    ['$scope', '$log', '$location', '$interval', 'MapService', 'FriendsService', 'ErrorHandler', 'StatusService', 'MessagesService', FriendsViewController]);

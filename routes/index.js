@@ -4,6 +4,7 @@ var account = require('./account');
 var friends = require('./friends');
 var status = require('./status');
 var error = require('./error');
+var messages = require('./messages');
 var main = require('./main');
 var validate = require('../utils/validate');
 var checkAuth = require('../middleware/checkAuth');
@@ -23,6 +24,9 @@ router.get('/friends.delete', validate, friends.delete);
 
 router.get('/status.set', validate, status.set);
 router.get('/status.get', validate, status.get);
+
+router.get('/messages.get', validate, messages.get);
+router.post('/messages.getHistory', validate, messages.getHistory);
 
 router.get('/account.destroy', validate, account.destroy);
 

@@ -94,11 +94,12 @@ function dropDatabase (callback) {
 
     client.query([
         "CREATE TABLE IF NOT EXISTS messages (",
-            "message_id BIGINT NOT NULL default nextval('message_id_seq') PRIMARY KEY,",
-            "user_id_send BIGINT NOT NULL,",
-            "user_id_get BIGINT NOT NULL,",
-            "message VARCHAR NOT NULL,",
+            "id BIGINT NOT NULL default nextval('message_id_seq') PRIMARY KEY,",
+            "from_id BIGINT NOT NULL,",
+            "user_id BIGINT NOT NULL,",
+            "body VARCHAR NOT NULL,",
             "date TIMESTAMP WITH TIME ZONE NOT NULL",
+            "read_state BOOLEAN NOT NULL DEFAULT FALSE",
         ");"].join(''),
         function (error) {
             if (error)

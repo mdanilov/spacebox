@@ -19,7 +19,9 @@
                 { "$ref": "#/definitions/status.set" },
                 { "$ref": "#/definitions/status.get" },
                 { "$ref": "#/definitions/account.destroy" },
-                { "$ref": "#/definitions/dislike" }
+                { "$ref": "#/definitions/dislike" },
+                { "$ref": "#/definitions/messages.get" },
+                { "$ref": "#/definitions/messages.getHistory" }
             ]
         }
     },
@@ -47,6 +49,62 @@
                 "required": ["url"],
                 "additionalProperties": false
             }
+        },
+        "messages.get": {
+            "title": "messages.get",
+            "description": "Returns a list of incoming or outgoing personal messages of the current user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/messages.get", "/mobile/messages.get" ] },
+                "out": {
+                    "title": "out",
+                    "description": "If this parameter is 1, the server returns the outgoing messages",
+                    "enum": [ 0, 1 ]
+                },
+                "offset": {
+                    "title": "offset",
+                    "description": "Offset required for sampling a subset of messages",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "count": {
+                    "title": "count",
+                    "description": "The number of messages to retrieve",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 200
+                }
+            },
+            "required": ["url"],
+            "additionalProperties": false
+        },
+        "messages.getHistory": {
+            "title": "messages.getHistory",
+            "description": "Returns the message history for the specified user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/messages.getHistory", "/mobile/messages.getHistory" ] },
+                "user_id": {
+                    "title": "user_id",
+                    "description": "User ID, history of correspondence which should be returned",
+                    "type": "number"
+                },
+                "offset": {
+                    "title": "offset",
+                    "description": "Offset required for sampling a subset of messages",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "count": {
+                    "title": "count",
+                    "description": "The number of messages to retrieve",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 200
+                }
+            },
+            "required": ["url", "user_id"],
+            "additionalProperties": false
         },
         "status.set": {
             "title": "status.set",

@@ -30,9 +30,9 @@ module.exports = function (server) {
             }
 
             db.insert('messages', {
-                'user_id_send': message.from,
-                'user_id_get': message.to,
-                'message': message.text,
+                'from_id': message.from_id,
+                'user_id': message.user_id,
+                'body': message.body,
                 'date': new Date(message.date).toUTCString()
             }).run();
 

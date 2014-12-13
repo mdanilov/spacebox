@@ -1,9 +1,10 @@
-function chatDirective ($log, UserService, ConfigService) {
+function chatDirective ($log, UserService, ConfigService, MessagesService) {
     return {
         restrict: 'E',
         transclude: true,
         scope: {
             user: '=',
+            messages: '=',
             close: '&onClose'
         },
         templateUrl: 'src/js/app/templates/chat.html',
@@ -16,6 +17,10 @@ function chatDirective ($log, UserService, ConfigService) {
             var lastTime = null;
             var userGetId = scope.user.info.id;
             var userSendId = UserService.getInfo().id;
+
+            for (var i = scope.messages.length - 1; i >= 0; --i) {
+                createMessage(scope.messages[i]);
+            }
 
             var CHAT_PRINT_DATE_TIMEOUT = 300000; // 5 minutes
 
@@ -31,12 +36,11 @@ function chatDirective ($log, UserService, ConfigService) {
             }
 
             function createMessage (message) {
-                var messageElement = $('<div class="sp-message">' + message.text + '</div>');
-                var cssClass = (message.from == userSendId) ?
-                    'sp-message-sent' : 'sp-message-received';
+                var messageElement = $('<div class="sp-message">' + message.body + '</div>');
+                var cssClass = message.out ? 'sp-message-sent' : 'sp-message-received';
                 messageElement.addClass(cssClass);
 
-                appendDate(new Date());
+                appendDate(new Date(message.date));
 
                 if (lastMessageElement && lastMessageElement.hasClass(cssClass)) {
                     lastMessageElement.removeClass('sp-message-last');
@@ -58,14 +62,9 @@ function chatDirective ($log, UserService, ConfigService) {
                     $log.debug('Disconnected from the chat');
                 });
 
-                socket.on('typing', function (message) {
-                    if (message.from == userGetId) {
-                        $log.debug('User is typing to you...');
-                    }
-                });
-
                 socket.on('incoming_message', function (message) {
-                    if (message.from == userGetId) {
+                    message.out = 0;
+                    if (message.from_id == userGetId) {
                         createMessage(message);
                     }
                 });
@@ -73,10 +72,10 @@ function chatDirective ($log, UserService, ConfigService) {
 
             scope.isTyping = false;
 
-            scope.$watch(scope.user, function () {
+            scope.$watch(scope.user.mid, function () {
                 scope.isTyping = false;
                 scope.message = '';
-                messagesElement.empty();
+                //messagesElement.empty();
             });
 
             scope.$watch(scope.isTyping, function () {
@@ -90,9 +89,10 @@ function chatDirective ($log, UserService, ConfigService) {
                 sendButtonElement.removeClass('sp-active');
                 if (scope.message.length > 0) {
                     var message = {
-                        from: userSendId,
-                        to: userGetId,
-                        text: text,
+                        from_id: userSendId,
+                        user_id: userGetId,
+                        body: text,
+                        out: 1,
                         date: new Date()
                     };
                     createMessage(message);
@@ -130,4 +130,4 @@ function chatDirective ($log, UserService, ConfigService) {
 }
 
 angular.module('spacebox').directive('spChat',
-    ['$log', 'UserService', 'ConfigService', chatDirective]);
+    ['$log', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);
