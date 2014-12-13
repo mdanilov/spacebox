@@ -152,6 +152,7 @@ else {
                     './src/js/app/services/errorHandler.js',
                     './src/js/app/services/locatorService.js',
                     './src/js/app/services/accountService.js',
+                    './src/js/app/services/messagesService.js',
                     './src/js/app/services/userService.js',
                     './src/js/app/services/statusService.js',
                     './src/js/app/controllers/applicationController.js',

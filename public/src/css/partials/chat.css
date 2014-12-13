@@ -6,6 +6,12 @@
     z-index: 3000;
 }
 
+@media (max-width: 768px) {
+    #spChat {
+        position: fixed;
+    }
+}
+
 .sp-chat-header {
     border-bottom: 1px solid silver;
     background: white;
@@ -14,6 +20,12 @@
     position: absolute;
     width: 100%;
     z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .sp-chat-header {
+        position: fixed;
+    }
 }
 
 .sp-chat-header:before {
@@ -52,28 +64,31 @@
     right: 15px;
 }
 
-.sp-chat-input {
+.sp-chat-footer {
     position: absolute;
     width: 100%;
     bottom: 0;
-    padding: 10px;
+    padding: 8px 0 8px 10px;
     border-top: 1px solid silver;
     background-color: rgb(238, 238, 238);
 }
 
-.sp-chat-input textarea {
+.sp-chat-footer textarea {
     resize: none;
-    font-size: 14px;
+    font-size: 17px;
     border-radius: 5px;
     border-color: rgb(210, 210, 210);
     width: 70%;
     float: left;
     outline: none;
     overflow: auto;
+    vertical-align: bottom;
 }
 
 #spChat .sp-chat-send-btn {
     text-align: center;
+    font-size: 17px;
+    padding-top: 4px;
 }
 
 #spChat .sp-chat-send-btn a,
@@ -92,12 +107,6 @@
     background-color: white;
     height: 100%;
     padding-bottom: 47px;
-}
-
-@media (max-width: 768px) {
-    #spChat {
-        top: -60px;
-    }
 }
 
 .sp-messages-content {
