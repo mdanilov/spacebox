@@ -21,23 +21,22 @@ module.exports = function (server) {
         });
 
         socket.on('typing', function (message) {
-            socket.broadcast.to(message.to).json.emit('typing', message);
+            socket.broadcast.to(message.user_id).json.emit('typing', message);
         });
 
         socket.on('message', function (message) {
-            if (!message || !message.date) {
-                return;
-            }
+            message.date = message.date || Math.round(Date.now()/1000);
 
             db.insert('messages', {
-                'from_id': message.from_id,
-                'user_id': message.user_id,
-                'body': message.body,
-                'date': new Date(message.date).toUTCString()
-            }).run();
+                'from_id': message.from_id, 'user_id': message.user_id,
+                'body': message.body, 'read_state': false, 'date': message.date
+            }).run(function (error) {
+                if (error) {
+                    log.error(error);
+                }
+            });
 
             log.info('Socket message received: ', message);
-
             socket.broadcast.to(message.user_id).json.emit('incoming_message', message);
         });
     });

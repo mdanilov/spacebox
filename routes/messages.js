@@ -39,7 +39,7 @@ exports.getHistory = function (request, response, next) {
                         })).orderBy('id DESC').limit(count).offset(offset).run(callback);
                     }
                     else {
-                        callback(null, []);
+                        callback(null, {rows: []});
                     }
                 }
             ], callback);

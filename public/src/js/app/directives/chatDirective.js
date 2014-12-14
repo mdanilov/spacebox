@@ -1,10 +1,9 @@
-function chatDirective ($log, UserService, ConfigService, MessagesService) {
+function chatDirective ($log, UserService, ConfigService, MessagesService, FriendsService) {
     return {
         restrict: 'E',
         transclude: true,
         scope: {
-            user: '=',
-            messages: '=',
+            userId: '=',
             close: '&onClose'
         },
         templateUrl: 'src/js/app/templates/chat.html',
@@ -13,76 +12,129 @@ function chatDirective ($log, UserService, ConfigService, MessagesService) {
             var scrollElement = $('.sp-messages-content');
             var textAreaElement = $("#spInput");
             var sendButtonElement = $("#spSendButton");
-            var lastMessageElement = null;
-            var lastTime = null;
-            var userGetId = scope.user.info.id;
             var userSendId = UserService.getInfo().id;
+            var CHAT_PRINT_DATE_TIMEOUT = 60; // 1 minute
 
-            for (var i = scope.messages.length - 1; i >= 0; --i) {
-                createMessage(scope.messages[i]);
+            scope.isTyping = false;
+            scope.isMessages = false;
+            scope.user = FriendsService.getFriend(scope.userId).info;
+
+            scope.$watch('userId', function (newValue) {
+                scope.isTyping = false;
+                scope.isMessages = false;
+                scope.message = '';
+                scope.user = FriendsService.getFriend(newValue).info;
+                messagesElement.empty();
+
+                var messages = MessagesService.getHistory(newValue);
+                if (angular.isArray(messages) && messages.length > 0) {
+                    scope.isMessages = true;
+                    prependLoadedHistory(messages);
+                    scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                }
+                else {
+                    MessagesService.asyncLoadHistory(newValue).then(function () {
+                        if (scope.userId == newValue) {
+                            messages = MessagesService.getHistory(newValue);
+                            if (angular.isArray(messages) && messages.length > 0) {
+                                prependLoadedHistory(messages);
+                            }
+                        }
+                    });
+                }
+            });
+
+            scrollElement.on('scroll', function () {
+                if (scrollElement.scrollTop() == 0) {
+                    var user_id = scope.userId;
+                    MessagesService.asyncLoadHistory(user_id).then(function () {
+                        if (user_id == scope.userId) {
+                            var messages = MessagesService.getHistory(user_id);
+                            if (angular.isArray(messages) && messages.length > 0) {
+                                prependLoadedHistory(messages);
+                            }
+                        }
+                    });
+                }
+            });
+
+            function prependLoadedHistory (messages) {
+                var element = messagesElement.find(':first-child');
+                if (element.length > 0) {
+                    var id = parseInt(element.first().attr('data-sp-message-id'));
+                    var pos = 0;
+                    while (pos < messages.length) {
+                        if (messages[pos].id >= id) {
+                            break;
+                        }
+                        pos++;
+                    }
+                    messages = messages.slice(0, pos);
+                }
+
+                var elements = [];
+                var prevTime = null;
+                var lastMessageElement = null;
+                for (var i = 0; i < messages.length; ++i) {
+                    var messageElement = $('<div class="sp-message" data-sp-message-id="' + messages[i].id + '">' + messages[i].body + '</div>');
+                    var cssClass = messages[i].out ? 'sp-message-sent' : 'sp-message-received';
+                    messageElement.addClass(cssClass);
+
+                    if (!prevTime ||
+                        (prevTime && (messages[i].date - prevTime > CHAT_PRINT_DATE_TIMEOUT))) {
+                        var date = new Date(messages[i].date * 1000);
+                        var dateElement = $('<div class="sp-messages-date" data-sp-message-id="' + messages[i].id + '">' + date.toLocaleDateString() +
+                            '<span>' + ', ' + date.toLocaleTimeString() + '</span>' + '</div>');
+                        elements.push(dateElement);
+                        lastMessageElement = null;
+                    }
+                    prevTime = messages[i].date;
+
+                    if (lastMessageElement && lastMessageElement.hasClass(cssClass)) {
+                        lastMessageElement.removeClass('sp-message-last');
+                    }
+                    lastMessageElement = messageElement;
+                    lastMessageElement.addClass('sp-message-last');
+                    elements.push(messageElement);
+                }
+                messagesElement.prepend(elements);
             }
 
-            var CHAT_PRINT_DATE_TIMEOUT = 300000; // 5 minutes
-
-            function appendDate (time) {
-                if (!lastTime ||
-                    (lastTime && (time.getTime() - lastTime > CHAT_PRINT_DATE_TIMEOUT))) {
-                    var dateElement = $('<div class="sp-messages-date">' + time.toLocaleDateString() +
-                        '<span>' + ', ' + time.toLocaleTimeString() + '</span>' + '</div>');
+            var prevTime = null;
+            var lastMessageElement = null;
+            function createDateElement (time) {
+                if (!prevTime ||
+                    (prevTime && (time - prevTime > CHAT_PRINT_DATE_TIMEOUT))) {
+                    var date = new Date(time * 1000);
+                    var dateElement = $('<div class="sp-messages-date" data-sp-message-id="999999999">' + date.toLocaleDateString() +
+                        '<span>' + ', ' + date.toLocaleTimeString() + '</span>' + '</div>');
                     messagesElement.append(dateElement);
                     lastMessageElement = null;
                 }
-                lastTime = time.getTime();
+                prevTime = time;
             }
 
-            function createMessage (message) {
-                var messageElement = $('<div class="sp-message">' + message.body + '</div>');
+            function createMessageElement (message) {
+                scope.isMessages = true;
+                var messageElement = $('<div class="sp-message" data-sp-message-id="999999999">' + message.body + '</div>');
                 var cssClass = message.out ? 'sp-message-sent' : 'sp-message-received';
                 messageElement.addClass(cssClass);
 
-                appendDate(new Date(message.date));
+                createDateElement(message.date);
 
                 if (lastMessageElement && lastMessageElement.hasClass(cssClass)) {
                     lastMessageElement.removeClass('sp-message-last');
                 }
                 lastMessageElement = messageElement;
                 lastMessageElement.addClass('sp-message-last');
-
                 messagesElement.append(messageElement);
                 scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
             }
 
-            var socket = io.connect(ConfigService.SERVER_URL);
-            socket.on('connect', function () {
-                $log.debug('Connected to the chat');
-
-                socket.emit('join', userSendId);
-
-                socket.on('disconnect', function () {
-                    $log.debug('Disconnected from the chat');
-                });
-
-                socket.on('incoming_message', function (message) {
-                    message.out = 0;
-                    if (message.from_id == userGetId) {
-                        createMessage(message);
-                    }
-                });
-            });
-
-            scope.isTyping = false;
-
-            scope.$watch(scope.user.mid, function () {
-                scope.isTyping = false;
-                scope.message = '';
-                //messagesElement.empty();
-            });
-
-            scope.$watch(scope.isTyping, function () {
-                socket.emit('typing', {
-                    from: userSendId,
-                    to: userGetId
-                });
+            MessagesService.onMessage(function (message) {
+                if (message.from_id == scope.user.id) {
+                    createMessageElement(message);
+                }
             });
 
             function sendMessage (text) {
@@ -90,13 +142,13 @@ function chatDirective ($log, UserService, ConfigService, MessagesService) {
                 if (scope.message.length > 0) {
                     var message = {
                         from_id: userSendId,
-                        user_id: userGetId,
+                        user_id: scope.user.id,
                         body: text,
                         out: 1,
-                        date: new Date()
+                        date: Math.round(Date.now()/1000)
                     };
-                    createMessage(message);
-                    socket.emit('message', message);
+                    createMessageElement(message);
+                    MessagesService.sendMessage(message);
                     scope.message = '';
                 }
 
@@ -110,10 +162,6 @@ function chatDirective ($log, UserService, ConfigService, MessagesService) {
                     event.stopPropagation();
                     sendMessage(scope.message);
                 }
-            };
-
-            scope.hasMessages = function () {
-                return lastTime != null;
             };
 
             scope.startTyping = function () {
@@ -130,4 +178,4 @@ function chatDirective ($log, UserService, ConfigService, MessagesService) {
 }
 
 angular.module('spacebox').directive('spChat',
-    ['$log', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);
+    ['$log', 'UserService', 'ConfigService', 'MessagesService', 'FriendsService', chatDirective]);

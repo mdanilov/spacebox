@@ -87,7 +87,7 @@
                 "user_id": {
                     "title": "user_id",
                     "description": "User ID, history of correspondence which should be returned",
-                    "type": "number"
+                    "type": "string"
                 },
                 "offset": {
                     "title": "offset",

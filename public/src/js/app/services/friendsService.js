@@ -24,6 +24,14 @@ function FriendsService ($http, $log, $q, VkService, ConfigService) {
         return asyncChangeLikeStatus(id, FriendsService.LIKE_STATES.DISLIKE);
     };
 
+    FriendsService.getFriend = function (user_id) {
+        for (var i = 0; i < FriendsService._friends.length; i++) {
+            if (user_id == FriendsService._friends[i].mid) {
+                return FriendsService._friends[i];
+            }
+        }
+    };
+
     FriendsService.asyncGetFriends = function () {
         return $http.get(ConfigService.SERVER_URL + '/friends.get').then(
             function __success (response) {

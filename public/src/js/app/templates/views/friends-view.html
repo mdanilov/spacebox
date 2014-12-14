@@ -28,7 +28,7 @@
         </div>
         <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': !friends.list}">
             <div id="spChat" ng-if="friends.isChatOpen">
-                <sp-chat user="friends.current" messages="friends.messages" on-close="friends.closeChat()"></sp-chat>
+                <sp-chat user-id="friends.current.mid" on-close="friends.closeChat()"></sp-chat>
             </div>
             <div id="map-canvas"></div>
         </div>

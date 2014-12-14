@@ -54,10 +54,7 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
     }
     
     self.openChat = function () {
-        MessagesService.asyncGetHistory(self.current.info.id).then(function (messages) {
-            self.messages = messages;
-            self.isChatOpen = true;
-        });
+        self.isChatOpen = true;
     };
 
     self.closeChat = function () {
