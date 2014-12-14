@@ -37,7 +37,9 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
                         if (scope.userId == newValue) {
                             messages = MessagesService.getHistory(newValue);
                             if (angular.isArray(messages) && messages.length > 0) {
+                                scope.isMessages = true;
                                 prependLoadedHistory(messages);
+                                scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
                             }
                         }
                     });
