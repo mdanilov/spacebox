@@ -4,10 +4,22 @@ function LoginViewController ($scope, $log, $location, VkService, UserService, C
     $scope.app.isNavbarHidden = true;
 
     $scope.images = [
-        "src/img/login-1.jpg",
-        "src/img/login-2.jpg",
-        "src/img/login-3.jpg",
-        "src/img/login-4.jpg"
+        {
+            text: 'Анонимно ставьте "Нравится" или "Пропустить"',
+            url: "src/img/login-1.jpg"
+        },
+        {
+            text: 'Что будет, если вы понравитесь друг другу',
+            url: "src/img/login-2.jpg"
+        },
+        {
+            text: 'Общайтесь с дурзьями в приложении',
+            url: "src/img/login-3.jpg"
+        },
+        {
+            text: 'Находите друзей рядом',
+            url: "src/img/login-4.jpg"
+        }
     ];
 
     $scope.Login = function () {

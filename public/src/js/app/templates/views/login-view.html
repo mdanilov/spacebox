@@ -1,7 +1,7 @@
 <div id="spLoginView">
-    <div class="row">
+    <div class="row fill-height">
         <div class="sp-intro col-sm-6">
-            <h1 class="sp-logo">
+            <h1 class="sp-logo hidden-xs">
                 <span>Finder</span>
             </h1>
             <h2 class="hidden-xs">Сервис быстрых знакомств</h2>
@@ -12,12 +12,16 @@
             </div>
             <div class="sp-login-btn">
                 <a href="" class="btn btn-lg btn-primary" ng-click="Login()">Войти c ВКонтакте</a>
+                <span class="visible-xs-block">
+                    <i class="fa fa-info-circle"></i>Ничего не будет опубликовано на ВКонтакте
+                </span>
             </div>
         </div>
         <div class="sp-login-carousel col-sm-6">
-            <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-auto-slide rn-carousel-buffered class="sp-carousel-image">
+            <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered class="sp-carousel-image">
                 <li ng-repeat="image in images track by $index">
-                    <div class="sp-carousel-layer" ng-style="{'background-image': 'url(' + '{{image}}' + ')'}"></div>
+                    <h4>{{image.text}}</h4>
+                    <div class="sp-carousel-layer" ng-style="{'background-image': 'url(' + '{{image.url}}' + ')'}"></div>
                 </li>
             </ul>
             <div class="rn-carousel-indicator custom-indicator">
@@ -26,6 +30,6 @@
                       ng-click="$parent.carouselIndex = $index">
                 </span>
             </div>
-        </div>        
+        </div>
     </div>
 </div>

@@ -22,14 +22,6 @@
 	padding: 5px;
 }
 
-@media (max-width: 768px) {
-    .sp-intro {
-        margin-top: 20px;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-}
-
 .sp-intro-get-app {
 	margin-top: 30px;
 	position: relative;
@@ -70,7 +62,7 @@
 
 .sp-logo {
     display: block;
-    width: 141px !important;
+    width: 140px !important;
     height: 47px !important;
     background: url(../../img/logo.png) no-repeat;
     background-size: cover;
@@ -94,22 +86,37 @@
 @media (max-width: 768px) {
     .sp-login-btn {
         position: fixed;
-        bottom: 40px;
-        text-align: center;
+        bottom: 0;
         left: 0;
         right: 0;
+        text-align: center;
+    }
+
+    .sp-login-btn a {
+        width: 60%;
+    }
+
+    .sp-login-btn span {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    .sp-login-btn span i {
+        padding-right: 10px;
     }
 }
 
 .sp-login-carousel {
     height: 100%;
+    padding-bottom: 20px;
 }
 
 @media (max-width: 768px) {
     .sp-login-carousel {
         position: absolute;
-        bottom: 160px;
-        top: 100px;
+        bottom: 130px;
+        top: 10px;
         left: 0;
         right: 0;
         height: auto;
@@ -118,24 +125,22 @@
 
 /* carousel */
 .sp-login-carousel .sp-carousel-layer {
-    height: 500px;
+    height: calc(100% - 70px);
     width: auto;
-    display: block;
     margin: 0 auto;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
 }
 
-@media (max-width: 768px) {
-    .sp-login-carousel .sp-carousel-layer {
-        height: 100%;
-    }
+.sp-login-carousel .sp-carousel-image h4 {
+    height: 50px;
 }
 
 .sp-login-carousel .sp-carousel-image {
-    height: 500px;
+    height: 90%;
     background-color: white;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -148,7 +153,8 @@
 .sp-login-carousel .custom-indicator {
     font-family: 'FontAwesome';
     display: table;
-    margin: 20px auto;
+    margin: 0 auto;
+    height: 10%;
 }
 
 .sp-login-carousel div.custom-indicator span {
