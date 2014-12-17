@@ -108,18 +108,29 @@ gulp.task('build', function () {
 
 gulp.task('cordova', function () {
     gulp.src([
+        './lib/yepnope/yepnope.1.5.0-min.js',
+        './lib/angular/angular.js'
+    ])
+        .pipe(gulp.dest('dist'));
+
+    gulp.src([
         './lib/bootstrap/dist/css/bootstrap.css',
         './lib/components-font-awesome/css/font-awesome.css',
-        './lib/mapbox.js/mapbox.uncompressed.css',
-        './lib/moment/moment.js',
-        './lib/moment/locale/ru.js',
+        './lib/mapbox.js/mapbox.css',
         './lib/angular-carousel/dist/angular-carousel.css',
         './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css',
+        './dist/spacebox.min.css',
+    ])
+        .pipe(concat('spacebox-bundle.css'))
+        .pipe(gulp.dest('dist'));
+
+    gulp.src([
+        './lib/moment/moment.js',
+        './lib/moment/locale/ru.js',
         './lib/jquery/dist/jquery.js',
         './lib/bootstrap/dist/js/bootstrap.js',
-        './lib/mapbox.js/mapbox.uncompressed.js',
+        './lib/mapbox.js/mapbox.js',
         './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
-        './lib/angular/angular.js',
         './lib/angular-route/angular-route.js',
         './lib/angular-touch/angular-touch.js',
         './lib/angular-cookies/angular-cookies.js',
@@ -129,8 +140,9 @@ gulp.task('cordova', function () {
         './lib/angular-bootstrap/ui-bootstrap-tpls.js',
         './lib/angular-carousel/dist/angular-carousel.js',
         './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js',
-        './dist/spacebox-mobile.min.js',
-        './dist/spacebox.min.css',
+        './dist/spacebox-mobile.js',
     ])
-        .pipe(gulp.dest('cordova'));
+        .pipe(concat('spacebox-bundle.js'))
+        .pipe(gulp.dest('dist'));
 });
+
