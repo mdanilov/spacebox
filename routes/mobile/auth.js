@@ -7,8 +7,8 @@ var HttpError = require('../../routes/error').HttpError;
 exports.login = function (request, response, next) {
     var hostname = request.protocol + '://' + request.headers.host + '/';
     var options = 'https://oauth.vk.com/access_token?' +
-        'client_id=' + config.get('vk:apiID') +
-        '&client_secret=' + config.get('vk:privateKey') +
+        'client_id=' + config.get('vk:mobile:appId') +
+        '&client_secret=' + config.get('vk:mobile:privateKey') +
         '&code=' + request.query.code +
         '&redirect_uri=' + url.resolve(hostname, request.query.url);
 

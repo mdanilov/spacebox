@@ -3,6 +3,10 @@ function LoginViewController ($scope, $log, $location, VkService, UserService, C
 
     $scope.app.isNavbarHidden = true;
 
+    if (VkService.hasOwnProperty('initLikeWidget')) {
+        VkService.initLikeWidget('vkLike');
+    }
+
     $scope.images = [
         {
             text: 'Анонимно ставьте "Нравится" или "Пропустить"',

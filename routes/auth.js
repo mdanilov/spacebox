@@ -11,7 +11,7 @@ exports.login = function (request, response, next) {
     md5sum.update('mid=' + session['mid']);
     md5sum.update('secret=' + session['secret']);
     md5sum.update('sid=' + session['sid']);
-    md5sum.update(config.get('vk:privateKey'));
+    md5sum.update(config.get('vk:website:privateKey'));
 
     if (session.sig === md5sum.digest('hex')) {
         request.session.reload( function (error) {

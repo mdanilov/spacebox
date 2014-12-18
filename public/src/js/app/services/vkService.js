@@ -7,13 +7,17 @@ function VkService ($http, $log, $q, ConfigService) {
     VkService.FIELDS = 'sex, bdate, first_name, photo_50, photo_100, screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
-    VK.init({ apiId: ConfigService.VK_APP_ID });
+    VK.init({ apiId: ConfigService.VK_WEBSITE_APP_ID });
 
     function asyncLoginToServer (session) {
         return $http.post(ConfigService.SERVER_URL + '/login', session).catch(function (response) {
             return $q.reject(new HttpError(response.status, 'VK login failed'));
         });
     }
+
+    VkService.initLikeWidget = function (selector) {
+        VK.Widgets.Like(selector, {type: "button", height: 24}, 29);
+    };
 
     VkService.asyncLogin = function () {
         var deferred = $q.defer();

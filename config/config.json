@@ -3,9 +3,17 @@
     "port": 8080,
     "vk":
     {
-        "apiID": 4213835,
-        "redirectUrl": "https://oauth.vk.com/blank.html",
-        "privateKey": ""
+        "website":
+        {
+            "appId": 4688098,
+            "privateKey": ""
+        },
+        "mobile":
+        {
+            "appId": 4213835,
+            "privateKey": "",
+            "redirectUrl": "https://oauth.vk.com/blank.html"
+        }
     },
     "session":
     {

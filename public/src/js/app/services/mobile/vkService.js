@@ -9,13 +9,15 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.FIELDS = 'sex,bdate,first_name,photo_50,photo_100,screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
-    VkService._appId = ConfigService.VK_APP_ID;
+    VkService._appId = ConfigService.VK_MOBILE_APP_ID;
     VkService._session = null;
     var session = $cookieStore.get('vk.session');
     if (angular.isObject(session) &&
         session.expires > new Date().getTime()) {
         VkService._session = session;
     }
+
+    // TODO: add stats.trackVisitor request
 
     function asyncApiCall (method, options) {
         var deferred = $q.defer();
