@@ -1,3 +1,103 @@
+.media-list .media {
+    cursor: pointer;
+    height: 80px;
+    box-shadow: inset 0 -1px 0 0 rgb(231, 231, 231);
+}
+
+.media-list .media-heading {
+    margin: 0;
+    color: #4387fd;
+    font-weight: bold;
+}
+
+.media, .media .media {
+    margin: 0;
+}
+
+.media-list .media i {
+    font-size: 3em;
+    color: grey;
+}
+
+.media-list .media:focus,
+.media-list .media:hover,
+.media-list .media:active,
+.media-list .media.active {
+    background-color: rgb(238, 238, 238);
+}
+
+.media-list .media:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.media-list .media .media-left {
+    padding: 5px 15px 5px 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.media-list .media-body {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.media-list .media-body p {
+    margin: 0;
+}
+
+.sp-properties-header {
+    border-bottom: 1px solid silver;
+    background: white;
+    height: 60px;
+    padding: 10px;
+    width: 100%;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .sp-properties-header {
+        position: fixed;
+        text-align: center;
+        top: 0;
+    }
+}
+
+.sp-properties-header:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.sp-properties-header span {
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.sp-properties-header .sp-done {
+    position: absolute;
+    top: 19px;
+    right: 10px;
+    text-decoration: none;
+    color: #4387fd;
+}
+
+#spPropertiesView {
+    height: 100%;
+}
+
+#spPropertiesView .sp-properties {
+    padding: 0;
+    border: 1px solid rgb(231, 231, 231);
+    background-color: rgb(238, 238, 238);
+    height: 100%;
+}
+
 @media (min-width: 768px) {
     #spPropertiesView .row.ng-hide {
         display: block !important;
@@ -19,20 +119,37 @@
 	display: block;
 	margin-top: 20px;
 	margin-bottom: 30px;
+    padding: 10px;
+    background-color: white;
+    border-top: 1px solid rgb(218, 218, 218);
+    border-bottom: 1px solid rgb(218, 218, 218);
 }
 
     @media (max-width: 768px) {
 
+        #spPropertiesView .sp-profile {
+            height: 100%;
+        }
+
+        #spPropertiesView .sp-properties {
+            padding: 0;
+            left: 0;
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            padding-top: 60px;
+        }
+
         #spPropertiesView {
             width: 100%;
-            padding-top: 60px;
             position: relative;
         }
 
         .sp-property-container {
             width: 100%;
-            padding-left: 10px;
-            padding-right: 10px;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .sp-property-container textarea {
@@ -50,6 +167,12 @@
     margin-bottom: 10px;
 }
 
+@media (max-width: 768px) {
+    .sp-property-container .sp-property-header {
+        margin: 10px;
+    }
+}
+
 .sp-property-container .slider.slider-horizontal {
 	width: 100%;
 }
@@ -63,14 +186,11 @@
     font-size: 24px;
 }
 
-.sp-delete-btn {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.sp-delete-btn .btn {
+.sp-destroy-account {
     font-size: 24px;
+    text-align: center;
     color: red;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -84,8 +204,8 @@
 }
 
 .sp-slider {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .sp-property-control {
@@ -128,10 +248,10 @@
 }
 
 #spPropertiesView .sp-profile-title {
-    margin-top: 10px;
     position: relative;
     color: white;
     text-align: center;
+    cursor: pointer;
 }
 
 #spPropertiesView .sp-profile .sp-property-container {
@@ -144,7 +264,6 @@
     height: 90px;
     border-radius: 50%;
     margin-top: 20px;
-    margin-bottom: 10px;
     border: 3px solid white;
 }
 
@@ -160,9 +279,20 @@
     width: 100%;
     height: 100%;
     z-index: -1;
+    overflow: hidden;
     filter: blur(5px);
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
     -o-filter: blur(5px);
     -ms-filter: blur(5px);
+}
+
+.sp-version {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.sp-version i {
+    color: #4387fd;
+    font-size: 2.5em;
 }

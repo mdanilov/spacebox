@@ -1,9 +1,7 @@
 #spFriendsPage .sp-friends-state {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    top: 40%;
+    margin: 0 auto;
     text-align: center;
     width: 100%;
 }

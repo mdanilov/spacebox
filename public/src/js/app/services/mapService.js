@@ -15,12 +15,12 @@ function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigServic
     MapService.MARKER_ICONS = {
         USER:  L.divIcon({
             className: 'info',
-            html: '<span class="fontawesome-map-marker user"></span>',
+            html: '<i class="fa fa-map-marker user"></i>',
             iconSize: [30, 30]
         }),
         SELECTED: L.divIcon({
             className: 'info',
-            html: '<span class="fontawesome-map-marker selected"></span>',
+            html: '<i class="fa fa-map-marker selected"></i>',
             iconSize: [40, 40]
         }),
         LOCATOR: L.divIcon({
@@ -40,7 +40,7 @@ function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigServic
                         '<h4>{{user.info.first_name}}{{user.info.bdate|age:true}}</h4>',
                         '<p>{{user.info.sex == 1 ? \'Была \' : \'Был \' }}<span am-time-ago="user.location.timestamp"></span></p>',
                         '<a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">',
-                            '<span class="brandico-vkontakte-rect"></span>',
+                            '<i class="fa fa-vk"></i>',
                         '</a>',
                     '</div>',
                 '</div>',

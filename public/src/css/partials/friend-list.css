@@ -101,7 +101,7 @@
     font-size: 30px;
     vertical-align: middle;
     display: inline-block;
-    margin: 0px 5px;
+    margin: 0 5px;
 }
 
 .sp-icons:before {
@@ -146,8 +146,8 @@
 }
 
 #spUserList .spListGroupSeparator {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 #spUserList .sp-list-item-photo {

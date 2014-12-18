@@ -1,17 +1,19 @@
 .dialog {
     text-align: center;
-    z-index: 100;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    -webkit-transform: translate(-50%, -50%);
-    margin: 0;
+    top: 30%;
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
     .dialog {
         width: 80%;
     }
+}
+
+.dialog .modal-content {
+    opacity: 0.9;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 .dialog .modal-body {
@@ -25,8 +27,8 @@
 
 .dialog .btn-group {
     width: 100%;
-    height: 100%;
     height: 50px;
+    font-size: 1em;
 }
 
 .dialog .btn-group .btn:first-child {

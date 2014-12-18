@@ -1,27 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
-@import url(http://weloveiconfonts.com/api/?family=fontawesome);
-@import url(http://weloveiconfonts.com/api/?family=brandico);
-@import url(http://weloveiconfonts.com/api/?family=entypo);
 
-[class*="fontawesome-"]:before {
-  font-family: 'FontAwesome', sans-serif;
-}
-
-[class*="brandico-"]:before {
-  font-family: 'Brandico', sans-serif;
-}
-
-[class*="entypo-"]:before {
-    font-family: 'Entypo', sans-serif;
-}
-
-html {
-    height: 100%;
-}
-
-body {
+html, body {
     font: 16px "Open Sans";
     height: 100%;
+    overflow-y: hidden;
+    position: relative;
 }
 
 .blur {
@@ -151,4 +134,9 @@ p {
   margin-right: auto;
   margin-top: 10px;
   width: 123px;
+}
+
+textarea {
+    resize: none;
+    outline: none;
 }

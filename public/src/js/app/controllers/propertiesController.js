@@ -1,6 +1,19 @@
 function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, ErrorHandler, StatusService, AccountService, status) {
     $scope.profile = true;
 
+    $scope.properties = ['profile', 'search', 'application'];
+    $scope.propertyNames = {
+        profile: 'Профиль',
+        search: 'Опции поиска',
+        application: 'Настройки приложения'
+    };
+    $scope.selectedProperty = null;
+    $scope.selectProperty = function (property) {
+        if ($scope.properties.indexOf(property) != -1) {
+            $scope.selectedProperty = property;
+        }
+    };
+
     $scope.info = UserService.getInfo();
 
     $scope.toggle = function (value) {
@@ -97,6 +110,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
         ConfigService.setSearchOptions(options);
         StatusService.set($scope.status.text);
         $scope.changed = false;
+        $scope.selectedProperty = null;
     };
 
     $scope.dialogs = {};

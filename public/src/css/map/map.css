@@ -30,22 +30,22 @@
     padding: 6px;
 }
 
-#map-canvas .fontawesome-map-marker {
+#map-canvas .fa.fa-map-marker {
     font-size: 30px;
     line-height: 30px;
     opacity: 1;
 }
 
-#map-canvas .fontawesome-map-marker.user {
+#map-canvas .fa.fa-map-marker.user {
     color: #4387fd;
 }
 
-#map-canvas .fontawesome-map-marker.selected {
+#map-canvas .fa.fa-map-marker.selected {
     color: #4387fd;
     font-size: 40px;
     line-height: 40px;
     z-index: 250;
-    text-shadow: -3px 0 white, 0 3px white, 3px 0 white, 0 -3px white;
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
 }
 
 #map-canvas .locator {
