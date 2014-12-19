@@ -93,12 +93,12 @@ else {
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js',
-            '//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.8.3/angular-moment.min.js',
             '//cdn.socket.io/socket.io-1.2.1.js',
             './lib/angular-bootstrap/ui-bootstrap.min.js',
             './lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
             './lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js',
             './lib/angular-carousel/dist/angular-carousel.min.js',
+            './lib/angular-moment/angular-moment.min.js',
             './lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js'
         ],
         both: [
