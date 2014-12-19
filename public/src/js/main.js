@@ -178,8 +178,8 @@ else {
         else {
             yepnope({
                 test: Modernizr.touch,
-                yep: './dist/spacebox-mobile.min.js',
-                nope: './dist/spacebox.min.js',
+                yep: './dist/spacebox-mobile.js',
+                nope: './dist/spacebox.js',
                 both: './dist/spacebox.min.css',
                 complete: bootstrapAngular
             });
