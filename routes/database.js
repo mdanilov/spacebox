@@ -206,8 +206,8 @@ exports.selectUsers = function (request, response, next) {
                     }
 
                     if (config.get('database:dateRange') !== undefined) {
-                        where += util.format("AND timestamp > %d ",
-                            new Date(new Date().getTime() - config.get('database:dateRange'))).toUTCString();
+                        where += util.format("AND timestamp > '%s' ",
+                            new Date(new Date().getTime() - config.get('database:dateRange')).toUTCString());
                     }
 
                     var sql =
