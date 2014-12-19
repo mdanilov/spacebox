@@ -7,7 +7,7 @@
     #spNavPills ul > li {
         display: table-cell;
         width: 1%;
-        z-index: 100000;
+        z-index: 1001;
     }
 
     #spRowContainer {
@@ -18,99 +18,109 @@
         z-index: 0;
     }
 
-    #spFriendsList.sp-active{
-        z-index: 10000;
+    #spFriendsList.sp-active {
+        z-index: 1001;
     }
 }
 
 #spFriendsList {
     max-height: 100%;
-    overflow-y: scroll;
-    padding-left: 0px;
-    padding-right: 0px;
+    overflow-y: auto;
+    padding-left: 0;
+    padding-right: 0;
     background-color: white;
 }
 
-#spFriendsList .list-group-item
-{
-    margin: 0px 0px 0px 0px;
-    padding: 0px;
-    border-width: 0px;
+#spNavPills .nav.nav-pills {
+    border-radius: 4px;
+    background-color: rgb(238, 238, 238);
+}
+
+#spNavPills .nav-justified > li > a {
+    margin: 0;
+}
+
+#spFriendsList .list-group {
+    margin: 0;
+    padding: 0;
+}
+
+#spFriendsList .list-group-item {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
     border: none;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    border-radius: 0%;   
-    cursor: pointer; 
+    border-radius: 0;
+    cursor: pointer;
+    box-shadow: inset 0 -1px 0 0 rgb(231, 231, 231);
 }
 
-#spFriendsList .active .brandico-vkontakte-rect {
-    display: inline;
+#spFriendsList table {
+    height: 60px;
+    width: 100%;
 }
 
-@media (max-width: 768px) {
-    #spFriendsList .active .fa-map-marker {
-        display: inline;
-    }
+#spFriendsList .sp-user-info {
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    
 }
 
-#spFriendsList .active
+#spFriendsList .sp-user-info > div {
+    margin-bottom: -5px;
+    font-weight: bold;
+}
+
+#spFriendsList .sp-user-info span
 {
+    font-size: 12px;
+    color: grey;
+    opacity: 0.9;
+}
+
+#spFriendsList .sp-icons {
+    text-align: right;
+}
+
+#spFriendsList .sp-avatar {
+    width: 70px;
+}
+
+#spFriendsList .active {
     background-color: rgb(238, 238, 238);
     color: black;
 }
 
 #spFriendsList .media {
-    margin: 0px;
+    margin: 0;
 }
 
-#spFriendsList .brandico-vkontakte-rect {
-    margin-right: 10px;
+#spFriendsList a {
     color: #4387fd;
     font-size: 30px;
-    display: none;
-}
-
-#spFriendsList .sp-user-info {
-}
-
-@media (max-width: 768px) {
-    #spFriendsList .brandico-vkontakte-rect {
-        margin-right: 30px;
-    }
-    #spFriendsList .fa-map-marker {
-        margin-right: 30px;
-        color: #4387fd;
-        font-size: 30px;
-        line-height: 60px;
-        display: none;
-    }
-}
-
-#spFriendsList .media-body {
-    display: block;
     vertical-align: middle;
-    line-height: 60px;
-    border-bottom: 1px solid;
-    border-color: rgb(238, 238, 238);
-    height: 61px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.sp-icons:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
 
 #spFriendsList .media-object {
     border-radius: 50%;
     height: 50px;
     width: 50px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 5px;
-    margin-right: 5px; 
-    margin-top: 5px; 
-    margin-bottom: 5px;         
+    padding: 0;
+    margin: 5px;
 }
 
-#spUserList .btn-group.btn-group-lg.btn-group-justified label{
-    border-radius: 0px;
+#spUserList .btn-group.btn-group-lg.btn-group-justified label {
+    border-radius: 0;
 }
 
 #spUserList .btn-group.btn-group-lg.btn-group-justified {
@@ -132,39 +142,30 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     display: block;
-/*    border: solid 1px;
-*/
     padding: 15px;
-/*    height: 200px;
-*/
 }
 
 #spUserList .spListGroupSeparator {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-
-
-#spUserList .sp-list-item-photo
-{
+#spUserList .sp-list-item-photo {
     display: inline-block;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     overflow: hidden;
 }
 
 #spUserList .sp-list-item-photo-container:hover,
 #spUserList .sp-list-item-photo-container:active,
-#spUserList .sp-list-item-photo-container:focus
-{
+#spUserList .sp-list-item-photo-container:focus {
     border-color: #428bca;
 }
 
-#spUserList .sp-list-item-photo-container
-{
+#spUserList .sp-list-item-photo-container {
     display: block;
-    margin: 0px;
+    margin: 0;
     padding: 6px;
     
     -webkit-transition-delay: 0s;
@@ -177,20 +178,17 @@
     border-radius: 4px;
 }
 
-#spUserList .sp-list-item-info
-{
+#spUserList .sp-list-item-info {
     display: inline-block;
     overflow: hidden;
-
-    margin: 0px;
+    margin: 0;
     width: 250px;
     padding-left: 15px;
-    padding-top: 0px;
+    padding-top: 0;
     vertical-align: top;
 }
 
-#spUserList .sp-list-item-buttons
-{
+#spUserList .sp-list-item-buttons {
     display: inline-block;
     overflow: hidden;
     width: 70px;
@@ -198,7 +196,7 @@
     position: absolute;
     top: 15px;
     right: 30px;
-    margin: 0px;
+    margin: 0;
     vertical-align: top;
 }
 
@@ -260,4 +258,3 @@
     display: block;
     cursor: pointer;
 }
-

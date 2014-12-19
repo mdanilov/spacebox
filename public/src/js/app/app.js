@@ -1,5 +1,5 @@
 var spacebox = angular.module('spacebox',
-    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'angular-carousel']);
+    [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'angular-carousel', 'angularMoment', 'ui.bootstrap.modal', 'ui.bootstrap.tpls']);
 
 spacebox.config(['$routeProvider', '$logProvider',
     function ($routeProvider, $logProvider) {
@@ -11,7 +11,6 @@ spacebox.config(['$routeProvider', '$logProvider',
             when('/', {
                 templateUrl: 'src/js/app/templates/views/main-view.html',
                 controller: 'MainViewController',
-                resolve: MainViewController.resolve,
                 controllerAs: 'main'
             }).
             when('/friends', {
@@ -25,7 +24,8 @@ spacebox.config(['$routeProvider', '$logProvider',
             }).
             when('/properties', {
                 templateUrl: 'src/js/app/templates/views/properties-view.html',
-                controller: 'PropertiesViewController'
+                controller: 'PropertiesViewController',
+                resolve: PropertiesViewController.resolve
             }).
             otherwise({
                 redirectTo: '/login'
@@ -36,8 +36,9 @@ spacebox.config(['$routeProvider', '$logProvider',
         }
     }]);
 
-spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler',
-    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler) {
+spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment',
+    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment) {
+        amMoment.changeLocale('ru');
         $rootScope.$on('$locationChangeStart', function (event) {
             var path = $location.path();
             if (!ConfigService.isAuthorized() && path != '/login') {

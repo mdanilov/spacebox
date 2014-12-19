@@ -1,0 +1,52 @@
+.sp-match-backdrop.modal-backdrop.in {
+    opacity: 0.8;
+}
+
+.sp-match-modal .modal-dialog {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+}
+
+.sp-match-modal .modal-content {
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: white;
+}
+
+.sp-match-modal i {
+    font-size: 18px;
+    padding: 5px;
+}
+
+.sp-match-modal img {
+    width: 80px;
+    height: 80px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 3px solid white;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.sp-match-modal .modal-footer {
+    border: none;
+    padding-top: 50px;
+}
+
+.sp-match-modal .modal-footer .btn {
+    width: 80%;
+    margin: 20px auto;
+    display: block;
+    border: 2px solid white;
+    background-color: rgba(0,0,0,0);
+}

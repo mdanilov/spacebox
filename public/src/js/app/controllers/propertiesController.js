@@ -1,5 +1,18 @@
-function PropertiesViewController ($scope, UserService, ConfigService) {
+function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, ErrorHandler, StatusService, AccountService, status) {
     $scope.profile = true;
+
+    $scope.properties = ['profile', 'search', 'application'];
+    $scope.propertyNames = {
+        profile: 'Профиль',
+        search: 'Опции поиска',
+        application: 'Настройки приложения'
+    };
+    $scope.selectedProperty = null;
+    $scope.selectProperty = function (property) {
+        if ($scope.properties.indexOf(property) != -1) {
+            $scope.selectedProperty = property;
+        }
+    };
 
     $scope.info = UserService.getInfo();
 
@@ -8,12 +21,14 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
         $scope.changed = false;
     };
 
-    var status = UserService.getStatus();
-	$scope.status = {
-        text: status,
-        length: ConfigService.MAX_STATUS_LENGTH - status.length,
-        maxLength: ConfigService.MAX_STATUS_LENGTH
-    };
+    StatusService.get().then(function (status) {
+        $scope.status = {
+            text: status,
+            length: ConfigService.MAX_STATUS_LENGTH - status.length,
+            maxLength: ConfigService.MAX_STATUS_LENGTH
+        };
+    });
+
     $scope.changed = false;
 
 	$scope.checkLength = function() {
@@ -93,10 +108,47 @@ function PropertiesViewController ($scope, UserService, ConfigService) {
             bottom: ages[0]
         };
         ConfigService.setSearchOptions(options);
-        UserService.setStatus($scope.status.text);
+        StatusService.set($scope.status.text);
         $scope.changed = false;
-    }
+        $scope.selectedProperty = null;
+    };
+
+    $scope.dialogs = {};
+    $scope.dialogs.destroy = {
+        title: 'Вы уверены, что хотите удалить аккаунт?',
+        description: 'При удалении вашего аккаунта будут безвозвратно \
+            удалены ваши друзья, профиль и фотографии.',
+        ok: 'Удалить аккаунт',
+        cancel: 'Отмена'
+    };
+
+    $scope.destroy = function () {
+        var dialog = $modal.open({
+            templateUrl: 'src/js/app/templates/modals/dialog.html',
+            windowClass: 'dialog',
+            controller: 'DialogController',
+            resolve: {
+                text: function () {
+                    return $scope.dialogs.destroy;
+                }
+            },
+            size: 'sm',
+            backdrop: 'static'
+        });
+
+        dialog.result.then(function () {
+            AccountService.asyncDestroy().then(function () {
+                $location.path('/login');
+            });
+        });
+    };
 }
 
+PropertiesViewController.resolve = {
+    'status': function (StatusService, ErrorHandler) {
+        return StatusService.promise.catch(ErrorHandler.handle);
+    }
+};
+
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', 'UserService', 'ConfigService', PropertiesViewController]);
+    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'ErrorHandler', 'StatusService', 'AccountService', 'status', PropertiesViewController]);

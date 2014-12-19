@@ -16,7 +16,7 @@ function openConnection (callback) {
 }
 
 function dropDatabase (callback) {
-    client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY, sex INT, age INT, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp DOUBLE PRECISION);",
+    client.query("CREATE TABLE IF NOT EXISTS users (mid BIGINT PRIMARY KEY, sex INT, age INT, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION, timestamp TIMESTAMP WITH TIME ZONE);",
         function (error) {
             if (error)
                 log.error(error);
@@ -24,7 +24,7 @@ function dropDatabase (callback) {
                 log.info('Table USERS is created');
         });
 
-    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT, status INT, timestamp DOUBLE PRECISION);",
+    client.query("CREATE TABLE IF NOT EXISTS likes (mid BIGINT, liked BIGINT, status INT, timestamp TIMESTAMP WITH TIME ZONE);",
         function (error) {
             if (error)
                 log.error(error);
@@ -38,6 +38,14 @@ function dropDatabase (callback) {
                 log.error(error);
             else
                 log.info('Table FRIENDS is created');
+        });
+
+    client.query("CREATE TABLE IF NOT EXISTS status (mid BIGINT PRIMARY KEY, text VARCHAR);",
+        function (error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Table STATUS is created');
         });
 
     client.query("CREATE TABLE IF NOT EXISTS connect_session (sid VARCHAR NOT NULL, expires TIMESTAMP WITHOUT TIME ZONE NOT NULL, session JSON NOT NULL, CONSTRAINT sid_pk PRIMARY KEY (sid));",
@@ -75,7 +83,30 @@ function dropDatabase (callback) {
             log.error(error);
         else
             log.info('Extension EARTHDISTANCE is created');
-        callback();
+    });
+
+    client.query("CREATE SEQUENCE message_id_seq;", function (error) {
+        if (error)
+            log.error(error);
+        else
+            log.info('Sequence message_id_seq is created');
+    });
+
+    client.query([
+        "CREATE TABLE IF NOT EXISTS messages (",
+            "id BIGINT NOT NULL DEFAULT nextval('message_id_seq') PRIMARY KEY,",
+            "from_id BIGINT NOT NULL,",
+            "user_id BIGINT NOT NULL,",
+            "body VARCHAR NOT NULL,",
+            "date INTEGER NOT NULL,",
+            "read_state BOOLEAN NOT NULL DEFAULT FALSE",
+        ");"].join(''),
+        function (error) {
+            if (error)
+                log.error(error);
+            else
+                log.info('Table MESSAGES is created');
+            callback();
     });
 }
 

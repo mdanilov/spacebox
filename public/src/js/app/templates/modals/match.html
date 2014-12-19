@@ -1,0 +1,16 @@
+<div class="modal-body">
+    <h1>Это Взаимно!</h1>
+    <h5>Вы и {{couple[1].first_name}} понравились друг другу.</h5>
+    <div>
+        <img ng-src="{{couple[0].photo_100}}">
+        <img ng-src="{{couple[1].photo_100}}">
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" ng-click="openFriends()">
+        <i class="fa fa-users"></i>Перейти к друзьям
+    </button>
+    <button type="button" class="btn" ng-click="back()">
+        <i class="fa fa-picture-o"></i>Продолжить искать
+    </button>
+</div>

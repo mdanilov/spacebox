@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="phone.svg"
+   inkscape:export-filename="C:\Users\Maxim\Documents\WebStorm\spacebox\public\tools\www\phone.png"
+   inkscape:export-xdpi="71.257729"
+   inkscape:export-ydpi="71.257729">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="135.72809"
+     inkscape:cy="710.1629"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="1,0"
+       position="159.6041,776.80731"
+       id="guide3815" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="202.03051,706.09663"
+       id="guide3817" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="font-size:347.04748535000004000px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#161616;stroke-width:1.98885201999999990;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:FontAwesome;-inkscape-font-specification:FontAwesome;fill:none"
+       d="m 131.28231,160.87074 101.00843,0 c 6.60542,2.9e-4 12.22285,2.88084 17.06288,8.73553 4.83988,5.85541 7.22611,12.64153 7.22625,20.62663 l 0,244.2101 c -1.4e-4,7.98541 -2.3864,14.77156 -7.22625,20.62663 -4.84003,5.85498 -10.45748,8.73554 -17.06288,8.73554 l -101.00843,0 c -6.60557,0 -12.21936,-2.88036 -17.06288,-8.73554 -4.84355,-5.85514 -7.22626,-12.64143 -7.22626,-20.62663 l 0,-244.2101 c 0,-7.98488 2.3827,-14.77117 7.22626,-20.62663 4.84353,-5.85488 10.45729,-8.73524 17.06288,-8.73553 z"
+       id="path3811"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Maxim\Documents\WebStorm\spacebox\public\tools\www\phone.png"
+       inkscape:export-xdpi="228.02475"
+       inkscape:export-ydpi="228.02475" />
+    <path
+       style="font-size:347.04748535000004000px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#161616;stroke-width:1.89084530000000010;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:FontAwesome;-inkscape-font-specification:FontAwesome;fill:none"
+       d="m 166.01291,186.80225 c -1.21396,1.3e-4 -2.302,0.28695 -3.05604,1.01234 -0.75404,0.72539 -1.08238,1.77644 -1.08235,2.94499 -3e-5,1.16873 0.32827,2.21955 1.08235,2.94499 0.75408,0.72544 1.84205,1.04313 3.05604,1.04302 l 31.54723,0 c 1.21088,1.2e-4 2.30416,-0.31722 3.05603,-1.04302 0.75188,-0.7258 1.05047,-1.7768 1.05052,-2.94499 -5e-5,-1.16801 -0.29869,-2.21924 -1.05052,-2.94499 -0.75182,-0.72575 -1.84518,-1.01221 -3.05603,-1.01234 z"
+       id="path3809"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Maxim\Documents\WebStorm\spacebox\public\tools\www\phone.png"
+       inkscape:export-xdpi="228.02475"
+       inkscape:export-ydpi="228.02475" />
+    <path
+       style="font-size:347.04748535px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:none;stroke:#161616;stroke-width:1.44356811;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+       d="m 180.57591,431.86759 c -3.48841,3e-5 -6.53643,1.21667 -9.0166,3.60674 -2.48027,2.39012 -3.76709,5.35079 -3.76705,8.71238 -4e-5,3.36162 1.28678,6.29887 3.76705,8.68895 2.48017,2.39012 5.52818,3.63017 9.0166,3.63016 3.48809,10e-6 6.55788,-1.21956 9.04089,-3.60674 2.48276,-2.39259 3.76698,-5.35057 3.76705,-8.71237 -7e-5,-3.36177 -1.28408,-6.32233 -3.76705,-8.71238 -2.48295,-2.38986 -5.5526,-3.60671 -9.04089,-3.60674 z"
+       id="path3805"
+       inkscape:export-xdpi="228.02475"
+       inkscape:export-ydpi="228.02475"
+       inkscape:export-filename="C:\Users\Maxim\Documents\WebStorm\spacebox\public\tools\www\phone.png"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

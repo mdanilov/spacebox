@@ -1,8 +1,8 @@
-function MeetService ($http, $log, $q, VkService, ConfigService) {
+function FriendsService ($http, $log, $q, VkService, ConfigService) {
 
-    var MeetService = {};
-    MeetService._friends = [];
-    MeetService.LIKE_STATES = {
+    var FriendsService = {};
+    FriendsService._friends = [];
+    FriendsService.LIKE_STATES = {
         LIKE: 1,
         DISLIKE: -1
     };
@@ -16,27 +16,37 @@ function MeetService ($http, $log, $q, VkService, ConfigService) {
             });
     }
 
-    MeetService.asyncLike = function (id) {
-        return asyncChangeLikeStatus(id, MeetService.LIKE_STATES.LIKE);
+    FriendsService.asyncLike = function (id) {
+        return asyncChangeLikeStatus(id, FriendsService.LIKE_STATES.LIKE);
     };
 
-    MeetService.asyncDislike = function (id) {
-        return asyncChangeLikeStatus(id, MeetService.LIKE_STATES.DISLIKE);
+    FriendsService.asyncDislike = function (id) {
+        return asyncChangeLikeStatus(id, FriendsService.LIKE_STATES.DISLIKE);
     };
 
-    MeetService.asyncGetFriends = function () {
-        return $http.get(ConfigService.SERVER_URL + '/getFriends').then(
+    FriendsService.getFriend = function (user_id) {
+        for (var i = 0; i < FriendsService._friends.length; i++) {
+            if (user_id == FriendsService._friends[i].mid) {
+                return FriendsService._friends[i];
+            }
+        }
+    };
+
+    FriendsService.asyncGetFriends = function () {
+        return $http.get(ConfigService.SERVER_URL + '/friends.get').then(
             function __success (response) {
                 var friends = response.data;
                 if (angular.isArray(friends) && friends.length > 0) {
                     var uids = friends.map(function (friend) {
                         return friend.mid;
                     });
+
                     return VkService.asyncGetUsersInfo(uids).then(function (info) {
                         friends.forEach(function __addInfo(friend, i) {
                             friend.info = info[i];
                         });
-                        MeetService._friends = friends;
+                        FriendsService._friends = friends;
+
                         return friends;
                     })
                 }
@@ -49,9 +59,9 @@ function MeetService ($http, $log, $q, VkService, ConfigService) {
             });
     };
 
-    return MeetService;
+    return FriendsService;
 }
 
-angular.module('spacebox').factory('MeetService',
-    ['$http', '$log', '$q', 'VkService', 'ConfigService', MeetService]);
+angular.module('spacebox').factory('FriendsService',
+    ['$http', '$log', '$q', 'VkService', 'ConfigService', FriendsService]);
 

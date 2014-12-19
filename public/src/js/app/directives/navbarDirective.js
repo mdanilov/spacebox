@@ -1,4 +1,4 @@
-function navbarDirective ($log, $rootScope, $location, $window, VkService) {
+function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -7,33 +7,42 @@ function navbarDirective ($log, $rootScope, $location, $window, VkService) {
         },
         templateUrl: 'src/js/app/templates/navbar.html',
         link: function (scope, element, attrs) {
-            var Menu = (function () {
-                var _active = element.find("a[href='#" + $location.path() + "']").parent();
-                _active.addClass('sp-active');
-                return {
-                    changeState: function () {
-                        if (_active) {
-                            _active.removeClass('sp-active');
-                        }
-                        _active = element.find("a[href='#" + $location.path() + "']").parent();
-                        _active.addClass('sp-active');
-                    }
-                };
-            })();
+            var active = element.find("a[href='#" + $location.path() + "']").parent();
+            active.addClass('sp-active');
 
-//            $window.matchMedia("(max-width: 768px)").addListener(function (mediaQueryList) {
-//                if (mediaQueryList.matches) {
-//                }
-//                else  {
-//                }
-//            });
+            $rootScope.$on('$locationChangeSuccess', function () {
+                if (active) {
+                    active.removeClass('sp-active');
+                }
+                active = element.find("a[href='#" + $location.path() + "']").parent();
+                active.addClass('sp-active');
+            });
 
-            $rootScope.$on('$locationChangeSuccess', Menu.changeState);
+            scope.text = {
+                title: 'Вы действительно хотите выйти?',
+                description: 'Вас по-прежнему смогут видеть в вашей последней известной локации.',
+                cancel: 'Отмена',
+                ok: 'Выйти'
+            };
 
             scope.Logout = function () {
-                $log.debug('Logout from VK...');
-                VkService.asyncLogout().then(function () {
-                    $location.path('/login');
+                var dialog = $modal.open({
+                    templateUrl: 'src/js/app/templates/modals/dialog.html',
+                    windowClass: 'dialog',
+                    controller: 'DialogController',
+                    resolve: {
+                        text: function () {
+                            return scope.text;
+                        }
+                    },
+                    size: 'sm',
+                    backdrop: 'static'
+                });
+
+                dialog.result.then(function () {
+                    VkService.asyncLogout().then(function () {
+                        $location.path('/login');
+                    });
                 });
             };
         }
@@ -41,4 +50,4 @@ function navbarDirective ($log, $rootScope, $location, $window, VkService) {
 }
 
 angular.module('spacebox').directive('spNavbar',
-    ['$log', '$rootScope', '$location', '$window', 'VkService', navbarDirective]);
+    ['$log', '$rootScope', '$location', '$modal', 'VkService', navbarDirective]);

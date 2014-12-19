@@ -1,10 +1,10 @@
 .sp-geolocation-text h1,
 .sp-geolocation-text p,
-.sp-geolocation-text .entypo-globe {
+.sp-geolocation-text i {
     margin-top: 20px;
 }
 
-.sp-geolocation-text .entypo-globe {
+.sp-geolocation-text i {
     font-size: 100px;
     display: block;
 }

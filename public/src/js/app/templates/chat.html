@@ -1,0 +1,23 @@
+<div class="sp-chat-header">
+    <a href="" class="sp-chat-control left" ng-click="close()"><i class="fa fa-arrow-left"></i></a>
+    <img ng-src="{{user.photo_50}}">
+    <span>{{user.first_name}}</span>
+    <a href="" class="sp-chat-control right"><i class="fa fa-ellipsis-h"></i></a>
+</div>
+<div class="sp-chat-content">
+    <div class="sp-messages-content">
+        <div class="sp-empty-content" ng-if="!isMessages">
+            <h5>У вас появился новый друг - <span>{{user.first_name}}</span></h5>
+            <img ng-src="{{user.photo_100}}">
+        </div>
+        <div id="spMessages" class="sp-messages" ng-show="isMessages"></div>
+    </div>
+</div>
+<div class="sp-chat-footer">
+    <textarea id="spInput" ng-model="message" name="textarea" placeholder="Сообщение"
+        rows="1" cols="50" ng-change="startTyping()" ng-keypress="onSend($event)">
+    </textarea>
+    <div class="sp-chat-send-btn">
+        <a id="spSendButton" href="" ng-click="onSend($event)">Отправить</a>
+    </div>
+</div>

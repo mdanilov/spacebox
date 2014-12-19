@@ -13,6 +13,10 @@ function friendListItemDirective (MapService) {
                 }
                 spFriendListCtrl.select(scope);
             };
+
+            scope.openChat = function () {
+                scope.$parent.chat();
+            }
         }
     };
 }

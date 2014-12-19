@@ -1,5 +1,4 @@
-﻿var os = require('os');
-var crypto = require('crypto');
+﻿var crypto = require('crypto');
 var config = require('../config/index');
 var log = require('../utils/log')(module);
 var HttpError = require('../routes/error').HttpError;
@@ -12,15 +11,19 @@ exports.login = function (request, response, next) {
     md5sum.update('mid=' + session['mid']);
     md5sum.update('secret=' + session['secret']);
     md5sum.update('sid=' + session['sid']);
-    md5sum.update(config.get('vk:privateKey'));
+    md5sum.update(config.get('vk:website:privateKey'));
 
     if (session.sig === md5sum.digest('hex')) {
-        var sess = request.session;
-        sess.authorized = true;
-        sess.expires = session.expire + os.uptime();
-        sess.mid = session.mid;
-        log.info('VK OpenAPI session has created ', sess.mid);
-        response.end();
+        request.session.reload( function (error) {
+            if (error) {
+                next(new HttpError(500, error));
+            }
+            request.session.authorized = true;
+            request.session.expires = session.expire * 1000 + new Date().getTime();
+            request.session.mid = session.mid;
+            log.info('New VK OpenAPI session instance initialized at ', request.session);
+            response.end();
+        });
     }
     else {
         next(new HttpError(400, 'OpenAPI authorized error: wrong signature'));

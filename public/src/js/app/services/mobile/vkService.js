@@ -9,8 +9,15 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.FIELDS = 'sex,bdate,first_name,photo_50,photo_100,screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
-    VkService._appId = ConfigService.VK_APP_ID;
-    VkService._session = $cookieStore.get('vk.session');
+    VkService._appId = ConfigService.VK_MOBILE_APP_ID;
+    VkService._session = null;
+    var session = $cookieStore.get('vk.session');
+    if (angular.isObject(session) &&
+        session.expires > new Date().getTime()) {
+        VkService._session = session;
+    }
+
+    // TODO: add stats.trackVisitor request
 
     function asyncApiCall (method, options) {
         var deferred = $q.defer();
@@ -101,9 +108,8 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.asyncGetLoginStatus = function () {
         var deferred = $q.defer();
 
-        var date = new Date();
-        if (!angular.isUndefined(VkService._session) &&
-            VkService._session.expires < date.getTime()) {
+        if (VkService._session != null &&
+            VkService._session.expires < new Date().getTime()) {
             deferred.resolve(VkService._session.mid);
         }
         else {
@@ -124,6 +130,13 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
                 });
         }
 
+        return deferred.promise;
+    };
+
+    // TODO: revoke grants for application
+    VkService.asyncDestroy = function () {
+        var deferred = $q.defer();
+        deferred.resolve();
         return deferred.promise;
     };
 

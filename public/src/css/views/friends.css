@@ -1,0 +1,18 @@
+#spFriendsPage .sp-friends-state {
+    position: absolute;
+    top: 40%;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+}
+
+.sp-friends-state i {
+    color: #4683ea;
+    font-size: 40px;
+    margin-top: 20px;
+}
+
+#spFriendsPage .sp-friends-state p {
+    font-size: 12px;
+    color: grey;
+}

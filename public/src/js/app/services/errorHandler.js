@@ -24,14 +24,24 @@ GeoError.prototype = new Error();
 function ErrorHandler ($log, $location, ConfigService) {
     var ErrorHandler = {};
 
+    function logout () {
+        $location.path('/login');
+        ConfigService.isLogin = false;
+    }
+
     ErrorHandler.handle = function (error) {
         if (error instanceof Error) {
             ErrorHandler._lastError = error;
             $log.error(error);
             if (error instanceof HttpError) {
                 if (error.status === 401) {
-                    $location.path('/login');
-                    ConfigService.isLogin = false;
+                    logout();
+                }
+            }
+            else if (error instanceof VkError) {
+                var err = JSON.parse(error.message);
+                if (err.error_code == 5) {
+                    logout();
                 }
             }
             else if (error instanceof GeoError) {

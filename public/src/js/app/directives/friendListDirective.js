@@ -4,7 +4,9 @@ function friendListDirective () {
         transclude: true,
         scope: {
             users: '=',
-            onMarkerClick: '='
+            selected: '=',
+            onMarkerClick: '=',
+            chat: '&onChat'
         },
         templateUrl: 'src/js/app/templates/friend-list.html',
         controller: function ($scope) {
@@ -15,6 +17,8 @@ function friendListDirective () {
                     card.selected = false;
                 });
                 card.selected = true;
+
+                $scope.selected = card.user;
             };
 
             this.addCard = function (card) {

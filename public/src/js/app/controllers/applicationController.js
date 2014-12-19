@@ -1,9 +1,10 @@
-function ApplicationController ($scope, $log, UserService, ConfigService) {
+function ApplicationController ($scope, $log, $cookieStore, UserService, ConfigService) {
     $log.debug('Initialize application controller...');
 
     var self = this;
     self.user = {};
     self.isNavbarHidden = false;
+    self.isMatched = false;
 
     $scope.$watch(function () { return ConfigService._login },
         function (value) {
@@ -14,4 +15,4 @@ function ApplicationController ($scope, $log, UserService, ConfigService) {
 }
 
 angular.module('spacebox').controller('ApplicationController',
-    ['$scope', '$log', 'UserService', 'ConfigService', ApplicationController]);
+    ['$scope', '$log', '$cookieStore', 'UserService', 'ConfigService', ApplicationController]);

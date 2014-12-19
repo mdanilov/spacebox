@@ -1,5 +1,4 @@
-﻿var os = require('os');
-var util = require('util');
+﻿var util = require('util');
 var async = require('async');
 var pg = require('pg');
 var log = require('../utils/log')(module);
@@ -18,7 +17,7 @@ var DB = (function() {
                     throw error;
                 client.query("DELETE FROM users WHERE timestamp < $1",
                     [
-                        os.uptime() - config.get('database:options:clearInterval')
+                        new Date().getTime() - config.get('database:options:clearInterval')
                     ],
                     function (error) {
                         if (error)
@@ -64,8 +63,8 @@ exports.selectLikes = function (request, response, next) {
         // TODO: it can be done in two separate queries, may be it would be faster
         DB.query({ text: "SELECT * FROM likes WHERE mid = $1 OR liked = $1;",  values: [ userId ]},
         function (results) {
-            response.likesForUsers = [];
-            response.likesFromUsers = [];
+            response.likesForUsers = {};
+            response.likesFromUsers = {};
             if (results.rows.length != 0) {
                 for (var i = 0; i < results.rows.length; i++) {
                     if (results.rows[i].mid == userId) {
@@ -103,63 +102,9 @@ exports.selectLikes = function (request, response, next) {
     }
 };
 
-exports.selectFriends = function (request, response, next) {
-    try {
-        db.transaction(function (client, callback) {
-            var id = request.session.mid;
-            var uids = [];
-            async.waterfall([
-                client.select().from('friends').where(db.sql.or({'mid1': id}, {'mid2': id})).run,
-                function __selectUserLocations (result, callback) {
-                    var users = result.rows;
-                    if (users.length > 0) {
-                        uids = users.map(function __map (row) {
-                            return (row.mid1 === id) ? row.mid2 : row.mid1;
-                        });
-                        uids.sort(function __compare (a, b) {
-                            return a - b;
-                        });
-                        client.select().from('users').where(db.sql.in('mid', uids)).orderBy('mid').run(callback);
-                    }
-                    else {
-                        callback(null, {rows: []});
-                    }
-                },
-                function __updateFriendsInfo (result, callback) {
-                    var friends = [];
-                    uids.forEach(function __createFriend (id) {
-                        friends.push({ mid: id });
-                    });
-                    var locations = result.rows;
-                    if (locations.length > 0) {
-                        for (var i = 0, j = 0; i < uids.length; i++) {
-                            if ((j < locations.length) && (uids[i] == locations[j].mid)) {
-                                friends[i].location = {
-                                    longitude: locations[j].longitude,
-                                    latitude: locations[j].latitude,
-                                    timestamp: locations[j].timestamp
-                                };
-                                j++;
-                            }
-                        }
-                    }
-                    callback(null, friends);
-                }
-            ], callback);
-        }, function __callback(error, result) {
-            if (error)
-                next(error);
-            response.json(result);
-        });
-    }
-    catch (error) {
-        next(error);
-    }
-};
-
 function createFriendship (id1, id2) {
     DB.query({text: "INSERT INTO friends (mid1, mid2, timestamp) VALUES ($1, $2, $3);",
-            values: [ id1, id2, os.uptime() ]},
+            values: [ id1, id2, new Date().toUTCString() ]},
         function (results) {
             log.info('Users id%d and id%d are friends now', id1, id2);
         });
@@ -184,7 +129,7 @@ exports.changeLikeStatus = function (request, response, next) {
         var status = request.query.status;
         DB.query({
             text: "INSERT INTO likes (mid, liked, status, timestamp) VALUES ($1, $2, $3, $4);",
-            values: [ id, request.query.id, status, os.uptime() ]},
+            values: [ id, request.query.id, status, new Date().toUTCString() ]},
             function (results) {
                 if (status == 1) {
                     log.info('User id%d liked user id%d', id, request.query.id);
@@ -237,7 +182,7 @@ exports.selectUsers = function (request, response, next) {
                         'longitude': request.body['longitude'],
                         'sex': info.sex || 0,
                         'age': info.age || -1,
-                        'timestamp': os.uptime()
+                        'timestamp': new Date().toUTCString()
                     }).run(callback);
                 },
                 function __selectUsers(result, callback) {
@@ -260,8 +205,13 @@ exports.selectUsers = function (request, response, next) {
                             interval.top);
                     }
 
+                    if (config.get('database:dateRange') !== undefined) {
+                        where += util.format("AND timestamp > %d ",
+                            new Date(new Date().getTime() - config.get('database:dateRange'))).toUTCString();
+                    }
+
                     var sql =
-                        "SELECT * , " +
+                        "SELECT mid, timestamp, " +
                         "earth_distance(ll_to_earth($1, $2), ll_to_earth(latitude, longitude)) AS distance " +
                         "FROM users " +
                         where +

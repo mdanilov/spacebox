@@ -10,12 +10,18 @@
             "oneOf": [
                 { "$ref": "#/definitions/mobile/login" },
                 { "$ref": "#/definitions/mobile/getLoginStatus" },
-                { "$ref": "#/definitions/getUsers" },
+                { "$ref": "#/definitions/users.get" },
                 { "$ref": "#/definitions/login" },
                 { "$ref": "#/definitions/logout" },
                 { "$ref": "#/definitions/changeLikeStatus" },
-                { "$ref": "#/definitions/getFriends" },
-                { "$ref": "#/definitions/dislike" }
+                { "$ref": "#/definitions/friends.get" },
+                { "$ref": "#/definitions/friends.delete" },
+                { "$ref": "#/definitions/status.set" },
+                { "$ref": "#/definitions/status.get" },
+                { "$ref": "#/definitions/account.destroy" },
+                { "$ref": "#/definitions/dislike" },
+                { "$ref": "#/definitions/messages.get" },
+                { "$ref": "#/definitions/messages.getHistory" }
             ]
         }
     },
@@ -44,16 +50,105 @@
                 "additionalProperties": false
             }
         },
-        "getUsers": {
+        "messages.get": {
+            "title": "messages.get",
+            "description": "Returns a list of incoming or outgoing personal messages of the current user",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/getUsers", "/mobile/getUsers" ] },
+                "url": { "enum": [ "/messages.get", "/mobile/messages.get" ] },
+                "out": {
+                    "title": "out",
+                    "description": "If this parameter is 1, the server returns the outgoing messages",
+                    "enum": [ 0, 1 ]
+                },
+                "offset": {
+                    "title": "offset",
+                    "description": "Offset required for sampling a subset of messages",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "count": {
+                    "title": "count",
+                    "description": "The number of messages to retrieve",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 200
+                }
+            },
+            "required": ["url"],
+            "additionalProperties": false
+        },
+        "messages.getHistory": {
+            "title": "messages.getHistory",
+            "description": "Returns the message history for the specified user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/messages.getHistory", "/mobile/messages.getHistory" ] },
+                "user_id": {
+                    "title": "user_id",
+                    "description": "User ID, history of correspondence which should be returned",
+                    "type": "string"
+                },
+                "offset": {
+                    "title": "offset",
+                    "description": "Offset required for sampling a subset of messages",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "count": {
+                    "title": "count",
+                    "description": "The number of messages to retrieve",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 200
+                }
+            },
+            "required": ["url", "user_id"],
+            "additionalProperties": false
+        },
+        "status.set": {
+            "title": "status.set",
+            "description": "sets a new status to the current user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/status.set", "/mobile/status.set" ] },
+                "text": {
+                    "title": "text",
+                    "description": "the text of the new status",
+                    "type": "string"
+                }
+            },
+            "required": ["url", "text"],
+            "additionalProperties": false
+        },
+        "status.get": {
+            "title": "status.get",
+            "description": "gets the status text user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/status.get", "/mobile/status.get" ] },
+                "user_ids": {
+                    "title": "user_ids",
+                    "description": "user ID's, information on the status of which you want to receive",
+                    "type": "array",
+                    "minItems": 1
+                }
+            },
+            "required": ["url"],
+            "additionalProperties": false
+        },
+        "users.get": {
+            "title": "users.get",
+            "description": "returns detailed information about users",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/users.get", "/mobile/users.get" ] },
                 "latitude": {
-                    "title": "Latitude",
+                    "title": "latitude",
                     "type": "number"
                 },
                 "longitude": {
-                    "title": "Longitude",
+                    "title": "longitude",
                     "type": "number"
                 },
                 "options": {
@@ -154,11 +249,37 @@
             "required": ["url", "id", "status"],
             "additionalProperties": false
         },
-        "getFriends": {
-            "description": "get friends for current user",
+        "friends.get": {
+            "title": "friends.get",
+            "description": "returns a list of ID of the user's friends",
             "type": "object",
             "properties": {
-                "url": { "enum": [ "/getFriends", "/mobile/getFriends" ] }
+                "url": { "enum": [ "/friends.get", "/mobile/friends.get" ] }
+            },
+            "required": ["url"],
+            "additionalProperties": false
+        },
+        "friends.delete": {
+            "title": "friends.delete",
+            "description": "remove user from your friends list",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/friends.delete", "/mobile/friends.delete" ] },
+                "user_id": {
+                    "title": "user_id",
+                    "description": "ID of the user you want to remove from your friends list",
+                    "type": "number"
+                }
+            },
+            "required": ["url", "user_id"],
+            "additionalProperties": false
+        },
+        "account.destroy": {
+            "title": "account.destroy",
+            "description": "delete account for current user",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/account.destroy", "/mobile/account.destroy" ] }
             },
             "required": ["url"],
             "additionalProperties": false

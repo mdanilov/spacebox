@@ -2,7 +2,8 @@ function ConfigService ($cookieStore) {
 
     var ConfigService = {};
 
-    ConfigService.VK_APP_ID = 4213835;
+    ConfigService.VK_WEBSITE_APP_ID = 4688098;
+    ConfigService.VK_MOBILE_APP_ID = 4213835;
     ConfigService.MAX_USER_PHOTOS = 6;
     ConfigService.MAX_STATUS_LENGTH = 100;
     ConfigService.SERVER_URL = CONFIG.SERVER_URL || window.location.origin;

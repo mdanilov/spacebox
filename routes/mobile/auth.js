@@ -1,4 +1,3 @@
-var os = require('os');
 var https = require('https');
 var url = require('url');
 var config = require('../../config/index');
@@ -6,11 +5,12 @@ var log = require('../../utils/log')(module);
 var HttpError = require('../../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
+    var hostname = request.protocol + '://' + request.headers.host + '/';
     var options = 'https://oauth.vk.com/access_token?' +
-        'client_id=' + config.get('vk:apiID') +
-        '&client_secret=' + config.get('vk:privateKey') +
+        'client_id=' + config.get('vk:mobile:appId') +
+        '&client_secret=' + config.get('vk:mobile:privateKey') +
         '&code=' + request.query.code +
-        '&redirect_uri=' + url.resolve(request.headers.referer, request.query.url);
+        '&redirect_uri=' + url.resolve(hostname, request.query.url);
 
     https.get(options, function (res) {
         res.on("data", function (chunk) {
@@ -18,20 +18,23 @@ exports.login = function (request, response, next) {
             if (body.error) {
                 var error = {
                     error: 'vk oauth2 error',
-                    url: option,
+                    url: options,
                     message: body
                 };
                 next(new HttpError(400, JSON.stringify(error)));
             }
             else {
-                request.session.authorized = true;
-                request.session.expires = os.uptime() + body.expires_in;
-                request.session.mid = body.user_id;
-                request.session.access_token = body.access_token;
-                request.session.save();
-                log.info('VK OAuth2 session has created ',
-                    request.session.mid, request.session.access_token);
-                response.redirect('back');
+                request.session.reload(function (error) {
+                    if (error) {
+                        next(new HttpError(500, error));
+                    }
+                    request.session.authorized = true;
+                    request.session.expires = new Date().getTime() + body.expires_in * 1000;
+                    request.session.mid = body.user_id;
+                    request.session.access_token = body.access_token;
+                    log.info('New VK OAuth2 session instance initialized at ', request.session);
+                    response.redirect('back');
+                });
             }
         });
     });
