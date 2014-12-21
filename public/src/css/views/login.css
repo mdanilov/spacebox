@@ -63,7 +63,7 @@
     display: block;
     width: 140px !important;
     height: 47px !important;
-    background: url(../../img/logo.png) no-repeat;
+    background: url('/src/img/logo.png') no-repeat;
     background-size: cover;
 }
 
