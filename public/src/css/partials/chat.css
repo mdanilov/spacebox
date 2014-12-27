@@ -118,6 +118,7 @@
 }
 
 .sp-messages {
+    padding-top: 60px;
     min-height: 100%;
     display: -webkit-box;
     display: -moz-box;
@@ -169,6 +170,10 @@
     border-image-slice: 49% 55% 49% 43% fill;
 }
 
+.sp-message-sent.sending {
+    opacity: 0.7;
+}
+
 .sp-message-sent.sp-message-last {
     margin-bottom: 8px;
     border-image-source: url("data:image/svg+xml;charset=utf-8,<svg height='35' viewBox='0 0 96 70' width='48' xmlns='http://www.w3.org/2000/svg'><path style='fill: #00d449' d='m84 35c1 7-5 37-42 35-37 2-43-28-42-35-1-7 5-37 42-35 37-2 43 28 42 35z'/><path style='fill: #00d449' d='m96 70c-6-2-12-10-12-19v-16l-14 27s8 8 26 8z'/></svg>");
@@ -200,8 +205,10 @@
 }
 
 .sp-empty-content {
-    margin-top: 20%;
     text-align: center;
+    position: absolute;
+    margin: 20% auto 0 auto;
+    width: 100%;
 }
 
 .sp-empty-content img {
@@ -212,4 +219,12 @@
 
 .sp-empty-content span {
     font-weight: bold;
+}
+
+.sp-messages-loading {
+    text-align: center;
+    font-size: 2em;
+    line-height: 1;
+    margin: 10px 15px;
+    color: #4683ea;
 }

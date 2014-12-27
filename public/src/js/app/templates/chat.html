@@ -10,14 +10,14 @@
             <h5>У вас появился новый друг - <span>{{user.first_name}}</span></h5>
             <img ng-src="{{user.photo_100}}">
         </div>
-        <div id="spMessages" class="sp-messages" ng-show="isMessages"></div>
+        <div id="spMessages" class="sp-messages"></div>
     </div>
 </div>
 <div class="sp-chat-footer">
     <textarea id="spInput" ng-model="message" name="textarea" placeholder="Сообщение"
-        rows="1" cols="50" ng-change="startTyping()" ng-keypress="onSend($event)">
+        rows="1" cols="50" ng-change="startTyping()" ng-keypress="sendMessage($event)">
     </textarea>
     <div class="sp-chat-send-btn">
-        <a id="spSendButton" href="" ng-click="onSend($event)">Отправить</a>
+        <a id="spSendButton" href="" ng-click="sendMessage($event)">Отправить</a>
     </div>
 </div>

@@ -80,6 +80,7 @@ else {
             './lib/angular-animate/angular-animate.js',
             './lib/angular-carousel/dist/angular-carousel.js',
             './lib/angular-moment/angular-moment.js',
+            './lib/angular-local-storage/dist/angular-local-storage.js',
             './lib/angular-bootstrap/ui-bootstrap.js',
             './lib/angular-bootstrap/ui-bootstrap-tpls.js',
             './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js'
@@ -95,6 +96,7 @@ else {
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-touch.min.js',
             '//cdn.socket.io/socket.io-1.2.1.js',
+            './lib/angular-local-storage/dist/angular-local-storage.min.js',
             './lib/angular-moment/angular-moment.min.js',
             './lib/angular-bootstrap/ui-bootstrap.min.js',
             './lib/angular-bootstrap/ui-bootstrap-tpls.min.js',

@@ -1,4 +1,4 @@
-function friendListDirective () {
+function friendListDirective ($log, MessagesService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -17,7 +17,6 @@ function friendListDirective () {
                     card.selected = false;
                 });
                 card.selected = true;
-
                 $scope.selected = card.user;
             };
 
@@ -28,4 +27,5 @@ function friendListDirective () {
     };
 }
 
-angular.module('spacebox').directive('spFriendList', friendListDirective);
+angular.module('spacebox').directive('spFriendList',
+    ['$log', 'MessagesService', friendListDirective]);

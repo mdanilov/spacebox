@@ -24,20 +24,23 @@ module.exports = function (server) {
             socket.broadcast.to(message.user_id).json.emit('typing', message);
         });
 
-        socket.on('message', function (message) {
+        socket.on('message', function (message, callback) {
             message.date = message.date || Math.round(Date.now()/1000);
-
             db.insert('messages', {
                 'from_id': message.from_id, 'user_id': message.user_id,
                 'body': message.body, 'read_state': false, 'date': message.date
-            }).run(function (error) {
-                if (error) {
+            }).returning('id').run(function (error, result) {
+                if (error || !result.rows) {
                     log.error(error);
+                    callback();
+                }
+                else {
+                    message.id = result.rows[0].id;
+                    log.info('Socket message received: ', message);
+                    socket.broadcast.to(message.user_id).json.emit('incoming_message', message);
+                    callback(result.rows[0].id);
                 }
             });
-
-            log.info('Socket message received: ', message);
-            socket.broadcast.to(message.user_id).json.emit('incoming_message', message);
         });
     });
 };

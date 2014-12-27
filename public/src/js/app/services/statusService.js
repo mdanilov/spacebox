@@ -8,9 +8,7 @@ function StatusService ($q, $log, $http, ErrorHandler, ConfigService) {
             return $q.reject(new Error(500, 'user_ids not array'));
         }
 
-        return $http.get(ConfigService.SERVER_URL + '/status.get', {
-            params: {user_ids: user_ids}
-        }).then(function (response) {
+        return $http.post(ConfigService.SERVER_URL + '/status.get', {user_ids: user_ids}).then(function (response) {
             return response.data;
         }, function (error) {
             return $q.reject(new HttpError(error, 'status.get request failed'));
@@ -23,10 +21,9 @@ function StatusService ($q, $log, $http, ErrorHandler, ConfigService) {
         }
 
         StatusService._status = text;
-        $http.get(ConfigService.SERVER_URL + '/status.set', {
-            params: {text: text}
-        }).error (function (data, status, headers, config) {
-            ErrorHandler.handle(new HttpError(response.status, 'status.set request failed'));
+        $http.post(ConfigService.SERVER_URL + '/status.set', {text: text})
+            .error (function (data, status, headers, config) {
+                ErrorHandler.handle(new HttpError(response.status, 'status.set request failed'));
         });
     };
 

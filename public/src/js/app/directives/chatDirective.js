@@ -8,59 +8,60 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
         },
         templateUrl: 'src/js/app/templates/chat.html',
         link: function (scope, element, attrs) {
-            var messagesElement = $("#spMessages");
-            var scrollElement = $('.sp-messages-content');
-            var textAreaElement = $("#spInput");
-            var sendButtonElement = $("#spSendButton");
+            var messagesElement = angular.element('#spMessages');
+            var loadingElement = angular.element('<div class="sp-messages-loading">' +
+                '<i class="fa fa-circle-o-notch fa-spin"></i></div>');
+            var scrollElement = angular.element('.sp-messages-content').on('scroll', onContentScroll);
+            var textAreaElement = angular.element('#spInput');
+            var sendButtonElement = angular.element('#spSendButton');
             var userSendId = UserService.getInfo().id;
-            var CHAT_PRINT_DATE_TIMEOUT = 60; // 1 minute
 
             scope.isTyping = false;
+            scope.messages = [];
             scope.isMessages = false;
             scope.user = FriendsService.getFriend(scope.userId).info;
 
-            scope.$watch('userId', function (newValue) {
+            scope.$watch('userId', function (newValue, oldValue) {
+                $log.debug('[chat] User has changed from ' + oldValue + ' to ' + newValue);
                 scope.isTyping = false;
                 scope.isMessages = false;
                 scope.message = '';
                 scope.user = FriendsService.getFriend(newValue).info;
                 messagesElement.empty();
 
-                var messages = MessagesService.getHistory(newValue);
-                if (angular.isArray(messages) && messages.length > 0) {
-                    scope.isMessages = true;
-                    prependLoadedHistory(messages);
-                    scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
-                }
-                else {
-                    MessagesService.asyncLoadHistory(newValue).then(function () {
-                        if (scope.userId == newValue) {
-                            messages = MessagesService.getHistory(newValue);
-                            if (angular.isArray(messages) && messages.length > 0) {
-                                scope.isMessages = true;
-                                prependLoadedHistory(messages);
-                                scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
-                            }
-                        }
-                    });
-                }
+                MessagesService.asyncGetMessages(newValue, ConfigService.CHAT_MESSAGES_COUNT).then(function (messages) {
+                    $log.debug('[chat] Messages loaded', messages);
+                    if (angular.isArray(messages) && messages.length > 0) {
+                        scope.isMessages = true;
+                        prependLoadedHistory(messages);
+                        scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                    }
+                });
             });
 
-            scrollElement.on('scroll', function () {
-                if (scrollElement.scrollTop() == 0) {
+            function onContentScroll () {
+                if (scope.isMessages && scrollElement.scrollTop() == 0) {
                     var user_id = scope.userId;
-                    MessagesService.asyncLoadHistory(user_id).then(function () {
+                    messagesElement.prepend(loadingElement);
+                    var lastMessageElement = messagesElement.find('.sp-message').first();
+                    var lastId = lastMessageElement.attr('data-sp-message-id');
+                    $log.debug('[chat][scroll] Start load messages');
+                    MessagesService.asyncGetMessages(user_id, ConfigService.CHAT_MESSAGES_COUNT, lastId).then(function (messages) {
+                        loadingElement.remove();
+                        $log.debug('[chat][scroll] Messages loaded', messages);
                         if (user_id == scope.userId) {
-                            var messages = MessagesService.getHistory(user_id);
                             if (angular.isArray(messages) && messages.length > 0) {
                                 prependLoadedHistory(messages);
                             }
                         }
+                    }, function (error) {
+                        loadingElement.remove();
                     });
                 }
-            });
+            }
 
             function prependLoadedHistory (messages) {
+                MessagesService.markAsRead(messages);
                 var element = messagesElement.find(':first-child');
                 if (element.length > 0) {
                     var id = parseInt(element.first().attr('data-sp-message-id'));
@@ -83,7 +84,7 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
                     messageElement.addClass(cssClass);
 
                     if (!prevTime ||
-                        (prevTime && (messages[i].date - prevTime > CHAT_PRINT_DATE_TIMEOUT))) {
+                        (prevTime && (messages[i].date - prevTime > ConfigService.CHAT_PRINT_TIME))) {
                         var date = new Date(messages[i].date * 1000);
                         var dateElement = $('<div class="sp-messages-date" data-sp-message-id="' + messages[i].id + '">' + date.toLocaleDateString() +
                             '<span>' + ', ' + date.toLocaleTimeString() + '</span>' + '</div>');
@@ -106,9 +107,9 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
             var lastMessageElement = null;
             function createDateElement (time) {
                 if (!prevTime ||
-                    (prevTime && (time - prevTime > CHAT_PRINT_DATE_TIMEOUT))) {
+                    (prevTime && (time - prevTime > ConfigService.CHAT_PRINT_TIME))) {
                     var date = new Date(time * 1000);
-                    var dateElement = $('<div class="sp-messages-date" data-sp-message-id="999999999">' + date.toLocaleDateString() +
+                    var dateElement = $('<div class="sp-messages-date">' + date.toLocaleDateString() +
                         '<span>' + ', ' + date.toLocaleTimeString() + '</span>' + '</div>');
                     messagesElement.append(dateElement);
                     lastMessageElement = null;
@@ -118,7 +119,14 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
 
             function createMessageElement (message) {
                 scope.isMessages = true;
-                var messageElement = $('<div class="sp-message" data-sp-message-id="999999999">' + message.body + '</div>');
+                var messageElement = $('<div class="sp-message">' + message.body + '</div>');
+                if (message.id) {
+                    messageElement.attr('data-sp-message-id', message.id);
+                }
+                else {
+                    messageElement.attr('data-sp-message-client-id', message.client_id);
+                    messageElement.addClass('sending');
+                }
                 var cssClass = message.out ? 'sp-message-sent' : 'sp-message-received';
                 messageElement.addClass(cssClass);
 
@@ -131,38 +139,56 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
                 lastMessageElement.addClass('sp-message-last');
                 messagesElement.append(messageElement);
                 scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+
+                return messageElement;
             }
 
-            MessagesService.onMessage(function (message) {
-                if (message.from_id == scope.user.id) {
-                    createMessageElement(message);
+            scope.$on('messages.new', function (event, messages) {
+                $log.debug('[chat] Got new incoming messages', messages);
+                function processMessage (message) {
+                    if (message.from_id == scope.user.id) {
+                        MessagesService.markAsRead(message);
+                        createMessageElement(message);
+                    }
+                    else if ((message.from_id == userSendId) && (message.user_id == scope.user.id)) {
+                        if (angular.isUndefined(message.client_id)) {
+                            throw new Error('message client id is undefined');
+                        }
+                        var element = messagesElement.find('[data-sp-message-client-id=' + message.client_id + ']');
+                        element.attr('data-sp-message-id', message.id);
+                        element.removeClass('sending');
+                    }
                 }
+                if (angular.isArray(messages)) {
+                    angular.forEach(messages, function (message) {
+                        processMessage(message);
+                    });
+                }
+                else {
+                    processMessage(messages);
+                }
+                scope.$apply();
             });
 
-            function sendMessage (text) {
-                sendButtonElement.removeClass('sp-active');
-                if (scope.message.length > 0) {
-                    var message = {
-                        from_id: userSendId,
-                        user_id: scope.user.id,
-                        body: text,
-                        out: 1,
-                        date: Math.round(Date.now()/1000)
-                    };
-                    createMessageElement(message);
-                    MessagesService.sendMessage(message);
-                    scope.message = '';
-                }
-
-                textAreaElement.focus();
-                scope.isTyping = false;
-            }
-
-            scope.onSend = function (event) {
+            scope.sendMessage = function (event) {
                 if (event.which === 13 || event.type == 'click') {
                     event.preventDefault();
                     event.stopPropagation();
-                    sendMessage(scope.message);
+                    if (scope.message.length > 0) {
+                        var message = {
+                            from_id: userSendId,
+                            user_id: scope.user.id,
+                            body: scope.message,
+                            out: 1,
+                            date: Math.round(Date.now()/1000) // UNIX time
+                        };
+                        $log.debug('[chat] Send message', message);
+                        MessagesService.sendMessage(message);
+                        createMessageElement(message);
+                        scope.message = '';
+                    }
+                    textAreaElement.focus();
+                    scope.startTyping();
                 }
             };
 
@@ -173,6 +199,7 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
                 }
                 else if (scope.message.length == 0) {
                     sendButtonElement.removeClass('sp-active');
+                    scope.isTyping = false;
                 }
             };
         }

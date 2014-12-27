@@ -2,6 +2,8 @@ function ConfigService ($cookieStore) {
 
     var ConfigService = {};
 
+    ConfigService.CHAT_MESSAGES_COUNT = 20;
+    ConfigService.CHAT_PRINT_TIME = 60; // 1 minute
     ConfigService.VK_WEBSITE_APP_ID = 4688098;
     ConfigService.VK_MOBILE_APP_ID = 4213835;
     ConfigService.MAX_USER_PHOTOS = 6;

@@ -119,7 +119,7 @@ gulp.task('cordova', function () {
         './lib/mapbox.js/mapbox.css',
         './lib/angular-carousel/dist/angular-carousel.css',
         './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css',
-        './dist/spacebox.min.css',
+        './dist/spacebox.min.css'
     ])
         .pipe(concat('spacebox-bundle.css'))
         .pipe(gulp.dest('dist'));
@@ -136,11 +136,12 @@ gulp.task('cordova', function () {
         './lib/angular-cookies/angular-cookies.js',
         './lib/angular-animate/angular-animate.js',
         './lib/angular-moment/angular-moment.js',
+        './lib/angular-local-storage/dist/angular-local-storage.js',
         './lib/angular-bootstrap/ui-bootstrap.js',
         './lib/angular-bootstrap/ui-bootstrap-tpls.js',
         './lib/angular-carousel/dist/angular-carousel.js',
         './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js',
-        './dist/spacebox-mobile.js',
+        './dist/spacebox-mobile.js'
     ])
         .pipe(concat('spacebox-bundle.js'))
         .pipe(gulp.dest('dist'));

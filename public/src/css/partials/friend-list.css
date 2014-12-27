@@ -87,6 +87,17 @@
     width: 70px;
 }
 
+.sp-avatar-indicator {
+    position: absolute;
+    top: 22px;
+    left: 47px;
+    background: #428bca;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
 #spFriendsList .active {
     background-color: rgb(238, 238, 238);
     color: black;
