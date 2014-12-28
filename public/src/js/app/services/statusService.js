@@ -21,9 +21,8 @@ function StatusService ($q, $log, $http, ErrorHandler, ConfigService) {
         }
 
         StatusService._status = text;
-        $http.post(ConfigService.SERVER_URL + '/status.set', {text: text})
-            .error (function (data, status, headers, config) {
-                ErrorHandler.handle(new HttpError(response.status, 'status.set request failed'));
+        $http.post(ConfigService.SERVER_URL + '/status.set', {text: text}).catch(function (response) {
+            ErrorHandler.handle(new HttpError(response.status, 'status.set request failed'));
         });
     };
 

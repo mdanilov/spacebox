@@ -11,8 +11,9 @@ function friendListItemDirective (MapService, MessagesService) {
                 if (scope.user) {
                     var dialog = MessagesService.getDialog(scope.user.mid);
                     if (dialog && dialog.hasUnread()) {
-                        scope.message = dialog.getLastUnread();
-                        scope.$digest(); // TODO: try to remove
+                        scope.$evalAsync(function (scope) {
+                            scope.message = dialog.getLastUnread();
+                        });
                     }
                 }
             }

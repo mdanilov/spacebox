@@ -64,7 +64,8 @@
     padding-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;    
+    white-space: nowrap;
+    max-width: 130px;
 }
 
 #spFriendsList .sp-user-info > div {

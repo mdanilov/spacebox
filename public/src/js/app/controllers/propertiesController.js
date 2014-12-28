@@ -5,7 +5,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
     $scope.propertyNames = {
         profile: 'Профиль',
         search: 'Опции поиска',
-        application: 'Настройки приложения'
+        application: 'Настройки'
     };
     $scope.selectedProperty = null;
     $scope.selectProperty = function (property) {

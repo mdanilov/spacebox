@@ -151,6 +151,7 @@ else {
                     './src/js/app/services/geolocationService.js',
                     './src/js/app/services/configService.js',
                     './src/js/app/services/mapService.js',
+                    './src/js/app/services/likesService.js',
                     './src/js/app/services/friendsService.js',
                     './src/js/app/services/errorHandler.js',
                     './src/js/app/services/locatorService.js',

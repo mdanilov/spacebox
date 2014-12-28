@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, FriendsService, UserService, ErrorHandler) {
+function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -10,11 +10,9 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
 
     self.Like = function () {
         self.current.like = 1;
-        //FriendsService.asyncLike(current.mid).then(function () {
-
-//        }, function () {
-//            current.like = 0;
-//        });
+        LikesService.asyncLike(self.current.mid).catch(function () {
+            self.current.like = 0;
+        });
 
         if (self.current.likeMe == 1) {
             self.couple = [
@@ -57,9 +55,9 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
             searchLoop();
         }
 
-//        FriendsService.asyncDislike(current.mid).then(null, function () {
-//            current.like = 0;
-//        });
+        LikesService.asyncDislike(self.current.mid).catch(function () {
+            self.current.like = 0;
+        });
     };
 
     self.Undo = function () {
@@ -90,4 +88,4 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
 }
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'FriendsService', 'UserService', 'ErrorHandler', MainViewController]);
+    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', MainViewController]);

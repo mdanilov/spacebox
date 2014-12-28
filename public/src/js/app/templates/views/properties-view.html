@@ -5,7 +5,8 @@
                 <div class="sp-profile-background" ng-style="{'background-image':'url('+info.photo_100+')'}"></div>
                 <img ng-src="{{info.photo_100}}">
                 <div class="sp-user-description">
-                    <span>{{info.first_name}}<br>Просмотр профиля</span>
+                    <strong>{{info.first_name}}</strong>
+                    <div>Просмотр профиля</div>
                 </div>
             </div>
             <div class="media-list">
@@ -32,7 +33,7 @@
 		<div class="col-sm-6 sp-properties" ng-show="selectedProperty">
             <div class="sp-properties-header">
                 <span>{{propertyNames[selectedProperty]}}</span>
-                <a href="" class="sp-done" ng-click="save()">Сохранить</a>
+                <a href="" class="sp-done" ng-click="save()">Готово</a>
             </div>
             <div class="sp-property-container" ng-show="selectedProperty === 'profile'">
                 <div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div>

@@ -1,28 +1,41 @@
-function FriendsService ($http, $log, $q, VkService, ConfigService) {
+function FriendsService ($http, $log, $rootScope, $interval, $q, VkService, ConfigService) {
 
     var FriendsService = {};
     FriendsService._friends = [];
-    FriendsService.LIKE_STATES = {
-        LIKE: 1,
-        DISLIKE: -1
-    };
 
-    function asyncChangeLikeStatus (id, status) {
-        return $http.get(ConfigService.SERVER_URL + '/changeLikeStatus', {
-            params: {id: id, status: status}
-        }).catch(
-            function (response) {
-                return $q.reject(new HttpError(response.status, 'change like status request failed'));
-            });
+    function updateFriends () {
+        $http.get(ConfigService.SERVER_URL + '/friends.get').then(function (response) {
+            var friends = response.data;
+            if (angular.isArray(friends) && friends.length > 0) {
+                friends = friends.reduce(function (newFriends, friend) {
+                    var exist = FriendsService._friends.some(function (element) {
+                        return element.mid == friend.mid;
+                    });
+                    if (!exist) {
+                        newFriends.push(friend);
+                    }
+                    return newFriends;
+                }, []);
+
+                if (friends.length > 0) {
+                    var uids = friends.map(function (friend) {
+                        return friend.mid;
+                    });
+                    VkService.asyncGetUsersInfo(uids).then(function (info) {
+                        friends.forEach(function __addInfo(friend, i) {
+                            friend.info = info[i];
+                        });
+                        FriendsService._friends.concat(friends);
+                        $rootScope.$broadcast('friends.new');
+                    });
+                }
+            }
+        }, function (response) {
+            throw new HttpError(response.status, 'friends.get request failed');
+        });
     }
 
-    FriendsService.asyncLike = function (id) {
-        return asyncChangeLikeStatus(id, FriendsService.LIKE_STATES.LIKE);
-    };
-
-    FriendsService.asyncDislike = function (id) {
-        return asyncChangeLikeStatus(id, FriendsService.LIKE_STATES.DISLIKE);
-    };
+    $interval(updateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
 
     FriendsService.getFriend = function (user_id) {
         for (var i = 0; i < FriendsService._friends.length; i++) {
@@ -48,7 +61,7 @@ function FriendsService ($http, $log, $q, VkService, ConfigService) {
                         FriendsService._friends = friends;
 
                         return friends;
-                    })
+                    });
                 }
                 else {
                     return [];
@@ -63,5 +76,5 @@ function FriendsService ($http, $log, $q, VkService, ConfigService) {
 }
 
 angular.module('spacebox').factory('FriendsService',
-    ['$http', '$log', '$q', 'VkService', 'ConfigService', FriendsService]);
+    ['$http', '$log', '$rootScope', '$interval', '$q', 'VkService', 'ConfigService', FriendsService]);
 

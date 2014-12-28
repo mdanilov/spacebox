@@ -120,4 +120,21 @@ ul.navbar-right, ul.navbar-right li {
 	border-color: #4387fd;
 }
 
+.sp-friends-indicator {
+    position: absolute;
+    top: 27px;
+    background: #428bca;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .sp-friends-indicator {
+        left: 61px;
+    }
+}
+
 

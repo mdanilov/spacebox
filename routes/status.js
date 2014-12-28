@@ -14,7 +14,7 @@ exports.set = function (request, response, next) {
                     client.query('DELETE FROM status WHERE mid = $1', [mid], callback);
                 },
                 function (result, callback) {
-                    client.insert('status', {'mid': mid, 'text': request.query.text}).run(callback);
+                    client.insert('status', {'mid': mid, 'text': request.body.text}).run(callback);
                 }
             ], callback);
         }, function __callback (error, result) {
@@ -30,8 +30,8 @@ exports.set = function (request, response, next) {
 
 exports.get = function (request, response, next) {
     try {
-        var whereExpr = request.query.user_ids ?
-            db.sql.in('mid', request.query.user_ids) : {'mid': request.session.mid};
+        var whereExpr = request.body.user_ids ?
+            db.sql.in('mid', request.body.user_ids) : {'mid': request.session.mid};
         db.select().from('status').where(whereExpr).run(function (error, result) {
             if (error)
                 next(error);
