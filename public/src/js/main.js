@@ -126,10 +126,11 @@ else {
                 './src/css/views/properties.css',
                 './src/css/views/error.css',
                 './src/css/views/friends.css',
-                './src/css/partials/navbar.css',
-                './src/css/partials/chat.css',
                 './src/css/modals/dialog.css',
                 './src/css/modals/match.css',
+                './src/css/partials/radar.css',
+                './src/css/partials/navbar.css',
+                './src/css/partials/chat.css',
                 './src/css/partials/friend-list.css',
                 './src/css/partials/cards.css',
                 './src/css/partials/controls.css'

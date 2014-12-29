@@ -44,6 +44,14 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
         return deferred.promise;
     }
 
+    VkService.getShareButtonWidget = function (html) {
+        var type = html ? 'custom' : 'round_nocount';
+        return VK.Share.button(false, {
+            type: type,
+            text: html || 'Рассказать друзьям'
+        });
+    };
+
     VkService.asyncLogin = function () {
         var deferred = $q.defer();
 

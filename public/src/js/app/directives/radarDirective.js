@@ -1,4 +1,4 @@
-function radarDirective () {
+function radarDirective ($animate, $interval, VkService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -13,37 +13,27 @@ function radarDirective () {
                 'done': "Рядом с вами нет новых пользователей."
             };
 
-            function addCircle() {
-                var circle = $('<div class="circle"></div>');
-                element.find('#spRadar').append(circle);
-                circle.animate({
-                    'width': '400px',
-                    'height': '400px',
-                    'margin-top': '-200px',
-                    'margin-left': '-200px',
-                    'opacity': '0'
-                }, 5000, 'linear');
-
-                setTimeout(function __remove() {
-                    circle.remove();
-                }, 5000);
+            function circleAnimation () {
+                var circle = angular.element('<div class="sp-radar-circle"></div>');
+                element.append(circle);
+                $animate.leave(circle);
             }
 
-            addCircle();
-            setInterval(addCircle, 3000);
+            circleAnimation();
+            var interval = $interval(circleAnimation, 2000);
 
-            element.find('#spShareButton').append(
-                VK.Share.button(false, {
-                    type: "round",
-                    text: "Рассказать друзьям"
-            }));
+            element.find('#spShareButton').append(VkService.getShareButtonWidget());
 
             scope.ClickOnImage = function () {
-                addCircle();
-            }
+                circleAnimation();
+            };
+
+            scope.$on('destroy', function () {
+                $interval.cancel(interval);
+            });
         }
     };
 }
 
 angular.module('spacebox').directive('spRadar',
-    [radarDirective]);
+    ['$animate', '$interval', 'VkService', radarDirective]);

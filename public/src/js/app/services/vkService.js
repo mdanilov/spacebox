@@ -19,6 +19,14 @@ function VkService ($http, $log, $q, ConfigService) {
         VK.Widgets.Like(selector, {type: "button", height: 24}, 29);
     };
 
+    VkService.getShareButtonWidget = function (html) {
+        var type = html ? 'custom' : 'round_nocount';
+        return VK.Share.button(false, {
+            type: type,
+            text: html || 'Рассказать друзьям'
+        });
+    };
+
     VkService.asyncLogin = function () {
         var deferred = $q.defer();
         VK.Auth.login(function (response) {
