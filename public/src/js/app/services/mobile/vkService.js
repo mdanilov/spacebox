@@ -10,14 +10,22 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
     VkService._appId = ConfigService.VK_MOBILE_APP_ID;
-    VkService._session = null;
     var session = $cookieStore.get('vk.session');
     if (angular.isObject(session) &&
         session.expires > new Date().getTime()) {
         VkService._session = session;
     }
 
-    // TODO: add stats.trackVisitor request
+    trackVisitor.tracked = false;
+    function trackVisitor () {
+        if (!trackVisitor.tracked) {
+            asyncApiCall('stats.trackVisitor').then(function () {
+                trackVisitor.tracked = true;
+            });
+        }
+    }
+
+    trackVisitor();
 
     function asyncApiCall (method, options) {
         var deferred = $q.defer();
@@ -26,7 +34,7 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
         }
         else {
             var url = 'https://api.vk.com/method/' + method;
-            var data = options;
+            var data = options || {};
             data.access_token = VkService._session.access_token;
             data.callback = 'JSON_CALLBACK';
 
@@ -53,17 +61,12 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     };
 
     VkService.asyncLogin = function () {
-        var deferred = $q.defer();
-
-        $timeout(function () {
+        return $timeout(function () {
             window.location.href = 'https://oauth.vk.com/authorize?' +
                 'client_id=' + VkService._appId + '&scope=' + VkService.SCOPE +
                 '&redirect_uri=' + VkService.REDIRECT_URL +
                 '&display=' + VkService.DISPLAY.MOBILE + '&response_type=' + 'code';
-            deferred.reject();
-        }, 50);
-
-        return deferred.promise;
+        });
     };
 
     VkService.asyncLogout =  function () {
@@ -116,8 +119,7 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
     VkService.asyncGetLoginStatus = function () {
         var deferred = $q.defer();
 
-        if (VkService._session != null &&
-            VkService._session.expires < new Date().getTime()) {
+        if (VkService._session && VkService._session.expires < new Date().getTime()) {
             deferred.resolve(VkService._session.mid);
         }
         else {
@@ -126,6 +128,7 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
                     if (!angular.isUndefined(data.access_token)) {
                         $log.debug('VK session ', data);
                         VkService._session = data;
+                        trackVisitor();
                         $cookieStore.put('vk.session', data);
                         deferred.resolve(data.mid);
                     }
