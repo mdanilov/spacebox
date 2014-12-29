@@ -12,6 +12,7 @@ function ConfigService ($cookieStore) {
     ConfigService.MAX_USER_PHOTOS = 6;
     ConfigService.MAX_STATUS_LENGTH = 100;
     ConfigService.SERVER_URL = CONFIG.SERVER_URL || window.location.origin;
+    ConfigService.VERSION = CONFIG.VERSION;
     ConfigService._login = false;
     ConfigService._config = $cookieStore.get('config');
 

@@ -1,6 +1,6 @@
 function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, ErrorHandler, StatusService, AccountService, status) {
     $scope.profile = true;
-
+    $scope.version = ConfigService.VERSION;
     $scope.properties = ['profile', 'search', 'application'];
     $scope.propertyNames = {
         profile: 'Профиль',
