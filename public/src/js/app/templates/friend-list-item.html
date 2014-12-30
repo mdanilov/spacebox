@@ -7,7 +7,7 @@
             </td>
             <td class="sp-user-info">
                 <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
-                <span ng-show="!hasUnreadMessage()">{{user.info.sex == 1 ? 'Была ' : 'Был ' }}
+                <span ng-show="!hasUnreadMessage() && user.location.timestamp">{{user.info.sex == 1 ? 'Была ' : 'Был ' }}
                     <span am-time-ago="user.location.timestamp"></span>
                 </span>
                 <span ng-show="hasUnreadMessage()">{{message.body}}</span>

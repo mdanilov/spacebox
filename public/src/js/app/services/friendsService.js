@@ -1,14 +1,33 @@
-function FriendsService ($http, $log, $rootScope, $interval, $q, VkService, ConfigService) {
-
+function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageService, VkService, ConfigService) {
     var FriendsService = {};
-    FriendsService._friends = [];
+    var _friends = localStorageService.get('friends');
 
-    function updateFriends () {
-        $http.get(ConfigService.SERVER_URL + '/friends.get').then(function (response) {
-            var friends = response.data;
-            if (angular.isArray(friends) && friends.length > 0) {
+    $interval(asyncUpdateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
+
+    function asyncUpdateFriends () {
+        return $http.get(ConfigService.SERVER_URL + '/friends.get').then(function (response) {
+            if (!angular.isArray(response.data)) {
+                throw new Error();
+            }
+
+            function asyncGetInfo (friends) {
+                var uids = friends.map(function (friend) {
+                    return friend.mid;
+                });
+                return VkService.asyncGetUsersInfo(uids).then(function (info) {
+                    friends.forEach(function __addInfo(friend, i) {
+                        friend.info = info[i];
+                    });
+                    _friends.concat(friends);
+                    return _friends;
+                });
+            }
+
+            var hasNew = false;
+            if (response.data.length > 0) {
+                var friends = response.data;
                 friends = friends.reduce(function (newFriends, friend) {
-                    var exist = FriendsService._friends.some(function (element) {
+                    var exist = _friends.some(function (element) {
                         return element.mid == friend.mid;
                     });
                     if (!exist) {
@@ -16,65 +35,37 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, VkService, Conf
                     }
                     return newFriends;
                 }, []);
-
                 if (friends.length > 0) {
-                    var uids = friends.map(function (friend) {
-                        return friend.mid;
-                    });
-                    VkService.asyncGetUsersInfo(uids).then(function (info) {
-                        friends.forEach(function __addInfo(friend, i) {
-                            friend.info = info[i];
-                        });
-                        FriendsService._friends.concat(friends);
-                        $rootScope.$broadcast('friends.new');
-                    });
+                    hasNew = true;
+                    $rootScope.$broadcast('friends.new');
                 }
             }
+            else {
+                _friends = [];
+            }
+
+            return $q.when(hasNew ? asyncGetInfo(friends) : _friends).then(function () {
+                localStorageService.set('friends', _friends);
+            });
         }, function (response) {
             throw new HttpError(response.status, 'friends.get request failed');
         });
     }
 
-    $interval(updateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
-
-    FriendsService.getFriend = function (user_id) {
-        for (var i = 0; i < FriendsService._friends.length; i++) {
-            if (user_id == FriendsService._friends[i].mid) {
-                return FriendsService._friends[i];
+    FriendsService.getFriend = function (id) {
+        for (var i = 0; i < _friends.length; ++i) {
+            if (_friends[i].mid == id) {
+                return _friends[i];
             }
         }
     };
 
     FriendsService.asyncGetFriends = function () {
-        return $http.get(ConfigService.SERVER_URL + '/friends.get').then(
-            function __success (response) {
-                var friends = response.data;
-                if (angular.isArray(friends) && friends.length > 0) {
-                    var uids = friends.map(function (friend) {
-                        return friend.mid;
-                    });
-
-                    return VkService.asyncGetUsersInfo(uids).then(function (info) {
-                        friends.forEach(function __addInfo(friend, i) {
-                            friend.info = info[i];
-                        });
-                        FriendsService._friends = friends;
-
-                        return friends;
-                    });
-                }
-                else {
-                    return [];
-                }
-            },
-            function __error (response) {
-                return $q.reject(new HttpError(response.status, 'get friends request failed'));
-            });
+        return $q.when(_friends ? _friends : asyncUpdateFriends());
     };
 
     return FriendsService;
 }
 
 angular.module('spacebox').factory('FriendsService',
-    ['$http', '$log', '$rootScope', '$interval', '$q', 'VkService', 'ConfigService', FriendsService]);
-
+    ['$http', '$log', '$rootScope', '$interval', '$q', 'localStorageService', 'VkService', 'ConfigService', FriendsService]);
