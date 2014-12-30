@@ -2,29 +2,31 @@ cd ..
 node ..\node_modules\bower\bin\bower install
 cd tools
 call cordova create finder ru.gofinder.app Finder
+copy config.xml finder\config.xml
 cd finder
 call cordova platform add android
 call cordova plugin add org.apache.cordova.console org.apache.cordova.device org.apache.cordova.inappbrowser org.apache.cordova.geolocation
 cd ..
 cd ..
 node ..\node_modules\gulp\bin\gulp build
-node ..\node_modules\gulp\bin\gulp cordova
 
-mkdir tools\finder\www\fonts
-xcopy lib\components-font-awesome\fonts tools\finder\www\fonts /s /e /y
-mkdir tools\finder\www\lib\angular
-xcopy lib\angular tools\finder\www\lib\angular /s /e /y
-mkdir tools\finder\www\lib\yepnope
-xcopy lib\yepnope tools\finder\www\lib\yepnope /s /e /y
+mkdir tools\finder\www\lib
+xcopy lib tools\finder\www\lib /s /e /y
+
+copy index.html tools\finder\www\index.html 
+
 mkdir tools\finder\www\src\js
-xcopy src\js\main.js tools\finder\www\src\js\main.js /s /e /y
+copy src\js\main.js tools\finder\www\src\js\main.js 
+
 mkdir tools\finder\www\src\js\app\templates
 xcopy src\js\app\templates tools\finder\www\src\js\app\templates /s /e /y
+
 mkdir tools\finder\www\src\img
 xcopy src\img tools\finder\www\src\img /s /e /y
 
-copy dist\spacebox-bundle.js tools\finder\www\js
-copy dist\spacebox-bundle.css tools\finder\www\css
+copy dist\spacebox-mobile.js tools\finder\www\src\js\spacebox-mobile.js
+mkdir tools\finder\www\src\css
+copy dist\spacebox.css tools\finder\www\src\css\spacebox.css
 
 cd tools\finder
 call cordova run android

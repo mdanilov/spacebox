@@ -52,7 +52,7 @@ gulp.task('build', function () {
         }
 
         var sources = new Array('./src/js/app/app.js');
-        sources.concat(dependencies, [
+        sources = sources.concat(dependencies, [
             './src/js/app/services/geolocationService.js',
             './src/js/app/services/configService.js',
             './src/js/app/services/mapService.js',
@@ -97,47 +97,6 @@ gulp.task('build', function () {
         .pipe(gulp.dest('dist'))
         .pipe(rename('spacebox-mobile.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('cordova', function () {
-    gulp.src([
-        './lib/yepnope/yepnope.1.5.0-min.js',
-        './lib/angular/angular.js'
-    ])
-        .pipe(gulp.dest('dist'));
-
-    gulp.src([
-        './lib/bootstrap/dist/css/bootstrap.css',
-        './lib/components-font-awesome/css/font-awesome.css',
-        './lib/mapbox.js/mapbox.css',
-        './lib/angular-carousel/dist/angular-carousel.css',
-        './lib/seiyria-bootstrap-slider/css/bootstrap-slider.css',
-        './dist/spacebox.min.css'
-    ])
-        .pipe(concat('spacebox-bundle.css'))
-        .pipe(gulp.dest('dist'));
-
-    gulp.src([
-        './lib/moment/moment.js',
-        './lib/moment/locale/ru.js',
-        './lib/jquery/dist/jquery.js',
-        './lib/bootstrap/dist/js/bootstrap.js',
-        './lib/mapbox.js/mapbox.js',
-        './lib/leaflet.locatecontrol/src/L.Control.Locate.js',
-        './lib/angular-route/angular-route.js',
-        './lib/angular-touch/angular-touch.js',
-        './lib/angular-cookies/angular-cookies.js',
-        './lib/angular-animate/angular-animate.js',
-        './lib/angular-moment/angular-moment.js',
-        './lib/angular-local-storage/dist/angular-local-storage.js',
-        './lib/angular-bootstrap/ui-bootstrap.js',
-        './lib/angular-bootstrap/ui-bootstrap-tpls.js',
-        './lib/angular-carousel/dist/angular-carousel.js',
-        './lib/seiyria-bootstrap-slider/js/bootstrap-slider.js',
-        './dist/spacebox-mobile.js'
-    ])
-        .pipe(concat('spacebox-bundle.js'))
         .pipe(gulp.dest('dist'));
 });
 
