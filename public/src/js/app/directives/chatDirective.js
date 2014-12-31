@@ -1,4 +1,4 @@
-function chatDirective ($log, UserService, ConfigService, MessagesService, FriendsService) {
+function chatDirective ($log, $animate, UserService, ConfigService, MessagesService, FriendsService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -138,6 +138,7 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
                 lastMessageElement = messageElement;
                 lastMessageElement.addClass('sp-message-last');
                 messagesElement.append(messageElement);
+                $animate.addClass(messageElement, 'sp-message-appear');
                 scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
 
                 return messageElement;
@@ -207,4 +208,4 @@ function chatDirective ($log, UserService, ConfigService, MessagesService, Frien
 }
 
 angular.module('spacebox').directive('spChat',
-    ['$log', 'UserService', 'ConfigService', 'MessagesService', 'FriendsService', chatDirective]);
+    ['$log', '$animate', 'UserService', 'ConfigService', 'MessagesService', 'FriendsService', chatDirective]);

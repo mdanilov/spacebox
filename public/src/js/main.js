@@ -169,6 +169,19 @@
                     nope: 'src/js/app/services/vkService.js'
                 });
 
+                if (Modernizr.touch) {
+                    var firstMove;
+                    window.addEventListener('touchstart', function () {
+                        firstMove = true;
+                    });
+                    window.addEventListener('touchmove', function (event) {
+                        if (firstMove) {
+                            event.preventDefault();
+                            firstMove = false;
+                        }
+                    });
+                }
+
                 // load common scripts
                 yepnope({
                     load: [
