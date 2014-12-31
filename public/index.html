@@ -12,11 +12,8 @@
         <meta name="server_url" content="">
     </head>
     <body ng-controller="ApplicationController as app">
-        <div class="container" ng-class="{blur: app.isMatched}">
-            <sp-navbar id="spNavbar" info="app.user" ng-hide="app.isNavbarHidden"></sp-navbar>
-            <div ng-view class="fill-height view"></div>
-        </div>
-        <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
-        <script src="src/js/main.js"></script>
+        <div class="sp-main-content" ng-include="'src/js/app/templates/body.html'"></div>
     </body>
+    <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
+    <script src="src/js/main.js"></script>
 </html>

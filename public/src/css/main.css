@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
 
-html, body {
+html, body, .sp-main-content {
     font: 16px "Open Sans";
     height: 100%;
     overflow-y: hidden;
