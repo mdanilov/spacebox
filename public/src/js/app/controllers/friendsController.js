@@ -28,29 +28,31 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
             self.friends = friends;
             self.state = 'ready';
             updateStatus();
-            self.statusUpdater = $interval(updateStatus, self.STATUS_UPDATE_INTERVAL);
         }
         else {
             self.state = 'empty';
         }
     }
 
+    var statusUpdateInterval = $interval(updateStatus, self.STATUS_UPDATE_INTERVAL);
     FriendsService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);
 
     function updateStatus () {
-        var uids = self.friends.map(function (friend) {
-            return friend.mid;
-        });
-        StatusService.get(uids).then(function (data) {
-            var j = 0;
-            self.friends.forEach(function __addStatus(friend) {
-                if (angular.isDefined(data[j]) && friend.mid === data[j].mid) {
-                    friend.status = data[j++].text;
-                }
+        if (self.friends.length > 0) {
+            var uids = self.friends.map(function (friend) {
+                return friend.mid;
             });
+            StatusService.get(uids).then(function (data) {
+                var j = 0;
+                self.friends.forEach(function __addStatus(friend) {
+                    if (angular.isDefined(data[j]) && friend.mid === data[j].mid) {
+                        friend.status = data[j++].text;
+                    }
+                });
 
-            MapService.invalidateUsers(self.friends);
-        });
+                MapService.invalidateUsers(self.friends);
+            });
+        }
     }
     
     self.openChat = function () {
@@ -61,9 +63,13 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
         self.isChatOpen = false;
     };
 
-    $scope.$on('$destroy', function __destroy (event) {
-        if (angular.isDefined(self.statusUpdater)) {
-            $interval.cancel(self.statusUpdater);
+    $scope.$on('friends.new', function () {
+        FriendsService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);
+    });
+
+    $scope.$on('$destroy', function () {
+        if (angular.isDefined(statusUpdateInterval)) {
+            $interval.cancel(statusUpdateInterval);
         }
     });
 }

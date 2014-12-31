@@ -18,7 +18,7 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageSer
                     friends.forEach(function __addInfo(friend, i) {
                         friend.info = info[i];
                     });
-                    _friends.concat(friends);
+                    _friends = _friends.concat(friends);
                     return _friends;
                 });
             }
