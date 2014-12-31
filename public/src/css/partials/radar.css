@@ -6,7 +6,7 @@
     width: 100%;
 }
 
-.sp-radar .status {
+.sp-radar .sp-status {
     bottom: 50px;
     position: absolute;
     text-align: center;
@@ -56,14 +56,24 @@
     opacity: 0;
 }
 
-#spShareButton {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    width: 123px;
+#spShareButton .btn:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
 }
 
-#spShareButton * {
-    box-sizing: content-box;
+#spShareButton .btn {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#spShareButton .btn * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#spShareButton i {
+    padding-right: 5px;
+    font-size: 1.5em;
 }

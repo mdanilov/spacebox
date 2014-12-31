@@ -99,4 +99,3 @@ gulp.task('build', function () {
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
-

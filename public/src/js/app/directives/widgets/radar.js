@@ -13,16 +13,26 @@ function radarDirective ($animate, $interval, VkService) {
                 'done': "Рядом с вами нет новых пользователей."
             };
 
-            function circleAnimation () {
+            function circleAnimation (callback) {
                 var circle = angular.element('<div class="sp-radar-circle"></div>');
                 element.append(circle);
-                $animate.leave(circle);
+                $animate.leave(circle, callback);
             }
 
+            var circleCount = 0;
             circleAnimation();
-            var interval = $interval(circleAnimation, 2000);
+            var interval = $interval(function () {
+                if (circleCount < 2) {
+                    ++circleCount;
+                    circleAnimation(function () {
+                        --circleCount;
+                    });
+                }
+            }, 2000);
 
-            element.find('#spShareButton').append(VkService.getShareButtonWidget());
+            var shareButtonHtml = '<div class="btn btn-primary">' +
+                '<i class="fa fa-tint"></i><span>Рассказать друзьям!</span></div>';
+            element.find('#spShareButton').append(VkService.getShareButtonWidget(shareButtonHtml));
 
             scope.ClickOnImage = function () {
                 circleAnimation();

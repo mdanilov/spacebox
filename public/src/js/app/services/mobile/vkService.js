@@ -54,7 +54,13 @@ function VkService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
 
     VkService.getShareButtonWidget = function (html) {
         var type = html ? 'custom' : 'round_nocount';
-        return VK.Share.button(false, {
+        var info = {
+            url: 'http://gofinder.ru',
+            title: 'Finder',
+            description: 'Сайт быстрых знакомств',
+            noparse: false
+        };
+        return VK.Share.button(info, {
             type: type,
             text: html || 'Рассказать друзьям'
         });
