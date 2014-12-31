@@ -1,4 +1,4 @@
-function ConfigService ($cookieStore) {
+function ConfigService (config, $cookieStore) {
 
     var ConfigService = {};
 
@@ -11,8 +11,8 @@ function ConfigService ($cookieStore) {
     ConfigService.VK_MOBILE_APP_ID = 4213835;
     ConfigService.MAX_USER_PHOTOS = 6;
     ConfigService.MAX_STATUS_LENGTH = 100;
-    ConfigService.SERVER_URL = CONFIG.SERVER_URL || window.location.origin;
-    ConfigService.VERSION = CONFIG.VERSION;
+    ConfigService.SERVER_URL = config.SERVER_URL || window.location.origin;
+    ConfigService.VERSION = config.VERSION;
     ConfigService._login = false;
     ConfigService._config = $cookieStore.get('config');
 
@@ -108,4 +108,4 @@ function ConfigService ($cookieStore) {
 }
 
 angular.module('spacebox').factory('ConfigService',
-    ['$cookieStore', ConfigService]);
+    ['config', '$cookieStore', ConfigService]);

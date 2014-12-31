@@ -5,14 +5,11 @@
         <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <script>
-            var CONFIG = {
-                CORDOVA: false,
-                VERSION: '0.0.2 Alpha',
-                SERVER_URL: undefined,
-                DEVELOPMENT: true
-            };
-        </script>
+        <!-- app configuration -->
+        <meta name="development" content="true">
+        <meta name="cordova" content="false">
+        <meta name="version" content="0.0.2 Alpha">
+        <meta name="server_url" content="">
     </head>
     <body ng-controller="ApplicationController as app">
         <div class="container" ng-class="{blur: app.isMatched}">

@@ -1,8 +1,8 @@
 var spacebox = angular.module('spacebox',
     [ 'ngAnimate', 'ngRoute', 'ngTouch', 'ngCookies', 'angular-carousel', 'angularMoment', 'LocalStorageModule', 'ui.bootstrap.modal', 'ui.bootstrap.tpls']);
 
-spacebox.config(['$routeProvider', '$logProvider',
-    function ($routeProvider, $logProvider) {
+spacebox.config(['config', '$routeProvider', '$logProvider',
+    function (config, $routeProvider, $logProvider) {
         $routeProvider.
             when('/login', {
                 templateUrl: 'src/js/app/templates/views/login-view.html',
@@ -31,7 +31,7 @@ spacebox.config(['$routeProvider', '$logProvider',
                 redirectTo: '/login'
             });
 
-        if (!angular.equals(CONFIG.DEVELOPMENT, true)) {
+        if (!angular.equals(config.DEVELOPMENT, true)) {
             $logProvider.debugEnabled(false);
         }
     }]);
