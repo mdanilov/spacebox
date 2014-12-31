@@ -2,9 +2,9 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageSer
     var FriendsService = {};
     var _friends = localStorageService.get('friends');
 
-    $interval(asyncUpdateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
+    $interval(asyncGetFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
 
-    function asyncUpdateFriends () {
+    function asyncGetFriends () {
         return $http.get(ConfigService.SERVER_URL + '/friends.get').then(function (response) {
             if (!angular.isArray(response.data)) {
                 throw new Error();
@@ -23,25 +23,28 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageSer
                 });
             }
 
-            var hasNew = false;
+            if (angular.isUndefined(_friends)) {
+                _friends = [];
+            }
+
             if (response.data.length > 0) {
                 var friends = response.data;
-                friends = friends.reduce(function (newFriends, friend) {
-                    var exist = _friends.some(function (element) {
-                        return element.mid == friend.mid;
-                    });
-                    if (!exist) {
-                        newFriends.push(friend);
-                    }
-                    return newFriends;
-                }, []);
+                if (_friends.length > 0) {
+                    friends = friends.reduce(function (newFriends, friend) {
+                        var exist = _friends.some(function (element) {
+                            return element.mid == friend.mid;
+                        });
+
+                        if (!exist) {
+                            newFriends.push(friend);
+                        }
+                        return newFriends;
+                    }, []);
+                }
                 if (friends.length > 0) {
-                    hasNew = true;
+                    var hasNew = true;
                     $rootScope.$broadcast('friends.new');
                 }
-            }
-            else {
-                _friends = [];
             }
 
             return $q.when(hasNew ? asyncGetInfo(friends) : _friends).then(function () {
@@ -61,7 +64,7 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageSer
     };
 
     FriendsService.asyncGetFriends = function () {
-        return $q.when(_friends ? _friends : asyncUpdateFriends());
+        return $q.when(_friends ? _friends : asyncGetFriends());
     };
 
     return FriendsService;
