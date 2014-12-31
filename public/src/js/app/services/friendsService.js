@@ -23,7 +23,7 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageSer
                 });
             }
 
-            if (angular.isUndefined(_friends)) {
+            if (!angular.isArray(_friends)) {
                 _friends = [];
             }
 
@@ -60,6 +60,19 @@ function FriendsService ($http, $log, $rootScope, $interval, $q, localStorageSer
             if (_friends[i].mid == id) {
                 return _friends[i];
             }
+        }
+    };
+
+    FriendsService.addFriend = function (user) {
+        var i = 0;
+        while (i < _friends.length) {
+            if (_friends[i].mid == user.mid) {
+                break;
+            }
+            ++i;
+        }
+        if (i == _friends.length) {
+            _friends.push(user);
         }
     };
 

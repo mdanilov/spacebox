@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler) {
+function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler, FriendsService) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -33,6 +33,8 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
                 size: 'sm',
                 backdrop: 'static'
             });
+
+            FriendsService.addFriend(self.current);
 
             $scope.app.isMatched = true;
             matchWindow.result.finally(function () {
@@ -88,4 +90,4 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
 }
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', MainViewController]);
+    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', 'FriendsService', MainViewController]);
