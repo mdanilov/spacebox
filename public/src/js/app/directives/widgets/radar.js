@@ -16,7 +16,7 @@ function radarDirective ($animate, $interval, VkService) {
             function circleAnimation (callback) {
                 var circle = angular.element('<div class="sp-radar-circle"></div>');
                 element.append(circle);
-                $animate.leave(circle, callback);
+                $animate.leave(circle).then(callback);
             }
 
             var circleCount = 0;

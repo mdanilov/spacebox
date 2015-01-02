@@ -232,7 +232,7 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         }
         else {
             $log.debug('[messages] Initialize friends dialogs');
-            FriendsService.asyncGetFriends().then(function (friends) {
+            FriendsService.getFriends(function (friends) {
                 angular.forEach(friends, function (friend) {
                     asyncGetHistory(friend.mid, MESSAGES_COUNT);
                 });

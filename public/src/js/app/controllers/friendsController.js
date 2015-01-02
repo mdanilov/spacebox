@@ -5,7 +5,6 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
     self.friends = [];
     self.current = undefined;
     self.list = true;
-    self.state = 'loading';
     self.statusUpdater = undefined;
     self.STATUS_UPDATE_INTERVAL = 300000; // 5 minutes
     self.isChatOpen = false;
@@ -22,20 +21,19 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
 
     MapService.init();
 
-    function invalidateFriends (friends) {
-        $log.debug('Friends: ', friends);
-        if (angular.isArray(friends) && friends.length != 0) {
-            self.friends = friends;
+    var statusUpdateInterval = $interval(updateStatus, self.STATUS_UPDATE_INTERVAL);
+    self.friends = FriendsService.getFriends(function () {
+        $log.debug('Friends: ', self.friends);
+        if (angular.isArray(self.friends) && self.friends.length > 0) {
             self.state = 'ready';
             updateStatus();
         }
         else {
             self.state = 'empty';
         }
-    }
+    });
 
-    var statusUpdateInterval = $interval(updateStatus, self.STATUS_UPDATE_INTERVAL);
-    FriendsService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);
+    self.state = angular.isUndefined(self.friends.$resolved) ? 'loading' : 'ready';
 
     function updateStatus () {
         if (self.friends.length > 0) {
@@ -62,10 +60,6 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
     self.closeChat = function () {
         self.isChatOpen = false;
     };
-
-    $scope.$on('friends.new', function () {
-        FriendsService.asyncGetFriends().then(invalidateFriends, ErrorHandler.handle);
-    });
 
     $scope.$on('$destroy', function () {
         if (angular.isDefined(statusUpdateInterval)) {

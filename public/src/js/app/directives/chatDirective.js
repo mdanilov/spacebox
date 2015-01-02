@@ -1,9 +1,9 @@
-function chatDirective ($log, $animate, UserService, ConfigService, MessagesService, FriendsService) {
+function chatDirective ($log, $animate, UserService, ConfigService, MessagesService) {
     return {
         restrict: 'E',
         transclude: true,
         scope: {
-            userId: '=',
+            user: '=',
             close: '&onClose'
         },
         templateUrl: 'src/js/app/templates/chat.html',
@@ -19,29 +19,29 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
             scope.isTyping = false;
             scope.messages = [];
             scope.isMessages = false;
-            scope.user = FriendsService.getFriend(scope.userId).info;
 
-            scope.$watch('userId', function (newValue, oldValue) {
+            scope.$watch('user', function (newValue, oldValue) {
                 $log.debug('[chat] User has changed from ' + oldValue + ' to ' + newValue);
                 scope.isTyping = false;
                 scope.isMessages = false;
                 scope.message = '';
-                scope.user = FriendsService.getFriend(newValue).info;
                 messagesElement.empty();
 
-                MessagesService.asyncGetMessages(newValue, ConfigService.CHAT_MESSAGES_COUNT).then(function (messages) {
-                    $log.debug('[chat] Messages loaded', messages);
-                    if (angular.isArray(messages) && messages.length > 0) {
-                        scope.isMessages = true;
-                        prependLoadedHistory(messages);
-                        scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
-                    }
-                });
+                if (newValue) {
+                    MessagesService.asyncGetMessages(newValue.mid, ConfigService.CHAT_MESSAGES_COUNT).then(function (messages) {
+                        $log.debug('[chat] Messages loaded', messages);
+                        if (angular.isArray(messages) && messages.length > 0) {
+                            scope.isMessages = true;
+                            prependLoadedHistory(messages);
+                            scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                        }
+                    });
+                }
             });
 
             function onContentScroll () {
                 if (scope.isMessages && scrollElement.scrollTop() == 0) {
-                    var user_id = scope.userId;
+                    var user_id = scope.user.mid;
                     messagesElement.prepend(loadingElement);
                     var lastMessageElement = messagesElement.find('.sp-message').first();
                     var lastId = lastMessageElement.attr('data-sp-message-id');
@@ -49,7 +49,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                     MessagesService.asyncGetMessages(user_id, ConfigService.CHAT_MESSAGES_COUNT, lastId).then(function (messages) {
                         loadingElement.remove();
                         $log.debug('[chat][scroll] Messages loaded', messages);
-                        if (user_id == scope.userId) {
+                        if (user_id == scope.user.mid) {
                             if (angular.isArray(messages) && messages.length > 0) {
                                 prependLoadedHistory(messages);
                             }
@@ -147,11 +147,11 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
             scope.$on('messages.new', function (event, messages) {
                 $log.debug('[chat] Got new incoming messages', messages);
                 function processMessage (message) {
-                    if (message.from_id == scope.user.id) {
+                    if (message.from_id == scope.user.mid) {
                         MessagesService.markAsRead(message);
                         createMessageElement(message);
                     }
-                    else if ((message.from_id == userSendId) && (message.user_id == scope.user.id)) {
+                    else if ((message.from_id == userSendId) && (message.user_id == scope.user.mid)) {
                         if (angular.isUndefined(message.client_id)) {
                             throw new Error('message client id is undefined');
                         }
@@ -178,7 +178,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                     if (scope.message.length > 0) {
                         var message = {
                             from_id: userSendId,
-                            user_id: scope.user.id,
+                            user_id: scope.user.mid,
                             body: scope.message,
                             out: 1,
                             date: Math.round(Date.now()/1000) // UNIX time
@@ -208,4 +208,4 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
 }
 
 angular.module('spacebox').directive('spChat',
-    ['$log', '$animate', 'UserService', 'ConfigService', 'MessagesService', 'FriendsService', chatDirective]);
+    ['$log', '$animate', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);

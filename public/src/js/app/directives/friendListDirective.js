@@ -21,6 +21,7 @@ function friendListDirective ($log, MessagesService) {
             };
 
             this.addCard = function (card) {
+                card.selected = false;
                 cards.push(card);
             };
         }
