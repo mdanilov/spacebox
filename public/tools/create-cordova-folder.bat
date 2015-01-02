@@ -2,6 +2,8 @@ cd ..
 node ..\node_modules\bower\bin\bower install
 cd tools
 call cordova create finder ru.gofinder.app Finder
+rd /s /q finder\www
+mkdir finder\www
 copy config.xml finder\config.xml
 cd finder
 call cordova platform add android
@@ -27,6 +29,12 @@ xcopy src\img tools\finder\www\src\img /s /e /y
 copy dist\spacebox-mobile.js tools\finder\www\src\js\spacebox-mobile.js
 mkdir tools\finder\www\src\css
 copy dist\spacebox.css tools\finder\www\src\css\spacebox.css
+
+copy tools\android\icon48.png tools\finder\platforms\android\res\drawable\icon.png
+copy tools\android\icon72.png tools\finder\platforms\android\res\drawable-hdpi\icon.png
+copy tools\android\icon36.png tools\finder\platforms\android\res\drawable-ldpi\icon.png
+copy tools\android\icon48.png tools\finder\platforms\android\res\drawable-mdpi\icon.png
+copy tools\android\icon96.png tools\finder\platforms\android\res\drawable-xhdpi\icon.png
 
 cd tools\finder
 call cordova run android
