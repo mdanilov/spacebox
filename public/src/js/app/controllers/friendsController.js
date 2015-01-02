@@ -21,38 +21,20 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
 
     MapService.init();
 
-    var statusUpdateInterval = $interval(updateStatus, self.STATUS_UPDATE_INTERVAL);
     self.friends = FriendsService.getFriends(function () {
         $log.debug('Friends: ', self.friends);
         if (angular.isArray(self.friends) && self.friends.length > 0) {
             self.state = 'ready';
-            updateStatus();
         }
         else {
             self.state = 'empty';
         }
     });
 
+    MapService.invalidateUsers(self.friends);
+
     self.state = angular.isUndefined(self.friends.$resolved) ? 'loading' : 'ready';
 
-    function updateStatus () {
-        if (self.friends.length > 0) {
-            var uids = self.friends.map(function (friend) {
-                return friend.mid;
-            });
-            StatusService.get(uids).then(function (data) {
-                var j = 0;
-                self.friends.forEach(function __addStatus(friend) {
-                    if (angular.isDefined(data[j]) && friend.mid === data[j].mid) {
-                        friend.status = data[j++].text;
-                    }
-                });
-
-                MapService.invalidateUsers(self.friends);
-            });
-        }
-    }
-    
     self.openChat = function () {
         self.isChatOpen = true;
     };
@@ -60,12 +42,6 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
     self.closeChat = function () {
         self.isChatOpen = false;
     };
-
-    $scope.$on('$destroy', function () {
-        if (angular.isDefined(statusUpdateInterval)) {
-            $interval.cancel(statusUpdateInterval);
-        }
-    });
 }
 
 angular.module('spacebox').controller('FriendsViewController',

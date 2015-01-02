@@ -1,4 +1,4 @@
-function FriendsService ($resource, $window, $log, $rootScope, $timeout, $interval, localStorageService, VkService, ConfigService) {
+function FriendsService ($resource, $window, $log, $rootScope, $interval, localStorageService, VkService, ConfigService) {
 
     var FriendsService = {};
 
@@ -17,6 +17,18 @@ function FriendsService ($resource, $window, $log, $rootScope, $timeout, $interv
         var hasNewFriends = false;
 
         friends.forEach(function (item) {
+            if (item.timestamp) {
+                item.location = {
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                    timestamp: item.timestamp
+                };
+            }
+
+            delete item.latitude;
+            delete item.longitude;
+            delete item.timestamp;
+
             for(var i = 0; i < _friends.length; ++i) {
                 if (_friends[i].mid == item.mid) {
                     break;
@@ -74,7 +86,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $timeout, $interv
     FriendsService.getFriends = function (callback) {
         updateFriends(callback);
         if (angular.isUndefined(_interval)) {
-            _interval = $interval(updateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 100);
+            _interval = $interval(updateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
         }
         return _friends;
     };
@@ -83,4 +95,4 @@ function FriendsService ($resource, $window, $log, $rootScope, $timeout, $interv
 }
 
 angular.module('spacebox').factory('FriendsService',
-    ['$resource', '$window', '$log', '$rootScope', '$timeout', '$interval', 'localStorageService', 'VkService', 'ConfigService', FriendsService]);
+    ['$resource', '$window', '$log', '$rootScope', '$interval', 'localStorageService', 'VkService', 'ConfigService', FriendsService]);

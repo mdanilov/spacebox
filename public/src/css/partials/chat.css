@@ -236,20 +236,18 @@
 
 @-webkit-keyframes messageAppear {
     from {
-        -webkit-transform: translate3d(0, 100%, 0);
+        -webkit-transform: scale3d(0, 0, 0);
     }
-
     to {
-        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-transform: scale3d(100%, 0, 0);
     }
 }
 
 @keyframes messageAppear {
     from {
-        transform: translate3d(0, 100%, 0);
+        transform: scale3d(0, 0, 0);
     }
-
     to {
-        transform: translate3d(0, 0, 0);
+        transform: scale3d(100%, 0, 0);
     }
 }
