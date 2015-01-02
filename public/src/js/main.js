@@ -148,6 +148,7 @@
                     'src/css/map/map.css',
                     'src/css/map/leaflet.css',
                     'src/css/views/login.css',
+                    'src/css/views/main.css',
                     'src/css/views/properties.css',
                     'src/css/views/error.css',
                     'src/css/views/friends.css',

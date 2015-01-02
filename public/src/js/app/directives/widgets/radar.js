@@ -1,17 +1,12 @@
-function radarDirective ($animate, $interval, VkService) {
+function radarDirective ($animate, $interval) {
     return {
         restrict: 'E',
         transclude: true,
         scope: {
-            image: '=',
-            status: '='
+            image: '='
         },
-        templateUrl: 'src/js/app/templates/radar.html',
+        template: '<img class="sp-radar-image" ng-src="{{image}}" ng-click="click()">',
         link: function (scope, element, attrs) {
-            scope.messages = {
-                'search': "Идет поиск новых пользователей...",
-                'done': "Рядом с вами нет новых пользователей."
-            };
 
             function circleAnimation (callback) {
                 var circle = angular.element('<div class="sp-radar-circle"></div>');
@@ -30,11 +25,7 @@ function radarDirective ($animate, $interval, VkService) {
                 }
             }, 2000);
 
-            var shareButtonHtml = '<div class="btn btn-primary">' +
-                '<i class="fa fa-tint"></i><span>Рассказать друзьям!</span></div>';
-            element.find('#spShareButton').append(VkService.getShareButtonWidget(shareButtonHtml));
-
-            scope.ClickOnImage = function () {
+            scope.click = function () {
                 circleAnimation();
             };
 
@@ -46,4 +37,4 @@ function radarDirective ($animate, $interval, VkService) {
 }
 
 angular.module('spacebox').directive('spRadar',
-    ['$animate', '$interval', 'VkService', radarDirective]);
+    ['$animate', '$interval', radarDirective]);

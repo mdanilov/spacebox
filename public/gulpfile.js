@@ -18,6 +18,7 @@ gulp.task('build', function () {
             './src/css/modals/dialog.css',
             './src/css/modals/match.css',
             './src/css/views/login.css',
+            './src/css/views/main.css',
             './src/css/views/properties.css',
             './src/css/views/error.css',
             './src/css/views/friends.css',

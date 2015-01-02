@@ -1,10 +1,19 @@
-function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler, FriendsService) {
+function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler, FriendsService, VkService) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
     self.status = '';
     self.current = null;
     self.searchTimer = undefined;
+
+    self.messages = {
+        'search': "Идет поиск новых пользователей...",
+        'done': "Рядом с вами нет новых пользователей."
+    };
+
+    var shareButtonHtml = '<div class="btn btn-primary">' +
+        '<i class="fa fa-tint"></i><span>Рассказать друзьям!</span></div>';
+    angular.element('#spShareButton').append(VkService.getShareButtonWidget(shareButtonHtml));
 
     $scope.app.isNavbarHidden = false;
 
@@ -90,4 +99,4 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
 }
 
 angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', 'FriendsService', MainViewController]);
+    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', 'FriendsService', 'VkService', MainViewController]);
