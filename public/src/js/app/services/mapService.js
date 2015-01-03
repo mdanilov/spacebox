@@ -1,4 +1,4 @@
-function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigService, GeolocationService) {
+function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigService, LocationService) {
 
     var MapService = {};
 
@@ -117,7 +117,7 @@ function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigServic
         var options = ConfigService.getMapOptions();
         MapService._map = L.mapbox.map('map-canvas', MapService.MAPBOX.URL).setView([60, 30], options.zoom);
 
-        GeolocationService.asyncGetCurrentPosition().then(function (position) {
+        LocationService.asyncGetCurrentPosition().then(function (position) {
             var pos = L.latLng(position.coords.latitude, position.coords.longitude);
             MapService._map.setView(pos);
 
@@ -187,4 +187,4 @@ function MapService ($compile, $rootScope, $log, $filter, $timeout, ConfigServic
 }
 
 angular.module('spacebox').factory('MapService',
-    ['$compile', '$rootScope', '$log', '$filter', '$timeout', 'ConfigService', 'GeolocationService', MapService]);
+    ['$compile', '$rootScope', '$log', '$filter', '$timeout', 'ConfigService', 'LocationService', MapService]);

@@ -1,4 +1,4 @@
-function ErrorViewController ($scope, $log, $location, $timeout, ErrorHandler, GeolocationService) {
+function ErrorViewController ($scope, $log, $location, $timeout, ErrorHandler, LocationService) {
     $log.debug('Initialize error view controller...');
 
     var error = ErrorHandler.getLastError();
@@ -14,7 +14,7 @@ function ErrorViewController ($scope, $log, $location, $timeout, ErrorHandler, G
 
     if (!isGeolocationOn) {
         function checkGeolocationStatus () {
-            GeolocationService.asyncGetCurrentPosition().then(function __success () {
+            LocationService.asyncGetCurrentPosition().then(function __success () {
                 $location.path('/');
             }, function __error () {
                 $timeout(checkGeolocationStatus, 2000);
@@ -27,4 +27,4 @@ function ErrorViewController ($scope, $log, $location, $timeout, ErrorHandler, G
 }
 
 angular.module('spacebox').controller('ErrorViewController',
-    ['$scope', '$log', '$location', '$timeout', 'ErrorHandler', 'GeolocationService', ErrorViewController]);
+    ['$scope', '$log', '$location', '$timeout', 'ErrorHandler', 'LocationService', ErrorViewController]);

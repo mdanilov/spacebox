@@ -189,7 +189,7 @@
                 // load common scripts
                 yepnope({
                     load: [
-                        'src/js/app/services/geolocationService.js',
+                        'src/js/app/services/locationService.js',
                         'src/js/app/services/configService.js',
                         'src/js/app/services/mapService.js',
                         'src/js/app/services/likesService.js',

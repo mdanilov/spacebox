@@ -1,24 +1,25 @@
-﻿function GeolocationService ($http, $log, $q, ConfigService, ErrorHandler) {
+﻿function LocationService ($http, $log, $q, $cookieStore, ConfigService) {
 
-    var GeolocationService = {};
+    var LocationService = {};
 
-    GeolocationService.asyncGetCurrentPosition = function () {
+    LocationService.asyncGetCurrentPosition = function () {
         var deferred = $q.defer();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                $cookieStore.set('location', position);
                 deferred.resolve(position);
             }, function () {
-                deferred.reject(new GeoError(true));
+                deferred.reject(new LocationError(true));
             });
         }
         else {
-            deferred.reject(new GeoError(false));
+            deferred.reject(new LocationError(false));
         }
         return deferred.promise;
     };
 
-    GeolocationService.asyncGetUserPositions = function (options) {
-        return GeolocationService.asyncGetCurrentPosition().then(function (position) {
+    LocationService.asyncGetUserPositions = function (options) {
+        return LocationService.asyncGetCurrentPosition().then(function (position) {
             var params = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -35,8 +36,8 @@
         });
     };
 
-    return GeolocationService;
+    return LocationService;
 }
 
-angular.module('spacebox').factory('GeolocationService',
-    ['$http', '$log', '$q', 'ConfigService', 'ErrorHandler', GeolocationService]);
+angular.module('spacebox').factory('LocationService',
+    ['$http', '$log', '$q', '$cookieStore', 'ConfigService', LocationService]);

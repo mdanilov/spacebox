@@ -54,7 +54,7 @@ gulp.task('build', function () {
 
         var sources = new Array('./src/js/app/app.js');
         sources = sources.concat(dependencies, [
-            './src/js/app/services/geolocationService.js',
+            './src/js/app/services/locationService.js',
             './src/js/app/services/configService.js',
             './src/js/app/services/mapService.js',
             './src/js/app/services/accountService.js',
