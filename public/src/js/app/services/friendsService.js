@@ -2,6 +2,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
 
     var FriendsService = {};
 
+    var _interval = undefined;
     var _resource = $resource(ConfigService.SERVER_URL + '/friends.get', null, {
         'query':  {
             method: 'GET',
@@ -9,26 +10,17 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
             transformResponse: transformResponse
         }
     });
-    var _interval = undefined;
+
     var _friends = localStorageService.get('friends') || _resource.query();
+    if (angular.isArray(_friends) && angular.isUndefined(_friends.$resolved)) {
+        _friends.$resolved = true;
+    }
 
     function transformResponse (data) {
         var friends = angular.fromJson(data);
         var hasNewFriends = false;
 
         friends.forEach(function (item) {
-            if (item.timestamp) {
-                item.location = {
-                    latitude: item.latitude,
-                    longitude: item.longitude,
-                    timestamp: item.timestamp
-                };
-            }
-
-            delete item.latitude;
-            delete item.longitude;
-            delete item.timestamp;
-
             for(var i = 0; i < _friends.length; ++i) {
                 if (_friends[i].mid == item.mid) {
                     break;
