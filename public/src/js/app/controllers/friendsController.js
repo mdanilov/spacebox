@@ -18,9 +18,7 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
     };
 
     self.openMap = self.toggle.bind(null, false);
-
     MapService.init();
-
     self.friends = FriendsService.getFriends(function () {
         $log.debug('Friends: ', self.friends);
         if (angular.isArray(self.friends) && self.friends.length > 0) {
@@ -30,10 +28,8 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
             self.state = 'empty';
         }
     });
-
     MapService.invalidateUsers(self.friends);
-
-    self.state = angular.isUndefined(self.friends.$resolved) ? 'loading' : 'ready';
+    self.state = (self.friends.resolved === true) ? 'ready' : 'loading';
 
     self.openChat = function () {
         self.isChatOpen = true;

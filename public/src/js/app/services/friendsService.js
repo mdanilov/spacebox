@@ -2,7 +2,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
 
     var FriendsService = {};
 
-    var _interval = undefined;
+    var _friends = [];
     var _resource = $resource(ConfigService.SERVER_URL + '/friends.get', null, {
         'query':  {
             method: 'GET',
@@ -11,22 +11,26 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         }
     });
 
-    var _friends = localStorageService.get('friends') || _resource.query();
-    if (angular.isArray(_friends) && angular.isUndefined(_friends.$resolved)) {
-        _friends.$resolved = true;
+    var storedData = localStorageService.get('friends');
+    _friends.resolved = angular.isArray(storedData);
+    if (_friends.resolved) {
+        _friends = storedData;
+    }
+
+    function getFriendIds (friends) {
+        return friends.map(function (friend) {
+            return friend.mid;
+        });
     }
 
     function transformResponse (data) {
-        var friends = angular.fromJson(data);
-        var hasNewFriends = false;
+        data = angular.fromJson(data);
 
-        friends.forEach(function (item) {
-            for(var i = 0; i < _friends.length; ++i) {
-                if (_friends[i].mid == item.mid) {
-                    break;
-                }
-            }
-            if ((i == _friends.length) || (_friends[i].new == true)) {
+        var ids = getFriendIds(_friends);
+        var hasNewFriends = false;
+        data.forEach(function (item) {
+            var pos = ids.indexOf(item.mid);
+            if (pos == -1 || (_friends[pos].new == true)) {
                 item.new = true;
                 hasNewFriends = true;
             }
@@ -36,7 +40,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
             $rootScope.$broadcast('friends.new');
         }
 
-        return friends;
+        return data;
     }
 
     angular.element($window).on('beforeunload', function () {
@@ -57,17 +61,15 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         }
     };
 
-    function updateFriends (callback) {
+    function queryResources (callback) {
         _resource.query().$promise.then(function (friends) {
-            var uids = friends.map(function (friend) {
-                return friend.mid;
-            });
-            return VkService.asyncGetUsersInfo(uids).then(function (info) {
+            var ids = getFriendIds(friends);
+            return VkService.asyncGetUsersInfo(ids).then(function (info) {
                 friends.forEach(function (friend, i) {
                     friend.info = info[i];
                 });
                 angular.copy(friends, _friends);
-                _friends.$resolved = true;
+                _friends.resolved = true;
                 if (angular.isFunction(callback)) {
                     callback(_friends);
                 }
@@ -76,9 +78,10 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     }
 
     FriendsService.getFriends = function (callback) {
-        updateFriends(callback);
-        if (angular.isUndefined(_interval)) {
-            _interval = $interval(updateFriends, ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
+        queryResources(callback);
+        if (angular.isUndefined(_friends.interval)) {
+            _friends.interval = $interval(queryResources,
+                ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
         }
         return _friends;
     };
