@@ -6,8 +6,11 @@
 </div>
 <div class="sp-chat-content">
     <div class="sp-messages-content">
-        <div class="sp-empty-content" ng-if="!isMessages">
-            <h5>У вас появился новый друг - <span>{{user.info.first_name}}</span></h5>
+        <div class="sp-empty-content" ng-if="isMessages === false">
+            <div class="sp-empty-info">
+                <h5>У вас появился новый друг - <span>{{user.info.first_name}}</span></h5>
+                <h4 am-time-ago="user.date"></h4>
+            </div>
             <img ng-src="{{user.info.photo_100}}">
         </div>
         <div id="spMessages" class="sp-messages"></div>

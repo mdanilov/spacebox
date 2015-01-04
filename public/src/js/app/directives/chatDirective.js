@@ -18,22 +18,27 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
 
             scope.isTyping = false;
             scope.messages = [];
-            scope.isMessages = false;
+            scope.isMessages = undefined;
 
             scope.$watch('user', function (newValue, oldValue) {
                 $log.debug('[chat] User has changed from ' + oldValue + ' to ' + newValue);
                 scope.isTyping = false;
-                scope.isMessages = false;
+                scope.isMessages = undefined;
                 scope.message = '';
                 messagesElement.empty();
 
                 if (newValue) {
                     MessagesService.asyncGetMessages(newValue.mid, ConfigService.CHAT_MESSAGES_COUNT).then(function (messages) {
-                        $log.debug('[chat] Messages loaded', messages);
-                        if (angular.isArray(messages) && messages.length > 0) {
-                            scope.isMessages = true;
-                            prependLoadedHistory(messages);
-                            scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                        if (scope.user.mid == newValue.mid) {
+                            $log.debug('[chat] Messages loaded', messages);
+                            if (angular.isArray(messages) && messages.length > 0) {
+                                scope.isMessages = true;
+                                prependLoadedHistory(messages);
+                                scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                            }
+                            else {
+                                scope.isMessages = false;
+                            }
                         }
                     });
                 }
@@ -48,10 +53,12 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                     $log.debug('[chat][scroll] Start load messages');
                     MessagesService.asyncGetMessages(user_id, ConfigService.CHAT_MESSAGES_COUNT, lastId).then(function (messages) {
                         loadingElement.remove();
-                        $log.debug('[chat][scroll] Messages loaded', messages);
-                        if (user_id == scope.user.mid) {
-                            if (angular.isArray(messages) && messages.length > 0) {
-                                prependLoadedHistory(messages);
+                        if (scope.user.mid == user_id) {
+                            $log.debug('[chat][scroll] Messages loaded', messages);
+                            if (user_id == scope.user.mid) {
+                                if (angular.isArray(messages) && messages.length > 0) {
+                                    prependLoadedHistory(messages);
+                                }
                             }
                         }
                     }, function (error) {
