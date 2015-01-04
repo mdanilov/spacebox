@@ -6,7 +6,7 @@
         var deferred = $q.defer();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                $cookieStore.set('location', position);
+                $cookieStore.put('location', position);
                 deferred.resolve(position);
             }, function () {
                 deferred.reject(new LocationError(true));

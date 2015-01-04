@@ -3,6 +3,9 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     var FriendsService = {};
 
     var _friends = [];
+    var _counter = {
+        recent: 0
+    };
     var _resource = $resource(ConfigService.SERVER_URL + '/friends.get', null, {
         'query':  {
             method: 'GET',
@@ -11,11 +14,34 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         }
     });
 
-    var storedData = localStorageService.get('friends');
-    _friends.resolved = angular.isArray(storedData);
-    if (_friends.resolved) {
-        _friends = storedData;
+    (function () {
+        var store = localStorageService.get('friends');
+        if (angular.isArray(store)) {
+            _friends = store.map(function (data) {
+                if (data.recent == true) {
+                    _counter.recent++;
+                }
+                return new Friend(data);
+            });
+            _friends.resolved = true;
+        }
+    }());
+
+    function Friend (data) {
+        angular.extend(this, data || {});
     }
+    Friend.prototype.isRecent = function () {
+        return this.recent == true;
+    };
+    Friend.prototype.hasLocation = function () {
+        return this.hasOwnProperty('location');
+    };
+    Friend.prototype.view = function () {
+        if (this.recent == true) {
+            _counter.recent--;
+        }
+        this.recent = false;
+    };
 
     function getFriendIds (friends) {
         return friends.map(function (friend) {
@@ -23,15 +49,15 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         });
     }
 
-    function transformResponse (data) {
-        data = angular.fromJson(data);
+    function transformResponse (response) {
+        var data = angular.fromJson(response);
 
         var ids = getFriendIds(_friends);
         var hasNewFriends = false;
-        data.forEach(function (item) {
+        angular.forEach(data, function (item) {
             var pos = ids.indexOf(item.mid);
-            if (pos == -1 || (_friends[pos].new == true)) {
-                item.new = true;
+            if ((pos == -1) || _friends[pos].isRecent()) {
+                item.recent = true;
                 hasNewFriends = true;
             }
         });
@@ -57,25 +83,44 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
             ++i;
         }
         if (i == _friends.length) {
-            _friends.push(user);
+            _friends.push(new Friend(user));
         }
     };
 
+    function updateFriends (data) {
+        if (_friends.length > data.length) {
+            _friends.splice(data.length);
+        }
+
+        _counter.recent = 0;
+        for (var i = 0; i < data.length; ++i) {
+            if (data[i].recent == true) {
+                _counter.recent++;
+            }
+            _friends[i] = new Friend(data[i]);
+        }
+
+        _friends.resolved = true;
+    }
+
     function queryResources (callback) {
-        _resource.query().$promise.then(function (friends) {
-            var ids = getFriendIds(friends);
+        _resource.query().$promise.then(function (data) {
+            var ids = getFriendIds(data);
             return VkService.asyncGetUsersInfo(ids).then(function (info) {
-                friends.forEach(function (friend, i) {
-                    friend.info = info[i];
+                angular.forEach(data, function (item, i) {
+                    item.info = info[i];
                 });
-                angular.copy(friends, _friends);
-                _friends.resolved = true;
+                updateFriends(data);
                 if (angular.isFunction(callback)) {
                     callback(_friends);
                 }
             });
         });
     }
+
+    FriendsService.hasRecent = function () {
+        return _counter.recent > 0;
+    };
 
     FriendsService.getFriends = function (callback) {
         queryResources(callback);

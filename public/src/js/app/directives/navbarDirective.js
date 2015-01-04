@@ -3,7 +3,8 @@ function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
         restrict: 'E',
         transclude: true,
         scope: {
-            info: '='
+            info: '=',
+            indicator: '='
         },
         templateUrl: 'src/js/app/templates/navbar.html',
         link: function (scope, element, attrs) {
@@ -30,7 +31,6 @@ function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
                     });
                 }
             }
-            scope.$on('friends.new', onEvent);
             scope.$on('messages.new', onEvent);
 
             scope.text = {

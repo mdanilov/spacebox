@@ -21,8 +21,8 @@ function friendListItemDirective (MapService, MessagesService) {
             updateShownMessage();
 
             scope.onClick = function () {
-                scope.user.new = false;
-                if (scope.user.location) {
+                scope.user.view();
+                if (scope.user.hasLocation()) {
                     MapService.selectUser(scope.user);
                 }
                 spFriendListCtrl.select(scope);
@@ -36,7 +36,7 @@ function friendListItemDirective (MapService, MessagesService) {
             };
 
             scope.hasUnreadMessage = function () {
-                return (scope.user.new === true) ||
+                return (scope.user.isRecent()) ||
                     (scope.message && scope.message.read_state === false);
             };
 
