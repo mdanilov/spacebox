@@ -128,7 +128,6 @@ ul.navbar-right, ul.navbar-right li {
     height: 16px;
     border: 2px solid white;
     border-radius: 50%;
-    z-index: 1;
 }
 
 @media (max-width: 768px) {
