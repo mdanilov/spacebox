@@ -35,46 +35,52 @@
                 <span>{{propertyNames[selectedProperty]}}</span>
                 <a href="" class="sp-done" ng-click="save()">Готово</a>
             </div>
-            <div class="sp-property-container" ng-show="selectedProperty === 'profile'">
-                <div class="sp-property-header"><span>Статус</span><span class="pull-right">{{status.length}}</span></div>
-                <textarea class="form-control" rows="3" ng-change="checkLength()" ng-model="status.text"></textarea>
-            </div>
-            <div class="sp-property-container" ng-show="selectedProperty === 'search'">
-                <div class="sp-property-header">
-                    <span>Показывать:</span>
+            <div class="sp-properties-content">
+                <div ng-show="selectedProperty === 'profile'">
+                    <sp-album images="photos"></sp-album>
+                    <sp-status status="status"></sp-status>
                 </div>
-                <div class="sp-property-control">
-                    <form class="btn-group sp-sex-radio-buttons">
-                        <label class="btn" ng-class="{active: sex==1}">
-                            <input type="radio" ng-model="sex" value="1" name="sex"> Девушек
-                        </label>
-                        <label class="btn" ng-class="{active: sex==2}">
-                            <input type="radio" ng-model="sex" value="2" name="sex"> Парней
-                        </label>
-                        <label class="btn" ng-class="{active: sex==0}">
-                            <input type="radio" ng-model="sex" value="0" name="sex"> Всех
-                        </label>
-                    </form>
+                <div ng-show="selectedProperty === 'search'">
+                    <div class="sp-property-container">
+                        <div class="sp-property-header">
+                            <span>Показывать:</span>
+                        </div>
+                        <div class="sp-property-control">
+                            <form class="btn-group sp-sex-radio-buttons">
+                                <label class="btn" ng-class="{active: sex==1}">
+                                    <input type="radio" ng-model="sex" value="1" name="sex"> Девушек
+                                </label>
+                                <label class="btn" ng-class="{active: sex==2}">
+                                    <input type="radio" ng-model="sex" value="2" name="sex"> Парней
+                                </label>
+                                <label class="btn" ng-class="{active: sex==0}">
+                                    <input type="radio" ng-model="sex" value="0" name="sex"> Всех
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sp-property-container">
+                        <div class="sp-property-header">
+                            <span>Возраст</span><span id="spSliderValue" class="pull-right"></span>
+                        </div>
+                        <div class="sp-slider"><input id="spAgeSlider" type="text" class="span2"/></div>
+                    </div>
+                    <div class="sp-property-container">
+                        <div class="sp-property-header">
+                            <span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span>
+                        </div>
+                        <div class="sp-slider"><input id="spDistanceSlider" type="text"/></div>
+                    </div>
                 </div>
-            </div>
-            <div class="sp-property-container" ng-show="selectedProperty === 'search'">
-                <div class="sp-property-header">
-                    <span>Возраст</span><span id="spSliderValue" class="pull-right"></span>
+                <div ng-show="selectedProperty === 'application'">
+                    <div class="sp-version" >
+                        <i class="fa fa-tint"></i>
+                        <h5>Версия {{version}}</h5>
+                    </div>
+                    <div class="sp-property-container">
+                        <div class="sp-destroy-account" ng-click="destroy()">Удалить аккаунт</div>
+                    </div>
                 </div>
-                <div class="sp-slider"><input id="spAgeSlider" type="text" class="span2"/></div>
-            </div>
-            <div class="sp-property-container" ng-show="selectedProperty === 'search'">
-                <div class="sp-property-header">
-                    <span>Расстояние</span><span id="spDistanceValue" class="pull-right"></span>
-                </div>
-                <div class="sp-slider"><input id="spDistanceSlider" type="text"/></div>
-            </div>
-            <div class="sp-version" ng-show="selectedProperty === 'application'">
-                <i class="fa fa-tint"></i>
-                <h5>Версия {{version}}</h5>
-            </div>
-            <div class="sp-property-container" ng-show="selectedProperty === 'application'">
-                <div class="sp-destroy-account" ng-click="destroy()">Удалить аккаунт</div>
             </div>
 		</div>
 	</div>

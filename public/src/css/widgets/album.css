@@ -1,0 +1,31 @@
+.container-fluid.sp-album,
+.sp-album .col-xs-4, .sp-album .col-xs-8 {
+    padding: 0;
+}
+
+.container-fluid.sp-album {
+    text-align: center;
+}
+
+.sp-album .sp-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 10px;
+    background: rgb(200, 200, 200) center no-repeat;
+    background-size: contain;
+    background-clip: content-box;
+}
+
+.sp-album .sp-image-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+.sp-album .sp-image-wrapper:after {
+    padding-top: 100%;
+    display: block;
+    content: '';
+}

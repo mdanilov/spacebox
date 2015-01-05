@@ -15,34 +15,23 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
     };
 
     $scope.info = UserService.getInfo();
+    UserService.asyncGetPhotos().then(function (images) {
+        $scope.photos = images;
+    });
 
     $scope.toggle = function (value) {
         $scope.profile = value;
         $scope.changed = false;
     };
 
+    $scope.status = '';
     StatusService.get().then(function (status) {
-        $scope.status = {
-            text: status,
-            length: ConfigService.MAX_STATUS_LENGTH - status.length,
-            maxLength: ConfigService.MAX_STATUS_LENGTH
-        };
+        if (angular.isString(status)) {
+            $scope.status = status;
+        }
     });
 
     $scope.changed = false;
-
-	$scope.checkLength = function() {
-		var status = $scope.status;
-		if (status.text.length > status.maxLength) {
-			status.length = 0;
-			status.text = status.text.substring(0, status.maxLength);
-		} 
-		else {
-			status.length = status.maxLength - status.text.length;			
-		}
-		$scope.status = status;
-        optionsChanged();
-	};
 
 	var options = ConfigService.getSearchOptions();
 
@@ -108,7 +97,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
             bottom: ages[0]
         };
         ConfigService.setSearchOptions(options);
-        StatusService.set($scope.status.text);
+        StatusService.set($scope.status);
         $scope.changed = false;
         $scope.selectedProperty = null;
     };

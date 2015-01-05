@@ -27,7 +27,9 @@ gulp.task('build', function () {
             './src/css/partials/chat.css',
             './src/css/partials/friend-list.css',
             './src/css/partials/cards.css',
-            './src/css/partials/controls.css'
+            './src/css/partials/controls.css',
+            './src/css/widgets/status.css',
+            './src/css/widgets/album.css'
         ])
         .pipe(concat('spacebox.css'))
         .pipe(gulp.dest('dist'))
@@ -80,7 +82,9 @@ gulp.task('build', function () {
             './src/js/app/directives/cardsDirective.js',
             './src/js/app/directives/friendListDirective.js',
             './src/js/app/directives/friendListItemDirective.js',
-            './src/js/app/directives/widgets/radar.js'
+            './src/js/app/directives/widgets/radar.js',
+            './src/js/app/directives/widgets/status.js',
+            './src/js/app/directives/widgets/album.js'
         ]);
 
         return sources;
