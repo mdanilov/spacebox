@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler, FriendsService, VkService) {
+function UsersViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler, FriendsService, VkService) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -98,5 +98,5 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
     });
 }
 
-angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', 'FriendsService', 'VkService', MainViewController]);
+angular.module('spacebox').controller('UsersViewController',
+    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', 'FriendsService', 'VkService', UsersViewController]);
