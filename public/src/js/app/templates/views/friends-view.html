@@ -1,13 +1,8 @@
-<div id="spNavPills" class="visible-xs-block">
-	<ul class="nav nav-pills nav-justified">
-	 	<li ng-class="{'active': friends.list}"><a href="" ng-click="friends.toggle(true)">Друзья</a></li>
-	  	<li ng-class="{'active': !friends.list}"><a href="" ng-click="friends.toggle(false)">Карта</a></li>
-	</ul>
-</div>
+<sp-tabs id="spNavPills" class="visible-xs-block" active="friends.tab"></sp-tabs>
 <div id="spFriendsPage" class="container fill-height">
     <div id="spRowContainer" class="row fill-height">
         <div id="spFriendsList" class="col-xs-12 col-sm-5 fill-height"
-             ng-class="{'sp-active': friends.list}" ng-switch on="friends.state">
+             ng-class="{'sp-active': friends.tab == 'friends'}" ng-switch on="friends.state">
             <div ng-switch-when="ready">
                 <sp-friend-list
                         users="friends.friends"
@@ -26,7 +21,7 @@
                 <i class="fa fa-circle-o-notch fa-spin"></i>
             </div>
         </div>
-        <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': !friends.list}">
+        <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': friends.tab == 'map'}">
             <div id="spChat" ng-if="friends.isChatOpen">
                 <sp-chat user="friends.current" on-close="friends.closeChat()"></sp-chat>
             </div>

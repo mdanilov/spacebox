@@ -1,23 +1,20 @@
-function FriendsViewController ($scope, $log, $location, $interval, MapService, FriendsService, ErrorHandler, StatusService, MessagesService) {
+function FriendsViewController ($scope, $log, $location, MapService, FriendsService) {
     $log.debug('Initialize friends view...');
 
     var self = this;
     self.friends = [];
     self.current = undefined;
-    self.list = true;
-    self.statusUpdater = undefined;
-    self.STATUS_UPDATE_INTERVAL = 300000; // 5 minutes
+    self.tab = 'friends';
     self.isChatOpen = false;
-
-    self.toggle = function (value) {
-        self.list = value;
-    };
 
     self.find = function () {
         $location.path('/');
     };
 
-    self.openMap = self.toggle.bind(null, false);
+    self.openMap = function () {
+        self.tab = 'map';
+    };
+
     MapService.init();
     self.friends = FriendsService.getFriends(function () {
         $log.debug('Friends: ', self.friends);
@@ -41,4 +38,4 @@ function FriendsViewController ($scope, $log, $location, $interval, MapService, 
 }
 
 angular.module('spacebox').controller('FriendsViewController',
-    ['$scope', '$log', '$location', '$interval', 'MapService', 'FriendsService', 'ErrorHandler', 'StatusService', 'MessagesService', FriendsViewController]);
+    ['$scope', '$log', '$location', 'MapService', 'FriendsService', FriendsViewController]);

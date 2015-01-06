@@ -161,7 +161,8 @@
                     'src/css/partials/cards.css',
                     'src/css/partials/controls.css',
                     'src/css/widgets/album.css',
-                    'src/css/widgets/status.css'
+                    'src/css/widgets/status.css',
+                    'src/css/widgets/tabs.css'
                 ]);
 
                 // main app script should be loaded first
@@ -219,7 +220,8 @@
                         'src/js/app/directives/friendListItemDirective.js',
                         'src/js/app/directives/widgets/radar.js',
                         'src/js/app/directives/widgets/album.js',
-                        'src/js/app/directives/widgets/status.js'
+                        'src/js/app/directives/widgets/status.js',
+                        'src/js/app/directives/widgets/tabs.js'
                     ],
                     complete: bootstrapAngular
                 });

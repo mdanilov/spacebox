@@ -1,0 +1,9 @@
+<div class="sp-tabs">
+    <div class="sp-tabs-select">{{tabs[active]}}</div>
+    <div class="sp-tab" ng-class="{'active': active == 'friends'}" ng-click="open('friends')">
+        {{tabs['friends']}}
+    </div>
+    <div class="sp-tab" ng-class="{'active': active == 'map'}" ng-click="open('map')">
+        {{tabs['map']}}
+    </div>
+</div>

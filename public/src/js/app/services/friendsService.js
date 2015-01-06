@@ -69,7 +69,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         return data;
     }
 
-    angular.element($window).on('beforeunload', function () {
+    angular.element($window).on('unload', function () {
         $log.debug('[friends] Save friends to local storage', _friends);
         localStorageService.set('friends', _friends);
     });

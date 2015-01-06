@@ -128,7 +128,7 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         }
     }
 
-    angular.element($window).on('beforeunload', function () {
+    angular.element($window).on('unload', function () {
         angular.forEach(_dialogs, function (dialog) {
            dialog.removeOldMessages(MESSAGES_COUNT);
         });
