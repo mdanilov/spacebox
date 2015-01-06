@@ -1,4 +1,4 @@
-function mapDirective ($compile, $rootScope, $timeout, ConfigService, LocationService) {
+function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, LocationService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -23,7 +23,7 @@ function mapDirective ($compile, $rootScope, $timeout, ConfigService, LocationSe
                 }),
                 LOCATOR: L.divIcon({
                     className: 'info',
-                    html: '<div class="locator"></div>',
+                    html: '<div><div class="sp-locator-circle sp-pulse"></div><div class="locator"></div></div>',
                     iconSize: [18, 18]
                 })
             };
@@ -82,9 +82,7 @@ function mapDirective ($compile, $rootScope, $timeout, ConfigService, LocationSe
                                 '<h4>{{user.info.first_name}}{{user.info.bdate|age:true}}</h4>',
                                 '<p>{{user.info.sex == 1 ? \'Была \' : \'Был \' }}<span am-time-ago="user.location.timestamp"></span></p>',
                                 '<a href="" ng-click="openChat(user)">',
-                                    '<i class="fa fa-comments"></i></a>',
-                                '<a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">',
-                                    '<i class="fa fa-vk"></i></a>',
+                                    '<i class="fa fa-comments"></i>Сообщение</a>',
                             '</div>',
                         '</div>',
                         '<div class="sp-map-tooltip-status">',
@@ -185,4 +183,4 @@ function mapDirective ($compile, $rootScope, $timeout, ConfigService, LocationSe
 }
 
 angular.module('spacebox').directive('spMap',
-    ['$compile', '$rootScope', '$timeout', 'ConfigService', 'LocationService', mapDirective]);
+    ['$compile', '$rootScope', '$timeout', '$animate', 'ConfigService', 'LocationService', mapDirective]);
