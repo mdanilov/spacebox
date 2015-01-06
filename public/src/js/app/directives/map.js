@@ -122,16 +122,19 @@ function mapDirective ($compile, $rootScope, $timeout, ConfigService, LocationSe
             }
 
             function toggleMarker (user) {
-                if (angular.isDefined(scope.markers.active) && scope.markers.active != user.mid &&
-                    angular.isDefined(scope.markers[scope.markers.active])) {
-                    scope.markers[scope.markers.active].setIcon(MARKER_ICONS.USER);
+                var active = scope.markers.active;
+                if (angular.isDefined(active) && active != user.mid &&
+                    angular.isDefined(scope.markers[active])) {
+                    scope.markers[active].setIcon(MARKER_ICONS.USER);
+                    scope.markers[active].closePopup();
                     delete scope.markers.active;
+                    popupFixed = false;
                 }
 
                 if (angular.isDefined(scope.markers[user.mid])) {
-                    scope.markers.active = user.mid;
-                    scope.markers[scope.markers.active].setIcon(MARKER_ICONS.SELECTED);
-                    scope.markers[scope.markers.active].openPopup();
+                    active = scope.markers.active = user.mid;
+                    scope.markers[active].setIcon(MARKER_ICONS.SELECTED);
+                    scope.markers[active].openPopup();
                     popupFixed = true;
                 }
             }
