@@ -37,11 +37,12 @@
 }
 
 #map-canvas .fa.fa-map-marker.user {
-    color: #4387fd;
+    color: #00d449;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 #map-canvas .fa.fa-map-marker.selected {
-    color: #4387fd;
+    color: #00d449;
     font-size: 40px;
     line-height: 40px;
     z-index: 250;
