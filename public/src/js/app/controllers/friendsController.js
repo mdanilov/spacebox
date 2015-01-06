@@ -1,4 +1,4 @@
-function FriendsViewController ($scope, $log, $location, MapService, FriendsService) {
+function FriendsViewController ($scope, $log, $location, FriendsService) {
     $log.debug('Initialize friends view...');
 
     var self = this;
@@ -15,7 +15,6 @@ function FriendsViewController ($scope, $log, $location, MapService, FriendsServ
         self.tab = 'map';
     };
 
-    MapService.init();
     self.friends = FriendsService.getFriends(function () {
         $log.debug('Friends: ', self.friends);
         if (angular.isArray(self.friends) && self.friends.length > 0) {
@@ -25,8 +24,11 @@ function FriendsViewController ($scope, $log, $location, MapService, FriendsServ
             self.state = 'empty';
         }
     });
-    MapService.invalidateUsers(self.friends);
     self.state = (self.friends.resolved === true) ? 'ready' : 'loading';
+
+    $scope.$on('chat.open', function () {
+        self.isChatOpen = true;
+    });
 
     self.openChat = function () {
         self.isChatOpen = true;
@@ -38,4 +40,4 @@ function FriendsViewController ($scope, $log, $location, MapService, FriendsServ
 }
 
 angular.module('spacebox').controller('FriendsViewController',
-    ['$scope', '$log', '$location', 'MapService', 'FriendsService', FriendsViewController]);
+    ['$scope', '$log', '$location', 'FriendsService', FriendsViewController]);

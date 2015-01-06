@@ -22,14 +22,15 @@ gulp.task('build', function () {
             './src/css/views/properties.css',
             './src/css/views/error.css',
             './src/css/views/friends.css',
-            './src/css/partials/radar.css',
             './src/css/partials/navbar.css',
             './src/css/partials/chat.css',
             './src/css/partials/friend-list.css',
             './src/css/partials/cards.css',
             './src/css/partials/controls.css',
             './src/css/widgets/status.css',
-            './src/css/widgets/album.css'
+            './src/css/widgets/album.css',
+            './src/css/widgets/tabs.css',
+            './src/css/widgets/radar.css'
         ])
         .pipe(concat('spacebox.css'))
         .pipe(gulp.dest('dist'))
@@ -58,7 +59,6 @@ gulp.task('build', function () {
         sources = sources.concat(dependencies, [
             './src/js/app/services/locationService.js',
             './src/js/app/services/configService.js',
-            './src/js/app/services/mapService.js',
             './src/js/app/services/accountService.js',
             './src/js/app/services/likesService.js',
             './src/js/app/services/friendsService.js',
@@ -71,7 +71,7 @@ gulp.task('build', function () {
             './src/js/app/controllers/propertiesController.js',
             './src/js/app/controllers/loginController.js',
             './src/js/app/controllers/errorController.js',
-            './src/js/app/controllers/mainController.js',
+            './src/js/app/controllers/usersController.js',
             './src/js/app/controllers/friendsController.js',
             './src/js/app/controllers/modals/dialogController.js',
             './src/js/app/controllers/modals/matchController.js',
@@ -84,7 +84,9 @@ gulp.task('build', function () {
             './src/js/app/directives/friendListItemDirective.js',
             './src/js/app/directives/widgets/radar.js',
             './src/js/app/directives/widgets/status.js',
-            './src/js/app/directives/widgets/album.js'
+            './src/js/app/directives/widgets/album.js',
+            './src/js/app/directives/widgets/tabs.js',
+            './src/js/app/directives/map.js'
         ]);
 
         return sources;

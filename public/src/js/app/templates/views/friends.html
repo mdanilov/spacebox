@@ -25,7 +25,7 @@
             <div id="spChat" ng-if="friends.isChatOpen">
                 <sp-chat user="friends.current" on-close="friends.closeChat()"></sp-chat>
             </div>
-            <div id="map-canvas"></div>
+            <sp-map users="friends.friends" selected="friends.current"></sp-map>
         </div>
     </div>
 </div>

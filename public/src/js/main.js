@@ -154,7 +154,6 @@
                     'src/css/views/friends.css',
                     'src/css/modals/dialog.css',
                     'src/css/modals/match.css',
-                    'src/css/partials/radar.css',
                     'src/css/partials/navbar.css',
                     'src/css/partials/chat.css',
                     'src/css/partials/friend-list.css',
@@ -162,6 +161,7 @@
                     'src/css/partials/controls.css',
                     'src/css/widgets/album.css',
                     'src/css/widgets/status.css',
+                    'src/css/widgets/radar.css',
                     'src/css/widgets/tabs.css'
                 ]);
 
@@ -194,7 +194,6 @@
                     load: [
                         'src/js/app/services/locationService.js',
                         'src/js/app/services/configService.js',
-                        'src/js/app/services/mapService.js',
                         'src/js/app/services/likesService.js',
                         'src/js/app/services/friendsService.js',
                         'src/js/app/services/errorHandler.js',
@@ -207,7 +206,7 @@
                         'src/js/app/controllers/propertiesController.js',
                         'src/js/app/controllers/loginController.js',
                         'src/js/app/controllers/errorController.js',
-                        'src/js/app/controllers/mainController.js',
+                        'src/js/app/controllers/usersController.js',
                         'src/js/app/controllers/friendsController.js',
                         'src/js/app/controllers/modals/dialogController.js',
                         'src/js/app/controllers/modals/matchController.js',
@@ -218,6 +217,7 @@
                         'src/js/app/directives/cardsDirective.js',
                         'src/js/app/directives/friendListDirective.js',
                         'src/js/app/directives/friendListItemDirective.js',
+                        'src/js/app/directives/map.js',
                         'src/js/app/directives/widgets/radar.js',
                         'src/js/app/directives/widgets/album.js',
                         'src/js/app/directives/widgets/status.js',

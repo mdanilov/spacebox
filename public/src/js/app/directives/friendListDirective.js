@@ -1,4 +1,4 @@
-function friendListDirective ($log, MessagesService) {
+function friendListDirective () {
     return {
         restrict: 'E',
         transclude: true,
@@ -17,6 +17,7 @@ function friendListDirective ($log, MessagesService) {
                     card.selected = false;
                 });
                 card.selected = true;
+                cards.selected = card.user.mid;
                 $scope.selected = card.user;
             };
 
@@ -24,9 +25,24 @@ function friendListDirective ($log, MessagesService) {
                 card.selected = false;
                 cards.push(card);
             };
+
+            $scope.$watch('selected', function (user) {
+                if (angular.isObject(user) && cards.selected != user.mid) {
+                    angular.forEach(cards, function (card) {
+                        if (card.user.mid == user.mid) {
+                            card.selected = true;
+                            cards.selected = card.user.mid;
+                            card.scrollTo();
+                        }
+                        else {
+                            card.selected = false;
+                        }
+                    });
+                }
+            });
         }
     };
 }
 
 angular.module('spacebox').directive('spFriendList',
-    ['$log', 'MessagesService', friendListDirective]);
+    [friendListDirective]);

@@ -15,4 +15,4 @@ function cardsDirective () {
 }
 
 angular.module('spacebox').directive('spCards',
-    [ cardsDirective]);
+    [cardsDirective]);

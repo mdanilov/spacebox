@@ -1,4 +1,4 @@
-function friendListItemDirective (MapService, MessagesService) {
+function friendListItemDirective (MessagesService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -22,10 +22,11 @@ function friendListItemDirective (MapService, MessagesService) {
 
             scope.onClick = function () {
                 scope.user.view();
-                if (scope.user.hasLocation()) {
-                    MapService.selectUser(scope.user);
-                }
                 spFriendListCtrl.select(scope);
+            };
+
+            scope.scrollTo = function () {
+                element[0].scrollIntoView();
             };
 
             scope.openChat = function () {
@@ -50,4 +51,4 @@ function friendListItemDirective (MapService, MessagesService) {
 }
 
 angular.module('spacebox').directive('spFriendListItem',
-    ['MapService', 'MessagesService', friendListItemDirective]);
+    ['MessagesService', friendListItemDirective]);

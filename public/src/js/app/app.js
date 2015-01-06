@@ -1,29 +1,29 @@
 var spacebox = angular.module('spacebox',
     [ 'ngAnimate', 'ngRoute', 'ngResource', 'ngTouch', 'ngCookies', 'angular-carousel', 'angularMoment', 'LocalStorageModule', 'ui.bootstrap.modal', 'ui.bootstrap.tpls']);
 
-spacebox.config(['config', '$routeProvider', '$logProvider',
-    function (config, $routeProvider, $logProvider) {
+spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
+    function (config, $routeProvider, $logProvider, $compileProvider) {
         $routeProvider.
             when('/login', {
-                templateUrl: 'src/js/app/templates/views/login-view.html',
+                templateUrl: 'src/js/app/templates/views/login.html',
                 controller: 'LoginViewController'
             }).
             when('/', {
-                templateUrl: 'src/js/app/templates/views/main-view.html',
-                controller: 'MainViewController',
+                templateUrl: 'src/js/app/templates/views/users.html',
+                controller: 'UsersViewController',
                 controllerAs: 'main'
             }).
             when('/friends', {
-                templateUrl: 'src/js/app/templates/views/friends-view.html',
+                templateUrl: 'src/js/app/templates/views/friends.html',
                 controller: 'FriendsViewController',
                 controllerAs: 'friends'
             }).
             when('/error', {
-                templateUrl: 'src/js/app/templates/views/error-view.html',
+                templateUrl: 'src/js/app/templates/views/error.html',
                 controller: 'ErrorViewController'
             }).
             when('/properties', {
-                templateUrl: 'src/js/app/templates/views/properties-view.html',
+                templateUrl: 'src/js/app/templates/views/properties.html',
                 controller: 'PropertiesViewController',
                 resolve: PropertiesViewController.resolve
             }).
@@ -32,6 +32,7 @@ spacebox.config(['config', '$routeProvider', '$logProvider',
             });
 
         if (!angular.equals(config.DEVELOPMENT, true)) {
+            $compileProvider.debugInfoEnabled(false);
             $logProvider.debugEnabled(false);
         }
     }]);

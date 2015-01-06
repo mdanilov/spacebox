@@ -7,6 +7,11 @@ function ConfigService (config, $cookieStore) {
     ConfigService.CHAT_MESSAGES_COUNT = 20;
     ConfigService.CHAT_PRINT_TIME = 60; // 1 minute
 
+    ConfigService.MAPBOX = {
+        ACCESS_TOKEN: 'pk.eyJ1IjoibWRhbmlsb3YiLCJhIjoiV29JVmpxdyJ9.sBimZ4oSZYSFTdcZIgnQfQ',
+        URL: 'mdanilov.j8f4ggll'
+    };
+
     ConfigService.VK_WEBSITE_APP_ID = 4688098;
     ConfigService.VK_MOBILE_APP_ID = 4213835;
     ConfigService.MAX_USER_PHOTOS = 6;
