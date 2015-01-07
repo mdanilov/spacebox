@@ -23,7 +23,7 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
                 }),
                 LOCATOR: L.divIcon({
                     className: 'info',
-                    html: '<div><div class="sp-locator-circle sp-pulse"></div><div class="locator"></div></div>',
+                    html: '<div><div class="sp-locator-circle sp-pulse"></div><div class="sp-locator"></div></div>',
                     iconSize: [18, 18]
                 })
             };
