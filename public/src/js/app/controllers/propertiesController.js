@@ -1,4 +1,4 @@
-function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, ErrorHandler, StatusService, AccountService, status) {
+function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, StatusService, AccountService, status) {
     $scope.profile = true;
     $scope.version = ConfigService.VERSION;
     $scope.properties = ['profile', 'search', 'application'];
@@ -35,6 +35,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
 
 	var options = ConfigService.getSearchOptions();
 
+    $scope.visibility = options.visibility;
     $scope.sex = options.sex;
     $scope.$watch('sex', optionsChanged);
 
@@ -90,6 +91,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
     $scope.save = function () {
         var options = {};
         var ages = ageSlider.slider('getValue');
+        options.visibility = $scope.visibility;
         options.sex = parseInt($scope.sex);
         options.radius = distanceSlider.slider('getValue') * 1000;
         options.ageInterval = {
@@ -140,4 +142,4 @@ PropertiesViewController.resolve = {
 };
 
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'ErrorHandler', 'StatusService', 'AccountService', 'status', PropertiesViewController]);
+    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'StatusService', 'AccountService', 'status', PropertiesViewController]);

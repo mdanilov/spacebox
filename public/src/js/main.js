@@ -192,6 +192,7 @@
                 // load common scripts
                 yepnope({
                     load: [
+                        /* services */
                         'src/js/app/services/locationService.js',
                         'src/js/app/services/configService.js',
                         'src/js/app/services/likesService.js',
@@ -202,6 +203,7 @@
                         'src/js/app/services/messagesService.js',
                         'src/js/app/services/userService.js',
                         'src/js/app/services/statusService.js',
+                        /* controllers */
                         'src/js/app/controllers/applicationController.js',
                         'src/js/app/controllers/propertiesController.js',
                         'src/js/app/controllers/loginController.js',
@@ -210,14 +212,16 @@
                         'src/js/app/controllers/friendsController.js',
                         'src/js/app/controllers/modals/dialogController.js',
                         'src/js/app/controllers/modals/matchController.js',
+                        /* filters */
                         'src/js/app/filters/distanceFilter.js',
                         'src/js/app/filters/ageFilter.js',
-                        'src/js/app/directives/navbarDirective.js',
-                        'src/js/app/directives/chatDirective.js',
-                        'src/js/app/directives/cardsDirective.js',
-                        'src/js/app/directives/friendListDirective.js',
-                        'src/js/app/directives/friendListItemDirective.js',
+                        /* directives */
+                        'src/js/app/directives/navbar.js',
+                        'src/js/app/directives/chat.js',
+                        'src/js/app/directives/list.js',
+                        'src/js/app/directives/listItem.js',
                         'src/js/app/directives/map.js',
+                        'src/js/app/directives/widgets/card.js',
                         'src/js/app/directives/widgets/radar.js',
                         'src/js/app/directives/widgets/album.js',
                         'src/js/app/directives/widgets/status.js',

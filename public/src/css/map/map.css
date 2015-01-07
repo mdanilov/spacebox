@@ -157,7 +157,7 @@
 }
 
 /* Locator */
-#map-canvas .locator {
+#map-canvas .sp-locator {
     position: absolute;
     width: 18px;
     height: 18px;

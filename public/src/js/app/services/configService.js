@@ -55,6 +55,7 @@ function ConfigService (config, $cookieStore) {
                 zoom: 15
             },
             search: {
+                visibility: true,
                 radius: 15000,
                 sex: 0,
                 ageInterval: {
