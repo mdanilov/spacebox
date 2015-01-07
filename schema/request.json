@@ -225,7 +225,7 @@
                         }
                     },
                     "required": ["radius"],
-                    "additionalProperties": false
+                    "additionalProperties": true
                 }
             },
             "required": ["url", "latitude", "longitude", "options"],
