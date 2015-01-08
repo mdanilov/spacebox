@@ -3,12 +3,9 @@
     <div id="spRowContainer" class="row fill-height">
         <div id="spFriendsList" class="col-xs-12 col-sm-5 fill-height"
              ng-class="{'sp-active': friends.tab == 'friends'}" ng-switch on="friends.state">
-            <div ng-switch-when="ready">
-                <sp-friend-list
-                        users="friends.friends"
-                        selected="friends.current"
-                        on-marker-click="friends.openMap"
-                        on-chat="friends.openChat()">
+            <div class="fill-height" ng-switch-when="ready">
+                <sp-friend-list users="friends.friends" selected="friends.current"
+                        on-marker-click="friends.openMap" on-chat="friends.openChat()">
                 </sp-friend-list>
             </div>
             <div class="sp-friends-state" ng-switch-when="empty">

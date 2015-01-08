@@ -40,6 +40,18 @@ function friendListDirective () {
                     });
                 }
             });
+
+            $scope.predicates = [
+                function (user) {
+                    return user.isRecent() ? new Date(user.date).getTime() : 0;
+                },
+                function (user) {
+                    return user.hasLocation() ? user.location.timestamp : 0;
+                },
+                function (user) {
+                    return user.date ? new Date(user.date).getTime() : 0;
+                }
+            ];
         }
     };
 }

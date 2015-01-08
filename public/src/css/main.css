@@ -81,3 +81,9 @@ textarea {
     resize: none;
     outline: none;
 }
+
+.scroll-y {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}

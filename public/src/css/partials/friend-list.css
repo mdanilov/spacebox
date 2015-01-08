@@ -20,8 +20,6 @@
 
 #spFriendsList {
     max-height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
     padding-left: 0;
     padding-right: 0;
     background-color: white;
