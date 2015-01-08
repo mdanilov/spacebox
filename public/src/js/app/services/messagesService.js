@@ -128,13 +128,16 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         }
     }
 
-    angular.element($window).on('unload', function () {
+    function saveDialogs () {
         angular.forEach(_dialogs, function (dialog) {
-           dialog.removeOldMessages(MESSAGES_COUNT);
+            dialog.removeOldMessages(MESSAGES_COUNT);
         });
         localStorageService.set('messages.dialogs', _dialogs);
         markAsRead();
-    });
+    }
+
+    angular.element($window).on('unload', saveDialogs);
+    angular.element($window).on('pagehide', saveDialogs);
 
     function pushMessage (message) {
         var userId = message.out ? message.user_id : message.from_id;

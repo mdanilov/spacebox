@@ -69,10 +69,13 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         return data;
     }
 
-    angular.element($window).on('unload', function () {
+    function saveFriends () {
         $log.debug('[friends] Save friends to local storage', _friends);
         localStorageService.set('friends', _friends);
-    });
+    }
+
+    angular.element($window).on('unload', saveFriends);
+    angular.element($window).on('pagehide', saveFriends);
 
     FriendsService.addFriend = function (user) {
         var i = 0;
