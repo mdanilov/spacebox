@@ -120,9 +120,12 @@ exports.getHistory = function (request, response, next) {
                     }
                 }
             ], callback);
-        }, function __callback (error, result) {
-            if (error)
+        }, function (error, result) {
+            error = error || result.error;
+            if (error) {
                 next(error);
+            }
+
             res.items = result.rows;
             response.json(res);
         });

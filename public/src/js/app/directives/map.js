@@ -148,7 +148,7 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
 
             }
 
-            scope.$watch('users', function (users) {
+            function invalidateUsers (users) {
                 if (angular.isArray(users)) {
                     clear();
                     for (var i = 0; i < users.length; i++) {
@@ -158,7 +158,10 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
                         }
                     }
                 }
-            });
+            }
+
+            invalidateUsers();
+            scope.$watch('users', invalidateUsers);
 
             scope.$watch('selected', function (user) {
                 if (angular.isObject(user)) {
