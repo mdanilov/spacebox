@@ -36,7 +36,7 @@ module.exports =  function (request, response, next) {
                 }
             ], callback);
         }, function (error, result) {
-            if (!error) {
+            if (!(error || result.error)) {
                 request.session.location = location;
             }
 
