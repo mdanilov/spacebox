@@ -125,9 +125,10 @@ exports.getHistory = function (request, response, next) {
             if (error) {
                 next(error);
             }
-
-            res.items = result.rows;
-            response.json(res);
+            else {
+                res.items = result.rows;
+                response.json(res);
+            }
         });
     }
     catch (error) {

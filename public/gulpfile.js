@@ -4,6 +4,7 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
+var manifest = require('gulp-manifest');
 
 gulp.task('clean', function () {
     gulp.src('dist', {read: false})
@@ -109,4 +110,17 @@ gulp.task('build', function () {
         .pipe(rename('spacebox-mobile.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
+
+    gulp.src(['src/**'])
+        .pipe(rename(function (path) {
+            path.dirname = 'src/' + path.dirname;
+        }))
+        .pipe(manifest({
+            hash: true,
+            preferOnline: true,
+            network: ['http://*', 'https://*', '*'],
+            filename: 'app.manifest',
+            exclude: 'app.manifest'
+        }))
+        .pipe(gulp.dest('.'));
 });

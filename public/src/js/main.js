@@ -74,6 +74,8 @@
                     event.preventDefault();
                 }
             });
+
+            Modernizr.addTest('standalone', window.navigator.standalone);
         }
 
         // manually bootstrap AngularJS

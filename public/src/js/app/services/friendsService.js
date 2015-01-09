@@ -38,6 +38,9 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     };
     Friend.prototype.view = function () {
         if (this.recent == true) {
+            if (Modernizr.standalone) {
+                saveFriends();
+            }
             _counter.recent--;
         }
         this.recent = false;
@@ -61,6 +64,10 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
                 hasNewFriends = true;
             }
         });
+
+        if (Modernizr.standalone) {
+            saveFriends();
+        }
 
         if (hasNewFriends) {
             $rootScope.$broadcast('friends.new');
