@@ -111,10 +111,7 @@ gulp.task('build', function () {
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 
-    gulp.src(['src/**'])
-        .pipe(rename(function (path) {
-            path.dirname = 'src/' + path.dirname;
-        }))
+    gulp.src(['src/**', 'dist/**'], {base: './'})
         .pipe(manifest({
             hash: true,
             preferOnline: true,
