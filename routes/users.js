@@ -128,8 +128,8 @@ exports.get = function (request, response, next) {
                 client.delete().from('users').where({'mid': id}).run,
                 function __insertUser(result, callback) {
                     var info = {};
-                    if (request.cookies.userInfo) {
-                        info = JSON.parse(unescape(request.cookies.userInfo));
+                    if (request.cookies.user) {
+                        info = JSON.parse(unescape(request.cookies.user));
                     }
                     client.insert('users', {
                         'mid': id,

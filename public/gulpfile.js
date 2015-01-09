@@ -111,7 +111,7 @@ gulp.task('build', function () {
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 
-    gulp.src(['src/**', 'dist/**'], {base: './'})
+    gulp.src(['index.html', 'src/**', 'dist/**'], {base: './'})
         .pipe(manifest({
             hash: true,
             preferOnline: true,

@@ -1,4 +1,4 @@
-function UserService ($q, $log, $filter, VkService) {
+function UserService ($q, $log, $filter, $cookieStore, VkService) {
 
     var UserService = {};
     var _user = {};
@@ -9,6 +9,7 @@ function UserService ($q, $log, $filter, VkService) {
             user.age = $filter('age')(info[0].bdate);
 
             $log.debug('Current user info ', user);
+            $cookieStore.put('user', user);
             _user = user;
 
             return user;
@@ -32,4 +33,4 @@ function UserService ($q, $log, $filter, VkService) {
 }
 
 angular.module('spacebox').factory('UserService',
-    ['$q', '$log', '$filter', 'VkService', UserService]);
+    ['$q', '$log', '$filter', '$cookieStore', 'VkService', UserService]);
