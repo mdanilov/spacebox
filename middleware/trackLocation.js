@@ -9,14 +9,18 @@ module.exports =  function (request, response, next) {
     }
 
     var location = JSON.parse(unescape(request.cookies.location));
+    if (!location || !location.timestamp || !location.coords) {
+        return next();
+    }
+
     var prevLocation = request.session.location;
-    if (location && prevLocation && prevLocation.timestamp && location.timestamp &&
+    if (prevLocation && prevLocation.timestamp &&
         (location.timestamp - prevLocation.timestamp < config.get('options:trackInterval'))) {
         return next();
     }
 
     var userId = request.session.mid;
-    if (userId && location) {
+    if (userId) {
         db.transaction(function (client, callback) {
             async.waterfall([
                 client.delete().from('users').where({'mid': userId}).run,
