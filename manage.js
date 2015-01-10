@@ -32,7 +32,12 @@ function dropDatabase (callback) {
                 log.info('Table LIKES is created');
         });
 
-    client.query("CREATE TABLE IF NOT EXISTS friends (mid1 BIGINT, mid2 BIGINT);",
+    client.query([
+        "CREATE TABLE IF NOT EXISTS friends (",
+            "mid1 BIGINT NOT NULL,",
+            "mid2 BIGINT NOT NULL,",
+            "date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()",
+        ");"].join(''),
         function (error) {
             if (error)
                 log.error(error);

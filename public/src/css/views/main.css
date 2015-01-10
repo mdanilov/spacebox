@@ -1,0 +1,36 @@
+.sp-radar {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.sp-radar .sp-status {
+    bottom: 50px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+#spShareButton .btn:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+#spShareButton .btn {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#spShareButton .btn * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#spShareButton i {
+    padding-right: 5px;
+    font-size: 1.5em;
+}

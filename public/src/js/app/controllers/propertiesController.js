@@ -1,11 +1,11 @@
-function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, ErrorHandler, StatusService, AccountService, status) {
+function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, StatusService, AccountService, status) {
     $scope.profile = true;
-
+    $scope.version = ConfigService.VERSION;
     $scope.properties = ['profile', 'search', 'application'];
     $scope.propertyNames = {
         profile: 'Профиль',
         search: 'Опции поиска',
-        application: 'Настройки приложения'
+        application: 'Настройки'
     };
     $scope.selectedProperty = null;
     $scope.selectProperty = function (property) {
@@ -15,37 +15,27 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
     };
 
     $scope.info = UserService.getInfo();
+    UserService.asyncGetPhotos().then(function (images) {
+        $scope.photos = images;
+    });
 
     $scope.toggle = function (value) {
         $scope.profile = value;
         $scope.changed = false;
     };
 
+    $scope.status = '';
     StatusService.get().then(function (status) {
-        $scope.status = {
-            text: status,
-            length: ConfigService.MAX_STATUS_LENGTH - status.length,
-            maxLength: ConfigService.MAX_STATUS_LENGTH
-        };
+        if (angular.isString(status)) {
+            $scope.status = status;
+        }
     });
 
     $scope.changed = false;
 
-	$scope.checkLength = function() {
-		var status = $scope.status;
-		if (status.text.length > status.maxLength) {
-			status.length = 0;
-			status.text = status.text.substring(0, status.maxLength);
-		} 
-		else {
-			status.length = status.maxLength - status.text.length;			
-		}
-		$scope.status = status;
-        optionsChanged();
-	};
-
 	var options = ConfigService.getSearchOptions();
 
+    $scope.visibility = options.visibility;
     $scope.sex = options.sex;
     $scope.$watch('sex', optionsChanged);
 
@@ -101,6 +91,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
     $scope.save = function () {
         var options = {};
         var ages = ageSlider.slider('getValue');
+        options.visibility = $scope.visibility;
         options.sex = parseInt($scope.sex);
         options.radius = distanceSlider.slider('getValue') * 1000;
         options.ageInterval = {
@@ -108,7 +99,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
             bottom: ages[0]
         };
         ConfigService.setSearchOptions(options);
-        StatusService.set($scope.status.text);
+        StatusService.set($scope.status);
         $scope.changed = false;
         $scope.selectedProperty = null;
     };
@@ -151,4 +142,4 @@ PropertiesViewController.resolve = {
 };
 
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'ErrorHandler', 'StatusService', 'AccountService', 'status', PropertiesViewController]);
+    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'StatusService', 'AccountService', 'status', PropertiesViewController]);

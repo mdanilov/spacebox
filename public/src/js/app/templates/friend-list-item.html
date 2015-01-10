@@ -1,26 +1,29 @@
-<div class="list-group-item" ng-class="{active:selected}" ng-click="onClick()">
+<div id="{{user.mid}}" class="list-group-item" ng-class="{active:selected}" ng-click="onClick()">
     <div class="media">
         <table><tr>
             <td class="sp-avatar">
-                <a href="">
-                    <img class="media-object" ng-src="{{user.info.photo_50}}">
-                </a>
+                <img class="media-object" ng-src="{{user.info.photo_50}}">
+                <div class="sp-avatar-indicator" ng-show="hasUnreadMessage()"></div>
             </td>
             <td class="sp-user-info">
                 <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
-                <span>{{user.info.sex == 1 ? 'Была ' : 'Был ' }}
-                    <span am-time-ago="user.location.timestamp"></span>
+                <span ng-show="!hasUnreadMessage()">
+                    <span ng-show="user.isOnline()" class="sp-online">
+                        <i class="fa fa-circle"></i>Онлайн</span>
+                    <span ng-show="!user.isOnline() && user.hasLocation()">
+                        {{user.info.sex == 1 ? 'Была ' : 'Был ' }}
+                        <span am-time-ago="user.location.timestamp"></span></span>
                 </span>
+                <span ng-show="hasUnreadMessage()">{{message.body}}</span>
             </td>
             <td class="sp-icons">
                 <span ng-if="selected">
-                    <a href="" ng-click="openChat()"><i class="fa fa-comments"></i></a>
-                    <a href="" class="visible-xs-inline" ng-click="$parent.onMarkerClick()">
-                        <i class="fa fa-map-marker"></i>
-                    </a>
+                    <a href="" ng-click="openChat()">
+                        <i class="fa fa-comments"></i></a>
+                    <a href="" class="visible-xs-inline" ng-show="user.hasLocation()" ng-click="$parent.onMarkerClick()">
+                        <i class="fa fa-map-marker"></i></a>
                     <a ng-href="http://www.vk.com/id{{user.info.id}}" target="_blank">
-                        <i class="fa fa-vk"></i>
-                    </a>
+                        <i class="fa fa-vk"></i></a>
                 </span>
             </td>
         </tr></table>

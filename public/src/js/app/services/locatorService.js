@@ -1,4 +1,4 @@
-function LocatorService ($log, $q, VkService, GeolocationService, ConfigService) {
+function LocatorService ($log, $q, VkService, LocationService, ConfigService) {
 
     var LocatorService = {};
 
@@ -43,7 +43,7 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
     LocatorService.asyncSearch = function () {
         var options = ConfigService.getSearchOptions();
         $log.debug('Search options ', options);
-        return GeolocationService.asyncGetUserPositions(options).then(function (users) {
+        return LocationService.asyncGetUserPositions(options).then(function (users) {
             if (angular.isArray(users) && users.length > 0) {
                 $log.debug('Near users ', users);
                 return asyncInvalidateUsers(users);
@@ -98,4 +98,4 @@ function LocatorService ($log, $q, VkService, GeolocationService, ConfigService)
 }
 
 angular.module('spacebox').factory('LocatorService',
-    ['$log', '$q', 'VkService', 'GeolocationService', 'ConfigService', LocatorService]);
+    ['$log', '$q', 'VkService', 'LocationService', 'ConfigService', LocatorService]);

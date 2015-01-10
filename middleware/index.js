@@ -14,6 +14,7 @@
     var checkAuth = require('./checkAuth');
     var errorHandler = require('./errorHandler')(app);
     var config = require('../config');
+    var trackLocation = require('./trackLocation');
 
     /* Favicon */
     app.use('/', favicon(path.join(__dirname, '../public/src/img/favicon.png')));
@@ -49,6 +50,7 @@
     }));
 
     /* Routing */
+    app.use(trackLocation);
     app.use('/mobile', mobileRouter);
     app.use('/', router);
 

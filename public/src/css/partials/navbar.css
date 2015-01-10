@@ -1,6 +1,6 @@
 ul.navbar-nav, ul.navbar-nav li {
 	float: left !important;
-	margin: 0px;
+	margin: 0;
 }
 
 @media (max-width: 768px) {
@@ -13,8 +13,8 @@ ul.navbar-nav, ul.navbar-nav li {
 }
 
 ul.navbar-right {
-	margin-right: 0px !important;
-	margin: 0px;
+	margin-right: 0 !important;
+	margin: 0;
 	height: 60px
 }
 
@@ -49,12 +49,12 @@ ul.navbar-right, ul.navbar-right li {
 }
 
 #spNavbar .navbar-default {
-	border-radius: 0%;
-	border-top: 0px;
+	border-radius: 0;
+	border-top: 0;
 }
 
 #spNavbar div.container-fluid {
-	padding: 0px;
+	padding: 0;
 	height: 60px;
 	width: 100%;
 	position: absolute;
@@ -64,8 +64,8 @@ ul.navbar-right, ul.navbar-right li {
 	height: 58px;	
 	padding-bottom: 13px;
 	padding-top: 10px;
-	margin-left: 0px;
-	margin-right: 0px;
+	margin-left: 0;
+	margin-right: 0;
 	cursor: pointer;
 }
 
@@ -97,7 +97,7 @@ ul.navbar-right, ul.navbar-right li {
 	height: 58px;
 	line-height: 58px;
 	text-align: center;
-	padding: 5px 10px 0px 10px;
+	padding: 5px 10px 0 10px;
 	margin-left: 10px;
 	margin-right: 10px;
 }
@@ -112,12 +112,28 @@ ul.navbar-right, ul.navbar-right li {
 }
 
 #spNavbar a {
-	padding: 0px;
+	padding: 0;
 }
 
 #spNavbar .navbar-left > li:hover {
 	border-bottom: 2px solid;
 	border-color: #4387fd;
+}
+
+.sp-friends-indicator {
+    position: absolute;
+    top: 27px;
+    background: #428bca;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+    .sp-friends-indicator {
+        left: 61px;
+    }
 }
 
 

@@ -11,15 +11,15 @@ function VkError (error) {
 }
 VkError.prototype = new Error();
 
-function GeoError (errorFlag) {
-    this.name = 'GeolocationError';
+function LocationError (errorFlag) {
+    this.name = 'LocationError';
     if (errorFlag) {
         this.message = 'Geolocation is off';
     } else {
         this.message = 'Browser does not support geolocation';
     }
 }
-GeoError.prototype = new Error();
+LocationError.prototype = new Error();
 
 function ErrorHandler ($log, $location, ConfigService) {
     var ErrorHandler = {};
@@ -44,7 +44,7 @@ function ErrorHandler ($log, $location, ConfigService) {
                     logout();
                 }
             }
-            else if (error instanceof GeoError) {
+            else if (error instanceof LocationError) {
                 $location.path('/error');
             }
             else {

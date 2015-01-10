@@ -1,7 +1,6 @@
 var auth = require('./auth');
 var routes = require('../../routes');
 var validate = require('../../utils/validate');
-var checkAuth = require('../../middleware/checkAuth');
 
 var router = require('express').Router();
 

@@ -1,23 +1,26 @@
 <div class="sp-chat-header">
     <a href="" class="sp-chat-control left" ng-click="close()"><i class="fa fa-arrow-left"></i></a>
-    <img ng-src="{{user.photo_50}}">
-    <span>{{user.first_name}}</span>
+    <img ng-src="{{user.info.photo_50}}">
+    <span>{{user.info.first_name}}</span>
     <a href="" class="sp-chat-control right"><i class="fa fa-ellipsis-h"></i></a>
 </div>
 <div class="sp-chat-content">
-    <div class="sp-messages-content">
-        <div class="sp-empty-content" ng-if="!isMessages">
-            <h5>У вас появился новый друг - <span>{{user.first_name}}</span></h5>
-            <img ng-src="{{user.photo_100}}">
+    <div class="sp-messages-content scroll-y">
+        <div class="sp-empty-content" ng-if="isMessages === false">
+            <div class="sp-empty-info">
+                <h5>У вас появился новый друг - <span>{{user.info.first_name}}</span></h5>
+                <h4 am-time-ago="user.date"></h4>
+            </div>
+            <img ng-src="{{user.info.photo_100}}">
         </div>
-        <div id="spMessages" class="sp-messages" ng-show="isMessages"></div>
+        <div id="spMessages" class="sp-messages"></div>
     </div>
 </div>
 <div class="sp-chat-footer">
     <textarea id="spInput" ng-model="message" name="textarea" placeholder="Сообщение"
-        rows="1" cols="50" ng-change="startTyping()" ng-keypress="onSend($event)">
+        rows="1" cols="50" ng-change="startTyping()" ng-keypress="sendMessage($event)">
     </textarea>
     <div class="sp-chat-send-btn">
-        <a id="spSendButton" href="" ng-click="onSend($event)">Отправить</a>
+        <a id="spSendButton" href="" ng-click="sendMessage($event)">Отправить</a>
     </div>
 </div>

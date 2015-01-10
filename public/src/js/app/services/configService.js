@@ -1,12 +1,25 @@
-function ConfigService ($cookieStore) {
+function ConfigService (config, $cookieStore) {
 
     var ConfigService = {};
+
+    ConfigService.FRIENDS_UPDATE_INTERVAL_SEC = 2 * 60; // 2 minutes
+
+    ConfigService.CHAT_MESSAGES_COUNT = 20;
+    ConfigService.CHAT_PRINT_TIME = 60; // 1 minute
+
+    ConfigService.MAPBOX = {
+        ACCESS_TOKEN: 'pk.eyJ1IjoibWRhbmlsb3YiLCJhIjoiV29JVmpxdyJ9.sBimZ4oSZYSFTdcZIgnQfQ',
+        URL: 'mdanilov.j8f4ggll'
+    };
+
+    ConfigService.USER_ONLINE_TIME_SEC = 15 * 60; // 15 minutes
 
     ConfigService.VK_WEBSITE_APP_ID = 4688098;
     ConfigService.VK_MOBILE_APP_ID = 4213835;
     ConfigService.MAX_USER_PHOTOS = 6;
     ConfigService.MAX_STATUS_LENGTH = 100;
-    ConfigService.SERVER_URL = CONFIG.SERVER_URL || window.location.origin;
+    ConfigService.SERVER_URL = config.SERVER_URL || window.location.origin;
+    ConfigService.VERSION = config.VERSION;
     ConfigService._login = false;
     ConfigService._config = $cookieStore.get('config');
 
@@ -44,6 +57,7 @@ function ConfigService ($cookieStore) {
                 zoom: 15
             },
             search: {
+                visibility: true,
                 radius: 15000,
                 sex: 0,
                 ageInterval: {
@@ -102,4 +116,4 @@ function ConfigService ($cookieStore) {
 }
 
 angular.module('spacebox').factory('ConfigService',
-    ['$cookieStore', ConfigService]);
+    ['config', '$cookieStore', ConfigService]);

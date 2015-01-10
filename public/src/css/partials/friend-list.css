@@ -2,11 +2,6 @@
     #spNavPills {
         position: absolute;
         padding: 10px;
-    }
-
-    #spNavPills ul > li {
-        display: table-cell;
-        width: 1%;
         z-index: 1001;
     }
 
@@ -25,19 +20,9 @@
 
 #spFriendsList {
     max-height: 100%;
-    overflow-y: auto;
     padding-left: 0;
     padding-right: 0;
     background-color: white;
-}
-
-#spNavPills .nav.nav-pills {
-    border-radius: 4px;
-    background-color: rgb(238, 238, 238);
-}
-
-#spNavPills .nav-justified > li > a {
-    margin: 0;
 }
 
 #spFriendsList .list-group {
@@ -64,7 +49,8 @@
     padding-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;    
+    white-space: nowrap;
+    max-width: 130px;
 }
 
 #spFriendsList .sp-user-info > div {
@@ -72,11 +58,18 @@
     font-weight: bold;
 }
 
-#spFriendsList .sp-user-info span
-{
+#spFriendsList .sp-user-info span {
     font-size: 12px;
     color: grey;
     opacity: 0.9;
+}
+
+#spFriendsList .sp-user-info span.sp-online {
+    color: #00d449;
+}
+
+#spFriendsList .sp-user-info .fa.fa-circle {
+    padding-right: 5px;
 }
 
 #spFriendsList .sp-icons {
@@ -85,6 +78,17 @@
 
 #spFriendsList .sp-avatar {
     width: 70px;
+}
+
+.sp-avatar-indicator {
+    position: absolute;
+    top: 22px;
+    left: 47px;
+    background: #428bca;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 50%;
 }
 
 #spFriendsList .active {
@@ -97,7 +101,6 @@
 }
 
 .sp-icons a {
-    color: #428bca;
     font-size: 2em;
     vertical-align: middle;
     display: inline-block;

@@ -2,12 +2,16 @@
     <div class="navbar navbar-default">
         <ul class="nav navbar-nav navbar-left">
             <li><a href="#/"><img class="navbar-brand" ng-src="src/img/logo.png"></a></li>
-            <li class="hidden-xs"><a href="#/friends" class="sp-nav-button">Друзья</a></li>
+            <li class="hidden-xs">
+                <a href="#/friends" class="sp-nav-button">Друзья</a>
+                <div class="sp-friends-indicator" ng-show="indicator || hasNewEvents"></div>
+            </li>
             <li class="hidden-xs"><a href="#/properties" class="sp-nav-button">Настройки</a></li>
             <li class="visible-xs-block">
                 <a href="#/friends" class="sp-nav-button">
                     <i class="fa fa-users"></i>
                 </a>
+                <div class="sp-friends-indicator" ng-show="indicator || hasNewEvents"></div>
             </li>
             <li class="visible-xs-block">
                 <a href="#/properties" class="sp-nav-button">

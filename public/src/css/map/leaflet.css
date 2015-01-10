@@ -18,6 +18,11 @@
     }
 }
 
+.leaflet-div-icon {
+    background: none;
+    border: none;
+}
+
 .leaflet-container {
     font-family: Roboto, "Helvetica Neue", Helvetica,Arial, sans-serif;
 }

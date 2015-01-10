@@ -13,5 +13,3 @@ var chat = require('./chat')(server);
 server.listen(config.get('port'), function() {
     log.info('Server listening on port ' + config.get('port'));
 });
-
-

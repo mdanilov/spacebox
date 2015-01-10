@@ -1,23 +1,26 @@
 ﻿<!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" manifest="app.manifest">
     <head>
         <title>Finder</title>
         <meta charset="utf-8">
+        <meta name="title" content="Finder">
+        <meta name="description" content="Сайт быстрых знакомств">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <script>
-            var CONFIG = {
-                CORDOVA: false,
-                SERVER_URL: undefined,
-                DEVELOPMENT: false
-            };
-        </script>
+        <!-- Apple -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="Finder">
+        <link rel="apple-touch-icon" href="src/img/apple/apple-touch-icon-iphone.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="src/img/apple/apple-touch-icon-ipad.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="src/img/apple/apple-touch-icon-iphone-retina.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="src/img/apple/apple-touch-icon-ipad-retina.png">
+        <link rel="apple-touch-startup-image" href="src/img/apple/apple-startup.png">
+        <!-- Finder -->
+        <meta name="version" content="0.0.4 Alpha">
     </head>
     <body ng-controller="ApplicationController as app">
-        <div class="container" ng-class="{blur: app.isMatched}">
-            <sp-navbar id="spNavbar" info="app.user" ng-hide="app.isNavbarHidden"></sp-navbar>
-            <div ng-view class="fill-height view"></div>
-        </div>
+        <div class="sp-main-content" ng-include="'src/js/app/templates/body.html'"></div>
         <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
         <script src="src/js/main.js"></script>
     </body>

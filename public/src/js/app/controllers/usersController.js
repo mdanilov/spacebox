@@ -1,4 +1,4 @@
-function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorService, FriendsService, UserService, ErrorHandler) {
+function UsersViewController ($scope, $log, $timeout, $location, $modal, LocatorService, LikesService, UserService, ErrorHandler, FriendsService, VkService) {
     $log.debug('Initialize main view controller...');
 
     var self = this;
@@ -6,15 +6,22 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
     self.current = null;
     self.searchTimer = undefined;
 
+    self.messages = {
+        'search': "Идет поиск новых пользователей...",
+        'done': "Рядом с вами нет новых пользователей."
+    };
+
+    var shareButtonHtml = '<div class="btn btn-primary">' +
+        '<i class="fa fa-tint"></i><span>Рассказать друзьям!</span></div>';
+    angular.element('#spShareButton').append(VkService.getShareButtonWidget(shareButtonHtml));
+
     $scope.app.isNavbarHidden = false;
 
     self.Like = function () {
         self.current.like = 1;
-        //FriendsService.asyncLike(current.mid).then(function () {
-
-//        }, function () {
-//            current.like = 0;
-//        });
+        LikesService.asyncLike(self.current.mid).catch(function () {
+            self.current.like = 0;
+        });
 
         if (self.current.likeMe == 1) {
             self.couple = [
@@ -35,6 +42,8 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
                 size: 'sm',
                 backdrop: 'static'
             });
+
+            FriendsService.addFriend(self.current);
 
             $scope.app.isMatched = true;
             matchWindow.result.finally(function () {
@@ -57,9 +66,9 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
             searchLoop();
         }
 
-//        FriendsService.asyncDislike(current.mid).then(null, function () {
-//            current.like = 0;
-//        });
+        LikesService.asyncDislike(self.current.mid).catch(function () {
+            self.current.like = 0;
+        });
     };
 
     self.Undo = function () {
@@ -89,5 +98,5 @@ function MainViewController ($scope, $log, $timeout, $location, $modal, LocatorS
     });
 }
 
-angular.module('spacebox').controller('MainViewController',
-    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'FriendsService', 'UserService', 'ErrorHandler', MainViewController]);
+angular.module('spacebox').controller('UsersViewController',
+    ['$scope', '$log', '$timeout', '$location', '$modal', 'LocatorService', 'LikesService', 'UserService', 'ErrorHandler', 'FriendsService', 'VkService', UsersViewController]);

@@ -1,6 +1,10 @@
 ﻿{
     "project": "Spacebox",
     "port": 8080,
+    "options":
+    {
+        "trackInterval": 120000
+    },
     "vk":
     {
         "website":

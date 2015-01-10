@@ -1,0 +1,21 @@
+.sp-status .sp-status-header {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .container-fluid.sp-status {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .sp-status .sp-status-header {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .sp-status textarea {
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+    }
+}

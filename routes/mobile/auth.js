@@ -33,7 +33,7 @@ exports.login = function (request, response, next) {
                     request.session.mid = body.user_id;
                     request.session.access_token = body.access_token;
                     log.info('New VK OAuth2 session instance initialized at ', request.session);
-                    response.redirect('back');
+                    response.redirect('/');
                 });
             }
         });

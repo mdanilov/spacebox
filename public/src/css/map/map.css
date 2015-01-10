@@ -30,38 +30,22 @@
     padding: 6px;
 }
 
-#map-canvas .fa.fa-map-marker {
+#map-canvas .sp-online .sp-marker-user,
+#map-canvas .sp-online .sp-marker-user.sp-selected {
+    color: #00d449;
+}
+
+#map-canvas .sp-marker-user {
+    color: silver;
     font-size: 30px;
     line-height: 30px;
-    opacity: 1;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#map-canvas .fa.fa-map-marker.user {
-    color: #4387fd;
-}
-
-#map-canvas .fa.fa-map-marker.selected {
-    color: #4387fd;
+#map-canvas .sp-marker-user.sp-selected {
     font-size: 40px;
     line-height: 40px;
-    z-index: 250;
     text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
-}
-
-#map-canvas .locator {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background-color: #4387fd;
-    border: 3px solid white;
-}
-
-.sp-user-marker {
-    text-shadow: 1px 1px 2px black;
-}
-
-.sp-user-marker-selected {
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .sp-map-tooltip-content {
@@ -79,11 +63,23 @@
 }
 
 .sp-map-tooltip-content a {
-    font-size: 40px;
-    line-height: 40px;
+    font-size: 1em;
+    line-height: 2em;
+    color: white;
+    background-color: #428bca;
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+.sp-map-tooltip-content a i {
+    padding-right: 5px;
 }
 
 .sp-map-tooltip-info {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     text-align: left;
 }
 
@@ -128,7 +124,7 @@
 }
 
 .sp-map-tooltip .sp-map-tooltip-carat {
-    background: url('../../img/tooltip-carat.png') 0 -7px no-repeat;
+    background: url('/src/img/tooltip-carat.png') 0 -7px no-repeat;
     display: block;
     height: 7px;
     left: 50%;
@@ -149,4 +145,58 @@
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+}
+
+/* Locator */
+#map-canvas .sp-locator {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #4387fd;
+    border: 3px solid white;
+}
+
+#map-canvas .sp-locator-circle {
+    position: absolute;
+    opacity: 0;
+    top: -41px;
+    left: -41px;
+    height: 100px;
+    width: 100px;
+    background: #4eb8ff;
+    border: 2px solid #4387fd;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+@-webkit-keyframes pulse {
+    from {
+        opacity: 0.6;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: scale(2);
+        transform: scale(2);
+    }
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.6;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: scale(2);
+        transform: scale(2);
+    }
+}
+
+.sp-pulse {
+    -webkit-animation: pulse 5s ease-out 2s infinite;
+    animation: pulse 5s ease-out 2s infinite;
 }

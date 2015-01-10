@@ -1,0 +1,104 @@
+<div id="spPropertiesView">
+	<div class="row fill-height" ng-show="profile">
+		<div class="col-sm-6 col-xs-12 sp-profile">
+            <div class="sp-profile-title" ng-click="selectProperty('profile')">
+                <div class="sp-profile-background" ng-style="{'background-image':'url('+info.photo_100+')'}"></div>
+                <img ng-src="{{info.photo_100}}">
+                <div class="sp-user-description">
+                    <strong>{{info.first_name}}</strong>
+                    <div>Просмотр профиля</div>
+                </div>
+            </div>
+            <div class="media-list">
+                <div class="media" ng-class="{'active': selectedProperty === 'search'}" ng-click="selectProperty('search')">
+                    <a class="media-left media-middle" href="">
+                        <i class="fa fa-compass"></i>
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Опции поиска</h4>
+                        <p>Измените радиус поиска или возраст</p>
+                    </div>
+                </div>
+                <div class="media" ng-class="{'active': selectedProperty === 'application'}" ng-click="selectProperty('application')">
+                    <a class="media-left media-middle" href="">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">Настройки приложения</h4>
+                        <p>Удаление аккаунта и прочее</p>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="col-sm-6 sp-properties" ng-show="selectedProperty">
+            <div class="sp-properties-header">
+                <span>{{propertyNames[selectedProperty]}}</span>
+                <a href="" class="sp-done" ng-click="save()">Готово</a>
+            </div>
+            <div class="sp-properties-content">
+                <div ng-show="selectedProperty === 'profile'">
+                    <sp-album images="photos"></sp-album>
+                    <sp-status status="status"></sp-status>
+                </div>
+                <div ng-show="selectedProperty === 'search'">
+                    <div class="sp-property-container">
+                        <div class="sp-property-header">
+                            <span>Режим невидимки</span>
+                            <form class="btn-group sp-sex-radio-buttons pull-right">
+                                <label class="btn" ng-class="{active: visibility==false}">
+                                    <input type="radio" ng-model="visibility" value="0" name="visibility"> Вкл
+                                </label>
+                                <label class="btn" ng-class="{active: visibility==true}">
+                                    <input type="radio" ng-model="visibility" value="1" name="visibility"> Выкл
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <p>Отключает показ твоей анкеты в поиске.
+                        Ты по-прежнему сможешь общаться со своими друзьями.</p>
+                    <div class="sp-property-group">
+                        <div class="sp-property-container">
+                            <div class="sp-property-header">
+                                <span>Расстояние</span><b id="spDistanceValue" class="pull-right"></b>
+                            </div>
+                            <div class="sp-slider"><input id="spDistanceSlider" type="text"/></div>
+                        </div>
+                        <div class="sp-property-container">
+                            <div class="sp-property-header">
+                                <span>Возраст</span><b id="spSliderValue" class="pull-right"></b>
+                            </div>
+                            <div class="sp-slider"><input id="spAgeSlider" type="text" class="span2"/></div>
+                        </div>
+                        <div class="sp-property-container">
+                            <div class="sp-property-header">
+                                <span>Показать</span>
+                            </div>
+                            <div class="sp-property-control">
+                                <form class="btn-group sp-sex-radio-buttons">
+                                    <label class="btn" ng-class="{active: sex==1}">
+                                        <input type="radio" ng-model="sex" value="1" name="sex"> Девушек
+                                    </label>
+                                    <label class="btn" ng-class="{active: sex==2}">
+                                        <input type="radio" ng-model="sex" value="2" name="sex"> Парней
+                                    </label>
+                                    <label class="btn" ng-class="{active: sex==0}">
+                                        <input type="radio" ng-model="sex" value="0" name="sex"> Всех
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="selectedProperty === 'application'">
+                    <div class="sp-version" >
+                        <i class="fa fa-tint"></i>
+                        <h5>Версия {{version}}</h5>
+                    </div>
+                    <div class="sp-property-container">
+                        <div class="sp-destroy-account" ng-click="destroy()">Удалить аккаунт</div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
