@@ -12,7 +12,7 @@ var checkAuth = require('../middleware/checkAuth');
 var router = require('express').Router();
 
 router.post('/login', validate, auth.login);
-router.get('/logout', validate, users.removeUser, auth.logout);
+router.get('/logout', validate, auth.logout);
 
 router.all('*', checkAuth);
 
