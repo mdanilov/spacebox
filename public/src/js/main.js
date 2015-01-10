@@ -154,6 +154,7 @@
 
         // load third-party scripts
         yepnope(libraries.development);
+        yepnope('lib/modernizr/modernizr.js');
 
         // load application scripts
         yepnope({
