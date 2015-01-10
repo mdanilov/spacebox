@@ -19,7 +19,6 @@
                 { "$ref": "#/definitions/status.set" },
                 { "$ref": "#/definitions/status.get" },
                 { "$ref": "#/definitions/account.destroy" },
-                { "$ref": "#/definitions/dislike" },
                 { "$ref": "#/definitions/messages.get" },
                 { "$ref": "#/definitions/messages.getHistory" },
                 { "$ref": "#/definitions/messages.markAsRead" }

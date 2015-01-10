@@ -11,21 +11,18 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
             scope.markers = {};
 
             var MARKER_ICONS = {
-                USER:  L.divIcon({
-                    className: 'info',
-                    html: '<i class="fa fa-map-marker user"></i>',
+                USER:  {
+                    html: '<i class="fa fa-map-marker sp-marker-user"></i>',
                     iconSize: [30, 30]
-                }),
-                SELECTED: L.divIcon({
-                    className: 'info',
-                    html: '<i class="fa fa-map-marker selected"></i>',
+                },
+                SELECTED: {
+                    html: '<i class="fa fa-map-marker sp-marker-user sp-selected"></i>',
                     iconSize: [40, 40]
-                }),
-                LOCATOR: L.divIcon({
-                    className: 'info',
+                },
+                LOCATOR: {
                     html: '<div><div class="sp-locator-circle sp-pulse"></div><div class="sp-locator"></div></div>',
                     iconSize: [18, 18]
-                })
+                }
             };
 
             function Locator () {
@@ -33,7 +30,9 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
                     drawCircle: false,
                     follow: false,
                     remainActive: true,
-                    markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {icon: MARKER_ICONS.LOCATOR}),
+                    markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {
+                        icon: L.divIcon(MARKER_ICONS.LOCATOR)
+                    }),
                     icon: 'fa fa-location-arrow',
                     setView: true,
                     keepCurrentZoomLevel: true,
@@ -119,11 +118,19 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
                 });
             }
 
+            function createMarkerIcon (user, selected) {
+                var icon = selected ? MARKER_ICONS.SELECTED : MARKER_ICONS.USER;
+                if (user.isOnline()) {
+                    icon.className = 'sp-online';
+                }
+                return L.divIcon(icon);
+            }
+
             function toggleMarker (user) {
                 var active = scope.markers.active;
                 if (angular.isDefined(active) && active != user.mid &&
                     angular.isDefined(scope.markers[active])) {
-                    scope.markers[active].setIcon(MARKER_ICONS.USER);
+                    scope.markers[active].setIcon(createMarkerIcon(user, false));
                     scope.markers[active].closePopup();
                     delete scope.markers.active;
                     popupFixed = false;
@@ -131,7 +138,7 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
 
                 if (angular.isDefined(scope.markers[user.mid])) {
                     active = scope.markers.active = user.mid;
-                    scope.markers[active].setIcon(MARKER_ICONS.SELECTED);
+                    scope.markers[active].setIcon(createMarkerIcon(user, true));
                     scope.markers[active].openPopup();
                     popupFixed = true;
                 }
@@ -139,13 +146,14 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
 
             function addMarker (user) {
                 var marker = L.marker([user.location.latitude, user.location.longitude], {
-                    icon: MARKER_ICONS.USER,
-                    riseOnHover: true
+                    icon: createMarkerIcon(user, false),
+                    riseOnHover: true,
+                    zIndexOffset: 1000
                 });
                 marker.addTo(map);
+
                 scope.markers[user.mid] = marker;
                 return marker;
-
             }
 
             function invalidateUsers (users) {

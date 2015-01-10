@@ -58,11 +58,18 @@
     font-weight: bold;
 }
 
-#spFriendsList .sp-user-info span
-{
+#spFriendsList .sp-user-info span {
     font-size: 12px;
     color: grey;
     opacity: 0.9;
+}
+
+#spFriendsList .sp-user-info span.sp-online {
+    color: #00d449;
+}
+
+#spFriendsList .sp-user-info .fa.fa-circle {
+    padding-right: 5px;
 }
 
 #spFriendsList .sp-icons {

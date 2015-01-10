@@ -30,31 +30,22 @@
     padding: 6px;
 }
 
-#map-canvas .fa.fa-map-marker {
+#map-canvas .sp-online .sp-marker-user,
+#map-canvas .sp-online .sp-marker-user.sp-selected {
+    color: #00d449;
+}
+
+#map-canvas .sp-marker-user {
+    color: silver;
     font-size: 30px;
     line-height: 30px;
-    opacity: 1;
-}
-
-#map-canvas .fa.fa-map-marker.user {
-    color: #00d449;
     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#map-canvas .fa.fa-map-marker.selected {
-    color: #00d449;
+#map-canvas .sp-marker-user.sp-selected {
     font-size: 40px;
     line-height: 40px;
-    z-index: 250;
     text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
-}
-
-.sp-user-marker {
-    text-shadow: 1px 1px 2px black;
-}
-
-.sp-user-marker-selected {
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .sp-map-tooltip-content {
