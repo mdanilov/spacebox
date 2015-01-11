@@ -111,10 +111,11 @@ exports.get = function (request, response, next) {
                         interval.top);
                 }
 
-                if (config.get('database:dateRange') !== undefined) {
-                    where += util.format("AND timestamp > '%s' ",
-                        new Date(new Date().getTime() - config.get('database:dateRange')).toUTCString());
-                }
+                // TODO: check it
+                //if (config.get('database:dateRange') !== undefined) {
+                //    where += util.format("AND timestamp > '%s' ",
+                //        new Date(new Date().getTime() - config.get('database:dateRange')).toUTCString());
+                //}
 
                 var sql =
                     "SELECT mid, timestamp, " +
