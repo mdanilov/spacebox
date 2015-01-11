@@ -24,17 +24,12 @@ exports.login = function (request, response, next) {
                 next(new HttpError(400, JSON.stringify(error)));
             }
             else {
-                request.session.reload(function (error) {
-                    if (error) {
-                        next(new HttpError(500, error));
-                    }
-                    request.session.authorized = true;
-                    request.session.expires = new Date().getTime() + body.expires_in * 1000;
-                    request.session.mid = body.user_id;
-                    request.session.access_token = body.access_token;
-                    log.info('New VK OAuth2 session instance initialized at ', request.session);
-                    response.redirect('/');
-                });
+                request.session.authorized = true;
+                request.session.expires = new Date().getTime() + body.expires_in * 1000;
+                request.session.mid = body.user_id;
+                request.session.access_token = body.access_token;
+                log.info('VK OAuth2 session instance initialized at ', request.session);
+                response.redirect('/');
             }
         });
     });
@@ -55,7 +50,9 @@ exports.logout = function (request, response, next) {
         if (error) {
             next(new HttpError(500, error));
         }
-        log.info('VK OAuth2 session has deleted');
-        response.end();
+        else {
+            log.info('VK OAuth2 session has deleted');
+            response.end();
+        }
     });
 };
