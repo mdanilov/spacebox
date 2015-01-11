@@ -19,11 +19,10 @@
         <link rel="apple-touch-startup-image" href="src/img/apple/apple-startup.png">
 
         <!-- Finder settings -->
-                <meta name="development" content="true">
-                <meta name="cordova" content="false">
-                <meta name="server_url" content="">
-                <meta name="version" content="0.0.4 Alpha">
-        
+        <% for (var i = 0; i < settings.length; i++) { -%>
+        <meta name="<%=settings[i].name%>" content="<%=settings[i].content%>">
+        <% } -%>
+
         <!-- Scripts loader -->
         <script src="lib/yepnope/yepnope.1.5.0-min.js"></script>
         <script src="src/js/main.js"></script>

@@ -100,7 +100,6 @@
 }
 
 .sp-properties .sp-properties-content {
-    overflow: auto;
     height: calc(100% - 60px);
 }
 

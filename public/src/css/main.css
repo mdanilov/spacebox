@@ -11,6 +11,10 @@ body {
     -webkit-text-size-adjust: 100%;
 }
 
+.sp-main-content {
+    max-width: 768px;
+}
+
 .blur {
     -webkit-filter: blur(5px);
     filter: blur(5px);
