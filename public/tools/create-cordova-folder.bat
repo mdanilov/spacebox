@@ -13,11 +13,12 @@ cd ..
 cd ..
 call npm install
 cd public
-node ..\node_modules\gulp\bin\gulp build
+node ..\node_modules\gulp\bin\gulp build --cordova --server_url="http://spacebox.herokuapp.com" --production
 
 mkdir tools\finder\www\lib
 xcopy lib tools\finder\www\lib /s /e /y
 
+copy tools\Finder.java tools\finder\platforms\android\src\ru\gofinder\app\Finder.java
 copy index.html tools\finder\www\index.html 
 copy app.manifest tools\finder\www\app.manifest 
 

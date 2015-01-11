@@ -38,43 +38,6 @@
 
     function bootstrapAngular() {
         if (Modernizr.touch) {
-            // Disable scroll for the document, we'll handle it ourselves
-            $(document).on('touchmove', function(e) {
-                e.preventDefault();
-            });
-
-            // Check if we should allow scrolling up or down
-            $(document.body).on("touchstart", ".scroll-y", function (e) {
-                // If the element is scrollable (content overflows), then...
-                if (this.scrollHeight !== this.clientHeight) {
-                    // If we're at the top, scroll down one pixel to allow scrolling up
-                    if (this.scrollTop === 0) {
-                        this.scrollTop = 1;
-                    }
-                    // If we're at the bottom, scroll up one pixel to allow scrolling down
-                    if (this.scrollTop === this.scrollHeight - this.clientHeight) {
-                        this.scrollTop = this.scrollHeight - this.clientHeight - 1;
-                    }
-                }
-                // Check if we can scroll
-                this.allowUp = this.scrollTop > 0;
-                this.allowDown = this.scrollTop < (this.scrollHeight - this.clientHeight);
-                this.lastY = e.originalEvent.pageY;
-            });
-
-            $(document.body).on('touchmove', ".scroll-y", function(e) {
-                var event = e.originalEvent;
-                var up = event.pageY > this.lastY;
-                var down = !up;
-                this.lastY = event.pageY;
-
-                if ((up && this.allowUp) || (down && this.allowDown)) {
-                    event.stopPropagation();
-                } else {
-                    event.preventDefault();
-                }
-            });
-
             Modernizr.addTest('standalone', window.navigator.standalone);
         }
 
@@ -185,27 +148,7 @@
         function loadApplication (url, result, key) {
             if (config.DEVELOPMENT) {
                 // load CSS first
-                yepnope([
-                    'src/css/main.css',
-                    'src/css/map/map.css',
-                    'src/css/map/leaflet.css',
-                    'src/css/views/login.css',
-                    'src/css/views/main.css',
-                    'src/css/views/properties.css',
-                    'src/css/views/error.css',
-                    'src/css/views/friends.css',
-                    'src/css/modals/dialog.css',
-                    'src/css/modals/match.css',
-                    'src/css/partials/navbar.css',
-                    'src/css/partials/chat.css',
-                    'src/css/partials/friend-list.css',
-                    'src/css/partials/cards.css',
-                    'src/css/partials/controls.css',
-                    'src/css/widgets/album.css',
-                    'src/css/widgets/status.css',
-                    'src/css/widgets/radar.css',
-                    'src/css/widgets/tabs.css'
-                ]);
+                yepnope('dist/spacebox.css');
 
                 // main app script should be loaded first
                 yepnope('src/js/app/app.js');
