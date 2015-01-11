@@ -7,7 +7,7 @@ mkdir finder\www
 copy config.xml finder\config.xml
 cd finder
 call cordova platform add android
-call cordova plugin add org.apache.cordova.console org.apache.cordova.device org.apache.cordova.inappbrowser org.apache.cordova.geolocation
+rem call cordova plugin add org.apache.cordova.console org.apache.cordova.device org.apache.cordova.inappbrowser org.apache.cordova.geolocation
 cd ..
 cd ..
 node ..\node_modules\gulp\bin\gulp build
