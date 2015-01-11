@@ -38,7 +38,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     };
     Friend.prototype.isOnline = function () {
         return this.hasOwnProperty('location') &&
-            (Date.now() - location.timestamp) < ConfigService.USER_ONLINE_TIME_SEC * 1000;
+            (Date.now() - this.location.timestamp) < ConfigService.USER_ONLINE_TIME_SEC * 1000;
     };
     Friend.prototype.view = function () {
         if (this.recent == true) {
