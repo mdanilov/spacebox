@@ -4,41 +4,41 @@ var config = require('../config/index');
 var db = require('pg-bricks').configure(config.get('database:connection'));
 
 exports.set = function (request, response, next) {
-    try {
-        db.transaction(function (client, callback) {
-            var mid = parseInt(request.session.mid);
-            async.waterfall([
-                // TODO: check this statement
-                //client.delete().from('status').where({'mid': mid}).run,
-                function (callback) {
-                    client.query('DELETE FROM status WHERE mid = $1', [mid], callback);
-                },
-                function (result, callback) {
-                    client.insert('status', {'mid': mid, 'text': request.body.text}).run(callback);
-                }
-            ], callback);
-        }, function __callback (error, result) {
-            if (error)
-                next(error);
+    db.transaction(function (client, callback) {
+        var mid = parseInt(request.session.mid);
+        async.waterfall([
+            // TODO: check this statement
+            //client.delete().from('status').where({'mid': mid}).run,
+            function (callback) {
+                client.query('DELETE FROM status WHERE mid = $1', [mid], callback);
+            },
+            function (result, callback) {
+                client.insert('status', {'mid': mid, 'text': request.body.text}).run(callback);
+            }
+        ], callback);
+    }, function (error, result) {
+        error = error || result.error;
+        if (error) {
+            next(error);
+        }
+        else {
+            log.info('status.set');
             response.end();
-        });
-    }
-    catch (error) {
-        next(error);
-    }
+        }
+    });
 };
 
 exports.get = function (request, response, next) {
-    try {
-        var whereExpr = request.body.user_ids ?
-            db.sql.in('mid', request.body.user_ids) : {'mid': request.session.mid};
-        db.select().from('status').where(whereExpr).run(function (error, result) {
-            if (error)
-                next(error);
+    var whereExpr = request.body.user_ids ?
+        db.sql.in('mid', request.body.user_ids) : {'mid': request.session.mid};
+    db.select().from('status').where(whereExpr).run(function (error, result) {
+        error = error || result.error;
+        if (error) {
+            next(error);
+        }
+        else {
+            log.info('status.get', result.rows);
             response.json(result.rows);
-        });
-    }
-    catch (error) {
-        next(error);
-    }
+        }
+    });
 };

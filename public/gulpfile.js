@@ -24,7 +24,7 @@ gulp.task('templates', function () {
             { name: 'development', content: !isProduction },
             { name: 'cordova',     content: !!args.cordova },
             { name: 'server_url',  content: args.server_url || '' },
-            { name: 'version',     content: VERSION}
+            { name: 'version',     content: VERSION }
         ]
     };
     return gulp.src('index.ejs')
@@ -33,7 +33,8 @@ gulp.task('templates', function () {
 });
 
 gulp.task('manifest', function () {
-    return gulp.src(isProduction ? ['index.html', 'dist/**'] : ['index.html', 'src/**'], {base: './'})
+    return gulp.src(isProduction ? ['index.html', 'dist/**', 'src/js/app/templates/**']
+        : ['index.html', 'src/**'], {base: './'})
         .pipe(manifest({
             hash: true,
             preferOnline: true,
