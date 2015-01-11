@@ -1,4 +1,4 @@
-function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, StatusService, AccountService, status) {
+function PropertiesViewController ($scope, $modal, $location, UserService, ConfigService, StatusService, AccountService) {
     $scope.profile = true;
     $scope.version = ConfigService.VERSION;
     $scope.properties = ['profile', 'search', 'application'];
@@ -142,4 +142,4 @@ PropertiesViewController.resolve = {
 };
 
 angular.module('spacebox').controller('PropertiesViewController',
-    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'StatusService', 'AccountService', 'status', PropertiesViewController]);
+    ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'StatusService', 'AccountService', PropertiesViewController]);

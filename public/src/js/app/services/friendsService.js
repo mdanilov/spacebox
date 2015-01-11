@@ -38,7 +38,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     };
     Friend.prototype.isOnline = function () {
         return this.hasOwnProperty('location') &&
-            (Date.now() - location.timestamp) < ConfigService.USER_ONLINE_TIME_SEC * 1000;
+            (Date.now() - this.location.timestamp) < ConfigService.USER_ONLINE_TIME_SEC * 1000;
     };
     Friend.prototype.view = function () {
         if (this.recent == true) {
@@ -119,16 +119,24 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
 
     function queryResources (callback) {
         _resource.query().$promise.then(function (data) {
-            var ids = getFriendIds(data);
-            return VkService.asyncGetUsersInfo(ids).then(function (info) {
-                angular.forEach(data, function (item, i) {
-                    item.info = info[i];
+            // TODO: check length to 0
+            if (data.length > 0) {
+                var ids = getFriendIds(data);
+                return VkService.asyncGetUsersInfo(ids).then(function (info) {
+                    angular.forEach(data, function (item, i) {
+                        item.info = info[i];
+                    });
+                    updateFriends(data);
+                    if (angular.isFunction(callback)) {
+                        callback(_friends);
+                    }
                 });
-                updateFriends(data);
+            }
+            else {
                 if (angular.isFunction(callback)) {
                     callback(_friends);
                 }
-            });
+            }
         });
     }
 
