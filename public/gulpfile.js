@@ -5,40 +5,59 @@ var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
 var manifest = require('gulp-manifest');
+var args = require('yargs').argv;
+
+var isProduction = process.env.NPM_CONFIG_PRODUCTION || args.production;
 
 gulp.task('clean', function () {
     gulp.src('dist', {read: false})
         .pipe(clean());
 });
 
-gulp.task('build', function () {
-    gulp.src([
-            'src/css/main.css',
-            'src/css/map/map.css',
-            'src/css/map/leaflet.css',
-            'src/css/modals/dialog.css',
-            'src/css/modals/match.css',
-            'src/css/views/login.css',
-            'src/css/views/main.css',
-            'src/css/views/properties.css',
-            'src/css/views/error.css',
-            'src/css/views/friends.css',
-            'src/css/partials/navbar.css',
-            'src/css/partials/chat.css',
-            'src/css/partials/friend-list.css',
-            'src/css/partials/cards.css',
-            'src/css/partials/controls.css',
-            'src/css/widgets/status.css',
-            'src/css/widgets/album.css',
-            'src/css/widgets/tabs.css',
-            'src/css/widgets/radar.css'
-        ])
+gulp.task('build', ['css', 'scripts', 'manifest']);
+
+gulp.task('manifest', function () {
+    return gulp.src(isProduction ? ['index.html', 'dist/**'] : ['index.html', 'src/**'], {base: './'})
+        .pipe(manifest({
+            hash: true,
+            preferOnline: true,
+            network: ['http://*', 'https://*', '*'],
+            filename: 'app.manifest',
+            exclude: 'app.manifest'
+        }))
+        .pipe(gulp.dest('.'));
+});
+
+gulp.task('css', function () {
+    return gulp.src([
+        'src/css/main.css',
+        'src/css/map/map.css',
+        'src/css/map/leaflet.css',
+        'src/css/modals/dialog.css',
+        'src/css/modals/match.css',
+        'src/css/views/login.css',
+        'src/css/views/main.css',
+        'src/css/views/properties.css',
+        'src/css/views/error.css',
+        'src/css/views/friends.css',
+        'src/css/partials/navbar.css',
+        'src/css/partials/chat.css',
+        'src/css/partials/friend-list.css',
+        'src/css/partials/cards.css',
+        'src/css/partials/controls.css',
+        'src/css/widgets/status.css',
+        'src/css/widgets/album.css',
+        'src/css/widgets/tabs.css',
+        'src/css/widgets/radar.css'
+    ])
         .pipe(concat('spacebox.css'))
         .pipe(gulp.dest('dist'))
         .pipe(rename('spacebox.min.css'))
         .pipe(minifyCss())
         .pipe(gulp.dest('dist'));
+});
 
+gulp.task('scripts', function () {
     function getJavaScriptSources (app) {
         var dependencies = [];
         switch (app) {
@@ -110,14 +129,4 @@ gulp.task('build', function () {
         .pipe(rename('spacebox-mobile.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
-
-    gulp.src(['index.html', 'src/**', 'dist/**'], {base: './'})
-        .pipe(manifest({
-            hash: true,
-            preferOnline: true,
-            network: ['http://*', 'https://*', '*'],
-            filename: 'app.manifest',
-            exclude: 'app.manifest'
-        }))
-        .pipe(gulp.dest('.'));
 });
