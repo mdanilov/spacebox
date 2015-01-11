@@ -10,12 +10,16 @@ call cordova platform add android
 call cordova plugin add org.apache.cordova.console org.apache.cordova.device org.apache.cordova.inappbrowser org.apache.cordova.geolocation
 cd ..
 cd ..
+cd ..
+call npm install
+cd public
 node ..\node_modules\gulp\bin\gulp build
 
 mkdir tools\finder\www\lib
 xcopy lib tools\finder\www\lib /s /e /y
 
 copy index.html tools\finder\www\index.html 
+copy app.manifest tools\finder\www\app.manifest 
 
 mkdir tools\finder\www\src\js
 copy src\js\main.js tools\finder\www\src\js\main.js 
@@ -27,8 +31,10 @@ mkdir tools\finder\www\src\img
 xcopy src\img tools\finder\www\src\img /s /e /y
 
 copy dist\spacebox-mobile.js tools\finder\www\src\js\spacebox-mobile.js
+copy dist\spacebox-mobile.min.js tools\finder\www\src\js\spacebox-mobile.min.js
 mkdir tools\finder\www\src\css
 copy dist\spacebox.css tools\finder\www\src\css\spacebox.css
+copy dist\spacebox.min.css tools\finder\www\src\css\spacebox.min.css
 
 copy tools\android\icon48.png tools\finder\platforms\android\res\drawable\icon.png
 copy tools\android\icon72.png tools\finder\platforms\android\res\drawable-hdpi\icon.png
