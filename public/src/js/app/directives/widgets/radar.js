@@ -8,6 +8,7 @@ function radarDirective ($animate, $interval) {
         template: '<img class="sp-radar-image" ng-src="{{image}}" ng-click="click()">',
         link: function (scope, element, attrs) {
 
+            // TODO: rewrite using animation. Looks like error in element access.
             function circleAnimation (callback) {
                 var circle = angular.element('<div class="sp-radar-circle"></div>');
                 element.append(circle);

@@ -29,6 +29,9 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
 
     function Friend (data) {
         angular.extend(this, data || {});
+        if (data.location) {
+            this.location.timestamp = new Date(data.location.timestamp);
+        }
     }
     Friend.prototype.isRecent = function () {
         return this.recent == true;
@@ -38,7 +41,7 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     };
     Friend.prototype.isOnline = function () {
         return this.hasOwnProperty('location') &&
-            (Date.now() - this.location.timestamp) < ConfigService.USER_ONLINE_TIME_SEC * 1000;
+            (Date.now() - this.location.timestamp.getTime()) < ConfigService.USER_ONLINE_TIME_SEC * 1000;
     };
     Friend.prototype.view = function () {
         if (this.recent == true) {
