@@ -128,7 +128,7 @@
             ],
             nope: [
                 'src/js/spacebox-mobile.js',
-                'src/css/spacebox.css'
+                'src/css/spacebox.min.css'
             ],
             complete: bootstrapAngular
         });
