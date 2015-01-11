@@ -8,7 +8,7 @@ var minifyCss = require('gulp-minify-css');
 var manifest = require('gulp-manifest');
 var args = require('yargs').argv;
 
-var isProduction = process.env.NPM_CONFIG_PRODUCTION || args.production;
+var isProduction = (process.env.NODE_ENV == 'production') || args.production;
 var VERSION = '0.0.4 Alpha';
 
 gulp.task('clean', function () {

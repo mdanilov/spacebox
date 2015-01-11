@@ -127,7 +127,7 @@
             '//code.jquery.com/jquery-2.1.1.min.js',
             '//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js',
             '//api.tiles.mapbox.com/mapbox.js/v2.1.3/mapbox.js',
-            '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment-with-locales.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-resource.min.js',
