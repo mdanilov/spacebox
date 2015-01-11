@@ -3,18 +3,34 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
+var ejs = require('gulp-ejs');
 var minifyCss = require('gulp-minify-css');
 var manifest = require('gulp-manifest');
 var args = require('yargs').argv;
 
 var isProduction = process.env.NPM_CONFIG_PRODUCTION || args.production;
+var VERSION = '0.0.4 Alpha';
 
 gulp.task('clean', function () {
-    gulp.src('dist', {read: false})
+    gulp.src(['dist', 'app.manifest', 'index.html'], {read: false})
         .pipe(clean());
 });
 
-gulp.task('build', ['css', 'scripts', 'manifest']);
+gulp.task('build', ['templates', 'css', 'scripts', 'manifest']);
+
+gulp.task('templates', function () {
+    var options = {
+        settings: [
+            { name: 'development', content: !isProduction },
+            { name: 'cordova',     content: !!args.cordova },
+            { name: 'server_url',  content: args.server_url || '' },
+            { name: 'version',     content: VERSION}
+        ]
+    };
+    return gulp.src('index.ejs')
+        .pipe(ejs(options))
+        .pipe(gulp.dest('.'));
+});
 
 gulp.task('manifest', function () {
     return gulp.src(isProduction ? ['index.html', 'dist/**'] : ['index.html', 'src/**'], {base: './'})
