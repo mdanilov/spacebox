@@ -62,7 +62,6 @@
             'lib/jquery/dist/jquery.js',
             'lib/bootstrap/dist/js/bootstrap.js',
             'lib/mapbox.js/mapbox.uncompressed.js',
-            'lib/leaflet.locatecontrol/src/L.Control.Locate.js',
             'lib/angular/angular.js',
             'lib/angular-route/angular-route.js',
             'lib/angular-resource/angular-resource.js',
@@ -102,7 +101,6 @@
             'lib/angular-moment/angular-moment.min.js',
             'lib/angular-bootstrap/ui-bootstrap.min.js',
             'lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-            'lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js',
             'lib/angular-carousel/dist/angular-carousel.min.js',
             'lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
             /* VK scripts */
