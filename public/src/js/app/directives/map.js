@@ -1,3 +1,54 @@
+var LocateControl = L.Control.extend({
+    options: {
+        position: 'topleft'
+    },
+
+    onAdd: function (map) {
+        var container = L.DomUtil.create('div',
+            'leaflet-control-locate leaflet-bar leaflet-control');
+
+        var self = this;
+
+        self._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        self._link.href = '';
+        L.DomUtil.create('i', 'fa fa-location-arrow', self._link);
+
+        L.DomEvent.on(self._link, 'click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            map.locate();
+        });
+
+        var LOCATOR_ICON = {
+            html: [
+                '<div>',
+                    '<div class="sp-locator-circle sp-pulse"></div>',
+                    '<div class="sp-locator"></div>',
+                '</div>'
+            ].join(''),
+            iconSize: [18, 18]
+        };
+
+        function onLocationFound (event) {
+            if (!self._marker) {
+                self._marker = L.marker(event.latlng, {
+                    icon: L.divIcon(LOCATOR_ICON)
+                });
+                self._marker.addTo(map);
+            } else {
+                self._marker.setLatLng(event.latlng);
+            }
+
+            map.setView(event.latlng);
+        }
+
+        map.on('locationfound', onLocationFound, self);
+        map.locate();
+
+        return container;
+    }
+});
+
 function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, LocationService) {
     return {
         restrict: 'E',
@@ -18,41 +69,8 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
                 SELECTED: {
                     html: '<i class="fa fa-map-marker sp-marker-user sp-selected"></i>',
                     iconSize: [40, 40]
-                },
-                LOCATOR: {
-                    html: '<div><div class="sp-locator-circle sp-pulse"></div><div class="sp-locator"></div></div>',
-                    iconSize: [18, 18]
                 }
             };
-
-            function Locator () {
-                var locator = L.control.locate({
-                    drawCircle: false,
-                    follow: false,
-                    remainActive: true,
-                    markerClass: L.marker.bind(L.marker, L.latLng(0, 0), {
-                        icon: L.divIcon(MARKER_ICONS.LOCATOR)
-                    }),
-                    icon: 'fa fa-location-arrow',
-                    setView: true,
-                    keepCurrentZoomLevel: true,
-                    showPopup: false,
-                    strings: {
-                        title: "Мое текущее местоположение",
-                        popup: "",
-                        outsideMapBoundsMsg: ""
-                    },
-                    locateOptions: {
-                        watch: false
-                    }
-                }).addTo(map);
-
-                // TODO: this is workaround to show locator marker immediately
-                $timeout(locator.locate, 1000);
-                $timeout(locator.locate, 2000);
-
-                return locator;
-            }
 
             L.mapbox.accessToken = ConfigService.MAPBOX.ACCESS_TOKEN;
             var options = ConfigService.getMapOptions();
@@ -67,7 +85,7 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
             LocationService.asyncGetCurrentPosition().then(function (position) {
                 var coords = position.coords;
                 map.setView(L.latLng(coords.latitude, coords.longitude));
-                scope.locator = Locator();
+                map.addControl(new LocateControl());
             });
 
             var popupFixed = false;

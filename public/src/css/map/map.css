@@ -95,16 +95,6 @@
     margin: 0;
 }
 
-.sp-locator-marker {
-    font-size: 40px;
-    opacity: 1;
-    text-shadow: 1px 1px 2px black;
-}
-
-.map-icon-location {
-    padding: 6px;
-}
-
 #map-canvas a:hover {
     text-decoration: none;
 }
@@ -148,6 +138,34 @@
 }
 
 /* Locator */
+.sp-locator-marker {
+    font-size: 40px;
+    opacity: 1;
+    text-shadow: 1px 1px 2px black;
+}
+
+.map-icon-location {
+    padding: 6px;
+}
+
+.leaflet-touch .leaflet-bar-part-single {
+    -webkit-border-radius: 7px 7px 7px 7px;
+    border-radius: 7px 7px 7px 7px;
+    border-bottom: none;
+}
+
+.leaflet-control-locate a {
+    font-size: 1.4em;
+    margin-left: 1px;
+    color: #444;
+}
+
+.leaflet-touch .leaflet-control-locate {
+    box-shadow: none;
+    border: 2px solid rgba(0,0,0,0.2);
+    background-clip: padding-box;
+}
+
 #map-canvas .sp-locator {
     position: absolute;
     width: 18px;
