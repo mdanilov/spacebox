@@ -50,15 +50,14 @@
     var libraries = {
         development: [
             /* CSS third-party */
-            'lib/bootstrap/dist/css/bootstrap.css',
-            'lib/components-font-awesome/css/font-awesome.css',
-            'lib/mapbox.js/mapbox.uncompressed.css',
-            'lib/angular-carousel/dist/angular-carousel.css',
-            'lib/seiyria-bootstrap-slider/css/bootstrap-slider.css',
+            'lib/bootstrap/dist/css/bootstrap.min.css',
+            'lib/components-font-awesome/css/font-awesome.min.css',
+            'lib/mapbox.js/mapbox.css',
+            'lib/angular-carousel/dist/angular-carousel.min.css',
+            'lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css',
             /* JS third-party */
-            'lib/moment/moment.js',
+            'lib/moment/min/moment-with-locales.min.js',
             'lib/socket.io-client/socket.io.js',
-            'lib/moment/locale/ru.js',
             'lib/jquery/dist/jquery.js',
             'lib/bootstrap/dist/js/bootstrap.js',
             'lib/mapbox.js/mapbox.uncompressed.js',
