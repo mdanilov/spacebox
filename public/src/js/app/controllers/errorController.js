@@ -2,7 +2,7 @@ function ErrorViewController ($scope, $log, $location, $timeout, ErrorHandler, L
     $log.debug('Initialize error view controller...');
 
     var error = ErrorHandler.getLastError();
-    var isGeolocationOn = !(error instanceof GeoError);
+    var isGeolocationOn = !(error instanceof LocationError);
 
     if (angular.isUndefined(error) && isGeolocationOn) {
         $location.path('/');

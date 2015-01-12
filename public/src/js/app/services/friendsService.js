@@ -1,4 +1,4 @@
-function FriendsService ($resource, $window, $log, $rootScope, $interval, localStorageService, VkService, ConfigService) {
+function FriendsService ($q, $resource, $window, $log, $rootScope, $interval, localStorageService, VkService, ConfigService) {
 
     var FriendsService = {};
 
@@ -120,26 +120,22 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
         _friends.resolved = true;
     }
 
-    function queryResources (callback) {
-        _resource.query().$promise.then(function (data) {
-            // TODO: check length to 0
-            if (data.length > 0) {
-                var ids = getFriendIds(data);
-                return VkService.asyncGetUsersInfo(ids).then(function (info) {
-                    angular.forEach(data, function (item, i) {
-                        item.info = info[i];
-                    });
-                    updateFriends(data);
-                    if (angular.isFunction(callback)) {
-                        callback(_friends);
-                    }
+    function queryResources () {
+        function asyncAttachInfo (data) {
+            var ids = getFriendIds(data);
+            return VkService.asyncGetUsersInfo(ids).then(function (info) {
+                angular.forEach(data, function (item, i) {
+                    item.info = info[i];
                 });
-            }
-            else {
-                if (angular.isFunction(callback)) {
-                    callback(_friends);
-                }
-            }
+                return data;
+            });
+        }
+
+        return _resource.query().$promise.then(function (data) {
+            return $q.when(data.length > 0 ? asyncAttachInfo(data) : data).then(function (data) {
+                updateFriends(data);
+                return _friends;
+            });
         });
     }
 
@@ -148,7 +144,11 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
     };
 
     FriendsService.getFriends = function (callback) {
-        queryResources(callback);
+        queryResources().then(function () {
+            if (angular.isFunction(callback)) {
+                callback(_friends);
+            }
+        });
         if (angular.isUndefined(_friends.interval)) {
             _friends.interval = $interval(queryResources,
                 ConfigService.FRIENDS_UPDATE_INTERVAL_SEC * 1000);
@@ -160,4 +160,4 @@ function FriendsService ($resource, $window, $log, $rootScope, $interval, localS
 }
 
 angular.module('spacebox').factory('FriendsService',
-    ['$resource', '$window', '$log', '$rootScope', '$interval', 'localStorageService', 'VkService', 'ConfigService', FriendsService]);
+    ['$q', '$resource', '$window', '$log', '$rootScope', '$interval', 'localStorageService', 'VkService', 'ConfigService', FriendsService]);

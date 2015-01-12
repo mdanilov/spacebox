@@ -34,7 +34,7 @@ gulp.task('templates', function () {
 
 gulp.task('manifest', function () {
     return gulp.src(isProduction ? ['index.html', 'dist/spacebox.min.css', 'dist/*.js', 'src/js/app/templates/**']
-        : ['index.html', 'dist/spacebox.css', 'src/img/**', 'src/js/**'], {base: './'})
+        : ['index.html', 'src/img/**'], {base: './'})
         .pipe(manifest({
             hash: true,
             preferOnline: true,
