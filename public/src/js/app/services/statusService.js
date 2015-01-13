@@ -1,15 +1,16 @@
-function StatusService ($q, $log, $http, ErrorHandler, ConfigService) {
+function StatusService ($q, $log, $http, ConfigService) {
 
     var StatusService = {};
-    StatusService._status = '';
 
-    function asyncGetStatus (user_ids) {
-        if (angular.isDefined(user_ids) && !angular.isArray(user_ids)) {
-            return $q.reject(new Error(500, 'user_ids not array'));
-        }
+    var _status = { text: '', resolved: false };
 
-        return $http.post(ConfigService.SERVER_URL + '/status.get', {user_ids: user_ids}).then(function (response) {
-            return response.data;
+    function asyncGetStatus (user_id) {
+        return $http.post(ConfigService.SERVER_URL + '/status.get', {user_id: user_id}).then(function (response) {
+            _status = {
+                text: response.data.text,
+                resolved: true
+            };
+            return _status;
         }, function (error) {
             return $q.reject(new HttpError(error, 'status.get request failed'));
         });
@@ -20,29 +21,21 @@ function StatusService ($q, $log, $http, ErrorHandler, ConfigService) {
             return;
         }
 
-        StatusService._status = text;
-        $http.post(ConfigService.SERVER_URL + '/status.set', {text: text}).catch(function (response) {
-            ErrorHandler.handle(new HttpError(response.status, 'status.set request failed'));
+        _status.text = text;
+        _status.resolved = false;
+        $http.post(ConfigService.SERVER_URL + '/status.set', {text: text}).then(function () {
+            _status.resolved = true;
+        }, function (response) {
+            throw new HttpError(response.status, 'status.set request failed');
         });
     };
 
-    StatusService.get = function (user_ids) {
-        return $q.when(user_ids ? asyncGetStatus(user_ids) : StatusService._status).then(function (response) {
-            return response;
-        });
+    StatusService.get = function () {
+        return $q.when(_status.resolved ? _status : asyncGetStatus());
     };
-
-    StatusService.promise = asyncGetStatus().then(function (status) {
-        if (angular.isArray(status) &&
-            (status.length > 0) &&
-            angular.isString(status[0].text)) {
-            StatusService._status = status[0].text;
-            return StatusService._status;
-        }
-    });
 
     return StatusService;
 }
 
 angular.module('spacebox').factory('StatusService',
-    ['$q', '$log', '$http', 'ErrorHandler', 'ConfigService', StatusService]);
+    ['$q', '$log', '$http', 'ConfigService', StatusService]);

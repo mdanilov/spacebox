@@ -126,27 +126,7 @@ gulp.task('manifest', function () {
 });
 
 gulp.task('css', function () {
-    return gulp.src([
-        'src/css/main.css',
-        'src/css/map/map.css',
-        'src/css/map/leaflet.css',
-        'src/css/modals/dialog.css',
-        'src/css/modals/match.css',
-        'src/css/views/login.css',
-        'src/css/views/main.css',
-        'src/css/views/properties.css',
-        'src/css/views/error.css',
-        'src/css/views/friends.css',
-        'src/css/partials/navbar.css',
-        'src/css/partials/chat.css',
-        'src/css/partials/friend-list.css',
-        'src/css/partials/cards.css',
-        'src/css/partials/controls.css',
-        'src/css/widgets/status.css',
-        'src/css/widgets/album.css',
-        'src/css/widgets/tabs.css',
-        'src/css/widgets/radar.css'
-    ])
+    return gulp.src('src/css/**')
         .pipe(concat('spacebox.css'))
         .pipe(gulp.dest('dist'))
         .pipe(rename('spacebox.min.css'))

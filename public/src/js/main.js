@@ -43,7 +43,7 @@
 
         // manually bootstrap AngularJS
         angular.module('spacebox').constant('config', config);
-        angular.bootstrap(document, ['spacebox']);
+        angular.bootstrap(document, ['spacebox'], {strictDi: true});
     }
 
     var config = readConfig();
@@ -201,8 +201,8 @@
             else {
                 yepnope({
                     test: Modernizr.touch,
-                    yep: 'dist/spacebox-mobile.js',
-                    nope: 'dist/spacebox.js',
+                    yep: 'dist/spacebox-mobile.min.js',
+                    nope: 'dist/spacebox.min.js',
                     both: 'dist/spacebox.min.css',
                     complete: bootstrapAngular
                 });

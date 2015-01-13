@@ -24,8 +24,7 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
             }).
             when('/properties', {
                 templateUrl: 'src/js/app/templates/views/properties.html',
-                controller: 'PropertiesViewController',
-                resolve: PropertiesViewController.resolve
+                controller: 'PropertiesViewController'
             }).
             otherwise({
                 redirectTo: '/login'
@@ -37,11 +36,25 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
         }
     }]);
 
-spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment',
-    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment) {
+spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
+    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
         amMoment.changeLocale('ru');
+
+        if (Modernizr.standalone) {
+            var path = localStorageService.get('app.path');
+            if (angular.isUndefined(path)) {
+                localStorageService.set('app.path', $location.path());
+            }
+            $location.path(path);
+        }
+
         $rootScope.$on('$locationChangeStart', function (event) {
             var path = $location.path();
+
+            if (Modernizr.standalone) {
+                localStorageService.set('app.path', path);
+            }
+
             if (!ConfigService.isAuthorized() && path != '/login') {
                 event.preventDefault();
                 VkService.asyncGetLoginStatus().then(function (id) {

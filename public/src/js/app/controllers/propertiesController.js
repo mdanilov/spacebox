@@ -24,11 +24,8 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
         $scope.changed = false;
     };
 
-    $scope.status = '';
     StatusService.get().then(function (status) {
-        if (angular.isString(status)) {
-            $scope.status = status;
-        }
+        $scope.status = status.text;
     });
 
     $scope.changed = false;
@@ -91,7 +88,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
     $scope.save = function () {
         var options = {};
         var ages = ageSlider.slider('getValue');
-        options.visibility = $scope.visibility;
+        options.enabled = $scope.visibility;
         options.sex = parseInt($scope.sex);
         options.radius = distanceSlider.slider('getValue') * 1000;
         options.ageInterval = {
@@ -134,12 +131,6 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
         });
     };
 }
-
-PropertiesViewController.resolve = {
-    'status': function (StatusService, ErrorHandler) {
-        return StatusService.promise.catch(ErrorHandler.handle);
-    }
-};
 
 angular.module('spacebox').controller('PropertiesViewController',
     ['$scope', '$modal', '$location', 'UserService', 'ConfigService', 'StatusService', 'AccountService', PropertiesViewController]);

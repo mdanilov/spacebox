@@ -7,14 +7,15 @@ function statusDirective (ConfigService) {
         },
         templateUrl: 'src/js/app/templates/widgets/status.html',
         link: function (scope, element, attrs) {
-
             var MAX_LENGTH = ConfigService.MAX_STATUS_LENGTH;
-
             scope.length = MAX_LENGTH;
-            if (angular.isString(scope.status)) {
-                scope.text = scope.status;
-                scope.length = MAX_LENGTH - scope.status.length;
-            }
+
+            scope.$watch('status', function (value) {
+                if (angular.isString(value)) {
+                    scope.text = value;
+                    scope.length = MAX_LENGTH - value.length;
+                }
+            });
 
             scope.onChange = function () {
                 if (scope.text.length > MAX_LENGTH) {

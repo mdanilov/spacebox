@@ -29,16 +29,16 @@ exports.set = function (request, response, next) {
 };
 
 exports.get = function (request, response, next) {
-    var whereExpr = request.body.user_ids ?
-        db.sql.in('mid', request.body.user_ids) : {'mid': request.session.mid};
-    db.select().from('status').where(whereExpr).run(function (error, result) {
+    var userId = request.body.user_id || request.session.mid;
+    db.select('text').from('status').where({'mid': userId}).run(function (error, result) {
         error = error || result.error;
         if (error) {
             next(error);
         }
         else {
-            log.info('status.get', result.rows);
-            response.json(result.rows);
+            var status = result.rows[0] || { text: '' };
+            log.info('status.get', status);
+            response.json(status);
         }
     });
 };
