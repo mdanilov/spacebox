@@ -45,7 +45,9 @@ spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigS
             if (angular.isUndefined(path)) {
                 localStorageService.set('app.path', $location.path());
             }
-            $location.path(path);
+            else if (ConfigService.isAuthorized()) {
+                $location.path(path);
+            }
         }
 
         $rootScope.$on('$locationChangeStart', function (event) {
