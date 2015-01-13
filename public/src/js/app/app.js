@@ -57,9 +57,8 @@ spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigS
                         $location.path(route);
                     }
                 }
-                else {
-                    $route.reload();
-                }
+
+                $route.reload();
             }
 
             if (!ConfigService.isAuthorized() && path != '/login') {
