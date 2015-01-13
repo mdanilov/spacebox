@@ -32,7 +32,7 @@ function PropertiesViewController ($scope, $modal, $location, UserService, Confi
 
 	var options = ConfigService.getSearchOptions();
 
-    $scope.visibility = options.visibility;
+    $scope.visibility = options.enabled;
     $scope.sex = options.sex;
     $scope.$watch('sex', optionsChanged);
 
