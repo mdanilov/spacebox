@@ -12,13 +12,12 @@ var isProduction = (process.env.NODE_ENV == 'production') || args.production;
 var VERSION = '0.0.4 Alpha';
 var libraries = {
     development: [
-        /* CSS third-party */
         'lib/bootstrap/dist/css/bootstrap.min.css',
         'lib/components-font-awesome/css/font-awesome.min.css',
         'lib/mapbox.js/mapbox.css',
         'lib/angular-carousel/dist/angular-carousel.min.css',
         'lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css',
-        /* JS third-party */
+        'lib/modernizr/modernizr.js',
         'lib/yepnope/yepnope.1.5.0-min.js',
         'lib/moment/min/moment-with-locales.min.js',
         'lib/socket.io-client/socket.io.js',
@@ -60,6 +59,7 @@ var libraries = {
         '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-cookies.min.js',
         '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-touch.min.js',
         '//cdn.socket.io/socket.io-1.2.1.js',
+        'lib/modernizr/modernizr.js',
         'lib/yepnope/yepnope.1.5.0-min.js',
         'lib/angular-local-storage/dist/angular-local-storage.min.js',
         'lib/angular-moment/angular-moment.min.js',
@@ -107,15 +107,16 @@ gulp.task('manifest', function () {
             'dist/spacebox.min.css',
             'dist/spacebox.min.js',
             'dist/spacebox-mobile.min.js'
-        ], libraries.production) :
+        ]) :
         sources.concat([
             'dist/spacebox.css',
             'dist/spacebox.js',
             'dist/spacebox-mobile.js'
-        ], libraries.development);
+        ]);
 
     return gulp.src(sources, {base: './'})
         .pipe(manifest({
+            cache: isProduction ? libraries.production : libraries.development,
             hash: true,
             preferOnline: true,
             network: ['http://*', 'https://*', '*'],
