@@ -39,32 +39,34 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
 spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
     function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
         amMoment.changeLocale('ru');
-
-        if (Modernizr.standalone) {
-            var path = localStorageService.get('app.path');
-            if (angular.isUndefined(path)) {
-                localStorageService.set('app.path', $location.path());
-            }
-            else if (ConfigService.isAuthorized()) {
-                $location.path(path);
-            }
-        }
-
         $rootScope.$on('$locationChangeStart', function (event) {
             var path = $location.path();
 
-            if (Modernizr.standalone) {
-                localStorageService.set('app.path', path);
+            if (Modernizr.standalone && angular.isString(path)) {
+                localStorageService.set('app.route', path);
+            }
+
+            function login (info) {
+                ConfigService.init(info);
+                if (Modernizr.standalone) {
+                    var route = localStorageService.get('app.route');
+                    if (angular.isUndefined(route)) {
+                        localStorageService.set('app.route', $location.path());
+                    }
+                    else {
+                        $location.path(route);
+                    }
+                }
+                else {
+                    $route.reload();
+                }
             }
 
             if (!ConfigService.isAuthorized() && path != '/login') {
                 event.preventDefault();
                 VkService.asyncGetLoginStatus().then(function (id) {
                     $log.debug('User is authorized, change location path to ', path);
-                    UserService.asyncUpdateInfo(id).then(function (info) {
-                        ConfigService.init(info);
-                        $route.reload();
-                    }, ErrorHandler.handle);
+                    UserService.asyncUpdateInfo(id).then(login, ErrorHandler.handle);
                 }, function (error) {
                     $log.debug('User is not authorized, prevent location change ', path);
                     $location.path('/login');
