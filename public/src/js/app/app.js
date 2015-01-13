@@ -1,8 +1,8 @@
 var spacebox = angular.module('spacebox',
     [ 'ngAnimate', 'ngRoute', 'ngResource', 'ngTouch', 'ngCookies', 'angular-carousel', 'angularMoment', 'LocalStorageModule', 'ui.bootstrap.modal', 'ui.bootstrap.tpls']);
 
-spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
-    function (config, $routeProvider, $logProvider, $compileProvider) {
+spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider', 'VkServiceProvider',
+    function (config, $routeProvider, $logProvider, $compileProvider, VkServiceProvider) {
         $routeProvider.
             when('/login', {
                 templateUrl: 'src/js/app/templates/views/login.html',
@@ -29,6 +29,10 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
             otherwise({
                 redirectTo: '/login'
             });
+
+        if (Modernizr.touch) {
+            VkServiceProvider.useApi('oauth');
+        }
 
         if (!angular.equals(config.DEVELOPMENT, true)) {
             $compileProvider.debugInfoEnabled(false);

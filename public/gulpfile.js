@@ -103,16 +103,8 @@ gulp.task('manifest', function () {
     ];
 
     sources = isProduction ?
-        sources.concat([
-            'dist/spacebox.min.css',
-            'dist/spacebox.min.js',
-            'dist/spacebox-mobile.min.js'
-        ]) :
-        sources.concat([
-            'dist/spacebox.css',
-            'dist/spacebox.js',
-            'dist/spacebox-mobile.js'
-        ]);
+        sources.concat([ 'dist/spacebox.min.css', 'dist/spacebox.min.js' ]) :
+        sources.concat([ 'dist/spacebox.css', 'dist/spacebox.js' ]);
 
     return gulp.src(sources, {base: './'})
         .pipe(manifest({
@@ -136,26 +128,10 @@ gulp.task('css', function () {
 });
 
 gulp.task('scripts', function () {
-    function getJavaScriptSources (app) {
-        var dependencies = [];
-        switch (app) {
-            case 'web':
-                dependencies = [
-                    'src/js/app/services/vkService.js'
-                ];
-                break;
-            case 'mobile':
-                dependencies = [
-                    'src/js/app/services/mobile/vkService.js'
-                ];
-                break;
-            default:
-                break;
-        }
-
-        var sources = new Array('./src/js/app/app.js');
-        sources = sources.concat(dependencies, [
+    return gulp.src([
+            './src/js/app/app.js',
             /* services */
+            'src/js/app/services/vkService.js',
             'src/js/app/services/locationService.js',
             'src/js/app/services/configService.js',
             'src/js/app/services/likesService.js',
@@ -189,22 +165,10 @@ gulp.task('scripts', function () {
             'src/js/app/directives/widgets/album.js',
             'src/js/app/directives/widgets/status.js',
             'src/js/app/directives/widgets/tabs.js'
-        ]);
-
-        return sources;
-    }
-
-    gulp.src(getJavaScriptSources('web'))
+        ])
         .pipe(concat('spacebox.js'))
         .pipe(gulp.dest('dist'))
         .pipe(rename('spacebox.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('dist'));
-
-    gulp.src(getJavaScriptSources('mobile'))
-        .pipe(concat('spacebox-mobile.js'))
-        .pipe(gulp.dest('dist'))
-        .pipe(rename('spacebox-mobile.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
 });
