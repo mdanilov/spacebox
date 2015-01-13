@@ -43,26 +43,25 @@
 
         // manually bootstrap AngularJS
         angular.module('spacebox').constant('config', config);
-        angular.bootstrap(document, ['spacebox']);
+        angular.bootstrap(document, ['spacebox'], {strictDi: true});
     }
 
     var config = readConfig();
     var libraries = {
         development: [
             /* CSS third-party */
-            'lib/bootstrap/dist/css/bootstrap.css',
-            'lib/components-font-awesome/css/font-awesome.css',
-            'lib/mapbox.js/mapbox.uncompressed.css',
-            'lib/angular-carousel/dist/angular-carousel.css',
-            'lib/seiyria-bootstrap-slider/css/bootstrap-slider.css',
+            'lib/bootstrap/dist/css/bootstrap.min.css',
+            'lib/components-font-awesome/css/font-awesome.min.css',
+            'lib/mapbox.js/mapbox.css',
+            'lib/angular-carousel/dist/angular-carousel.min.css',
+            'lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css',
             /* JS third-party */
-            'lib/moment/moment.js',
+            'lib/modernizr/modernizr.js',
+            'lib/moment/min/moment-with-locales.min.js',
             'lib/socket.io-client/socket.io.js',
-            'lib/moment/locale/ru.js',
             'lib/jquery/dist/jquery.js',
             'lib/bootstrap/dist/js/bootstrap.js',
             'lib/mapbox.js/mapbox.uncompressed.js',
-            'lib/leaflet.locatecontrol/src/L.Control.Locate.js',
             'lib/angular/angular.js',
             'lib/angular-route/angular-route.js',
             'lib/angular-resource/angular-resource.js',
@@ -98,11 +97,11 @@
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-cookies.min.js',
             '//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-touch.min.js',
             '//cdn.socket.io/socket.io-1.2.1.js',
+            'lib/modernizr/modernizr.js',
             'lib/angular-local-storage/dist/angular-local-storage.min.js',
             'lib/angular-moment/angular-moment.min.js',
             'lib/angular-bootstrap/ui-bootstrap.min.js',
             'lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-            'lib/leaflet.locatecontrol/dist/L.Control.Locate.min.js',
             'lib/angular-carousel/dist/angular-carousel.min.js',
             'lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
             /* VK scripts */
@@ -117,53 +116,35 @@
 
         // load third-party scripts
         yepnope(libraries.development);
-        yepnope('lib/modernizr/modernizr.js');
 
         // load application scripts
         yepnope({
             test: config.DEVELOPMENT,
-            yep: [
-                'src/js/spacebox-mobile.js',
-                'src/css/spacebox.css'
-            ],
-            nope: [
-                'src/js/spacebox-mobile.js',
-                'src/css/spacebox.css'
-            ],
+            yep: [ 'src/js/spacebox.js', 'src/css/spacebox.css' ],
+            nope: [ 'src/js/spacebox.min.js', 'src/css/spacebox.min.css' ],
             complete: bootstrapAngular
         });
     }
     else {
+        // load third-party scripts
         yepnope({
             test: config.DEVELOPMENT,
             yep: libraries.development,
-            nope: libraries.production
-        });
-
-        yepnope({
-            load: 'lib/modernizr/modernizr.js',
+            nope: libraries.production,
             callback: loadApplication
         });
 
         function loadApplication (url, result, key) {
+            // load application scripts
             if (config.DEVELOPMENT) {
-                // load CSS first
-                yepnope('dist/spacebox.css');
-
-                // main app script should be loaded first
-                yepnope('src/js/app/app.js');
-
-                // load platform dependent scripts
-                yepnope({
-                    test: Modernizr.touch,
-                    yep: 'src/js/app/services/mobile/vkService.js',
-                    nope: 'src/js/app/services/vkService.js'
-                });
-
-                // load common scripts
                 yepnope({
                     load: [
+                        /* load CSS first */
+                        'dist/spacebox.css',
+                        /* main app script should be loaded first */
+                        'src/js/app/app.js',
                         /* services */
+                        'src/js/app/services/vkService.js',
                         'src/js/app/services/locationService.js',
                         'src/js/app/services/configService.js',
                         'src/js/app/services/likesService.js',
@@ -203,10 +184,7 @@
             }
             else {
                 yepnope({
-                    test: Modernizr.touch,
-                    yep: 'dist/spacebox-mobile.js',
-                    nope: 'dist/spacebox.js',
-                    both: 'dist/spacebox.min.css',
+                    load: [ 'dist/spacebox.min.js', 'dist/spacebox.min.css' ],
                     complete: bootstrapAngular
                 });
             }

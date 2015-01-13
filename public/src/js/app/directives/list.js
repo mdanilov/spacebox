@@ -9,7 +9,7 @@ function friendListDirective () {
             chat: '&onChat'
         },
         templateUrl: 'src/js/app/templates/friend-list.html',
-        controller: function ($scope) {
+        controller: [ '$scope', function ($scope) {
             var cards = $scope.cards = [];
 
             this.select = function (card) {
@@ -49,7 +49,7 @@ function friendListDirective () {
                     return user.date ? new Date(user.date).getTime() : 0;
                 }
             ];
-        }
+        }]
     };
 }
 

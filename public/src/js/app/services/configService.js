@@ -1,4 +1,4 @@
-function ConfigService (config, $cookieStore) {
+function ConfigService (config, localStorageService) {
 
     var ConfigService = {};
 
@@ -21,7 +21,7 @@ function ConfigService (config, $cookieStore) {
     ConfigService.SERVER_URL = config.SERVER_URL || window.location.origin;
     ConfigService.VERSION = config.VERSION;
     ConfigService._login = false;
-    ConfigService._config = $cookieStore.get('config');
+    ConfigService._config = localStorageService.get('settings');
 
     function validateSearchOptions (options) {
         if (angular.isNumber(options.radius) &&
@@ -57,7 +57,7 @@ function ConfigService (config, $cookieStore) {
                 zoom: 15
             },
             search: {
-                visibility: true,
+                enabled: true,
                 radius: 15000,
                 sex: 0,
                 ageInterval: {
@@ -81,7 +81,7 @@ function ConfigService (config, $cookieStore) {
             return;
         }
         ConfigService._config.search = options;
-        $cookieStore.put('config', ConfigService._config);
+        localStorageService.set('settings', ConfigService._config);
     };
 
     ConfigService.getMapOptions = function () {
@@ -109,11 +109,11 @@ function ConfigService (config, $cookieStore) {
             ConfigService._config.init = true;
         }
         ConfigService._login = true;
-        $cookieStore.put('config', ConfigService._config);
+        localStorageService.set('settings', ConfigService._config);
     };
 
     return ConfigService;
 }
 
 angular.module('spacebox').factory('ConfigService',
-    ['config', '$cookieStore', ConfigService]);
+    ['config', 'localStorageService', ConfigService]);
