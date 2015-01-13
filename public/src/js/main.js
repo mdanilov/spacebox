@@ -126,22 +126,19 @@
         });
     }
     else {
-        // load third-party scripts
         yepnope({
             test: config.DEVELOPMENT,
             yep: libraries.development,
             nope: libraries.production,
-            callback: loadApplication
+            complete: loadApplication
         });
 
         function loadApplication (url, result, key) {
-            // load application scripts
             if (config.DEVELOPMENT) {
+                // load common scripts
                 yepnope({
                     load: [
-                        /* load CSS first */
                         'dist/spacebox.css',
-                        /* main app script should be loaded first */
                         'src/js/app/app.js',
                         /* services */
                         'src/js/app/services/vkService.js',
