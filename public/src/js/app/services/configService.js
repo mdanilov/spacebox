@@ -81,7 +81,7 @@ function ConfigService (config, localStorageService) {
             return;
         }
         ConfigService._config.search = options;
-        localStorageService.put('settings', ConfigService._config);
+        localStorageService.set('settings', ConfigService._config);
     };
 
     ConfigService.getMapOptions = function () {
@@ -109,7 +109,7 @@ function ConfigService (config, localStorageService) {
             ConfigService._config.init = true;
         }
         ConfigService._login = true;
-        localStorageService.put('settings', ConfigService._config);
+        localStorageService.set('settings', ConfigService._config);
     };
 
     return ConfigService;
