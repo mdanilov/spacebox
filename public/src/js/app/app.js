@@ -36,13 +36,13 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
         }
     }]);
 
-spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
-    function ($rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
+spacebox.run(['$timeout', '$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
+    function ($timeout, $rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
         amMoment.changeLocale('ru');
         $rootScope.$on('$locationChangeStart', function (event) {
             var path = $location.path();
 
-            if (Modernizr.standalone && angular.isString(path)) {
+            if (Modernizr.standalone) {
                 localStorageService.set('app.route', path);
             }
 
@@ -54,7 +54,7 @@ spacebox.run(['$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigS
                         localStorageService.set('app.route', $location.path());
                     }
                     else {
-                        $location.path(route);
+                        $timeout($location.path(route));
                     }
                 }
 
