@@ -9,6 +9,10 @@
     var _watchId = null;
 
     function onLocationFound (position) {
+        if (angular.isUndefined(position.coords)) {
+            return;
+        }
+
         _location.position = position;
         _location.resolved = true;
         $cookieStore.put('location', position);
