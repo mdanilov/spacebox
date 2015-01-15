@@ -43,8 +43,8 @@ function LocatorService ($http, $log, $q, VkService, LocationService, ConfigServ
     function asyncGetUserPositions (options) {
         return LocationService.getCurrentPosition().then(function (position) {
             var params = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
+                latitude: position.latitude,
+                longitude: position.longitude,
                 options: options
             };
             return $http.post(ConfigService.SERVER_URL + '/users.get', params).then(

@@ -54,7 +54,7 @@ var LocateControl = L.Control.extend({
 });
 
 function getLatLng (position) {
-    return L.latLng(position.coords.latitude, position.coords.longitude);
+    return L.latLng(position.latitude, position.longitude);
 }
 
 function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, LocationService) {

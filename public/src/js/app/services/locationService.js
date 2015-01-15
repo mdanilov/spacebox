@@ -2,22 +2,27 @@
 
     var LocationService = {};
 
-    var _location = {
+    var location = {
         position: null,
         promise: null,
         resolved: false
     };
-    var _geolocation = null;
-    var _watchId = null;
+    var geolocation = null;
+    var watchId = null;
 
     function onLocationFound (position) {
-        var location = angular.extend({}, position);
-        window.alert(angular.toJson(location));
-        _location.position = location;
-        _location.resolved = true;
-        $cookieStore.put('location', location);
-        $rootScope.$broadcast('location.found', location);
-        $log.debug('[location] New position found', location);
+        location.position = {
+            timestamp: position.timestamp,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+        location.resolved = true;
+
+        window.alert(JSON.stringify(location.position));
+
+        $cookieStore.put('location', location.position);
+        $rootScope.$broadcast('location.found', location.position);
+        $log.debug('[location] New position found', location.position);
     }
 
     function onLocationError (error) {
@@ -29,9 +34,9 @@
 
     function asyncGetCurrentPosition () {
         var deferred = $q.defer();
-        _geolocation.getCurrentPosition(function (position) {
+        geolocation.getCurrentPosition(function (position) {
             onLocationFound(position);
-            deferred.resolve(position);
+            deferred.resolve(location.position);
         }, function (error) {
             onLocationError(error);
             deferred.reject();
@@ -40,11 +45,11 @@
     }
 
     if (navigator.geolocation) {
-        _geolocation = navigator.geolocation;
+        geolocation = navigator.geolocation;
         $log.debug('[location] Geolocation API is available');
-        _location.promise = asyncGetCurrentPosition();
+        location.promise = asyncGetCurrentPosition();
         $timeout(function () {
-            _watchId = _geolocation.watchPosition(onLocationFound, onLocationError, {
+            watchId = geolocation.watchPosition(onLocationFound, onLocationError, {
                 enableHighAccuracy: true,
                 timeout: 27000,
                 maximumAge: 30000
@@ -57,7 +62,7 @@
     }
 
     LocationService.getCurrentPosition = function () {
-        return $q.when(_location.resolved ? _location.position : _location.promise);
+        return $q.when(location.resolved ? location.position : location.promise);
     };
 
     return LocationService;

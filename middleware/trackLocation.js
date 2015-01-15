@@ -9,7 +9,7 @@ module.exports =  function (request, response, next) {
     }
 
     var location = JSON.parse(unescape(request.cookies.location));
-    if (!location || !location.timestamp || !location.coords) {
+    if (!location || !location.timestamp || !location.latitude || !location.longitude) {
         return next();
     }
 
@@ -30,8 +30,8 @@ module.exports =  function (request, response, next) {
                 }
                 client.insert('users', {
                     'mid': userId,
-                    'latitude': location.coords.latitude,
-                    'longitude': location.coords.longitude,
+                    'latitude': location.latitude,
+                    'longitude': location.longitude,
                     'sex': info.sex || 0,
                     'age': info.age || -1,
                     'timestamp': new Date(location.timestamp).toUTCString()
