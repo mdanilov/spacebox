@@ -18,11 +18,9 @@
         };
         location.resolved = true;
 
-        window.alert(JSON.stringify(location.position));
-
+        $log.debug('[location] New position found', location.position);
         $cookieStore.put('location', location.position);
         $rootScope.$broadcast('location.found', location.position);
-        $log.debug('[location] New position found', location.position);
     }
 
     function onLocationError (error) {
