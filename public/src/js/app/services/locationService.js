@@ -9,7 +9,7 @@
     var _watchId = null;
 
     function onLocationFound (position) {
-        if (angular.isUndefined(position.coords)) {
+        if (!angular.isObject(position.coords)) {
             return;
         }
 
