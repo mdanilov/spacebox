@@ -1,29 +1,23 @@
 ﻿function LocationService ($rootScope, $q, $timeout, $log, $cookieStore) {
 
     var LocationService = {};
+
     var _location = {
         position: null,
         promise: null,
         resolved: false
     };
+    var _geolocation = null;
     var _watchId = null;
 
     function onLocationFound (position) {
-        if (!angular.isObject(position.coords) ||
-            !angular.isNumber(position.coords.latitude) ||
-            !angular.isNumber(position.coords.longitude)) {
-            return;
-        }
-
-        window.alert(position.coords.latitude);
-        window.alert(position.coords.longitude);
-        window.alert(angular.toJson(position));
-
-        _location.position = position;
+        var location = angular.extend({}, position);
+        window.alert(angular.toJson(location));
+        _location.position = location;
         _location.resolved = true;
-        $cookieStore.put('location', position);
-        $rootScope.$broadcast('location.found', position);
-        $log.debug('[location] New position found', position);
+        $cookieStore.put('location', location);
+        $rootScope.$broadcast('location.found', location);
+        $log.debug('[location] New position found', location);
     }
 
     function onLocationError (error) {
@@ -35,7 +29,7 @@
 
     function asyncGetCurrentPosition () {
         var deferred = $q.defer();
-        navigator.geolocation.getCurrentPosition(function (position) {
+        _geolocation.getCurrentPosition(function (position) {
             onLocationFound(position);
             deferred.resolve(position);
         }, function (error) {
@@ -46,10 +40,11 @@
     }
 
     if (navigator.geolocation) {
+        _geolocation = navigator.geolocation;
         $log.debug('[location] Geolocation API is available');
         _location.promise = asyncGetCurrentPosition();
         $timeout(function () {
-            _watchId = navigator.geolocation.watchPosition(onLocationFound, onLocationError, {
+            _watchId = _geolocation.watchPosition(onLocationFound, onLocationError, {
                 enableHighAccuracy: true,
                 timeout: 27000,
                 maximumAge: 30000
