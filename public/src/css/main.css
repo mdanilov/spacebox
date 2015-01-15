@@ -13,7 +13,13 @@ html, body, .sp-main-content {
 }
 
 .sp-main-content {
-    max-width: 768px;
+    width: 768px;
+}
+
+@media (max-width: 767px) {
+    .sp-main-content {
+        width: 100%;
+    }
 }
 
 .blur {
@@ -31,7 +37,7 @@ p {
     padding-top: 60px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .view #spFriendsPage {
         padding-top: 60px;
         position: relative;
@@ -43,7 +49,6 @@ p {
 }
 
 .container {
-    max-width: 768px;
     height: 100%;
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -76,14 +81,6 @@ p {
 
 #spClose:hover span {
     opacity: 0.85;
-}
-
-#spMainView .row {
-    height: 100%;
-}
-
-#spMainView .col-xs-12 {
-    height: 100%;
 }
 
 textarea {

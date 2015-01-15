@@ -7,7 +7,7 @@
     height: 450px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     #people {
         width: 300px;
         height: 350px;
@@ -26,7 +26,7 @@
     transition: all .1s linear;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .person {
         width: 300px;
         height: 300px;
@@ -86,7 +86,7 @@
     background-color: black;
 }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
         #people .sp-carousel-image {
             height: 300px;
         }
@@ -99,7 +99,7 @@
     color: white;
 }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
         #people .rn-carousel-control {
             display: none;
         }
