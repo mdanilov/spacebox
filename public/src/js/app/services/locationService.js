@@ -9,9 +9,15 @@
     var _watchId = null;
 
     function onLocationFound (position) {
-        if (!angular.isObject(position.coords)) {
+        if (!angular.isObject(position.coords) ||
+            !angular.isNumber(position.coords.latitude) ||
+            !angular.isNumber(position.coords.longitude)) {
             return;
         }
+
+        window.alert(position.coords.latitude);
+        window.alert(position.coords.longitude);
+        window.alert(angular.toJson(position));
 
         _location.position = position;
         _location.resolved = true;
