@@ -8,10 +8,36 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
         },
         templateUrl: 'src/js/app/templates/chat.html',
         link: function (scope, element, attrs) {
+
+            function ScrollPosition(node) {
+                this.node = node;
+                this.previousScrollHeightMinusTop = 0;
+                this.readyFor = 'up';
+            }
+
+            ScrollPosition.prototype.restore = function () {
+                if (this.readyFor === 'up') {
+                    this.node.scrollTop = this.node.scrollHeight
+                    - this.previousScrollHeightMinusTop;
+                }
+
+                // 'down' doesn't need to be special cased unless the
+                // content was flowing upwards, which would only happen
+                // if the container is position: absolute, bottom: 0 for
+                // a Facebook messages effect
+            };
+
+            ScrollPosition.prototype.prepareFor = function (direction) {
+                this.readyFor = direction || 'up';
+                this.previousScrollHeightMinusTop = this.node.scrollHeight
+                - this.node.scrollTop;
+            };
+
             var messagesElement = angular.element('#spMessages');
             var loadingElement = angular.element('<div class="sp-messages-loading">' +
                 '<i class="fa fa-circle-o-notch fa-spin"></i></div>');
             var scrollElement = angular.element('.sp-messages-content').on('scroll', onContentScroll);
+            var scrollPosition = new ScrollPosition(scrollElement[0]);
             var textAreaElement = angular.element('#spInput');
             var sendButtonElement = angular.element('#spSendButton');
             var userSendId = UserService.getInfo().id;
@@ -51,6 +77,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                     var lastMessageElement = messagesElement.find('.sp-message').first();
                     var lastId = lastMessageElement.attr('data-sp-message-id');
                     $log.debug('[chat][scroll] Start load messages');
+                    scrollPosition.prepareFor('up');
                     MessagesService.asyncGetMessages(user_id, ConfigService.CHAT_MESSAGES_COUNT, lastId).then(function (messages) {
                         loadingElement.remove();
                         if (scope.user.mid == user_id) {
@@ -61,8 +88,10 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                                 }
                             }
                         }
+                        scrollPosition.restore();
                     }, function (error) {
                         loadingElement.remove();
+                        scrollPosition.restore();
                     });
                 }
             }
