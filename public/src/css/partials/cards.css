@@ -66,7 +66,7 @@
 }
 
 #people .sp-carousel-image {
-    height: 100%;
+    height: calc(100% - 50px);
     border-radius: 4px;
 }
 
