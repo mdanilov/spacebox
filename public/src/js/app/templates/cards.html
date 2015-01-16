@@ -12,7 +12,7 @@
             rn-carousel-index="carouselIndex"
             class="sp-carousel-image">
             <li ng-repeat="photo in user.photos">
-                <img class="sp-carousel-layer" ng-src="{{photo}}">
+                <div class="sp-carousel-layer" ng-style="{'background-image': 'url(' + '{{photo}}' + ')'}"></div>
             </li>
         </ul>
         <div class="sp-description">

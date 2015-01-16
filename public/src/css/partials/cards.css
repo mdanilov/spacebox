@@ -1,22 +1,21 @@
 /* other */
 #people {
     position: relative;
-    margin: 0 auto;
-    margin-top: 20px;
     width: 400px;
-    height: 450px;
+    height: 400px;
+    margin: 20px auto 50px auto;
 }
 
 @media (max-width: 767px) {
     #people {
         width: 300px;
-        height: 350px;
+        height: 300px;
     }
 }
 
 .person {
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     position: absolute;
     background-color: transparent;
     border-radius: 5px;
@@ -24,23 +23,6 @@
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(0, 0, 0, 0.2);
     transition: all .1s linear;
-}
-
-@media (max-width: 767px) {
-    .person {
-        width: 300px;
-        height: 300px;
-    }
-}
-
-.person:before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    content: '';
 }
 
 .person .sp-description {
@@ -55,6 +37,8 @@
     line-height: 30px;
     color: #555;
     border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 .person span strong {
@@ -74,23 +58,17 @@
 
 /* carousel */
 #people .sp-carousel-layer {
-    max-height: 100%;
-    max-width: 100%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#people .sp-carousel-image {
-    height: 400px;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
     background-color: black;
 }
 
-    @media (max-width: 767px) {
-        #people .sp-carousel-image {
-            height: 300px;
-        }
-    }
+#people .sp-carousel-image {
+    height: 100%;
+    border-radius: 4px;
+}
 
 /* carousel controls */
 #people .rn-carousel-control {
