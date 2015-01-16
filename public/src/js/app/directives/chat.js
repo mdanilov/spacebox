@@ -34,7 +34,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                             if (angular.isArray(messages) && messages.length > 0) {
                                 scope.isMessages = true;
                                 prependLoadedHistory(messages);
-                                scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                                scrollElement.scrollTop(scrollElement.prop('scrollHeight') - 1);
                             }
                             else {
                                 scope.isMessages = false;
@@ -45,7 +45,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
             });
 
             function onContentScroll () {
-                if (scope.isMessages && scrollElement.scrollTop() == 0) {
+                if (scope.isMessages && scrollElement.scrollTop() < 10) {
                     var user_id = scope.user.mid;
                     messagesElement.prepend(loadingElement);
                     var lastMessageElement = messagesElement.find('.sp-message').first();
@@ -199,6 +199,10 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                     scope.startTyping();
                 }
             };
+
+            textAreaElement.on('focus', function () {
+                scrollElement.scrollTop(scrollElement.prop('scrollHeight') - 1);
+            });
 
             scope.startTyping = function () {
                 if (!scope.isTyping && scope.message.length > 0) {
