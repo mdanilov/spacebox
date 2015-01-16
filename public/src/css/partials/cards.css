@@ -67,7 +67,7 @@
 
 #people .sp-carousel-image {
     height: calc(100% - 50px);
-    border-radius: 4px;
+    border-radius: 4px 4px 0 0;
 }
 
 /* carousel controls */
