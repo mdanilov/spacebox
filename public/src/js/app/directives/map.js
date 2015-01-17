@@ -23,7 +23,7 @@ var LocateControl = L.Control.extend({
         self._link.href = '';
         L.DomUtil.create('i', 'fa fa-location-arrow', self._link);
 
-        onLocationFound(map.scope.position);
+        onLocationFound(null, map.scope.position);
         map.scope.$on('location.found', onLocationFound);
 
         L.DomEvent.on(self._link, 'click', function (event) {
