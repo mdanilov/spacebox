@@ -32,7 +32,7 @@ var LocateControl = L.Control.extend({
             map.setView(getLatLng(self._position));
         });
 
-        function onLocationFound (position) {
+        function onLocationFound (event, position) {
             if (!angular.isObject(position)) {
                 return;
             }
