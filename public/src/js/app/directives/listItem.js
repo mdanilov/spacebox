@@ -6,19 +6,7 @@ function friendListItemDirective (MessagesService) {
         templateUrl: 'src/js/app/templates/friend-list-item.html',
         link: function (scope, element, attrs, spFriendListCtrl) {
             spFriendListCtrl.addCard(scope);
-
-            function updateShownMessage () {
-                if (scope.user) {
-                    var dialog = MessagesService.getDialog(scope.user.mid);
-                    if (dialog && dialog.hasUnread()) {
-                        scope.$evalAsync(function (scope) {
-                            scope.message = dialog.getLastUnread();
-                        });
-                    }
-                }
-            }
-
-            updateShownMessage();
+            scope.dialog = MessagesService.getDialog(scope.user.mid);
 
             scope.onClick = function () {
                 scope.user.view();
@@ -30,22 +18,17 @@ function friendListItemDirective (MessagesService) {
             };
 
             scope.openChat = function () {
-                if (scope.message) {
-                    scope.message.read_state = true;
+                if (scope.dialog && scope.dialog.hasUnread()) {
+                    var lastUnread = scope.dialog.getLastUnread();
+                    scope.dialog.markAsRead(lastUnread);
                 }
                 scope.$parent.chat();
             };
 
-            scope.hasUnreadMessage = function () {
+            scope.hasNewEvents = function () {
                 return (scope.user.isRecent()) ||
-                    (scope.message && scope.message.read_state === false);
+                    (scope.dialog && scope.dialog.hasUnread());
             };
-
-            scope.$on('dialog.update', function (event, dialogId) {
-                if (scope.user && scope.user.mid == dialogId) {
-                    updateShownMessage();
-                }
-            });
         }
     };
 }

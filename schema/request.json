@@ -20,6 +20,7 @@
                 { "$ref": "#/definitions/status.get" },
                 { "$ref": "#/definitions/account.destroy" },
                 { "$ref": "#/definitions/messages.get" },
+                { "$ref": "#/definitions/messages.getDialogs" },
                 { "$ref": "#/definitions/messages.getHistory" },
                 { "$ref": "#/definitions/messages.markAsRead" }
             ]
@@ -80,6 +81,16 @@
                     "type": "number",
                     "minimum": 0
                 }
+            },
+            "required": ["url"],
+            "additionalProperties": false
+        },
+        "messages.getDialogs": {
+            "title": "messages.getDialogs",
+            "description": "Returns a list of the currents user dialogs",
+            "type": "object",
+            "properties": {
+                "url": { "enum": [ "/messages.getDialogs", "/mobile/messages.getDialogs" ] }
             },
             "required": ["url"],
             "additionalProperties": false

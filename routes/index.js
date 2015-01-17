@@ -26,6 +26,7 @@ router.post('/status.set', validate, status.set);
 router.post('/status.get', validate, status.get);
 
 router.post('/messages.get', validate, messages.get);
+router.post('/messages.getDialogs', validate, messages.getDialogs);
 router.post('/messages.getHistory', validate, messages.getHistory);
 router.post('/messages.markAsRead', validate, messages.markAsRead);
 

@@ -1,95 +1,113 @@
-function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localStorageService, ConfigService, UserService, FriendsService) {
+function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localStorageService, ConfigService, UserService) {
 
     var MessagesService = {};
 
     function Dialog (id, messages, count) {
-        if (!angular.isArray(messages)) {
-            messages = new Array(messages);
-        }
-        this.id = id;
-        this.items = messages || [];
-        this.sync = true;
-        this.count = count || messages.length;
-        this.offset = 0;
-    }
-    Dialog.createDialog = function (userId, object) {
-        return new Dialog(object.items, object.count);
-    };
-    Dialog.prototype.addMessages = function (messages) {
-        var count = 0;
-        if (angular.isArray(messages)) {
-            if (!this.sync) {
-                this.offset += messages.length;
-            }
+        messages = messages || [];
 
-            var merged = this.items.concat(messages)
+        var self = this;
+
+        self.id = id;
+        self.messages = !angular.isArray(messages) ? [messages] : messages;
+        self.count = count || self.messages.length;
+        self.resolved = false;
+        self.last = self.messages.length > 0 ? self.messages[0] : null;
+
+        self.lastUnread = null;
+        self.unread = 0;
+        if (self.messages.length > 0) {
+            self.messages.forEach(function (message) {
+                if (message.read_state == false) {
+                    self.unread++;
+                    if (!angular.isObject(self.lastUnread) || self.lastUnread.id < message.id ) {
+                        self.lastUnread = message;
+                    }
+                }
+            });
+        }
+    }
+    Dialog.createDialog = function (object) {
+        return new Dialog(object.id, object.messages, object.count);
+    };
+    Dialog.prototype.addMessages = function (items) {
+        if (!angular.isObject(items)) {
+            return;
+        }
+
+        var count = 0;
+        var messages = !angular.isArray(items) ? [items] : items;
+        if (angular.isArray(messages)) {
+            var merged = this.messages.concat(messages)
                 .sort(function (a, b) { return a.id - b.id; });
             merged.used = {};
-            this.items = merged.filter(function (item) {
+            this.messages = merged.filter(function (item) {
                 return item.id in merged.used ? 0 : (merged.used[item.id] = 1);
             });
-            count = this.items.length - (merged.length - messages.length);
-        }
-        else {
-            if (this.items.indexOf(messages) == -1) {
-                if (!this.sync) {
-                    this.offset++;
-                }
-                this.items.push(messages);
-                count++;
+            count = this.messages.length - (merged.length - messages.length);
+
+            // update state
+            if (this.messages.length > 0) {
+                this.last = this.messages[0];
+                var self = this;
+                this.messages.forEach(function (message) {
+                    if (message.read_state === false && !message.out) {
+                        if (!angular.isObject(self.lastUnread) || self.lastUnread.id < message.id) {
+                            self.lastUnread = message;
+                        }
+                        self.unread++;
+                    }
+                });
             }
-        }
-        if (count > 0) {
-            $rootScope.$broadcast('dialog.update', this.id);
         }
         return count;
     };
-    Dialog.prototype.getOffset = function () {
-        return this.offset;
-    };
-    Dialog.prototype.last = function () {
-        if (this.items.length > 0) {
-            return this.items[0];
-        }
-    };
-    Dialog.prototype.getLastUnread = function () {
-        if (this.items && this.items.length > 0) {
-            for (var i = this.items.length - 1; i >= 0; --i) {
-                if (this.items[i].from_id != _userId &&
-                    this.items[i].read_state === false) {
-                    return this.items[i]
-                }
-            }
-        }
-    };
-    Dialog.prototype.hasUnread = function () {
-        if (this.items && this.items.length > 0) {
-            return this.items.some(function (item) {
-                return (item.from_id != _userId) && (item.read_state == false);
-            });
-        }
-    };
-    Dialog.prototype.synchronize = function (status) {
-        if (angular.isDefined(status)) {
-            if (status == false) {
-                this.offset = 0;
-            }
-            this.sync = status;
+    Dialog.prototype.resolve = function (value) {
+        if (value) {
+            this.resolved = !!value;
         }
         else {
-            return this.sync;
+            return this.resolved;
         }
     };
-    Dialog.prototype.removeOldMessages = function (count) {
-        this.items.splice(count, this.items.length - count);
+    Dialog.prototype.getLast = function () {
+        return this.last;
+    };
+    Dialog.prototype.getLastUnread = function () {
+        return this.lastUnread;
+    };
+    Dialog.prototype.hasUnread = function () {
+        return this.unread > 0;
+    };
+    Dialog.prototype.markAsRead = function (message) {
+        if (!angular.isObject(message)) {
+            return;
+        }
+
+        var pos = this.messages.indexOf(message);
+        if (pos != -1) {
+            this.messages[pos].read_state = true;
+            if (this.lastUnread && message.id == this.lastUnread.id) {
+                // update last unread message
+                for (var i = 0; i < this.messages.length; ++i) {
+                    if (this.messages[i].read_state === false && !message.out) {
+                        this.lastUnread = this.messages[i];
+                        break;
+                    }
+                }
+            }
+            this.unread--;
+        }
+    };
+    Dialog.prototype.prepareForSave = function (count) {
+        this.messages.splice(count, this.messages.length - count);
     };
     Dialog.prototype.getMessages = function (count, startId) {
         var messages = angular.isUndefined(startId) ?
-            this.items : this.items.filter(function (message) { return message.id < startId; });
+            this.messages : this.messages.filter(function (message) { return message.id < startId; });
         return messages.slice(-count);
     };
     Dialog.prototype.getPostponedMessages = function () {
-        return this.items.filter(function (message) {
+        return this.messages.filter(function (message) {
             return angular.isUndefined(message.id);
         });
     };
@@ -97,58 +115,48 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
     var storedDialogs = localStorageService.get('messages.dialogs');
     for (var key in storedDialogs) {
         if (storedDialogs.hasOwnProperty(key)) {
-            storedDialogs[key] = Dialog.createDialog(key, storedDialogs[key]);
+            storedDialogs[key] = Dialog.createDialog(storedDialogs[key]);
         }
     }
     var _dialogs = {};
-
     var _userId = UserService.getInfo().id;
-    var _lastMessageId = null;
-    var _init = false;
     var MESSAGES_COUNT = 20;
-    var _outMessagesCounter = 0;
+    var clientIdCounter = 0;
     var readMessages = localStorageService.get('messages.unread') || [];
 
-    function markAsRead () {
-        if (readMessages && readMessages.length > 0) {
-            readMessages = readMessages.reduce(function (unique, id) {
+    function markMessagesAsRead (messages) {
+        function asyncMarkAsRead (messages) {
+            // remove duplicates messages
+            messages = messages.reduce(function (unique, id) {
                 if (unique.indexOf(id) < 0) {
                     unique.push(id);
                 }
                 return unique;
             }, []);
             return $http.post(ConfigService.SERVER_URL + '/messages.markAsRead',
-                {message_ids: readMessages, start_message_id: undefined}).then(function () {
-                readMessages = [];
-                localStorageService.remove('messages.unread');
-            }, function (response) {
-                localStorageService.set('messages.unread', readMessages);
-                return $q.reject(new HttpError(response.status, 'messages.markAsRead request failed'));
-            });
+                {message_ids: messages, start_message_id: undefined}).then(function () {
+                    localStorageService.remove('messages.unread');
+                    messages = [];
+                }, function (response) {
+                    localStorageService.set('messages.unread', messages);
+                    return $q.reject(new HttpError(response.status, 'messages.markAsRead request failed'));
+                });
         }
+
+        return $q.when((angular.isArray(messages) && messages.length > 0) ?
+            asyncMarkAsRead(messages) : true);
     }
 
     function saveDialogs () {
         angular.forEach(_dialogs, function (dialog) {
-            dialog.removeOldMessages(MESSAGES_COUNT);
+            dialog.prepareForSave(MESSAGES_COUNT);
         });
         localStorageService.set('messages.dialogs', _dialogs);
-        markAsRead();
+        markMessagesAsRead();
     }
 
     angular.element($window).on('unload', saveDialogs);
     angular.element($window).on('pagehide', saveDialogs);
-
-    function pushMessage (message) {
-        var userId = message.out ? message.user_id : message.from_id;
-        if (angular.isUndefined(_dialogs[userId])) {
-            _dialogs[userId] = new Dialog(userId, message);
-            $rootScope.$broadcast('dialog.update', userId);
-        }
-        else {
-            _dialogs[userId].addMessages(message);
-        }
-    }
 
     function sendPostponedMessages () {
         $log.debug('[messages] Send postponed messages');
@@ -175,17 +183,9 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
                 var messages = response.data.items.reverse();
                 $log.debug('[messages] Got new messages', messages);
                 messages.forEach(function (message) {
-                    if (_dialogs[message.from_id]) {
-                        _dialogs[message.from_id].addMessages(message);
-                    }
-                    else {
-                        _dialogs[message.from_id] = new Dialog(message.from_id, message);
-                        $rootScope.$broadcast('dialog.update', message.from_id);
-                    }
+                    createDialog(message.from_id, message);
                 });
-
                 $rootScope.$broadcast('messages.new', messages);
-
                 if (lastMessageId && messages.length == count) {
                     $timeout(angular.bind(this, updateDialogs, offset + count, lastMessageId));
                 }
@@ -201,7 +201,8 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         message.out = 0;
         message.read_state = false;
         $log.debug('[messages][socket] New incoming message', message);
-        pushMessage(message);
+        var userId = message.out ? message.user_id : message.from_id;
+        createDialog(userId, message);
         $rootScope.$broadcast('messages.new', message);
     }
     function onDisconnect () {
@@ -210,7 +211,7 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         socket.removeListener('disconnect', onDisconnect);
         socket.on('connect', onConnect);
         angular.forEach(_dialogs, function (dialog) {
-            dialog.synchronize(false);
+            dialog.resolve(false);
         });
     }
     function onConnect () {
@@ -220,88 +221,92 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         socket.on('incoming_message', onIncomingMessage);
         socket.emit('join', _userId);
 
-        markAsRead();
-
-        if (_init && _dialogs.length > 0) {
+        markMessagesAsRead(readMessages).finally(function () {
+            initDialogs();
             sendPostponedMessages();
-            var lastMessageId = _dialogs.reduce(function (last, dialog) {
-                var message = dialog.last();
-                if (message && (message.id - last > 0)) {
-                    last = message.id;
-                }
-                return last;
-            }, 0);
-            updateDialogs(0, parseInt(lastMessageId));
+        });
+    }
+
+    function createDialog (userId, messages) {
+        var dialog = _dialogs[userId];
+        if (angular.isUndefined(dialog)) {
+            dialog = new Dialog(userId, messages);
+            _dialogs[userId] = dialog;
         }
-        else {
-            $log.debug('[messages] Initialize friends dialogs');
-            FriendsService.getFriends(function (friends) {
-                angular.forEach(friends, function (friend) {
-                    asyncGetHistory(friend.mid, MESSAGES_COUNT);
+        else if (!angular.isUndefined(messages)) {
+            dialog.addMessages(messages);
+        }
+        return dialog;
+    }
+
+    function initDialogs () {
+        return $http.post(ConfigService.SERVER_URL + '/messages.getDialogs').then(function (response) {
+            var res = response.data;
+            if (res.count > 0) {
+                res.items.forEach(function (item) {
+                    var message = item.message;
+                    createDialog(message.from_id, message);
                 });
-            });
-        }
+            }
+            $log.debug('[messages] Initialize dialogs', _dialogs);
+            $rootScope.$broadcast('dialog.update');
+        }, function (response) {
+            return $q.reject(new HttpError(response.status, 'messages.getDialogs request failed'));
+        });
     }
 
     function asyncGetHistory (userId, count, startId) {
-        var dialog = _dialogs[userId];
-        var offset = 0;
-        if (angular.isDefined(dialog)) {
-            offset = dialog.getOffset();
-            var lastMessage = dialog.last();
-            if (lastMessage && dialog.synchronize()) {
-                var startMessageId = parseInt(lastMessage.id);
-            }
-        }
-
-        $log.debug('[messages] Get dialog history user_id=' + userId +
-            ', offset=' + offset + ', start_message_id=' + startMessageId);
-
+        var startMessageId = startId ? parseInt(startId) : startId;
         return $http.post(ConfigService.SERVER_URL + '/messages.getHistory',
-            {user_id: userId, offset: offset, start_message_id: startMessageId}
-        ).then(function (response) {
-                var messages = response.data.items.reverse();
+            {user_id: userId, offset: 0, start_message_id: startMessageId}).then(function (response) {
+            var messages = [];
+            var res = response.data;
+            if (res.count > 0) {
+                messages = res.items.reverse();
                 $log.debug('[messages] Got history messages', messages);
-                if (angular.isUndefined(_dialogs[userId])) {
-                    _dialogs[userId] = new Dialog(userId, messages, response.data.count);
-                    $rootScope.$broadcast('dialog.update', userId);
-                }
-                else {
-                    var added = _dialogs[userId].addMessages(messages);
-                    if (added < messages.length) {
-                        _dialogs[userId].synchronize(true);
-                    }
-                }
-                return _dialogs[userId].getMessages(count, startId);
-            },
-            function (response) {
-                return $q.reject(new HttpError(response.status, 'messages.getHistory request failed'));
-            });
+            }
+            var dialog = createDialog(userId, messages);
+            if (angular.isUndefined(startId)) {
+                dialog.resolve(true);
+            }
+            messages = dialog.getMessages(count, startId);
+            return messages;
+        }, function (response) {
+            return $q.reject(new HttpError(response.status, 'messages.getHistory request failed'));
+        });
     }
 
-    MessagesService.markAsRead = function (messages) {
-        function markAsRead (message) {
-            if (!message.read_state) {
-                message.read_state = true;
-                readMessages.push(parseInt(message.id));
-            }
+    MessagesService.markAsRead = function (unread) {
+        if (!angular.isObject(unread)) {
+            return;
         }
+
+        var messages = !angular.isArray(unread) ? [unread] : unread;
         if (angular.isArray(messages) && messages.length > 0) {
             messages.forEach(function (message) {
-                markAsRead(message);
+                var userId = message.out ? message.user_id : message.from_id;
+                _dialogs[userId].markAsRead(message);
+                readMessages.push(parseInt(message.id));
             });
-        }
-        else if (angular.isObject(messages)) {
-            markAsRead(messages);
         }
     };
 
     MessagesService.getDialog = function (userId) {
-        return _dialogs[userId];
+        return createDialog(userId);
+    };
+
+    MessagesService.unreadMessages = function () {
+        var unread = 0;
+        for (var key in _dialogs) {
+            if (_dialogs.hasOwnProperty(key) && _dialogs[key].hasUnread()) {
+                unread += _dialogs[key].unread;
+            }
+        }
+        return unread;
     };
 
     MessagesService.sendMessage = function (message) {
-        message.client_id = _outMessagesCounter++;
+        message.client_id = clientIdCounter++;
         message.read_state = false;
         $timeout(function () {
             socket.emit('message', message, function (id) {
@@ -312,25 +317,20 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
                 }
             });
         });
-        pushMessage(message);
+        var userId = message.out ? message.user_id : message.from_id;
+        createDialog(userId, message);
     };
 
     MessagesService.asyncGetMessages = function (userId, count, startId) {
-        if (angular.isDefined(_dialogs[userId])) {
-            var messages = _dialogs[userId].getMessages(count, startId);
-            if (messages.length < count) {
-                return asyncGetHistory(userId);
-            }
-            else {
-                $log.debug('[messages] Return stored messages', messages);
-                var deferred = $q.defer();
-                deferred.resolve(messages);
-                return deferred.promise;
+        var isAsync = true;
+        var dialog = _dialogs[userId];
+        if (dialog && dialog.resolve()) {
+            var messages = dialog.getMessages(count, startId);
+            if (messages.length == count) {
+                isAsync = false;
             }
         }
-        else {
-            return asyncGetHistory(userId);
-        }
+        return $q.when(isAsync ? asyncGetHistory(userId, count, startId) : messages);
     };
 
     return MessagesService;

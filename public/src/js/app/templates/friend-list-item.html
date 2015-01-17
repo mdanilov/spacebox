@@ -3,18 +3,18 @@
         <table><tr>
             <td class="sp-avatar">
                 <img class="media-object" ng-src="{{user.info.photo_50}}">
-                <div class="sp-avatar-indicator" ng-show="hasUnreadMessage()"></div>
+                <div class="sp-avatar-indicator" ng-show="hasNewEvents()"></div>
             </td>
             <td class="sp-user-info">
                 <div>{{user.info.first_name}}{{user.info.bdate|age:true}}</div>
-                <span ng-show="!hasUnreadMessage()">
+                <span ng-show="!dialog.hasUnread()">
                     <span ng-show="user.isOnline()" class="sp-online">
                         <i class="fa fa-circle"></i>Онлайн</span>
                     <span ng-show="!user.isOnline() && user.hasLocation()">
                         {{user.info.sex == 1 ? 'Была ' : 'Был ' }}
                         <span am-time-ago="user.location.timestamp"></span></span>
                 </span>
-                <span ng-show="hasUnreadMessage()">{{message.body}}</span>
+                <span ng-show="dialog.hasUnread()">{{dialog.getLastUnread().body}}</span>
             </td>
             <td class="sp-icons">
                 <span ng-if="selected">

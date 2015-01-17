@@ -4,7 +4,7 @@ function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
         transclude: true,
         scope: {
             info: '=',
-            indicator: '='
+            events: '='
         },
         templateUrl: 'src/js/app/templates/navbar.html',
         link: function (scope, element, attrs) {
@@ -17,21 +17,7 @@ function navbarDirective ($log, $rootScope, $location, $modal, VkService) {
                 }
                 active = element.find("a[href='#" + $location.path() + "']").parent();
                 active.addClass('sp-active');
-
-                if ($location.path() == '/friends') {
-                    scope.hasNewEvents = false;
-                }
             });
-
-            scope.hasNewEvents = false;
-            function onEvent () {
-                if ($location.path() != '/friends') {
-                    scope.$evalAsync(function (scope) {
-                        scope.hasNewEvents = true;
-                    });
-                }
-            }
-            scope.$on('messages.new', onEvent);
 
             scope.text = {
                 title: 'Вы действительно хотите выйти?',
