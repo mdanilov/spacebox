@@ -74,6 +74,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
 
             function onContentScroll () {
                 if (scope.isMessages && scrollElement.scrollTop() < 10) {
+                    scrollElement.off();
                     var user_id = scope.user.mid;
                     messagesElement.prepend(loadingElement);
                     var lastMessageElement = messagesElement.find('.sp-message').first();
@@ -90,8 +91,10 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                                 }
                             }
                         }
+                        scrollElement.on('scroll', onContentScroll);
                         scrollPosition.restore();
                     }, function (error) {
+                        scrollElement.on('scroll', onContentScroll);
                         loadingElement.remove();
                         scrollPosition.restore();
                     });

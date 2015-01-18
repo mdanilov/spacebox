@@ -18,7 +18,7 @@ function tabsDirective ($window, $animate) {
             var tabElement = element.find('.sp-tab')[0];
 
             function openTab (value) {
-                if (!scope.tabs.hasOwnProperty(value) || scope.active == value) {
+                if (!scope.tabs.hasOwnProperty(value)) {
                     return;
                 }
 
