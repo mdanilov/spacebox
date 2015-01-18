@@ -80,6 +80,11 @@ gulp.task('clean', function () {
 
 gulp.task('build', ['templates', 'css', 'scripts', 'manifest']);
 
+gulp.task('watch', ['build'], function () {
+    gulp.watch('src/js/**/*.js', ['scripts', 'manifest']);
+    gulp.watch('src/css/**/*.css', ['css', 'manifest']);
+});
+
 gulp.task('templates', function () {
     var options = {
         settings: [
