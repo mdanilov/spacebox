@@ -72,8 +72,10 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                 }
             });
 
+            var previousScroll = 0;
             function onContentScroll () {
-                if (scope.isMessages && scrollElement.scrollTop() < 10) {
+                var currentScroll = scrollElement.scrollTop();
+                if (scope.isMessages && currentScroll < 20 && (previousScroll - currentScroll) > 10) {
                     scrollElement.off();
                     var user_id = scope.user.mid;
                     messagesElement.prepend(loadingElement);
@@ -91,14 +93,15 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                                 }
                             }
                         }
-                        scrollElement.on('scroll', onContentScroll);
                         scrollPosition.restore();
+                        scrollElement.on('scroll', onContentScroll);
                     }, function (error) {
+                        scrollPosition.restore();
                         scrollElement.on('scroll', onContentScroll);
                         loadingElement.remove();
-                        scrollPosition.restore();
                     });
                 }
+                previousScroll = currentScroll;
             }
 
             function prependLoadedHistory (messages) {
