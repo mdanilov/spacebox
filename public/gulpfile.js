@@ -9,7 +9,7 @@ var manifest = require('gulp-manifest');
 var args = require('yargs').argv;
 
 var isProduction = (process.env.NODE_ENV == 'production') || args.production;
-var VERSION = '0.0.4 Alpha';
+var VERSION = '0.0.5 Alpha';
 var libraries = {
     development: [
         'lib/bootstrap/dist/css/bootstrap.min.css',

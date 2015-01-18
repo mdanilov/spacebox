@@ -3,15 +3,15 @@
         <ul class="nav navbar-nav navbar-left">
             <li><a href="#/"><img class="navbar-brand" ng-src="src/img/logo.png"></a></li>
             <li class="hidden-xs">
-                <a href="#/friends" class="sp-nav-button">Друзья</a>
-                <div class="sp-friends-indicator" ng-show="events"></div>
+                <a href="#/friends" class="sp-nav-button">
+                    Друзья<span class="badge" ng-show="events > 0">{{events}}</span>
+                </a>
             </li>
             <li class="hidden-xs"><a href="#/properties" class="sp-nav-button">Настройки</a></li>
             <li class="visible-xs-block">
                 <a href="#/friends" class="sp-nav-button">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-users"></i><span class="badge" ng-show="events > 0">{{events}}</span>
                 </a>
-                <div class="sp-friends-indicator" ng-show="events"></div>
             </li>
             <li class="visible-xs-block">
                 <a href="#/properties" class="sp-nav-button">

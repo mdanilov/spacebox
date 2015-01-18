@@ -102,6 +102,12 @@ ul.navbar-right, ul.navbar-right li {
 	margin-right: 10px;
 }
 
+#spNavbar .badge {
+	background-color: #428bca;
+	position: absolute;
+	bottom: 13px;
+}
+
 #spNavbar .sp-active {
 	border-bottom: 2px solid;
 	border-color: #4387fd;

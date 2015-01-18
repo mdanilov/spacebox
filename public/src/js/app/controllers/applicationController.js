@@ -5,23 +5,14 @@ function ApplicationController ($scope, $log, UserService, ConfigService, Friend
     self.user = {};
     self.isNavbarHidden = false;
     self.isMatched = false;
-    self.recentFriends = FriendsService.hasRecent();
-    self.unreadMessages = MessagesService.unreadMessages() > 0;
+    self.events = checkEvents();
 
-    $scope.$watch(FriendsService.hasRecent, function (value) {
-        self.recentFriends = value;
-        self.events = calculateEvents();
+    $scope.$watch(checkEvents, function (value) {
+        self.events = value
     });
 
-    $scope.$watch(MessagesService.unreadMessages, function (value) {
-        self.unreadMessages = value > 0;
-        self.events = calculateEvents();
-    });
-
-    self.events = calculateEvents();
-
-    function calculateEvents () {
-        return self.recentFriends || self.unreadMessages;
+    function checkEvents () {
+        return FriendsService.recent() + MessagesService.unreadMessages();
     }
 
     $scope.$watch(function () { return ConfigService._login }, function (value) {

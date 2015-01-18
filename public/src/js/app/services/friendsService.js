@@ -143,6 +143,10 @@ function FriendsService ($q, $resource, $window, $log, $rootScope, $interval, lo
         return _counter.recent > 0;
     };
 
+    FriendsService.recent = function () {
+        return _counter.recent;
+    };
+
     FriendsService.getFriends = function (callback) {
         queryResources().then(function () {
             if (angular.isFunction(callback)) {

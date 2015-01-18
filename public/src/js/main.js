@@ -36,6 +36,18 @@
         return config;
     }
 
+    // Application Cache
+    var cache = window.applicationCache;
+    if (cache) {
+        cache.addEventListener('updateready', function (event) {
+            var confirm = window.confirm('Доступна новая версия приложения.' +
+                ' Чтобы изменения вступили в силу необходимо перезагрузить страницу.');
+            if (confirm) {
+                location.reload();
+            }
+        });
+    }
+
     function bootstrapAngular() {
         if (Modernizr.touch) {
             Modernizr.addTest('standalone', window.navigator.standalone);
