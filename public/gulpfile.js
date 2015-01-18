@@ -133,7 +133,7 @@ gulp.task('css', function () {
 });
 
 gulp.task('scripts', function () {
-    return gulp.src([ '/src/js/app/app.js', '/src/js/app/**/*.js' ])
+    return gulp.src([ 'src/js/app/app.js', 'src/js/app/**/*.js' ])
         .pipe(concat('spacebox.js'))
         .pipe(gulp.dest('dist'))
         .pipe(rename('spacebox.min.js'))
