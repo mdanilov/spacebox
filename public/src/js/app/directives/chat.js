@@ -1,4 +1,4 @@
-function chatDirective ($log, $animate, UserService, ConfigService, MessagesService) {
+function chatDirective ($log, $timeout, $animate, UserService, ConfigService, MessagesService) {
     return {
         restrict: 'E',
         transclude: true,
@@ -94,11 +94,15 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                             }
                         }
                         scrollPosition.restore();
-                        scrollElement.on('scroll', onContentScroll);
+                        $timeout(function () {
+                            scrollElement.on('scroll', onContentScroll);
+                        }, 1000);
                     }, function (error) {
-                        scrollPosition.restore();
-                        scrollElement.on('scroll', onContentScroll);
                         loadingElement.remove();
+                        scrollPosition.restore();
+                        $timeout(function () {
+                            scrollElement.on('scroll', onContentScroll);
+                        }, 1000);
                     });
                 }
                 previousScroll = currentScroll;
@@ -256,4 +260,4 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
 }
 
 angular.module('spacebox').directive('spChat',
-    ['$log', '$animate', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);
+    ['$log', '$timeout', '$animate', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);
