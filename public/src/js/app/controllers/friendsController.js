@@ -1,4 +1,4 @@
-function FriendsViewController ($scope, $log, $location, FriendsService) {
+function FriendsViewController ($window, $scope, $log, $location, FriendsService) {
     $log.debug('Initialize friends view...');
 
     var self = this;
@@ -30,6 +30,12 @@ function FriendsViewController ($scope, $log, $location, FriendsService) {
         self.isChatOpen = true;
     });
 
+    self.openProfile = function () {
+        if (self.current) {
+            $window.open('https://www.vk.com/id' + self.current.mid);
+        }
+    };
+
     self.openChat = function () {
         self.isChatOpen = true;
     };
@@ -40,4 +46,4 @@ function FriendsViewController ($scope, $log, $location, FriendsService) {
 }
 
 angular.module('spacebox').controller('FriendsViewController',
-    ['$scope', '$log', '$location', 'FriendsService', FriendsViewController]);
+    ['$window', '$scope', '$log', '$location', 'FriendsService', FriendsViewController]);

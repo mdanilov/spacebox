@@ -1,8 +1,10 @@
 <div class="sp-chat-header">
-    <a href="" class="sp-chat-control left" ng-click="close()"><i class="fa fa-arrow-left"></i></a>
+    <a href="" class="sp-chat-control left" ng-click="leftClick()">
+        <i class="fa fa-arrow-left"></i></a>
     <img ng-src="{{user.info.photo_50}}">
     <span>{{user.info.first_name}}</span>
-    <a href="" class="sp-chat-control right"><i class="fa fa-ellipsis-h"></i></a>
+    <a href="" class="sp-chat-control right" ng-click="rightClick()">
+        <i class="fa fa-vk"></i></a>
 </div>
 <div class="sp-chat-content">
     <div class="sp-messages-content scroll-y">
@@ -11,7 +13,7 @@
                 <h5>У вас появился новый друг - <span>{{user.info.first_name}}</span></h5>
                 <h4 am-time-ago="user.date"></h4>
             </div>
-            <img ng-src="{{user.info.photo_100}}">
+            <img ng-src="{{user.info.photo_100}}" ng-click="imageClick()">
         </div>
         <div id="spMessages" class="sp-messages"></div>
     </div>

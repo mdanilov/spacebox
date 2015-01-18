@@ -4,7 +4,9 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
         transclude: true,
         scope: {
             user: '=',
-            close: '&onClose'
+            leftClick: '&onLeftClick',
+            rightClick: '&onRightClick',
+            imageClick: '&onImageClick'
         },
         templateUrl: 'src/js/app/templates/chat.html',
         link: function (scope, element, attrs) {
