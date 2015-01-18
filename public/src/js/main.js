@@ -132,8 +132,8 @@
         // load application scripts
         yepnope({
             test: config.DEVELOPMENT,
-            yep: [ 'src/js/spacebox.js', 'src/css/spacebox.css' ],
-            nope: [ 'src/js/spacebox.min.js', 'src/css/spacebox.min.css' ],
+            yep: [ 'dist/spacebox.js', 'dist/spacebox.css' ],
+            nope: [ 'dist/spacebox.min.js', 'dist/spacebox.min.css' ],
             complete: bootstrapAngular
         });
     }
