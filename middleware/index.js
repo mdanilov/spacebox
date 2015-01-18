@@ -17,7 +17,7 @@
     var trackLocation = require('./trackLocation');
 
     /* Favicon */
-    app.use('/', favicon(path.join(__dirname, '../public/src/img/favicon.png')));
+    app.use('/', favicon(path.join(__dirname, '../public/favicon.png')));
 
     /* Bundled middleware */
     app.use('/', bodyParser.json());
