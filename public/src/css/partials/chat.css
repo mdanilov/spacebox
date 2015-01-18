@@ -7,7 +7,7 @@
     z-index: 1001;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     #spChat {
         position: fixed;
     }
@@ -23,7 +23,7 @@
     z-index: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .sp-chat-header {
         position: fixed;
     }
@@ -226,6 +226,7 @@
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .sp-empty-content span, h4 {
@@ -237,7 +238,7 @@
     font-size: 2em;
     line-height: 1;
     margin: 10px 15px;
-    color: #4683ea;
+    color: grey;
 }
 
 .sp-message-appear {

@@ -4,7 +4,7 @@
     line-height: 26px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     #map-canvas .leaflet-control-locate a {
         text-align: center;
         font-size: 32px;

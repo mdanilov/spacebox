@@ -1,17 +1,25 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
 
+@media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+}
+
 html, body, .sp-main-content {
     font: 16px "Open Sans";
     height: 100%;
     overflow-y: hidden;
 }
 
-body {
-    -webkit-text-size-adjust: 100%;
+.sp-main-content {
+    width: 768px;
 }
 
-.sp-main-content {
-    max-width: 768px;
+@media (max-width: 767px) {
+    .sp-main-content {
+        width: 100%;
+    }
 }
 
 .blur {
@@ -29,7 +37,7 @@ p {
     padding-top: 60px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .view #spFriendsPage {
         padding-top: 60px;
         position: relative;
@@ -41,7 +49,6 @@ p {
 }
 
 .container {
-    max-width: 768px;
     height: 100%;
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -74,14 +81,6 @@ p {
 
 #spClose:hover span {
     opacity: 0.85;
-}
-
-#spMainView .row {
-    height: 100%;
-}
-
-#spMainView .col-xs-12 {
-    height: 100%;
 }
 
 textarea {

@@ -1,5 +1,5 @@
 <sp-tabs id="spNavPills" class="visible-xs-block" ng-hide="friends.isChatOpen" active="friends.tab"></sp-tabs>
-<div id="spFriendsPage" class="container fill-height">
+<div id="spFriendsPage" class="fill-height">
     <div id="spRowContainer" class="row fill-height">
         <div id="spFriendsList" class="col-xs-12 col-sm-5 fill-height"
              ng-class="{'sp-active': friends.tab == 'friends'}" ng-switch on="friends.state">
@@ -20,7 +20,11 @@
         </div>
         <div id="spMapContainer" class="col-xs-12 col-sm-7 fill-height" ng-class="{'sp-active': friends.tab == 'map'}">
             <div id="spChat" ng-if="friends.isChatOpen">
-                <sp-chat user="friends.current" on-close="friends.closeChat()"></sp-chat>
+                <sp-chat user="friends.current"
+                         on-right-click="friends.openProfile()"
+                         on-image-click="friends.openProfile()"
+                         on-left-click="friends.closeChat()">
+                </sp-chat>
             </div>
             <sp-map users="friends.friends" selected="friends.current"></sp-map>
         </div>

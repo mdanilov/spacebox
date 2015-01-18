@@ -1,4 +1,4 @@
-function LocatorService ($log, $q, VkService, LocationService, ConfigService) {
+function LocatorService ($http, $log, $q, VkService, LocationService, ConfigService) {
 
     var LocatorService = {};
 
@@ -40,10 +40,28 @@ function LocatorService ($log, $q, VkService, LocationService, ConfigService) {
         });
     }
 
+    function asyncGetUserPositions (options) {
+        return LocationService.getCurrentPosition().then(function (position) {
+            var params = {
+                latitude: position.latitude,
+                longitude: position.longitude,
+                options: options
+            };
+            return $http.post(ConfigService.SERVER_URL + '/users.get', params).then(
+                function __success(response) {
+                    $log.debug('Get near users ', response.data);
+                    return response.data;
+                },
+                function __error(response) {
+                    return $q.reject(new HttpError(response.status, 'get users request failed'));
+                });
+        });
+    }
+
     LocatorService.asyncSearch = function () {
         var options = ConfigService.getSearchOptions();
         $log.debug('Search options ', options);
-        return LocationService.asyncGetUserPositions(options).then(function (users) {
+        return asyncGetUserPositions(options).then(function (users) {
             if (angular.isArray(users) && users.length > 0) {
                 $log.debug('Near users ', users);
                 return asyncInvalidateUsers(users);
@@ -98,4 +116,4 @@ function LocatorService ($log, $q, VkService, LocationService, ConfigService) {
 }
 
 angular.module('spacebox').factory('LocatorService',
-    ['$log', '$q', 'VkService', 'LocationService', 'ConfigService', LocatorService]);
+    ['$http', '$log', '$q', 'VkService', 'LocationService', 'ConfigService', LocatorService]);

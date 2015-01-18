@@ -36,6 +36,18 @@
         return config;
     }
 
+    // Application Cache
+    var cache = window.applicationCache;
+    if (cache) {
+        cache.addEventListener('updateready', function (event) {
+            var confirm = window.confirm('Доступна новая версия приложения.' +
+                ' Чтобы изменения вступили в силу необходимо перезагрузить страницу.');
+            if (confirm) {
+                location.reload();
+            }
+        });
+    }
+
     function bootstrapAngular() {
         if (Modernizr.touch) {
             Modernizr.addTest('standalone', window.navigator.standalone);
@@ -130,61 +142,14 @@
             test: config.DEVELOPMENT,
             yep: libraries.development,
             nope: libraries.production,
-            complete: loadApplication
+            complete: function () {
+                yepnope({
+                    test: config.DEVELOPMENT,
+                    yep: [ 'dist/spacebox.js', 'dist/spacebox.css' ],
+                    nope: [ 'dist/spacebox.min.js', 'dist/spacebox.min.css' ],
+                    complete: bootstrapAngular
+                });
+            }
         });
-
-        function loadApplication (url, result, key) {
-            if (config.DEVELOPMENT) {
-                // load common scripts
-                yepnope({
-                    load: [
-                        'dist/spacebox.css',
-                        'src/js/app/app.js',
-                        /* services */
-                        'src/js/app/services/vkService.js',
-                        'src/js/app/services/locationService.js',
-                        'src/js/app/services/configService.js',
-                        'src/js/app/services/likesService.js',
-                        'src/js/app/services/friendsService.js',
-                        'src/js/app/services/errorHandler.js',
-                        'src/js/app/services/locatorService.js',
-                        'src/js/app/services/accountService.js',
-                        'src/js/app/services/messagesService.js',
-                        'src/js/app/services/userService.js',
-                        'src/js/app/services/statusService.js',
-                        /* controllers */
-                        'src/js/app/controllers/applicationController.js',
-                        'src/js/app/controllers/propertiesController.js',
-                        'src/js/app/controllers/loginController.js',
-                        'src/js/app/controllers/errorController.js',
-                        'src/js/app/controllers/usersController.js',
-                        'src/js/app/controllers/friendsController.js',
-                        'src/js/app/controllers/modals/dialogController.js',
-                        'src/js/app/controllers/modals/matchController.js',
-                        /* filters */
-                        'src/js/app/filters/distanceFilter.js',
-                        'src/js/app/filters/ageFilter.js',
-                        /* directives */
-                        'src/js/app/directives/navbar.js',
-                        'src/js/app/directives/chat.js',
-                        'src/js/app/directives/list.js',
-                        'src/js/app/directives/listItem.js',
-                        'src/js/app/directives/map.js',
-                        'src/js/app/directives/widgets/card.js',
-                        'src/js/app/directives/widgets/radar.js',
-                        'src/js/app/directives/widgets/album.js',
-                        'src/js/app/directives/widgets/status.js',
-                        'src/js/app/directives/widgets/tabs.js'
-                    ],
-                    complete: bootstrapAngular
-                });
-            }
-            else {
-                yepnope({
-                    load: [ 'dist/spacebox.min.js', 'dist/spacebox.min.css' ],
-                    complete: bootstrapAngular
-                });
-            }
-        }
     }
 })();

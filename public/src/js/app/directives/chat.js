@@ -1,17 +1,45 @@
-function chatDirective ($log, $animate, UserService, ConfigService, MessagesService) {
+function chatDirective ($log, $timeout, $animate, UserService, ConfigService, MessagesService) {
     return {
         restrict: 'E',
         transclude: true,
         scope: {
             user: '=',
-            close: '&onClose'
+            leftClick: '&onLeftClick',
+            rightClick: '&onRightClick',
+            imageClick: '&onImageClick'
         },
         templateUrl: 'src/js/app/templates/chat.html',
         link: function (scope, element, attrs) {
+
+            function ScrollPosition(node) {
+                this.node = node;
+                this.previousScrollHeightMinusTop = 0;
+                this.readyFor = 'up';
+            }
+
+            ScrollPosition.prototype.restore = function () {
+                if (this.readyFor === 'up') {
+                    this.node.scrollTop = this.node.scrollHeight
+                    - this.previousScrollHeightMinusTop;
+                }
+
+                // 'down' doesn't need to be special cased unless the
+                // content was flowing upwards, which would only happen
+                // if the container is position: absolute, bottom: 0 for
+                // a Facebook messages effect
+            };
+
+            ScrollPosition.prototype.prepareFor = function (direction) {
+                this.readyFor = direction || 'up';
+                this.previousScrollHeightMinusTop = this.node.scrollHeight
+                - this.node.scrollTop;
+            };
+
             var messagesElement = angular.element('#spMessages');
             var loadingElement = angular.element('<div class="sp-messages-loading">' +
                 '<i class="fa fa-circle-o-notch fa-spin"></i></div>');
             var scrollElement = angular.element('.sp-messages-content').on('scroll', onContentScroll);
+            var scrollPosition = new ScrollPosition(scrollElement[0]);
             var textAreaElement = angular.element('#spInput');
             var sendButtonElement = angular.element('#spSendButton');
             var userSendId = UserService.getInfo().id;
@@ -34,7 +62,7 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                             if (angular.isArray(messages) && messages.length > 0) {
                                 scope.isMessages = true;
                                 prependLoadedHistory(messages);
-                                scrollElement.scrollTop(scrollElement.prop('scrollHeight'));
+                                scrollElement.scrollTop(scrollElement.prop('scrollHeight') - 1);
                             }
                             else {
                                 scope.isMessages = false;
@@ -44,13 +72,17 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                 }
             });
 
+            var previousScroll = 0;
             function onContentScroll () {
-                if (scope.isMessages && scrollElement.scrollTop() == 0) {
+                var currentScroll = scrollElement.scrollTop();
+                if (scope.isMessages && currentScroll < 20 && (previousScroll - currentScroll) > 10) {
+                    scrollElement.off();
                     var user_id = scope.user.mid;
                     messagesElement.prepend(loadingElement);
                     var lastMessageElement = messagesElement.find('.sp-message').first();
                     var lastId = lastMessageElement.attr('data-sp-message-id');
                     $log.debug('[chat][scroll] Start load messages');
+                    scrollPosition.prepareFor('up');
                     MessagesService.asyncGetMessages(user_id, ConfigService.CHAT_MESSAGES_COUNT, lastId).then(function (messages) {
                         loadingElement.remove();
                         if (scope.user.mid == user_id) {
@@ -61,10 +93,19 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                                 }
                             }
                         }
+                        scrollPosition.restore();
+                        $timeout(function () {
+                            scrollElement.on('scroll', onContentScroll);
+                        }, 1000);
                     }, function (error) {
                         loadingElement.remove();
+                        scrollPosition.restore();
+                        $timeout(function () {
+                            scrollElement.on('scroll', onContentScroll);
+                        }, 1000);
                     });
                 }
+                previousScroll = currentScroll;
             }
 
             function prependLoadedHistory (messages) {
@@ -200,6 +241,10 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
                 }
             };
 
+            textAreaElement.on('focus', function () {
+                scrollElement.scrollTop(scrollElement.prop('scrollHeight') - 1);
+            });
+
             scope.startTyping = function () {
                 if (!scope.isTyping && scope.message.length > 0) {
                     sendButtonElement.addClass('sp-active');
@@ -215,4 +260,4 @@ function chatDirective ($log, $animate, UserService, ConfigService, MessagesServ
 }
 
 angular.module('spacebox').directive('spChat',
-    ['$log', '$animate', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);
+    ['$log', '$timeout', '$animate', 'UserService', 'ConfigService', 'MessagesService', chatDirective]);

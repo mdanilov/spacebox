@@ -1,28 +1,26 @@
-<div id="spMainView" class="container clearfix">
-	<div class="row">
-		<div class="col-xs-12" ng-if="main.current">
-            <sp-cards user="main.current"></sp-cards>
-             <div id="control">
-                <div class="button undo" ng-click="main.Undo()">
-                    <a href="" class="trigger"></a>
-                </div>
-                <div class="button no">
-                    <a href="" class="trigger" ng-click="main.Dislike()"></a>
-                </div>
-                <div class="button yes">
-                    <a href="" class="trigger" ng-click="main.Like()"></a>
-                </div>
-                <div class="button map-marker">
-                    <a href="" class="trigger"></a>
-                </div>
+<div class="fill-height">
+    <div ng-if="main.current">
+        <sp-cards user="main.current"></sp-cards>
+        <div id="control">
+            <div class="button undo" ng-click="main.Undo()">
+                <a href="" class="trigger"></a>
             </div>
-		</div>
-        <div class="sp-radar" ng-show="!main.current">
-            <sp-radar image="app.user.photo_100"></sp-radar>
-            <div class="sp-status">
-                <h5>{{main.messages[main.status]}}</h5>
-                <div id="spShareButton" ng-hide="main.status == 'search'"></div>
+            <div class="button no">
+                <a href="" class="trigger" ng-click="main.Dislike()"></a>
             </div>
+            <div class="button yes">
+                <a href="" class="trigger" ng-click="main.Like()"></a>
+            </div>
+            <div class="button map-marker">
+                <a href="" class="trigger"></a>
+            </div>
+        </div>
+    </div>
+    <div class="sp-radar" ng-show="!main.current">
+        <sp-radar image="app.user.photo_100"></sp-radar>
+        <div class="sp-status">
+            <h5>{{main.messages[main.status]}}</h5>
+            <div id="spShareButton" ng-hide="main.status == 'search'"></div>
         </div>
     </div>
 </div>

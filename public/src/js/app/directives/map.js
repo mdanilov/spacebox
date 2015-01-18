@@ -9,45 +9,53 @@ var LocateControl = L.Control.extend({
 
         var self = this;
 
-        self._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
-        self._link.href = '';
-        L.DomUtil.create('i', 'fa fa-location-arrow', self._link);
-
-        L.DomEvent.on(self._link, 'click', function (event) {
-            event.stopPropagation();
-            event.preventDefault();
-            map.locate();
-        });
-
         var LOCATOR_ICON = {
             html: [
                 '<div>',
-                    '<div class="sp-locator-circle sp-pulse"></div>',
-                    '<div class="sp-locator"></div>',
+                '<div class="sp-locator-circle sp-pulse"></div>',
+                '<div class="sp-locator"></div>',
                 '</div>'
             ].join(''),
             iconSize: [18, 18]
         };
 
-        function onLocationFound (event) {
+        self._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        self._link.href = '';
+        L.DomUtil.create('i', 'fa fa-location-arrow', self._link);
+
+        onLocationFound(null, map.scope.position);
+        map.scope.$on('location.found', onLocationFound);
+
+        L.DomEvent.on(self._link, 'click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            map.setView(getLatLng(self._position));
+        });
+
+        function onLocationFound (event, position) {
+            if (!angular.isObject(position)) {
+                return;
+            }
+
             if (!self._marker) {
-                self._marker = L.marker(event.latlng, {
+                self._marker = L.marker(getLatLng(position), {
                     icon: L.divIcon(LOCATOR_ICON)
                 });
                 self._marker.addTo(map);
             } else {
-                self._marker.setLatLng(event.latlng);
+                self._marker.setLatLng(getLatLng(position));
             }
-
-            map.setView(event.latlng);
+            self._position = position;
+            map.setView(getLatLng(position));
         }
-
-        map.on('locationfound', onLocationFound, self);
-        map.locate();
 
         return container;
     }
 });
+
+function getLatLng (position) {
+    return new L.LatLng(position.latitude, position.longitude);
+}
 
 function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, LocationService) {
     return {
@@ -76,15 +84,16 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
             var options = ConfigService.getMapOptions();
 
             var map = L.mapbox.map('map-canvas', ConfigService.MAPBOX.URL).setView([60, 30], options.zoom);
+            map.scope = scope;
             map.invalidateSize();
             // TODO: popupclose should be listening on marker
             map.on('popupclose', function () {
                 popupFixed = false;
             });
 
-            LocationService.asyncGetCurrentPosition().then(function (position) {
-                var coords = position.coords;
-                map.setView(L.latLng(coords.latitude, coords.longitude));
+            LocationService.getCurrentPosition().then(function (position) {
+                scope.position = position;
+                map.setView(getLatLng(position));
                 map.addControl(new LocateControl());
             });
 

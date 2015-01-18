@@ -11,15 +11,26 @@ function tabsDirective ($window, $animate) {
                 friends: 'Друзья',
                 map: 'Карта'
             };
+            scope.active = 'friends';
 
             var selectElement = element.find('.sp-tabs-select');
             var initialOffset = parseInt(selectElement.css('left'));
             var tabElement = element.find('.sp-tab')[0];
+
             function openTab (value) {
-                var offset = (value == 'map') ?
-                    parseInt($window.getComputedStyle(tabElement).getPropertyValue('width')) : 0;
-                $animate.animate(selectElement, {}, { left : (initialOffset + offset) + 'px' }).then(function () {
-                    scope.$apply(function() {
+                if (!scope.tabs.hasOwnProperty(value)) {
+                    return;
+                }
+
+                var leftToRight = (value == 'map');
+                var offset = parseInt($window.getComputedStyle(tabElement).getPropertyValue('width'));
+                var to = leftToRight ? {left: (initialOffset + offset) + 'px'} :
+                    {right: (initialOffset + offset) + 'px'};
+                $animate.animate(selectElement, {}, to).then(function () {
+                    var properties = leftToRight ? {left: 'initial', right: initialOffset} :
+                        {left: initialOffset, right: 'initial'};
+                    selectElement.css(properties);
+                    scope.$apply(function () {
                         scope.active = value;
                     });
                 });

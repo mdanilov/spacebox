@@ -3,7 +3,7 @@ ul.navbar-nav, ul.navbar-nav li {
 	margin: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	ul.navbar-left li {
 		width: 33.33%;
 	}
@@ -22,7 +22,7 @@ ul.navbar-right, ul.navbar-right li {
 	float: right !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	ul.navbar-right {
 		width: 25%;
 	}
@@ -37,7 +37,7 @@ ul.navbar-right, ul.navbar-right li {
 	font-size: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     #spNavbar .sp-nav-button {
     	font-size: 23px;
     }
@@ -69,7 +69,7 @@ ul.navbar-right, ul.navbar-right li {
 	cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 	#spNavbar .navbar-brand {
 		margin-left: auto;
 		margin-right: auto;
@@ -102,6 +102,12 @@ ul.navbar-right, ul.navbar-right li {
 	margin-right: 10px;
 }
 
+#spNavbar .badge {
+	background-color: #428bca;
+	position: absolute;
+	bottom: 13px;
+}
+
 #spNavbar .sp-active {
 	border-bottom: 2px solid;
 	border-color: #4387fd;
@@ -130,7 +136,7 @@ ul.navbar-right, ul.navbar-right li {
     border-radius: 50%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .sp-friends-indicator {
         left: 61px;
     }
