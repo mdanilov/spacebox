@@ -46,7 +46,6 @@ var LocateControl = L.Control.extend({
                 self._marker.setLatLng(getLatLng(position));
             }
             self._position = position;
-            map.setView(getLatLng(position));
         }
 
         return container;
