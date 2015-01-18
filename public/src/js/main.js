@@ -48,16 +48,6 @@
         });
     }
 
-    function bootstrapAngular() {
-        if (Modernizr.touch) {
-            Modernizr.addTest('standalone', window.navigator.standalone);
-        }
-
-        // manually bootstrap AngularJS
-        angular.module('spacebox').constant('config', config);
-        angular.bootstrap(document, ['spacebox'], {strictDi: true});
-    }
-
     var config = readConfig();
     var libraries = {
         development: [
@@ -123,18 +113,9 @@
     };
 
     if (config.CORDOVA) {
-        // load cordova script
-        yepnope('cordova.js');
-
-        // load third-party scripts
-        yepnope(libraries.development);
-
-        // load application scripts
         yepnope({
-            test: config.DEVELOPMENT,
-            yep: [ 'src/js/spacebox.js', 'src/css/spacebox.css' ],
-            nope: [ 'src/js/spacebox.min.js', 'src/css/spacebox.min.css' ],
-            complete: bootstrapAngular
+            load: [ 'cordova.js', libraries.development ],
+            complete: loadApplication
         });
     }
     else {
@@ -142,14 +123,26 @@
             test: config.DEVELOPMENT,
             yep: libraries.development,
             nope: libraries.production,
-            complete: function () {
-                yepnope({
-                    test: config.DEVELOPMENT,
-                    yep: [ 'dist/spacebox.js', 'dist/spacebox.css' ],
-                    nope: [ 'dist/spacebox.min.js', 'dist/spacebox.min.css' ],
-                    complete: bootstrapAngular
-                });
-            }
+            complete: loadApplication
         });
+    }
+
+    function loadApplication () {
+        yepnope({
+            test: config.DEVELOPMENT,
+            yep: [ 'dist/spacebox.js', 'dist/spacebox.css' ],
+            nope: [ 'dist/spacebox.min.js', 'dist/spacebox.min.css' ],
+            complete: bootstrapAngular
+        });
+
+        function bootstrapAngular () {
+            if (Modernizr.touch) {
+                Modernizr.addTest('standalone', window.navigator.standalone);
+            }
+
+            // manually bootstrap AngularJS
+            angular.module('spacebox').constant('config', config);
+            angular.bootstrap(document, ['spacebox'], {strictDi: true});
+        }
     }
 })();
