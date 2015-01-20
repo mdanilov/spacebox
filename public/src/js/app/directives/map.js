@@ -195,7 +195,7 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
             }
 
             invalidateUsers();
-            scope.$watch('users', invalidateUsers);
+            scope.$watchCollection('users', invalidateUsers);
 
             scope.$watch('selected', function (user) {
                 if (angular.isObject(user)) {
