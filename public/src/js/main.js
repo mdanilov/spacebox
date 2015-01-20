@@ -113,8 +113,9 @@
     };
 
     if (config.CORDOVA) {
+        yepnope('cordova.js');
         yepnope({
-            load: [ 'cordova.js', libraries.development ],
+            load: libraries.development,
             complete: loadApplication
         });
     }
