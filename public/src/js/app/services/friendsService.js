@@ -39,6 +39,9 @@ function FriendsService ($q, $resource, $window, $log, $rootScope, $interval, lo
     Friend.prototype.hasLocation = function () {
         return this.hasOwnProperty('location');
     };
+    Friend.prototype.getLocation = function () {
+        return this.location;
+    };
     Friend.prototype.isOnline = function () {
         return this.hasOwnProperty('location') &&
             (Date.now() - this.location.timestamp.getTime()) < ConfigService.USER_ONLINE_TIME_SEC * 1000;

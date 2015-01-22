@@ -182,39 +182,62 @@ function mapDirective ($compile, $rootScope, $timeout, $animate, ConfigService, 
                 return marker;
             }
 
-            function invalidateUsers (users) {
+            function removeMarker (id) {
+                map.removeLayer(scope.markers[id]);
+                delete scope.markers[id];
+            }
+
+            function invalidateMarkers (users) {
                 if (angular.isArray(users)) {
-                    clear();
-                    for (var i = 0; i < users.length; i++) {
-                        if (users[i].hasLocation()) {
-                            var marker = addMarker(users[i]);
-                            bindPopupWindow(marker, users[i]);
+                    // remove unused markers
+                    var userIds = users.map(function (user) {
+                        return user.mid;
+                    });
+                    Object.keys(scope.markers).forEach(function (markerId) {
+                        if (userIds.indexOf(markerId) == -1) {
+                            removeMarker(markerId);
                         }
-                    }
+                    });
+
+                    // update or create new markers if necessary
+                    users.forEach(function (user) {
+                        var mid = user.mid;
+                        var marker = scope.markers[mid];
+                        if (!marker && user.hasLocation()) {
+                            // add new marker
+                            marker = addMarker(user);
+                            bindPopupWindow(marker, user);
+                        }
+                        else if (marker) {
+                            if (!user.hasLocation()) {
+                                // remove marker
+                                removeMarker(mid);
+                            }
+                            else {
+                                // update position
+                                var location = user.getLocation();
+                                var prevLocation = marker.getLatLng();
+                                if (location.latitude != prevLocation.lat ||
+                                    location.longitude != prevLocation.lng) {
+                                    marker.setLatLng(getLatLng(location));
+                                }
+                            }
+                        }
+                    });
                 }
             }
 
-            invalidateUsers();
-            scope.$watchCollection('users', invalidateUsers);
+            invalidateMarkers();
+            scope.$watchCollection('users', invalidateMarkers);
 
             scope.$watch('selected', function (user) {
                 if (angular.isObject(user)) {
                     toggleMarker(user);
                     if (user.hasLocation()) {
-                        var location = user.location;
-                        map.setView(L.latLng(location.latitude, location.longitude));
+                        map.setView(getLatLng(user.getLocation()));
                     }
                 }
             });
-
-            function clear () {
-                for (var key in scope.markers) {
-                    if (!scope.markers.hasOwnProperty(key)) continue;
-                    map.removeLayer(scope.markers[key]);
-                    delete scope.markers[key];
-                }
-                delete scope.markers.active;
-            }
         }
     };
 }

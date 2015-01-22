@@ -9,11 +9,12 @@ module.exports =  function (request, response, next) {
     }
 
     var location = JSON.parse(unescape(request.cookies.location));
-    if (!location || !location.timestamp || !location.latitude || !location.longitude) {
+    if (!(location && location.latitude && location.longitude)) {
         return next();
     }
 
     var prevLocation = request.session.location;
+    location.timestamp = Date.now();
     if (prevLocation && prevLocation.timestamp &&
         (location.timestamp - prevLocation.timestamp < config.get('options:trackInterval'))) {
         return next();
