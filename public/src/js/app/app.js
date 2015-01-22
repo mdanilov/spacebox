@@ -40,12 +40,12 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
         }
     }]);
 
-spacebox.run(['config', '$window', '$timeout', '$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
-    function (config, $window, $timeout, $rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
+spacebox.run(['$window', '$timeout', '$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
+    function ($window, $timeout, $rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
         amMoment.changeLocale('ru');
 
         // Google Analytics
-        if (config.CORDOVA && !angular.isUndefined($window.analytics)) {
+        if (!angular.isUndefined($window.analytics)) {
             $window.analytics.startTrackerWithId('UA-58861419-1');
         }
 
