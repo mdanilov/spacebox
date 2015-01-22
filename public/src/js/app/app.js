@@ -40,9 +40,15 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
         }
     }]);
 
-spacebox.run(['$timeout', '$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
-    function ($timeout, $rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
+spacebox.run(['$window', '$timeout', '$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
+    function ($window, $timeout, $rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
         amMoment.changeLocale('ru');
+
+        // Google Analytics
+        if (!angular.isUndefined($window.analytics)) {
+            $window.analytics.startTrackerWithId('UA-58861419-1');
+        }
+
         $rootScope.$on('$locationChangeStart', function (event) {
             var path = $location.path();
 
@@ -75,5 +81,5 @@ spacebox.run(['$timeout', '$rootScope', '$location', '$log', '$route', 'VkServic
                     $location.path('/login');
                 });
             }
-    });
-}]);
+        });
+    }]);

@@ -27,7 +27,7 @@ function tabsDirective ($window, $animate) {
                 var to = leftToRight ? {left: (initialOffset + offset) + 'px'} :
                     {right: (initialOffset + offset) + 'px'};
                 $animate.animate(selectElement, {}, to).then(function () {
-                    var properties = leftToRight ? {left: 'initial', right: initialOffset} :
+                    var properties = leftToRight ? {right: initialOffset, left: 'initial'} :
                         {left: initialOffset, right: 'initial'};
                     selectElement.css(properties);
                     scope.$apply(function () {

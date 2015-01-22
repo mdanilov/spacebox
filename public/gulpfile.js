@@ -87,12 +87,12 @@ gulp.task('watch', ['build'], function () {
 
 gulp.task('templates', function () {
     var options = {
-        settings: [
-            { name: 'development', content: !isProduction },
-            { name: 'cordova',     content: !!args.cordova },
-            { name: 'server_url',  content: args.server_url || '' },
-            { name: 'version',     content: VERSION }
-        ]
+        settings: {
+            development: !isProduction,
+            cordova:     !!args.cordova,
+            server_url:  args.server_url || '',
+            version:     VERSION
+        }
     };
     return gulp.src('index.ejs')
         .pipe(ejs(options))
