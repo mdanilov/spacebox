@@ -8,6 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
+        <% if (!settings.cordova) { -%>
         <!-- Apple -->
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,6 +18,7 @@
         <link rel="apple-touch-icon" sizes="120x120" href="src/img/apple/apple-touch-icon-iphone-retina.png">
         <link rel="apple-touch-icon" sizes="152x152" href="src/img/apple/apple-touch-icon-ipad-retina.png">
         <link rel="apple-touch-startup-image" href="src/img/apple/apple-startup.png">
+        <% } -%>
 
         <!-- Finder settings -->
         <% for (var key in settings) { -%>
