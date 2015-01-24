@@ -6,11 +6,13 @@ var HttpError = require('../../routes/error').HttpError;
 
 exports.login = function (request, response, next) {
     var hostname = request.protocol + '://' + request.headers.host + '/';
+    var redirectURl = request.query.standalone ?
+        config.get('vk:redirectBlankUrl') : url.resolve(hostname, request.query.url);
     var options = 'https://oauth.vk.com/access_token?' +
         'client_id=' + config.get('vk:mobile:appId') +
         '&client_secret=' + config.get('vk:mobile:privateKey') +
         '&code=' + request.query.code +
-        '&redirect_uri=' + url.resolve(hostname, request.query.url);
+        '&redirect_uri=' + redirectURl;
 
     https.get(options, function (res) {
         res.on("data", function (chunk) {
@@ -29,8 +31,12 @@ exports.login = function (request, response, next) {
                 request.session.mid = body.user_id;
                 request.session.access_token = body.access_token;
                 log.info('VK OAuth2 session instance initialized at ', request.session);
-                //response.redirect('/');
-                response.redirect('back');
+                if (request.query.standalone) {
+                    response.end();
+                }
+                else {
+                    response.redirect('back');
+                }
             }
         });
     });
