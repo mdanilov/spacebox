@@ -12,19 +12,27 @@ function VkOAuthService ($window, $http, $log, $cookieStore, $q, $timeout, Confi
 
     VkService._appId = ConfigService.VK_MOBILE_APP_ID;
     var session = $cookieStore.get('vk.session');
-    if (angular.isObject(session) &&
-        session.expires > new Date().getTime()) {
+    if (angular.isObject(session) && session.expires > Date.now()) {
+        $log.debug('[vk] Load OAuth2 session ', session);
         VkService._session = session;
+        if (ConfigService.CORDOVA) {
+            trackVisitorStandalone();
+        }
     }
 
-    trackVisitor.tracked = false;
-    trackVisitor();
-    function trackVisitor () {
-        if (ConfigService.CORDOVA && !trackVisitor.tracked) {
+    function trackVisitorStandalone () {
+        if (!trackVisitorStandalone.resolved) {
+            $log.debug('[vk] Track visitor');
             asyncApiCall('stats.trackVisitor').then(function () {
-                trackVisitor.tracked = true;
+                trackVisitorStandalone.resolved = true;
             });
         }
+    }
+
+    function saveVkSession (data) {
+        $log.debug('[vk] Save OAuth2 session ', data);
+        VkService._session = data;
+        $cookieStore.put('vk.session', data);
     }
 
     function asyncApiCall (method, options) {
@@ -75,7 +83,9 @@ function VkOAuthService ($window, $http, $log, $cookieStore, $q, $timeout, Confi
                 authWindow.close();
                 $http.get(ConfigService.SERVER_URL + 'mobile/login', {params: {code: code, standalone: true}}).
                     success(function (data, status, headers, config) {
-                        deferred.resolve();
+                        saveVkSession(data);
+                        trackVisitorStandalone();
+                        deferred.resolve(data.mid);
                     }).
                     error(function (data, status, headers, config) {
                         deferred.reject(new HttpError(status, 'VK login failed'));
@@ -95,7 +105,7 @@ function VkOAuthService ($window, $http, $log, $cookieStore, $q, $timeout, Confi
         }
         else {
             return $timeout(function () {
-                window.location.href = url;
+                $window.location.href = url;
             });
         }
     };
@@ -157,10 +167,7 @@ function VkOAuthService ($window, $http, $log, $cookieStore, $q, $timeout, Confi
             $http.get(ConfigService.SERVER_URL + '/mobile/getLoginStatus').
                 success(function (data, status, headers, config) {
                     if (!angular.isUndefined(data.access_token)) {
-                        $log.debug('VK session ', data);
-                        VkService._session = data;
-                        trackVisitor();
-                        $cookieStore.put('vk.session', data);
+                        saveVkSession(data);
                         deferred.resolve(data.mid);
                     }
                     else {

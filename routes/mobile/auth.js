@@ -32,7 +32,11 @@ exports.login = function (request, response, next) {
                 request.session.access_token = body.access_token;
                 log.info('VK OAuth2 session instance initialized at ', request.session);
                 if (request.query.standalone) {
-                    response.end();
+                    response.json({
+                        mid: request.session.mid,
+                        access_token: request.session.access_token,
+                        expires: request.session.expires
+                    });
                 }
                 else {
                     response.redirect('back');
