@@ -36,6 +36,11 @@
                     "code": {
                         "title": "VK API access code",
                         "type": "string"
+                    },
+                    "standalone": {
+                        "title": "standalone",
+                        "description": "",
+                        "type": "string"
                     }
                 },
                 "required": ["url", "code"],

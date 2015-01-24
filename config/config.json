@@ -7,6 +7,7 @@
     },
     "vk":
     {
+        "redirectBlankUrl": "https://oauth.vk.com/blank.html",
         "website":
         {
             "appId": 4688098,
@@ -15,8 +16,7 @@
         "mobile":
         {
             "appId": 4213835,
-            "privateKey": "",
-            "redirectUrl": "https://oauth.vk.com/blank.html"
+            "privateKey": ""
         }
     },
     "session":

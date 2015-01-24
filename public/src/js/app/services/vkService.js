@@ -1,31 +1,39 @@
-function VkOAuthService ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
+function VkOAuthService ($window, $http, $log, $cookieStore, $q, $timeout, ConfigService) {
 
     var VkService = {};
 
     VkService.VERSION = 5.25;
     VkService.SCOPE = VK.access.FRIENDS | VK.access.PHOTOS;
     VkService.DISPLAY = { PAGE: 'page', POPUP: 'popup', MOBILE: 'mobile' };
-    VkService.REDIRECT_URL = ConfigService.SERVER_URL + '/mobile/login';
+    VkService.REDIRECT_URL = ConfigService.CORDOVA ?
+        'https://oauth.vk.com/blank.html' : ConfigService.SERVER_URL + '/mobile/login';
     VkService.FIELDS = 'sex,bdate,first_name,photo_50,photo_100,screen_name';
     VkService.EMPTY_PHOTO = 'https://vk.com/images/camera_400.gif';
 
     VkService._appId = ConfigService.VK_MOBILE_APP_ID;
     var session = $cookieStore.get('vk.session');
-    if (angular.isObject(session) &&
-        session.expires > new Date().getTime()) {
+    if (angular.isObject(session) && session.expires > Date.now()) {
+        $log.debug('[vk] Load OAuth2 session ', session);
         VkService._session = session;
+        if (ConfigService.CORDOVA) {
+            trackVisitorStandalone();
+        }
     }
 
-    trackVisitor.tracked = false;
-    function trackVisitor () {
-        if (!trackVisitor.tracked) {
+    function trackVisitorStandalone () {
+        if (!trackVisitorStandalone.resolved) {
+            $log.debug('[vk] Track visitor');
             asyncApiCall('stats.trackVisitor').then(function () {
-                trackVisitor.tracked = true;
+                trackVisitorStandalone.resolved = true;
             });
         }
     }
 
-    trackVisitor();
+    function saveVkSession (data) {
+        $log.debug('[vk] Save OAuth2 session ', data);
+        VkService._session = data;
+        $cookieStore.put('vk.session', data);
+    }
 
     function asyncApiCall (method, options) {
         var deferred = $q.defer();
@@ -66,13 +74,40 @@ function VkOAuthService ($http, $log, $cookieStore, $q, $timeout, ConfigService)
         });
     };
 
+    function asyncCordovaLogin (url) {
+        var deferred = $q.defer();
+        var authWindow = $window.open(url, '_blank', 'location=no');
+        authWindow.on('loadstop', function (event) {
+            if (event.url.split('#')[0] == VkService.REDIRECT_URL) {
+                var code = event.url.split('#')[1].split('=')[1];
+                authWindow.close();
+                $http.get(ConfigService.SERVER_URL + 'mobile/login', {params: {code: code, standalone: true}}).
+                    success(function (data, status, headers, config) {
+                        saveVkSession(data);
+                        trackVisitorStandalone();
+                        deferred.resolve(data.mid);
+                    }).
+                    error(function (data, status, headers, config) {
+                        deferred.reject(new HttpError(status, 'VK login failed'));
+                    });
+            }
+        });
+        return deferred.promise;
+    }
+
     VkService.asyncLogin = function () {
-        return $timeout(function () {
-            window.location.href = 'https://oauth.vk.com/authorize?' +
+        var url = 'https://oauth.vk.com/authorize?' +
             'client_id=' + VkService._appId + '&scope=' + VkService.SCOPE +
             '&redirect_uri=' + VkService.REDIRECT_URL +
             '&display=' + VkService.DISPLAY.MOBILE + '&response_type=' + 'code';
-        });
+        if (ConfigService.CORDOVA) {
+            return asyncCordovaLogin(url);
+        }
+        else {
+            return $timeout(function () {
+                $window.location.href = url;
+            });
+        }
     };
 
     VkService.asyncLogout =  function () {
@@ -132,10 +167,7 @@ function VkOAuthService ($http, $log, $cookieStore, $q, $timeout, ConfigService)
             $http.get(ConfigService.SERVER_URL + '/mobile/getLoginStatus').
                 success(function (data, status, headers, config) {
                     if (!angular.isUndefined(data.access_token)) {
-                        $log.debug('VK session ', data);
-                        VkService._session = data;
-                        trackVisitor();
-                        $cookieStore.put('vk.session', data);
+                        saveVkSession(data);
                         deferred.resolve(data.mid);
                     }
                     else {
@@ -298,13 +330,13 @@ function VkServiceProvider () {
         }
     };
 
-    this.$get = ['$http', '$log', '$cookieStore', '$q', '$timeout', 'ConfigService',
-        function ($http, $log, $cookieStore, $q, $timeout, ConfigService) {
+    this.$get = ['$window', '$http', '$log', '$cookieStore', '$q', '$timeout', 'ConfigService',
+        function ($window, $http, $log, $cookieStore, $q, $timeout, ConfigService) {
             if (api === 'openapi') {
                 return VkOpenApiService($http, $log, $q, ConfigService);
             }
             else if (api === 'oauth') {
-                return VkOAuthService($http, $log, $cookieStore, $q, $timeout, ConfigService);
+                return VkOAuthService($window, $http, $log, $cookieStore, $q, $timeout, ConfigService);
             }
             else {
                 throw new Error('Unknown VK API');

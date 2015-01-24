@@ -20,6 +20,7 @@ function ConfigService (config, localStorageService) {
     ConfigService.MAX_STATUS_LENGTH = 100;
     ConfigService.SERVER_URL = config.SERVER_URL || window.location.origin;
     ConfigService.VERSION = config.VERSION;
+    ConfigService.CORDOVA = config.CORDOVA || false;
     ConfigService._login = false;
     ConfigService._config = localStorageService.get('settings');
 
