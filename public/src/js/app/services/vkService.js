@@ -77,18 +77,19 @@ function VkOAuthService ($window, $http, $log, $cookieStore, $q, $timeout, Confi
     function asyncCordovaLogin (url) {
         var deferred = $q.defer();
         var authWindow = $window.open(url, '_blank', 'location=no');
-        authWindow.on('loadstop', function (event) {
+        authWindow.addEventListener('loadstop', function (event) {
             if (event.url.split('#')[0] == VkService.REDIRECT_URL) {
                 var code = event.url.split('#')[1].split('=')[1];
-                authWindow.close();
-                $http.get(ConfigService.SERVER_URL + 'mobile/login', {params: {code: code, standalone: true}}).
+                $http.get(ConfigService.SERVER_URL + '/mobile/login', {params: {code: code, standalone: true}}).
                     success(function (data, status, headers, config) {
                         saveVkSession(data);
                         trackVisitorStandalone();
                         deferred.resolve(data.mid);
+                        authWindow.close();
                     }).
                     error(function (data, status, headers, config) {
                         deferred.reject(new HttpError(status, 'VK login failed'));
+                        authWindow.close();
                     });
             }
         });
