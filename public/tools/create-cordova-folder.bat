@@ -13,7 +13,7 @@ cd ..
 cd ..
 call npm install
 cd public
-node ..\node_modules\gulp\bin\gulp build --cordova --server_url="http://spacebox.herokuapp.com" --production
+node ..\node_modules\gulp\bin\gulp build --cordova --server_url="http://spacebox.herokuapp.com" 
 
 mkdir tools\finder\www\lib
 xcopy lib tools\finder\www\lib /s /e /y
@@ -31,11 +31,11 @@ xcopy src\js\app\templates tools\finder\www\src\js\app\templates /s /e /y
 mkdir tools\finder\www\src\img
 xcopy src\img tools\finder\www\src\img /s /e /y
 
-copy dist\spacebox-mobile.js tools\finder\www\src\js\spacebox-mobile.js
-copy dist\spacebox-mobile.min.js tools\finder\www\src\js\spacebox-mobile.min.js
-mkdir tools\finder\www\src\css
-copy dist\spacebox.css tools\finder\www\src\css\spacebox.css
-copy dist\spacebox.min.css tools\finder\www\src\css\spacebox.min.css
+mkdir tools\finder\www\dist
+copy dist\spacebox.js tools\finder\www\dist\spacebox.js
+copy dist\spacebox.min.js tools\finder\www\dist\spacebox.min.js
+copy dist\spacebox.css tools\finder\www\dist\spacebox.css
+copy dist\spacebox.min.css tools\finder\www\dist\spacebox.min.css
 
 copy tools\android\icon48.png tools\finder\platforms\android\res\drawable\icon.png
 copy tools\android\icon72.png tools\finder\platforms\android\res\drawable-hdpi\icon.png
