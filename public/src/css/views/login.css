@@ -121,12 +121,22 @@
 }
 
 /* carousel */
-.sp-login-carousel .sp-carousel-layer {
+.sp-login-carousel .sp-phone {
+    padding-top: 7%;
     height: calc(100% - 70px);
     width: auto;
     margin: 0 auto;
+    background-image: url('/src/img/phone.png');
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
+}
+
+.sp-phone .sp-phone-photo {
+    width: auto;
+    height: 85%;
+    background-repeat: no-repeat;
+    background-position-x: center;
     background-size: contain;
 }
 

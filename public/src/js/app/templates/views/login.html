@@ -22,7 +22,9 @@
             <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered class="sp-carousel-image">
                 <li ng-repeat="image in images track by $index">
                     <h4>{{image.text}}</h4>
-                    <div class="sp-carousel-layer" ng-style="{'background-image': 'url(' + '{{image.url}}' + ')'}"></div>
+                    <div class="sp-phone">
+                        <div class="sp-phone-photo" ng-style="{'background-image': 'url(' + '{{image.url}}' + ')'}"></div>
+                    </div>
                 </li>
             </ul>
             <div class="rn-carousel-indicator custom-indicator">
