@@ -9,20 +9,24 @@ function LoginViewController ($scope, $log, $location, VkService, UserService, C
 
     $scope.images = [
         {
-            text: 'Анонимно ставьте "Нравится" или "Пропустить"',
-            url: "src/img/login-1.jpg"
+            text: 'Ставьте лайки тем, кто вам нравится. Вы узнаете друг о друге только при взаимной симпатии',
+            url: "src/img/screens/users.jpg"
         },
         {
-            text: 'Что будет, если вы понравитесь друг другу',
-            url: "src/img/login-2.jpg"
+            text: 'А вот что будет, если вы понравитесь друг другу. Не бойтесь начать общение первым',
+            url: "src/img/screens/like.jpg"
         },
         {
-            text: 'Общайтесь с дурзьями в приложении',
-            url: "src/img/login-3.jpg"
+            text: 'Только друзья могут видеть ваше местоположение и когда вы были онлайн',
+            url: "src/img/screens/friends.jpg"
         },
         {
-            text: 'Находите друзей рядом',
-            url: "src/img/login-4.jpg"
+            text: 'Может быть прямо сейчас рядом с вами кто-то хочет сходить в кино?',
+            url: "src/img/screens/map.jpg"
+        },
+        {
+            text: 'Вы можете общаться с друзьями в приложении. Или продолжить в сети ВКонтакте',
+            url: "src/img/screens/chat.jpg"
         }
     ];
 

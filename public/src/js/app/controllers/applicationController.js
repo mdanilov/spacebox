@@ -2,8 +2,10 @@ function ApplicationController ($scope, $log, UserService, ConfigService, Friend
     $log.debug('Initialize application controller...');
 
     var self = this;
+
     self.user = {};
     self.isNavbarHidden = false;
+    self.isMobile = ConfigService.CORDOVA;
     self.isMatched = false;
     self.events = checkEvents();
 

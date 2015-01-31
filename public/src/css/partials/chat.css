@@ -229,7 +229,7 @@
     cursor: pointer;
 }
 
-.sp-empty-content span, h4 {
+.sp-empty-content span, .sp-empty-content h4 {
     font-weight: bold;
 }
 

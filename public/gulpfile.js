@@ -96,7 +96,7 @@ gulp.task('templates', function () {
     };
     return gulp.src('index.ejs')
         .pipe(ejs(options))
-        .pipe(gulp.dest('.'));
+        .pipe(gulp.dest(''));
 });
 
 gulp.task('manifest', function () {

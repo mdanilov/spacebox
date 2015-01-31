@@ -5,8 +5,12 @@
                 <span>Finder</span>
             </h1>
             <h2 class="hidden-xs">Сервис быстрых знакомств</h2>
-            <p class="hidden-xs">Finder - это новый способ знакомства с интересными людьми рядом.</p>
-            <div class="sp-intro-get-app clearfix hidden-xs">
+            <p class="hidden-xs">Finder - это новый способ знакомства с новыми и интересными людьми вокруг тебя.
+                Теперь знакомства по-настоящему быстры: твоя анкета автоматическм заполняется информацией из ВКонтакте,
+                оцененные тобой пользователи больше никогда не появятся в поиске,
+                в любой момент можно узнать, кто из твоих друзей рядом и, возможно, готов встретиться с тобой.
+                Регистрируйся и начинай знакомиться!</p>
+            <div class="sp-intro-get-app clearfix hidden-xs" ng-hide="app.isMobile">
                 <a href="" class="sp-get-app-android"></a>
                 <a href="" class="sp-get-app-ios"></a>
             </div>
@@ -19,10 +23,14 @@
             </div>
         </div>
         <div class="sp-login-carousel col-sm-6">
-            <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered class="sp-carousel-image">
+            <ul rn-carousel rn-carousel-controls rn-carousel-index="carouselIndex" rn-carousel-buffered class="sp-carousel-image">
                 <li ng-repeat="image in images track by $index">
-                    <h4>{{image.text}}</h4>
-                    <div class="sp-carousel-layer" ng-style="{'background-image': 'url(' + '{{image.url}}' + ')'}"></div>
+                    <h5>{{image.text}}</h5>
+                    <div class="sp-phone">
+                        <div class="sp-phone-wrapper">
+                            <div class="sp-phone-photo" ng-style="{'background-image': 'url(' + '{{image.url}}' + ')'}"></div>
+                        </div>
+                    </div>
                 </li>
             </ul>
             <div class="rn-carousel-indicator custom-indicator">
