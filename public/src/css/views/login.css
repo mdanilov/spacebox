@@ -112,7 +112,7 @@
 @media (max-width: 767px) {
     .sp-login-carousel {
         position: absolute;
-        bottom: 115px;
+        bottom: 120px;
         top: 10px;
         left: 0;
         right: 0;
@@ -122,7 +122,7 @@
 
 /* carousel */
 .sp-login-carousel .sp-phone {
-    padding-top: 7%;
+    position: relative;
     height: calc(100% - 70px);
     width: auto;
     margin: 0 auto;
@@ -132,15 +132,22 @@
     background-size: contain;
 }
 
+.sp-login-carousel .sp-phone-wrapper {
+    position: absolute;
+    top: 9%;
+    bottom: 12%;
+    width: 100%;
+}
+
 .sp-phone .sp-phone-photo {
     width: auto;
-    height: 85%;
+    height: 100%;
     background-repeat: no-repeat;
     background-position-x: center;
     background-size: contain;
 }
 
-.sp-login-carousel .sp-carousel-image h4 {
+.sp-login-carousel .sp-carousel-image h5 {
     height: 50px;
 }
 
@@ -156,7 +163,7 @@
     }
 }
 
-/* carousel indicators */
+/* carousel */
 .sp-login-carousel .custom-indicator {
     font-family: 'FontAwesome';
     display: table;
@@ -188,6 +195,27 @@
     }
 }
 
+.sp-login-carousel .rn-carousel-control {
+    font-family: 'FontAwesome';
+    font-size: 2em;
+    color: black;
+}
+
+.sp-login-carousel .rn-carousel-control.rn-carousel-control-next::before {
+    content: "\f054";
+}
+
+.sp-login-carousel .rn-carousel-control.rn-carousel-control-prev::before {
+    content: "\f053";
+}
+
+@media (max-width: 767px) {
+    .sp-login-carousel .rn-carousel-control {
+        display: none;
+    }
+}
+
+/* VK like button */
 #vkLike {
     margin-right: 290px;
 }

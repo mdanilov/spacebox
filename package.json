@@ -10,7 +10,7 @@
     "main": "server.js",
     "scripts": {
         "prepublish": "cd ./public && bower install --force-latest",
-        "prestart": "cd ./public && gulp build",
+        "prestart": "cd ./public && gulp clean && gulp build",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server.js"
     },

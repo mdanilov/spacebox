@@ -1,16 +1,18 @@
-#control {
+.controls {
     position: relative;
     margin: 15px auto 0;
     width: 400px;
 }
 
     @media (max-width: 767px) {
-        #control {
-            width: 300px;
+        .controls {
+            position: absolute;
+            bottom: 100px;
+            width: 100%;
         }
     }
 
-#control .button {
+.controls .button {
     width: 80px;
     height: 80px;
     background: #eee;
@@ -20,7 +22,7 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-#control .button .trigger {
+.controls .button .trigger {
     background: white;
     display: block;
     border-radius: 50%;
@@ -35,12 +37,12 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-#control .button .trigger:active {
+.controls .button .trigger:active {
     -webkit-transform: translateY(-50%) scale(0.75);
     transition: all .05s linear;
 }
 
-#control .button .trigger:before {
+.controls .button .trigger:before {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -48,55 +50,55 @@
     font-family: 'FontAwesome';
 }
 
-#control .no {
+.controls .no {
     left: calc(50% - 75px);
 }
 
-#control .no .trigger:before {
+.controls .no .trigger:before {
     content: "\f00d";
     font-size: 30px;
     color: #c33;
 }
 
-#control .yes {
+.controls .yes {
     right: calc(50% - 75px);
 }
 
-#control .yes .trigger:before {
+.controls .yes .trigger:before {
     content: "\f004";
     font-size: 26px;
     color: #3b7;
 }
 
-#control .undo {
+.controls .undo {
     left: calc(50% - 130px);
     height: 60px;
     width: 60px;
 }
 
-#control .undo .trigger {
+.controls .undo .trigger {
     width: 65%;
     height: 65%;
 }
 
-#control .undo .trigger:before {
+.controls .undo .trigger:before {
     content: "\f0e2";
     font-size: 20px;
     color: #fa9208;
 }
 
-#control .map-marker {
+.controls .map-marker {
     right: calc(50% - 130px);
     height: 60px;
     width: 60px;
 }
 
-#control .map-marker .trigger {
+.controls .map-marker .trigger {
     width: 65%;
     height: 65%;
 }
 
-#control .map-marker .trigger:before {
+.controls .map-marker .trigger:before {
     content: "\f041";
     font-size: 20px;
     color: #3498db;

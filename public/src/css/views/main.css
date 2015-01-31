@@ -13,6 +13,18 @@
     width: 100%;
 }
 
+.sp-cards-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (max-width: 767px) {
+    .sp-cards-wrapper {
+        width: 100%;
+        height: calc(100% - 160px);
+    }
+}
+
 #spShareButton .btn:before {
     content: ' ';
     display: inline-block;
