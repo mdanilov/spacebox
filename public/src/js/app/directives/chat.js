@@ -42,7 +42,7 @@ function chatDirective ($log, $timeout, $animate, UserService, ConfigService, Me
             var scrollPosition = new ScrollPosition(scrollElement[0]);
             var textAreaElement = angular.element('#spInput');
             var sendButtonElement = angular.element('#spSendButton');
-            var userSendId = UserService.getInfo().id;
+            var userSendId = UserService.getInfo().id.toString();
 
             scope.isTyping = false;
             scope.messages = [];

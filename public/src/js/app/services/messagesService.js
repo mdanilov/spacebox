@@ -119,10 +119,16 @@ function MessagesService ($log, $q, $http, $rootScope, $timeout, $window, localS
         }
     }
     var _dialogs = {};
-    var _userId = UserService.getInfo().id;
     var MESSAGES_COUNT = 20;
     var clientIdCounter = 0;
     var readMessages = localStorageService.get('messages.unread') || [];
+    var _userId;
+
+    $rootScope.$watch(UserService.getInfo, function (info) {
+        if (!angular.isUndefined(info)) {
+            _userId = info.id.toString();
+        }
+    });
 
     function markMessagesAsRead (messages) {
         function asyncMarkAsRead (messages) {

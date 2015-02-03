@@ -42,6 +42,7 @@ spacebox.config(['config', '$routeProvider', '$logProvider', '$compileProvider',
 
 spacebox.run(['$window', '$timeout', '$rootScope', '$location', '$log', '$route', 'VkService', 'ConfigService', 'UserService', 'ErrorHandler', 'amMoment', 'localStorageService',
     function ($window, $timeout, $rootScope, $location, $log, $route, VkService, ConfigService, UserService, ErrorHandler, amMoment, localStorageService) {
+        $log.debug('Run application');
         amMoment.changeLocale('ru');
 
         // Google Analytics Cordova Plugin
@@ -50,6 +51,7 @@ spacebox.run(['$window', '$timeout', '$rootScope', '$location', '$log', '$route'
         }
 
         $rootScope.$on('$locationChangeStart', function (event) {
+            $log.debug('Start location change');
             var path = $location.path();
 
             if (Modernizr.standalone) {
