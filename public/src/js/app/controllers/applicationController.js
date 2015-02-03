@@ -1,5 +1,5 @@
-function ApplicationController ($scope, $log, UserService, ConfigService, FriendsService, MessagesService) {
-    $log.debug('Initialize application controller...');
+function ApplicationController ($scope, $log, $injector, UserService, ConfigService) {
+    $log.debug('Start application controller');
 
     var self = this;
 
@@ -7,22 +7,29 @@ function ApplicationController ($scope, $log, UserService, ConfigService, Friend
     self.isNavbarHidden = false;
     self.isMobile = ConfigService.CORDOVA;
     self.isMatched = false;
-    self.events = checkEvents();
 
-    $scope.$watch(checkEvents, function (value) {
-        self.events = value
-    });
+    function bootstrapApplication () {
+        self.user = UserService.getInfo();
 
-    function checkEvents () {
-        return FriendsService.recent() + MessagesService.unreadMessages();
+        self.MessagesService = $injector.get('MessagesService');
+        self.FriendsService = $injector.get('FriendsService');
+
+        function checkEvents () {
+            return self.FriendsService.recent() + self.MessagesService.unreadMessages();
+        }
+
+        self.events = checkEvents();
+        $scope.$watch(checkEvents, function (value) {
+            self.events = value
+        });
     }
 
     $scope.$watch(function () { return ConfigService._login }, function (value) {
         if (angular.equals(value, true)) {
-            self.user = UserService.getInfo();
+            bootstrapApplication();
         }
     });
 }
 
 angular.module('spacebox').controller('ApplicationController',
-    ['$scope', '$log', 'UserService', 'ConfigService', 'FriendsService', 'MessagesService', ApplicationController]);
+    ['$scope', '$log', '$injector', 'UserService', 'ConfigService', ApplicationController]);
