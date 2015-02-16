@@ -80,6 +80,22 @@
     clear: both;
 }
 
+.sp-login-btn:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.sp-login-btn * {
+    vertical-align: middle;
+}
+
+.sp-login-btn i {
+    padding-left: 10px;
+    font-size: 1.5em;
+}
+
 @media (max-width: 767px) {
     .sp-login-btn {
         position: fixed;
@@ -93,13 +109,13 @@
         width: 60%;
     }
 
-    .sp-login-btn span {
+    .sp-login-btn > span {
         margin-top: 10px;
         margin-bottom: 10px;
         font-size: 12px;
     }
 
-    .sp-login-btn span i {
+    .sp-login-btn > span i {
         padding-right: 10px;
     }
 }
